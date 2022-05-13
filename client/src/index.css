@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("./app/css/flags.css");
+
+@layer components {
+  .btn-primary {
+    @apply text-white transition-all bg-wine-500 hover:bg-wine-600 font-medium rounded text-sm px-5 h-9 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+  }
+
+  .text-input {
+    @apply flex-1 rounded border
+    transition-all placeholder:text-slate-400 
+    placeholder:lowercase bg-slate-50 
+    focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none 
+    w-full h-10 px-3 text-gray-800;
+  }
+
+  .label {
+    @apply block text-gray-900 text-sm font-semibold mb-0.5;
+  }
+
+  .nav-link {
+    @apply select-none px-4 py-3 hover:text-wine-400 rounded font-medium transition-all appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+  }
+
+  .nav-link.active {
+    @apply text-wine-500;
+  }
+
+  .dropdown {
+    @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white py-1 px-1 shadow-lg border;
+  }
+}

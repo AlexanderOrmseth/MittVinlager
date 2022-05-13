@@ -1,0 +1,112 @@
+import { allWine, getFilters, getWineById } from "./wineAsyncThunks";
+import { createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { WineParams } from "../../../app/api/params";
+import { MetaData } from "../../../app/models/pagination";
+import { Wine } from "../../../app/models/wine";
+import { RootState } from "../../../app/store/configureStore";
+
+// wine state
+interface WineState {
+  allFetched: boolean;
+  filtersFetched: boolean;
+  status: "loading" | "idle";
+  filterStatus: "loading" | "idle";
+  // filterOptions = filters for logged in user depending on users inventory.
+  filterOptions: {
+    countries: string[];
+    types: string[];
+  };
+  wineParams: WineParams;
+  metaData: MetaData | null;
+}
+
+const initialParams = {
+  pageNumber: 1,
+  orderBy: "name",
+  countries: [],
+  types: [],
+};
+
+// initial state
+const initialState: WineState = {
+  allFetched: false,
+  filtersFetched: false,
+  status: "idle",
+  filterStatus: "idle",
+  filterOptions: {
+    countries: [],
+    types: [],
+  },
+  wineParams: initialParams,
+  metaData: null,
+};
+
+// adapter
+const wineAdapter = createEntityAdapter<Wine>({
+  selectId: (wine) => wine.wineId,
+});
+
+export const wineSlice = createSlice({
+  name: "wine",
+  initialState: wineAdapter.getInitialState<WineState>(initialState),
+  reducers: {
+    setMetaData: (state, action) => {
+      state.metaData = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    /* All wine
+     */
+    builder.addCase(allWine.fulfilled, (state, action) => {
+      wineAdapter.setAll(state, action.payload);
+      state.status = "idle";
+      state.allFetched = true;
+    });
+    builder.addCase(allWine.rejected, (state, action) => {
+      state.status = "idle";
+      console.log(action.payload);
+    });
+
+    /* Wine by id
+     */
+    builder.addCase(getWineById.fulfilled, (state, action) => {
+      wineAdapter.upsertOne(state, action.payload);
+      state.status = "idle";
+    });
+    builder.addCase(getWineById.rejected, (state, action) => {
+      state.status = "idle";
+      console.log(action);
+    });
+
+    /* Filters
+     */
+    builder.addCase(getFilters.pending, (state) => {
+      state.filterStatus = "loading";
+    });
+    builder.addCase(getFilters.fulfilled, (state, action) => {
+      // set filter options
+      state.filterOptions.countries = action.payload.countries;
+      state.filterOptions.types = action.payload.types;
+      state.filtersFetched = true;
+      state.status = "idle";
+    });
+    builder.addCase(getFilters.rejected, (state, action) => {
+      state.status = "idle";
+      console.error("getFilters error", action.payload);
+    });
+
+    /* Loading */
+    builder.addMatcher(
+      isAnyOf(allWine.pending, getWineById.pending),
+      (state, action) => {
+        state.status = "loading";
+      }
+    );
+  },
+});
+
+export const wineSelectors = wineAdapter.getSelectors(
+  (state: RootState) => state.wine
+);
+
+export const { setMetaData } = wineSlice.actions;
