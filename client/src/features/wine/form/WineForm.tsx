@@ -13,6 +13,7 @@ import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
 import { PlusCircle } from "phosphor-react";
+import placeholderImg from "../../../app/assets/bottle.png";
 
 interface Props {
   title: string;
@@ -175,9 +176,13 @@ const WineForm = ({
                 <div className="sm:mb-0 select-none mb-4 rounded-lg border p-6 bg-white">
                   <img
                     className="mx-auto max-h-80"
-                    src={`https://bilder.vinmonopolet.no/cache/300x300-0/${
-                      getValues("productId") || "undefined"
-                    }-1.jpg`}
+                    src={`${
+                      getValues("productId")
+                        ? "https://bilder.vinmonopolet.no/cache/300x300-0/" +
+                          getValues("productId") +
+                          "-1.jpg"
+                        : placeholderImg
+                    }`}
                     alt={`Bilde av en vin`}
                   />
                 </div>

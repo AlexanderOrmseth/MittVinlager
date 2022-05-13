@@ -6,8 +6,11 @@ import { loginSchema } from "./validation/validationSchema";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { signIn } from "./accountSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import LoadingButton from "../../app/components/LoadingButton";
+import { Lock, LockKey, SignIn } from "phosphor-react";
+import AuthForm from "../../app/layout/AuthForm";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,17 +25,6 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  useEffect(() => {
-    setError("username", {
-      types: {
-        custom: "this is wrong",
-        custom2: "this is also wrong",
-      },
-    });
-
-    return () => {};
-  }, []);
-
   const onSubmit = async (data: FieldValues) => {
     try {
       console.log(data);
@@ -46,37 +38,40 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <pre>{JSON.stringify(errors, null, 4)}</pre>
-
-      <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
-        <h2 className="text-3xl mb-4">Logg inn</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormTextInput
-            name="username"
-            label="Brukernavn"
-            placeholder="username"
-            control={control}
-          />
-          <FormTextInput
-            name="password"
-            label="Passord"
-            type="password"
-            placeholder="password"
-            control={control}
-          />
-          <div className="flex items-center justify-between">
-            <button
-              disabled={isSubmitting || !isValid}
-              className="bg-wine1 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-              type="submit"
-            >
-              Logg inn
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <AuthForm title="Logg inn">
+      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <FormTextInput
+          name="username"
+          label="Brukernavn"
+          placeholder="brukernavn"
+          control={control}
+        />
+        <FormTextInput
+          name="password"
+          label="Passord"
+          type="password"
+          placeholder="passord"
+          control={control}
+        />
+        <div className="flex items-end flex-wrap gap-4 justify-between">
+          <LoadingButton
+            disabled={isSubmitting || !isValid}
+            type="submit"
+            loading={isSubmitting}
+            loadingText="Logger inn..."
+          >
+            <SignIn size="1.5rem" />
+            Logg inn
+          </LoadingButton>
+          <Link
+            className="text-xs text-green-wine-500 font-medium underline"
+            to="/register"
+          >
+            Ny bruker? Opprett bruker her.
+          </Link>
+        </div>
+      </form>
+    </AuthForm>
   );
 };
 

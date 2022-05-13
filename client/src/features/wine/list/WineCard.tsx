@@ -1,6 +1,7 @@
 import { Coins, Info, MapTrifold, Percent } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
+import placeholderImg from "../../../app/assets/bottle.png";
 
 interface Props {
   wine: Wine;
@@ -14,10 +15,14 @@ const WineCard = ({ wine }: Props) => {
     >
       <img
         className="max-h-40"
-        src={`https://bilder.vinmonopolet.no/cache/160x160-0/${
-          wine.productId || "undefined"
-        }-1.jpg`}
-        alt={`Bilde av en vin`}
+        src={`${
+          wine.productId
+            ? "https://bilder.vinmonopolet.no/cache/160x160-0/" +
+              wine.productId +
+              "-1.jpg"
+            : placeholderImg
+        }`}
+        alt="Bilde av en vin"
       />
       <div className="flex-1">
         <header className="mb-2">

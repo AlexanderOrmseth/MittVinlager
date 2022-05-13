@@ -6,6 +6,7 @@ import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
 import { fetchCurrentUser } from "./features/account/accountSlice";
 import Login from "./features/account/Login";
+import ProfilePage from "./features/account/ProfilePage";
 import Register from "./features/account/Register";
 import HomePage from "./features/home/HomePage";
 import DetailsPage from "./features/wine/DetailsPage";
@@ -41,6 +42,7 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
+            <Route path="profile" element={<ProfilePage />} />
             <Route path="inventory" element={<InventoryPage />} />
             <Route path="inventory/new" element={<NewWinePage />} />
             <Route path="inventory/:id" element={<DetailsPage />} />
