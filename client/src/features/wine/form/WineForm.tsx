@@ -1,12 +1,10 @@
 import { Tab } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import api from "../../../app/api";
 import FormCombobox from "../../../app/components/form/FormCombobox";
 import FormRadioTrueFalse from "../../../app/components/form/FormRadioTrueFalse";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
-import { Country } from "../../../app/models/country";
 import { FormModel, Wine } from "../../../app/models/wine";
 import Vinmonopolet from "./Vinmonopolet";
 import { defaultValues } from "./defaultValues";
@@ -14,7 +12,12 @@ import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
 import { PlusCircle } from "phosphor-react";
 import placeholderImg from "../../../app/assets/bottle.png";
-
+import {
+  useAppDispatch,
+  useAppSelector,
+} from "../../../app/store/configureStore";
+import { getCountries } from "../slices/wineAsyncThunks";
+import { ThreeDots } from "react-loading-icons";
 interface Props {
   title: string;
   submitText: string;
@@ -24,10 +27,7 @@ interface Props {
 }
 
 const tabs = ["Generell", "Smaksdetaljer", "Brukerdetaljer"];
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
+const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
 const WineForm = ({
   onSubmit,
@@ -36,8 +36,8 @@ const WineForm = ({
   title,
   submitText,
 }: Props) => {
-  const [countries, setCountries] = useState<Country[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
+  const { countries, countryStatus } = useAppSelector((state) => state.wine);
 
   const {
     handleSubmit,
@@ -77,22 +77,8 @@ const WineForm = ({
   }, [wine, reset]);
 
   useEffect(() => {
-    async function fetchCountries() {
-      console.log("fetching countries");
-      try {
-        const data = await api.Vinmonopolet.getCountries();
-        setCountries(data);
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (!countries) fetchCountries();
-  }, [countries]);
-
-  if (loading)
-    return <div className="p-8 border rounded-lg text-lg">Laster land...</div>;
+    if (!countries) dispatch(getCountries());
+  }, [dispatch, countries]);
 
   const handleResetForm = (vales: FormModel) => {
     reset(vales);
@@ -153,12 +139,38 @@ const WineForm = ({
                 />
               </div>
               <div className="grid grid-cols-3 gap-4">
-                <FormCombobox
-                  name="country"
-                  label="Land"
-                  control={control}
-                  list={countries}
-                />
+                {countryStatus === "loading" ? (
+                  <div className="flex items-center flex-col justify-center space-x-4">
+                    <ThreeDots
+                      height={"2rem"}
+                      width={"2.5rem"}
+                      className="mx-4"
+                      fill="gray"
+                    />
+                    <span className="text-slate-500 text-sm">
+                      Laster land...
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    {countries ? (
+                      <FormCombobox
+                        name="country"
+                        label="Land"
+                        control={control}
+                        list={countries}
+                      />
+                    ) : (
+                      <FormTextInput
+                        control={control}
+                        name="country"
+                        label="Land"
+                        placeholder="land"
+                      />
+                    )}
+                  </>
+                )}
+
                 <FormTextInput
                   control={control}
                   name="region"

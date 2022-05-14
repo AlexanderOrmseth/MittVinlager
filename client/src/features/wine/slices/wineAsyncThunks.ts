@@ -27,6 +27,20 @@ export const getFilters = createAsyncThunk(
 );
 
 /* 
+  Fetch countries
+*/
+export const getCountries = createAsyncThunk(
+  "wine/getCountries",
+  async (_, thunkAPI) => {
+    try {
+      return await api.Vinmonopolet.getCountries();
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  }
+);
+
+/* 
   All
  */
 export const allWine = createAsyncThunk<Wine[], void, { state: RootState }>(

@@ -5,14 +5,27 @@ import { MenuButton } from "../models/menuButton";
 interface Props {
   buttons: MenuButton[];
   text: string;
+  icon?: React.ReactNode;
 }
-const DropDownMenu = ({ buttons, text }: Props) => {
+const DropDownMenu = ({ buttons, text, icon }: Props) => {
   return (
     <Menu as="div" className="relative inline-block z-10 text-left">
       <div>
-        <Menu.Button className="inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md py-2 bg-white border capitalize transition-all cursor-pointer px-4 text-center font-medium text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700">
-          {text}
-          <CaretDown size="1rem" />
+        <Menu.Button
+          className={`inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md 
+           bg-white border capitalize transition-all cursor-pointer  text-center font-medium
+            text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700 ${
+              icon ? "py-1 px-2 shadow-none" : "px-4 py-2"
+            }`}
+        >
+          {!icon ? (
+            <>
+              {text}
+              <CaretDown size="1rem" />
+            </>
+          ) : (
+            icon
+          )}
         </Menu.Button>
       </div>
       <Transition

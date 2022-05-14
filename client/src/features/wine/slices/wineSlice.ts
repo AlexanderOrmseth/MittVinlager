@@ -1,4 +1,10 @@
-import { allWine, getFilters, getWineById } from "./wineAsyncThunks";
+import { Country } from "./../../../app/models/country";
+import {
+  allWine,
+  getCountries,
+  getFilters,
+  getWineById,
+} from "./wineAsyncThunks";
 import { createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import { WineParams } from "../../../app/api/params";
 import { MetaData } from "../../../app/models/pagination";
@@ -11,6 +17,8 @@ interface WineState {
   filtersFetched: boolean;
   status: "loading" | "idle";
   filterStatus: "loading" | "idle";
+  countryStatus: "loading" | "idle" | "failed";
+  countries: Country[] | null;
   // filterOptions = filters for logged in user depending on users inventory.
   filterOptions: {
     countries: string[];
@@ -33,6 +41,8 @@ const initialState: WineState = {
   filtersFetched: false,
   status: "idle",
   filterStatus: "idle",
+  countryStatus: "idle",
+  countries: null,
   filterOptions: {
     countries: [],
     types: [],
@@ -92,14 +102,28 @@ export const wineSlice = createSlice({
       state.filterOptions.countries = action.payload.countries;
       state.filterOptions.types = action.payload.types;
       state.filtersFetched = true;
-      state.status = "idle";
+      state.filterStatus = "idle";
     });
     builder.addCase(getFilters.rejected, (state, action) => {
-      state.status = "idle";
+      state.filterStatus = "idle";
       console.error("getFilters error", action.payload);
     });
 
-    /* Loading */
+    /* Countries
+     */
+    builder.addCase(getCountries.pending, (state, action) => {
+      state.countryStatus = "loading";
+    });
+    builder.addCase(getCountries.fulfilled, (state, action) => {
+      state.countries = action.payload;
+      state.countryStatus = "idle";
+    });
+    builder.addCase(getCountries.rejected, (state, action) => {
+      state.countryStatus = "failed";
+      console.error("getCountries error", action.payload);
+    });
+
+    /* Wine Loading */
     builder.addMatcher(
       isAnyOf(allWine.pending, getWineById.pending),
       (state, action) => {
