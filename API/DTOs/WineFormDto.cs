@@ -16,6 +16,7 @@ public class WineFormDto
     public double? Volume { get; set; }
     public int? AlcoholContent { get; set; }
     public string? Country { get; set; }
+    public string? CountryId { get; set; }
     public string? Region { get; set; }
     public string? SubRegion { get; set; }
     public string? ProductId { get; set; }

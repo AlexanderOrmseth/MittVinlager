@@ -6,7 +6,7 @@ public class WineUserDetails
 {
     [JsonIgnore] public int Id { get; set; }
 
-    [JsonIgnore] public Wine Wine { get; set; }
+    [JsonIgnore] public virtual Wine Wine { get; set; }
 
     public int Quantity { get; set; } = 1;
     public string? PurchaseLocation { get; set; }

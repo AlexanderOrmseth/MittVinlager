@@ -1,7 +1,6 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
 import { useAppSelector } from "../store/configureStore";
-import { MenuButton } from "../models/menuButton";
 import { Moon, SignOut, User, Wine } from "phosphor-react";
 
 const Header = () => {

@@ -1,17 +1,10 @@
 import {
-  ArrowCircleLeft,
-  ArrowCircleRight,
-  CaretLeft,
-  CaretRight,
-} from "phosphor-react";
-import React from "react";
-import ThreeDots from "react-loading-icons/dist/components/three-dots";
-import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
 import { setPageNumber } from "../slices/wineSlice";
-
+import { CaretLeft, CaretRight } from "phosphor-react";
+import ThreeDots from "react-loading-icons/dist/components/three-dots";
 interface Props {
   status: string;
   top: boolean;

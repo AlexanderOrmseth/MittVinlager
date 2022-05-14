@@ -1,17 +1,18 @@
 export interface Wine extends FormModel {
   wineId: number;
   createdAt: string;
-  updatedAt?: string;
+  updatedAt?: string | null;
 }
 
 export interface FormModel {
   name: string;
   type: string;
-  year: number;
-  price: number;
-  volume: number;
-  alcoholContent: number;
+  year?: number | null;
+  price?: number | null;
+  volume?: number | null;
+  alcoholContent?: number | null;
   country: string;
+  countryId?: string | null;
   region: string;
   subRegion: string;
   productId: string;
@@ -33,8 +34,8 @@ export interface UserDetails {
   quantity: number;
   purchaseLocation: string;
   purchaseDate?: string | null | Date;
-  drinkingWindowMin: number;
-  drinkingWindowMax: number;
+  drinkingWindowMin?: number | null;
+  drinkingWindowMax?: number | null;
   userNote: string;
   favorite: boolean;
   score: number | null;

@@ -91,7 +91,7 @@ public class VinmonopoletController : BaseApiController
                 : response.Basic.ProductShortName,
             ProductId = response.Basic.ProductId,
             Type = GetWineType(response.Classification),
-            Year = response.Basic.Vintage, // TODO: convert 0 -> null
+            Year = response.Basic.Vintage.NotZero(),
             Price = (int) Math.Round(response.Prices.First().SalesPrice),
             Volume = response.Basic.Volume,
             AlcoholContent = (int) Math.Round(response.Basic.AlcoholContent),

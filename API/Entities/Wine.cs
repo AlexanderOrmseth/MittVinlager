@@ -13,7 +13,7 @@ public class Wine
 
     [JsonIgnore] [Required] public int UserId { get; set; }
 
-    [JsonIgnore] public User User { get; set; }
+    [JsonIgnore] public virtual User User { get; set; }
 
     // required
     [Required] public string Name { get; set; } = null!;
@@ -25,6 +25,7 @@ public class Wine
     public double? Volume { get; set; }
     public int? AlcoholContent { get; set; }
     public string? Country { get; set; }
+    public string? CountryId { get; set; }
     public string? Region { get; set; }
     public string? SubRegion { get; set; }
     public string? ProductId { get; set; }

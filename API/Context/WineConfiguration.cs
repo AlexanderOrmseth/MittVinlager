@@ -15,9 +15,6 @@ public class WineConfiguration : IEntityTypeConfiguration<Wine>
             .HasForeignKey<WineUserDetails>(w => w.Id)
             .OnDelete(DeleteBehavior.Cascade);
 
-        // generated id
-        entity.Property(w => w.WineId).ValueGeneratedOnAdd();
-
         // REQUIRED
         entity.Property(w => w.Name)
             .IsRequired()

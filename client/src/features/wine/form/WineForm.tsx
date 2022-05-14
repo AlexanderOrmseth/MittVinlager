@@ -70,24 +70,35 @@ const WineForm = ({
     }
   }, [serverErrors, setError]);
 
+  // reset with Wine values
   useEffect(() => {
     if (!wine) return;
-    console.log("I AM UPDATE FORM");
     reset(wine);
   }, [wine, reset]);
 
+  // fetch countries
   useEffect(() => {
     if (!countries) dispatch(getCountries());
   }, [dispatch, countries]);
-
-  const handleResetForm = (vales: FormModel) => {
-    reset(vales);
-  };
 
   // Prevent form from submitting on enter
   // TODO: Fix textarea
   const checkKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
     if (e.code === "Enter") e.preventDefault();
+  };
+
+  const handlePreSubmit = (d: FormModel) => {
+    if (!countries) {
+      onSubmit(d);
+      return;
+    }
+    // Adding the countryId to display flags
+    const countryId =
+      countries
+        ?.find((c) => c.country.toLowerCase() === d.country.toLowerCase())
+        ?.countryId.toLowerCase() || null;
+    const data = { ...d, ...{ countryId } };
+    onSubmit(data);
   };
 
   return (
@@ -96,10 +107,10 @@ const WineForm = ({
       <form
         autoComplete="off"
         onKeyDown={(e) => checkKeyDown(e)}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((d) => handlePreSubmit(d))}
       >
         <Vinmonopolet
-          handleResetForm={handleResetForm}
+          handleResetForm={reset}
           productId={wine?.productId}
           name={wine?.name}
         />
@@ -170,7 +181,6 @@ const WineForm = ({
                     )}
                   </>
                 )}
-
                 <FormTextInput
                   control={control}
                   name="region"

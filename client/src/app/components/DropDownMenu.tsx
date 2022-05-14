@@ -6,28 +6,37 @@ interface Props {
   buttons: MenuButton[];
   text: string;
   icon?: React.ReactNode;
+  className?: string;
+  fullHeight?: boolean;
 }
-const DropDownMenu = ({ buttons, text, icon }: Props) => {
+const DropDownMenu = ({
+  buttons,
+  text,
+  icon,
+  className,
+  fullHeight,
+}: Props) => {
   return (
-    <Menu as="div" className="relative inline-block z-10 text-left">
-      <div>
-        <Menu.Button
-          className={`inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md 
-           bg-white border capitalize transition-all cursor-pointer  text-center font-medium
-            text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700 ${
-              icon ? "py-1 px-2 shadow-none" : "px-4 py-2"
-            }`}
-        >
-          {!icon ? (
-            <>
-              {text}
-              <CaretDown size="1rem" />
-            </>
-          ) : (
-            icon
-          )}
-        </Menu.Button>
-      </div>
+    <Menu
+      as="div"
+      className={`relative inline-block z-10 ${
+        fullHeight ? "h-full self-stretch" : ""
+      }`}
+    >
+      <Menu.Button
+        className={`inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md 
+           bg-white px-4 py-2 border capitalize transition-all cursor-pointer  text-center font-medium
+            text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700 ${className}`}
+      >
+        {!icon ? (
+          <>
+            {text}
+            <CaretDown size="1rem" />
+          </>
+        ) : (
+          icon
+        )}
+      </Menu.Button>
       <Transition
         enter="transition ease-out duration-100"
         enterFrom="transform opacity-0 scale-95"
