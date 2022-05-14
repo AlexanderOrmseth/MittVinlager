@@ -53,6 +53,10 @@ export const wineSlice = createSlice({
     setMetaData: (state, action) => {
       state.metaData = action.payload;
     },
+    setPageNumber: (state, action) => {
+      state.wineParams.pageNumber = action.payload;
+      state.allFetched = false;
+    },
   },
   extraReducers: (builder) => {
     /* All wine
@@ -109,4 +113,4 @@ export const wineSelectors = wineAdapter.getSelectors(
   (state: RootState) => state.wine
 );
 
-export const { setMetaData } = wineSlice.actions;
+export const { setMetaData, setPageNumber } = wineSlice.actions;

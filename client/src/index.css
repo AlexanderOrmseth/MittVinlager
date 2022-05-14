@@ -30,6 +30,6 @@
   }
 
   .dropdown {
-    @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white py-1 px-1 shadow-lg border;
+    @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white py-1 px-1 z-10 shadow-lg border;
   }
 }

@@ -58,7 +58,8 @@ public class WineController : BaseApiController
 
         // filter options
         var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct().ToListAsync();
-        var countries = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Country).Distinct()
+        var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null).Select(w => w.Country)
+            .Distinct()
             .ToListAsync();
 
         // return

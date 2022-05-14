@@ -8,7 +8,7 @@ interface Props {
 }
 const DropDownMenu = ({ buttons, text }: Props) => {
   return (
-    <Menu as="div" className="relative inline-block text-left">
+    <Menu as="div" className="relative inline-block z-10 text-left">
       <div>
         <Menu.Button className="inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md py-2 bg-white border capitalize transition-all cursor-pointer px-4 text-center font-medium text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700">
           {text}
