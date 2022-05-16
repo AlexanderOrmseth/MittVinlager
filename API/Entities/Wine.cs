@@ -38,6 +38,10 @@ public class Wine
     public string? Odour { get; set; }
     public string? Taste { get; set; }
 
+    // image
+    public string? PublicId { get; set; }
+    public string? PictureUrl { get; set; }
+
     // taste values
     public int Freshness { get; set; }
     public int Fullness { get; set; }

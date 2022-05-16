@@ -4,7 +4,7 @@ import { PaginatedResponse } from "../models/pagination";
 import { FormModel } from "../models/wine";
 import { store } from "../store/configureStore";
 
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 200));
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 300));
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;

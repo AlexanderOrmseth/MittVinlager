@@ -55,13 +55,7 @@ const WineCard = ({ wine }: Props) => {
       <div className="p-4 flex flex-row gap-x-6 items-center text-sm">
         <img
           className="max-h-32"
-          src={`${
-            wine.productId
-              ? "https://bilder.vinmonopolet.no/cache/160x160-0/" +
-                wine.productId +
-                "-1.jpg"
-              : placeholderImg
-          }`}
+          src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
           alt="Bilde av en vin"
         />
         <div className="flex-1">

@@ -205,7 +205,7 @@ const WineForm = ({
                           "-1.jpg"
                         : placeholderImg
                     }`}
-                    alt={`Bilde av en vin`}
+                    alt="Bilde av en vin."
                   />
                 </div>
                 <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">

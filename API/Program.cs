@@ -67,6 +67,8 @@ builder.Services.AddAuthorization();
 
 // add token service
 builder.Services.AddScoped<TokenService>();
+// add image service
+builder.Services.AddScoped<ImageService>();
 
 // add an httpClient factory (in order fetch vinmonopolet API)
 builder.Services.AddHttpClient();

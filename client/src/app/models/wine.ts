@@ -28,6 +28,8 @@ export interface FormModel {
   sweetness: number;
   tannins: number;
   userDetails: UserDetails;
+  publicId?: string | null;
+  pictureUrl?: string | null;
 }
 
 export interface UserDetails {

@@ -5,6 +5,7 @@ using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
+using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,14 @@ public class WineController : BaseApiController
 {
     private readonly MyDbContext _context;
     private readonly UserManager<User> _userManager;
+    private readonly ImageService _imageService;
 
 
-    public WineController(MyDbContext context, UserManager<User> userManager)
+    public WineController(MyDbContext context, UserManager<User> userManager, ImageService imageService)
     {
         _context = context;
         _userManager = userManager;
+        _imageService = imageService;
     }
 
     /// <summary>
@@ -122,6 +125,18 @@ public class WineController : BaseApiController
 
         var newWine = MapWineFormDtoToWine(wineFormDto, userId);
 
+        // adding image url + image id
+        if (wineFormDto.ProductId != null)
+        {
+            var imageResult = await _imageService.AddImageAsync(wineFormDto.ProductId);
+
+            if (imageResult.Error != null)
+                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+            newWine.PictureUrl = imageResult.SecureUrl.ToString();
+            newWine.PublicId = imageResult.PublicId;
+        }
+
         // add wine
         _context.Wines.Add(newWine);
         var result = await _context.SaveChangesAsync() > 0;
@@ -205,8 +220,15 @@ public class WineController : BaseApiController
         {
             return Forbid();
         }
+        
+        // if cloudinary has image -> delete
+        if (!string.IsNullOrEmpty(wine.PublicId))
+        {
+            await _imageService.DeleteImageAsync(wine.PublicId);
+        }
 
         _context.Wines.Remove(wine);
+        
         var result = await _context.SaveChangesAsync() > 0;
 
         if (result)
@@ -218,6 +240,11 @@ public class WineController : BaseApiController
     }
 
 
+    /// <summary>
+    /// Helper function to get userId
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns>UserId (int)</returns>
     private async Task<int> GetUserId(IPrincipal user)
     {
         return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
@@ -233,6 +260,8 @@ public class WineController : BaseApiController
             Type = wine.Type,
             Year = wine.Year,
             Price = wine.Price,
+            PictureUrl = wine.PictureUrl,
+            PublicId = wine.ProductId,
             Volume = wine.Volume,
             AlcoholContent = wine.AlcoholContent,
             Country = wine.Country,

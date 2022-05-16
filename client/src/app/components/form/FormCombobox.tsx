@@ -57,7 +57,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                   }`}
                 ></div>
                 <Combobox.Input
-                  name={field.name + "_term"}
+                  name={field.name + "Term"}
                   autoComplete="off"
                   placeholder="land"
                   className="text-input pl-12 flex-1"

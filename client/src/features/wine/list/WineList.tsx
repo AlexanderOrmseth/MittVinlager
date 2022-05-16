@@ -4,6 +4,7 @@ import BallTriangle from "react-loading-icons/dist/components/ball-triangle";
 import Grid from "react-loading-icons/dist/components/grid";
 import SpinningCircles from "react-loading-icons/dist/components/spinning-circles";
 import { Link } from "react-router-dom";
+import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import {
   useAppDispatch,
   useAppSelector,
@@ -32,9 +33,11 @@ const WineList = () => {
   // loading
   if (status === "loading") {
     content = (
-      <div className="py-6">
-        <BallTriangle className="mx-auto" fill="black" />
-        <p className="text-center text-slate-600 my-3">Laster...</p>
+      <div className="grid p-4 md:p-6 lg:p-8 md:grid-cols-2 gap-x-4 gap-y-4">
+        <WineCardSkeleton />
+        <WineCardSkeleton />
+        <WineCardSkeleton />
+        <WineCardSkeleton />
       </div>
     );
   }

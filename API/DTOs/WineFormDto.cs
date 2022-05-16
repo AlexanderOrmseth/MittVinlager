@@ -12,6 +12,10 @@ public class WineFormDto
 
     public int? Year { get; set; }
 
+    // image
+    public string? PublicId { get; set; }
+    public string? PictureUrl { get; set; }
+
     public int? Price { get; set; }
     public double? Volume { get; set; }
     public int? AlcoholContent { get; set; }
