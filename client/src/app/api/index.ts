@@ -82,7 +82,8 @@ const Wine = {
   getWineById: (id: number) => requests.get(`wine/${id}`),
   getFilters: () => requests.get("wine/filters"),
   addWine: (newWine: FormModel) => requests.post("wine", newWine),
-  updateWine: (updatedWine: FormModel) => requests.put("wine", updatedWine),
+  updateWine: (updatedWine: FormModel, id: number) =>
+    requests.put(`wine/${id}`, updatedWine),
 };
 
 const api = {

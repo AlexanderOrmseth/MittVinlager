@@ -171,6 +171,7 @@ namespace API.Migrations
                     Volume = table.Column<double>(type: "double precision", nullable: true),
                     AlcoholContent = table.Column<int>(type: "integer", nullable: true),
                     Country = table.Column<string>(type: "character varying(56)", maxLength: 56, nullable: true),
+                    CountryId = table.Column<string>(type: "text", nullable: true),
                     Region = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     SubRegion = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     ProductId = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: true),
@@ -180,12 +181,14 @@ namespace API.Migrations
                     Colour = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Odour = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     Taste = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    PublicId = table.Column<string>(type: "text", nullable: true),
+                    PictureUrl = table.Column<string>(type: "text", nullable: true),
                     Freshness = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Fullness = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Bitterness = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Sweetness = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Tannins = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now()"),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'"),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
@@ -230,8 +233,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "f71baca2-fb5c-41b7-beb5-266e4e9b9f41", "Member", "MEMBER" },
-                    { 2, "0cd9897b-7bfd-4fd4-a5bb-a9f53397977b", "Admin", "ADMIN" }
+                    { 1, "327fd2f0-d4a1-458c-b3e0-2077d697dcec", "Member", "MEMBER" },
+                    { 2, "c97de3da-65bd-4a25-ac25-68ce5f89988e", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

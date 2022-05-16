@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using API.Context;
 using API.DTOs;
 using API.Entities;
@@ -12,13 +13,14 @@ public class AccountController : BaseApiController
 {
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
-    private readonly MyDbContext _context;
+    private readonly ImageService _imageService;
 
-    public AccountController(UserManager<User> userManager, TokenService tokenService, MyDbContext context)
+
+    public AccountController(UserManager<User> userManager, TokenService tokenService, ImageService imageService)
     {
         _userManager = userManager;
         _tokenService = tokenService;
-        _context = context;
+        _imageService = imageService;
     }
 
     [HttpPost("login")]
@@ -56,6 +58,15 @@ public class AccountController : BaseApiController
 
         await _userManager.AddToRoleAsync(user, "Member");
 
+
+        /*return new UserDto
+        {
+            Username = user.UserName,
+            Token = await _tokenService.CreateToken(user),
+            KnownAs = user.KnownAs,
+            Gender = user.Gender
+        };*/
+
         return StatusCode(201);
     }
 
@@ -65,11 +76,37 @@ public class AccountController : BaseApiController
     {
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
+        if (user is null)
+        {
+            return NotFound();
+        }
+
         return new UserDto
         {
             Email = user.Email,
             UserName = user.UserName,
             Token = await _tokenService.GenerateToken(user),
         };
+    }
+
+    [Authorize]
+    [HttpDelete]
+    public async Task<ActionResult> DeleteUser()
+    {
+        var user = await _userManager.FindByNameAsync(User.Identity?.Name);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        var result = await _userManager.DeleteAsync(user);
+
+        // could not delete user
+        if (!result.Succeeded) return BadRequest("Klarte ikke slette bruker");
+        
+        // delete all images
+        await _imageService.DeleteAllUserImages(user.Id);
+        return Ok();
     }
 }

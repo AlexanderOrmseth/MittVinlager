@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220511135225_AddedUTC")]
-    partial class AddedUTC
+    [Migration("20220516145154_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,14 +56,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "b827130a-5f19-4ddb-94ba-7617627b80eb",
+                            ConcurrencyStamp = "327fd2f0-d4a1-458c-b3e0-2077d697dcec",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "5036f793-8779-45a4-a32b-6e127eb480ff",
+                            ConcurrencyStamp = "c97de3da-65bd-4a25-ac25-68ce5f89988e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -160,6 +160,9 @@ namespace API.Migrations
                         .HasMaxLength(56)
                         .HasColumnType("character varying(56)");
 
+                    b.Property<string>("CountryId")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
@@ -192,12 +195,18 @@ namespace API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<string>("PictureUrl")
+                        .HasColumnType("text");
+
                     b.Property<int?>("Price")
                         .HasColumnType("integer");
 
                     b.Property<string>("ProductId")
                         .HasMaxLength(24)
                         .HasColumnType("character varying(24)");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("text");
 
                     b.Property<string>("Region")
                         .HasMaxLength(70)

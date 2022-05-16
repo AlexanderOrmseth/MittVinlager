@@ -1,8 +1,5 @@
 import { Robot, SmileyXEyes } from "phosphor-react";
 import { useEffect } from "react";
-import BallTriangle from "react-loading-icons/dist/components/ball-triangle";
-import Grid from "react-loading-icons/dist/components/grid";
-import SpinningCircles from "react-loading-icons/dist/components/spinning-circles";
 import { Link } from "react-router-dom";
 import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import {
@@ -14,7 +11,6 @@ import { initialParams, wineSelectors } from "../slices/wineSlice";
 import Paginator from "./Paginator";
 import WineCard from "./WineCard";
 
-interface Props {}
 const WineList = () => {
   const wine = useAppSelector(wineSelectors.selectAll);
   const { allFetched, status, wineParams } = useAppSelector(
@@ -47,8 +43,10 @@ const WineList = () => {
       content = (
         <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 p-4">
           <SmileyXEyes size="5rem" weight="light" />
-          <p>Du har ingen vin lagret!</p>
-          <Link to="new">Legg til vin</Link>
+          <p>Du har ikke lagret noen vin</p>
+          <Link to="new" className="btn-primary h-auto py-3">
+            Legg til vin
+          </Link>
         </div>
       );
     } else {

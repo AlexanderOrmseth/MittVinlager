@@ -87,6 +87,20 @@ const WineForm = ({
     if (e.code === "Enter") e.preventDefault();
   };
 
+  const imageSrc = (): string => {
+    if (wine && wine.pictureUrl && wine.productId === getValues("productId")) {
+      return wine.pictureUrl;
+    }
+
+    if (getValues("productId")) {
+      return `https://bilder.vinmonopolet.no/cache/300x300-0/${getValues(
+        "productId"
+      )}-1.jpg`;
+    }
+
+    return placeholderImg;
+  };
+
   const handlePreSubmit = async (d: FormModel) => {
     if (!countries) {
       await onSubmit(d);
@@ -95,8 +109,8 @@ const WineForm = ({
     // Adding the countryId to display flags
     const countryId =
       countries
-        ?.find((c) => c.country.toLowerCase() === d.country.toLowerCase())
-        ?.countryId.toLowerCase() || null;
+        ?.find((c) => c.country?.toLowerCase() === d.country?.toLowerCase())
+        ?.countryId?.toLowerCase() || null;
     const data = { ...d, ...{ countryId } };
     await onSubmit(data);
   };
@@ -198,13 +212,7 @@ const WineForm = ({
                 <div className="sm:mb-0 select-none mb-4 rounded-lg border p-6 bg-white">
                   <img
                     className="mx-auto max-h-80"
-                    src={`${
-                      getValues("productId")
-                        ? "https://bilder.vinmonopolet.no/cache/300x300-0/" +
-                          getValues("productId") +
-                          "-1.jpg"
-                        : placeholderImg
-                    }`}
+                    src={`${imageSrc()}`}
                     alt="Bilde av en vin."
                   />
                 </div>

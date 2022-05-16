@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../app/api";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import { FormModel } from "../../app/models/wine";
 import WineForm from "./form/WineForm";
 
 const UpdateWinePage = () => {
-  const { wine, status } = useFetchSingleWine();
+  const navigate = useNavigate();
+  const { wine, id, status } = useFetchSingleWine();
   const [serverErrors, setServerErrors] = useState<Record<
     string,
     string[]
@@ -15,9 +17,16 @@ const UpdateWinePage = () => {
   if (!wine) return <div>vinen eksisterer ikke!</div>;
 
   const onSubmit = async (data: FormModel) => {
+    if (!id) {
+      console.log("Id was undefined or null");
+      return;
+    }
+
     try {
       console.log(data);
-      const response = await api.Wine.updateWine(data);
+
+      const response = await api.Wine.updateWine(data, parseInt(id));
+      navigate("/inventory");
       console.log("update wine response", response);
     } catch (error: any) {
       console.error("Update wine error", error);

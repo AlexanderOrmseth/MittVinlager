@@ -113,10 +113,6 @@ public class WineController : BaseApiController
         // get user id
         var userId = await GetUserId(User);
 
-        if (!ModelState.IsValid)
-        {
-        }
-
         // User can only store 200 wines
         if (await _context.Wines.CountAsync(wine => wine.UserId == userId) > 200)
         {
@@ -126,9 +122,9 @@ public class WineController : BaseApiController
         var newWine = MapWineFormDtoToWine(wineFormDto, userId);
 
         // adding image url + image id
-        if (wineFormDto.ProductId != null)
+        if (wineFormDto.ProductId != null && wineFormDto.ProductId.IsNumeric())
         {
-            var imageResult = await _imageService.AddImageAsync(wineFormDto.ProductId);
+            var imageResult = await _imageService.AddImageAsync(wineFormDto.ProductId, userId);
 
             if (imageResult.Error != null)
                 return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
@@ -158,11 +154,14 @@ public class WineController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdateWine([FromBody] WineFormDto wineFormDto, int id)
+    public async Task<ActionResult<WineDto>> UpdateWine([FromBody] WineFormDto wineFormDto, int id)
     {
-        var wine = await _context.Wines.FindAsync(id);
+        var wine = await _context.Wines
+            .Include(w => w.UserDetailses)
+            .FirstOrDefaultAsync(w => w.WineId == id);
 
-        if (wine == null)
+        // check if wine exists and id parameter matches wine
+        if (wine is null)
         {
             return NotFound();
         }
@@ -170,36 +169,85 @@ public class WineController : BaseApiController
         // get user id
         var userId = await GetUserId(User);
 
-
         // check if wine belongs to user
         if (wine.UserId != userId)
         {
             return Forbid();
         }
 
+        // productId
+        var productId = wine.ProductId;
+
         // update values
         wine.Name = wineFormDto.Name;
         wine.Type = wineFormDto.Type;
         wine.Year = wineFormDto.Year;
-        wine.Volume = wineFormDto.Volume;
         wine.Price = wineFormDto.Price;
+        wine.Volume = wineFormDto.Volume;
         wine.AlcoholContent = wineFormDto.AlcoholContent;
         wine.Country = wineFormDto.Country;
+        wine.CountryId = wineFormDto.CountryId;
         wine.Region = wineFormDto.Region;
         wine.SubRegion = wineFormDto.SubRegion;
-        wine.ManufacturerName = wineFormDto.ManufacturerName;
+        wine.ProductId = wineFormDto.ProductId;
         wine.Grapes = wineFormDto.Grapes;
+        wine.ManufacturerName = wineFormDto.ManufacturerName;
+        wine.StoragePotential = wineFormDto.StoragePotential;
+        wine.Colour = wineFormDto.Colour;
+        wine.Odour = wineFormDto.Odour;
+        wine.Taste = wineFormDto.Taste;
+        wine.Freshness = wineFormDto.Freshness;
+        wine.Fullness = wineFormDto.Fullness;
+        wine.Bitterness = wineFormDto.Bitterness;
+        wine.Sweetness = wineFormDto.Sweetness;
+        wine.Tannins = wineFormDto.Tannins;
+        // update user details
+        wine.UserDetailses.Quantity = wineFormDto.UserDetails.Quantity;
+        wine.UserDetailses.PurchaseLocation = wineFormDto.UserDetails.PurchaseLocation;
+        wine.UserDetailses.PurchaseDate = wineFormDto.UserDetails.PurchaseDate;
+        wine.UserDetailses.DrinkingWindowMin = wineFormDto.UserDetails.DrinkingWindowMin;
+        wine.UserDetailses.DrinkingWindowMax = wineFormDto.UserDetails.DrinkingWindowMax;
+        wine.UserDetailses.UserNote = wineFormDto.UserDetails.UserNote;
+        wine.UserDetailses.Favorite = wineFormDto.UserDetails.Favorite;
+        wine.UserDetailses.Score = wineFormDto.UserDetails.Score;
+        wine.UserDetailses.UserRating = wineFormDto.UserDetails.UserRating;
 
 
-        var result = await _context.SaveChangesAsync() > 0;
+        // check changes
+        var changes = _context.Entry(wine).State == EntityState.Unchanged;
+
+        if (changes)
+        {
+            return BadRequest(new ProblemDetails {Title = "Du har ikke gjort noen endringer!"});
+        }
+
+        // new product Id
+        if (wineFormDto.ProductId != null && wineFormDto.ProductId.IsNumeric() &&
+            !string.Equals(productId, wineFormDto.ProductId))
+        {
+            // Already has an image attached
+            if (!string.IsNullOrEmpty(wine.PublicId))
+            {
+                // replace image
+                var imageResult = await _imageService.UpdateImageAsync(wineFormDto.ProductId, wine.PublicId);
+
+                if (imageResult.Error != null)
+                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+                wine.PictureUrl = imageResult.SecureUrl.ToString();
+                wine.PublicId = imageResult.PublicId;
+            }
+        }
+
+        var result = await _context.SaveChangesAsync(acceptAllChangesOnSuccess: true) > 0;
 
         if (result)
         {
-            return Ok(MapWineToWineDto(wine));
+            return Ok(wine);
         }
 
         // else bad request
-        return BadRequest(new ProblemDetails {Title = "Problem adding wine"});
+        return BadRequest(new ProblemDetails {Title = "Problem updating wine"});
     }
 
     [HttpDelete("{id:int}")]
@@ -220,7 +268,7 @@ public class WineController : BaseApiController
         {
             return Forbid();
         }
-        
+
         // if cloudinary has image -> delete
         if (!string.IsNullOrEmpty(wine.PublicId))
         {
@@ -228,7 +276,7 @@ public class WineController : BaseApiController
         }
 
         _context.Wines.Remove(wine);
-        
+
         var result = await _context.SaveChangesAsync() > 0;
 
         if (result)
@@ -251,7 +299,6 @@ public class WineController : BaseApiController
     }
 
     private static WineDto MapWineToWineDto(Wine wine)
-
     {
         return new WineDto
         {

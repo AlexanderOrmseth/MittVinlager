@@ -1,9 +1,6 @@
 import { MagnifyingGlass } from "phosphor-react";
-import { useEffect, useState } from "react";
-import {
-  resetSearchParam,
-  setParams,
-} from "../../../features/wine/slices/wineSlice";
+import { useEffect, useRef, useState } from "react";
+import { setParams } from "../../../features/wine/slices/wineSlice";
 import useDebounce from "../../hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 
@@ -12,9 +9,16 @@ const WineSearch = () => {
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
   const debouncedValue = useDebounce<string>(searchTerm, 1000);
+  const firstUpdate = useRef(true);
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+
     dispatch(setParams({ searchTerm: debouncedValue }));
   }, [debouncedValue, dispatch]);
+
   const handleOnChange = (val: HTMLInputElement["value"]) => setSearchTerm(val);
   return (
     <div>
