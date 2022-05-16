@@ -67,7 +67,7 @@ const Account = {
   login: (values: any) => requests.post("account/login", values),
   register: (values: any) => requests.post("account/register", values),
   currentUser: () => requests.get("account/currentUser"),
-  fetchAddress: () => requests.get("account/savedAddress"),
+  deleteUser: () => requests.delete("account/delete"),
 };
 
 const Vinmonopolet = {

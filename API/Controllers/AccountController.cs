@@ -90,7 +90,7 @@ public class AccountController : BaseApiController
     }
 
     [Authorize]
-    [HttpDelete]
+    [HttpDelete("delete")]
     public async Task<ActionResult> DeleteUser()
     {
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);

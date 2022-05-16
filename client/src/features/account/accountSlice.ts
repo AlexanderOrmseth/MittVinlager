@@ -5,10 +5,12 @@ import toast from "react-hot-toast";
 import { User } from "../../app/models/user";
 
 interface AccountState {
+  status: "idle" | "loading";
   user: User | null;
 }
 
 const initialState: AccountState = {
+  status: "idle",
   user: null,
 };
 
@@ -48,6 +50,26 @@ export const fetchCurrentUser = createAsyncThunk<User>(
   }
 );
 
+// if nothing in local storage -> nothing will happen -> no request will happen
+export const deleteUser = createAsyncThunk<void>(
+  "account/deleteUser",
+  async (_, thunkAPI) => {
+    try {
+      await agent.Account.deleteUser();
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.data });
+    }
+  },
+  {
+    condition: () => {
+      // not gonna make a request at all
+      if (!localStorage.getItem("user")) {
+        return false;
+      }
+    },
+  }
+);
+
 export const accountSlice = createSlice({
   name: "account",
   initialState,
@@ -67,11 +89,33 @@ export const accountSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    /* get current user
+     */
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
       localStorage.removeItem("user");
       toast.error("Session expired - please login again");
     });
+
+    /* Delete user
+     */
+    builder.addCase(deleteUser.pending, (state) => {
+      state.status = "loading";
+    });
+    builder.addCase(deleteUser.fulfilled, (state) => {
+      state.user = null;
+      localStorage.removeItem("user");
+      toast.success("Brukeren er slettet.");
+      state.status = "idle";
+    });
+    builder.addCase(deleteUser.rejected, (state, action) => {
+      console.error(action.payload);
+      state.status = "idle";
+      throw action.payload;
+    });
+
+    /* Matchers
+     */
     builder.addMatcher(
       isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled),
       (state, action) => {
