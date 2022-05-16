@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 import api from "../../../app/api";
 import { getAxiosParams } from "../../../app/api/params";
 import { Wine } from "../../../app/models/wine";
@@ -12,11 +13,13 @@ import { setMetaData } from "./wineSlice";
   dispatch the lifecycle actions based on the returned promise. 
 */
 
+const namespace = "wine";
+
 /* 
   Fetch filters
 */
 export const getFilters = createAsyncThunk(
-  "wine/getFilters",
+  `${namespace}/getFilters`,
   async (_, thunkAPI) => {
     try {
       return await api.Wine.getFilters();
@@ -30,7 +33,7 @@ export const getFilters = createAsyncThunk(
   Fetch countries
 */
 export const getCountries = createAsyncThunk(
-  "wine/getCountries",
+  `${namespace}/getCountries`,
   async (_, thunkAPI) => {
     try {
       return await api.Vinmonopolet.getCountries();
@@ -44,13 +47,22 @@ export const getCountries = createAsyncThunk(
   All
  */
 export const allWine = createAsyncThunk<Wine[], void, { state: RootState }>(
-  "wine/allWine",
+  `${namespace}/allWine`,
   async (_, thunkAPI) => {
     // get parameters from state
     const params = getAxiosParams(thunkAPI.getState().wine.wineParams);
     try {
+      // cancelToken
+      const source = axios.CancelToken.source();
+      thunkAPI.signal.addEventListener("abort", () => {
+        source.cancel();
+      });
+
       // fetch wine
-      const response = await api.Wine.allWine(params);
+      const response = await api.Wine.allWine(params, {
+        cancelToken: source.token,
+      });
+
       // set pagination information
       thunkAPI.dispatch(setMetaData(response.metaData));
       return response.items;
@@ -64,7 +76,7 @@ export const allWine = createAsyncThunk<Wine[], void, { state: RootState }>(
   By id
  */
 export const getWineById = createAsyncThunk<Wine, number>(
-  "wine/getWineById",
+  `${namespace}/getWineById`,
   async (wineId, thunkAPI) => {
     try {
       return await api.Wine.getWineById(wineId);

@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
 import { PaginatedResponse } from "../models/pagination";
 import { FormModel } from "../models/wine";
 import { store } from "../store/configureStore";
 
-const sleep = () => new Promise((resolve) => setTimeout(resolve, 500));
+const sleep = () => new Promise((resolve) => setTimeout(resolve, 200));
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -56,8 +56,8 @@ axios.interceptors.response.use(
 );
 
 const requests = {
-  get: (url: string, params?: URLSearchParams) =>
-    axios.get(url, { params }).then(res),
+  get: (url: string, params?: URLSearchParams, config?: AxiosRequestConfig) =>
+    axios.get(url, { params, ...config }).then(res),
   post: (url: string, body: {}) => axios.post(url, body).then(res),
   put: (url: string, body: {}) => axios.put(url, body).then(res),
   delete: (url: string) => axios.delete(url).then(res),
@@ -77,10 +77,12 @@ const Vinmonopolet = {
 };
 
 const Wine = {
-  allWine: (params: URLSearchParams) => requests.get("wine", params),
+  allWine: (params: URLSearchParams, config?: AxiosRequestConfig) =>
+    requests.get("wine", params, config),
   getWineById: (id: number) => requests.get(`wine/${id}`),
   getFilters: () => requests.get("wine/filters"),
   addWine: (newWine: FormModel) => requests.post("wine", newWine),
+  updateWine: (updatedWine: FormModel) => requests.put("wine", updatedWine),
 };
 
 const api = {

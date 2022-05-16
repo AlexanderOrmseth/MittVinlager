@@ -8,7 +8,6 @@ export const defaultValues: FormModel = {
   volume: null,
   alcoholContent: null,
   country: "",
-  countryId: null,
   region: "",
   subRegion: "",
   productId: "",

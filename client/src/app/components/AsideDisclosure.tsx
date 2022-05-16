@@ -13,9 +13,9 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
         <>
           <Disclosure.Button
             className="flex w-full justify-between rounded-lg 
-            bg-green-wine-50 px-4 py-3 text-left text-sm font-medium text-green-wine-500 
+            bg-green-wine-50 px-4 py-3 text-left font-medium text-green-wine-500 
             hover:bg-green-wine-100 
-            focus:outline-none focus-visible:ring focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+            focus:outline-none focus-visible:ring text-sm focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
           >
             <span>{text}</span>
             <CaretUp
@@ -32,7 +32,7 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm">
+            <Disclosure.Panel className="px-4 pt-4 pb-2">
               {children}
             </Disclosure.Panel>
           </Transition>

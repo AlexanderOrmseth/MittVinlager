@@ -29,7 +29,7 @@ const Register = () => {
       console.log(data);
       const res = await api.Account.register(data);
       toast.success(`Bruker opprettet`);
-      navigate("/register");
+      navigate("/login");
       console.log(res);
     } catch (error: any) {
       console.error(error);

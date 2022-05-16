@@ -87,9 +87,9 @@ const WineForm = ({
     if (e.code === "Enter") e.preventDefault();
   };
 
-  const handlePreSubmit = (d: FormModel) => {
+  const handlePreSubmit = async (d: FormModel) => {
     if (!countries) {
-      onSubmit(d);
+      await onSubmit(d);
       return;
     }
     // Adding the countryId to display flags
@@ -98,11 +98,11 @@ const WineForm = ({
         ?.find((c) => c.country.toLowerCase() === d.country.toLowerCase())
         ?.countryId.toLowerCase() || null;
     const data = { ...d, ...{ countryId } };
-    onSubmit(data);
+    await onSubmit(data);
   };
 
   return (
-    <div className="rounded-lg p-8 mb-8 border">
+    <div className="rounded-lg p-8 border">
       <h2 className="text-3xl mb-6">{title}</h2>
       <form
         autoComplete="off"

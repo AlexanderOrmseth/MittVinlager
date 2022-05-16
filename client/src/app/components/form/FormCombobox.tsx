@@ -1,5 +1,5 @@
 import { Combobox, Transition } from "@headlessui/react";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import {
   UseControllerProps,
   useController,
@@ -52,7 +52,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
               </Combobox.Label>
               <div className="flex flex-row gap-2 items-center">
                 <div
-                  className={`absolute left-2 f32 flag ${
+                  className={`absolute select-none pointer-events-none left-2 f32 flag ${
                     selectedCountryId ? selectedCountryId.toLowerCase() : ""
                   }`}
                 ></div>
@@ -66,6 +66,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
               </div>
               {filteredList.length > 0 && (
                 <Transition
+                  as={Fragment}
                   enter="transition duration-100 ease-out"
                   enterFrom="transform scale-95 opacity-0"
                   enterTo="transform scale-100 opacity-100"
@@ -85,7 +86,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                         value={country.country}
                       >
                         <div
-                          className={`f32 flag ${country.countryId.toLowerCase()}`}
+                          className={`select-none pointer-events-none f32 flag ${country.countryId.toLowerCase()}`}
                         ></div>
                         <div>{country.country}</div>
                       </Combobox.Option>

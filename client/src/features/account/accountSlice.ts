@@ -1,7 +1,6 @@
 import { FieldValues } from "react-hook-form";
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import agent from "../../app/api/";
-import history from "../../history";
 import toast from "react-hot-toast";
 import { User } from "../../app/models/user";
 
@@ -56,7 +55,6 @@ export const accountSlice = createSlice({
     signOut: (state) => {
       state.user = null;
       localStorage.removeItem("user");
-      history.push("/");
     },
     setUser: (state, action) => {
       let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
@@ -73,7 +71,6 @@ export const accountSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
       toast.error("Session expired - please login again");
-      history.push("/");
     });
     builder.addMatcher(
       isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled),

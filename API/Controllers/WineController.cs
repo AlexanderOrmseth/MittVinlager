@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Security.Principal;
 using API.Context;
 using API.DTOs;
@@ -33,6 +34,7 @@ public class WineController : BaseApiController
     {
         var userId = await GetUserId(User);
 
+
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
             .Include(w => w.UserDetailses)
@@ -46,8 +48,8 @@ public class WineController : BaseApiController
         // query with filers
         var wines =
             await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber);
-        Response.AddPaginationHeader(wines.MetaData);
 
+        Response.AddPaginationHeader(wines.MetaData);
         return wines;
     }
 
@@ -58,6 +60,7 @@ public class WineController : BaseApiController
 
         // filter options
         var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct().ToListAsync();
+
         var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null).Select(w => w.Country)
             .Distinct()
             .ToListAsync();

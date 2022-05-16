@@ -32,4 +32,14 @@
   .dropdown {
     @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white py-1 px-1 z-10 shadow-lg border;
   }
+
+  .btn-white {
+    @apply select-none w-full shadow-xxs rounded-md 
+           bg-white px-4 py-2 border transition-all cursor-pointer font-medium
+            text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700;
+  }
+
+  .focus-primary {
+    @apply focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+  }
 }

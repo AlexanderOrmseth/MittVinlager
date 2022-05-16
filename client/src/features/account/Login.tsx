@@ -7,9 +7,8 @@ import toast from "react-hot-toast";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { signIn } from "./accountSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import LoadingButton from "../../app/components/LoadingButton";
-import { Lock, LockKey, SignIn } from "phosphor-react";
+import { SignIn } from "phosphor-react";
 import AuthForm from "../../app/layout/AuthForm";
 
 const Login = () => {
@@ -30,7 +29,7 @@ const Login = () => {
       console.log(data);
       const res = await dispatch(signIn(data));
       toast.success(`Velkommen ${data.username}`);
-      navigate("/");
+      navigate("/inventory");
       console.log(res);
     } catch (error: any) {
       console.error(error);

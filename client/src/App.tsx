@@ -1,7 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import { BrowserRouter } from "react-router-dom";
-import { Routes, Route } from "react-router-dom";
+import {
+  BallTriangle,
+  Puff,
+  SpinningCircles,
+  TailSpin,
+} from "react-loading-icons";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
 import { fetchCurrentUser } from "./features/account/accountSlice";
@@ -31,7 +37,12 @@ function App() {
     initApp().finally(() => setLoading(false));
   }, [initApp]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="w-screen h-screen flex justify-center items-center">
+        <Puff height="6rem" width="6rem" stroke="#888" />
+      </div>
+    );
 
   return (
     <>
@@ -42,11 +53,46 @@ function App() {
             <Route index element={<HomePage />} />
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="profile" element={<ProfilePage />} />
-            <Route path="inventory" element={<InventoryPage />} />
-            <Route path="inventory/new" element={<NewWinePage />} />
-            <Route path="inventory/:id" element={<DetailsPage />} />
-            <Route path="inventory/:id/update" element={<UpdateWinePage />} />
+            <Route
+              path="profile"
+              element={
+                <AuthRedirect>
+                  <ProfilePage />
+                </AuthRedirect>
+              }
+            />
+            <Route
+              path="inventory"
+              element={
+                <AuthRedirect>
+                  <InventoryPage />
+                </AuthRedirect>
+              }
+            />
+            <Route
+              path="inventory/new"
+              element={
+                <AuthRedirect>
+                  <NewWinePage />
+                </AuthRedirect>
+              }
+            />
+            <Route
+              path="inventory/:id"
+              element={
+                <AuthRedirect>
+                  <DetailsPage />
+                </AuthRedirect>
+              }
+            />
+            <Route
+              path="inventory/:id/update"
+              element={
+                <AuthRedirect>
+                  <UpdateWinePage />
+                </AuthRedirect>
+              }
+            />
             <Route path="*" element={<div>Not Found!</div>} />
           </Route>
         </Routes>

@@ -28,11 +28,12 @@ interface WineState {
   metaData: MetaData | null;
 }
 
-const initialParams = {
+export const initialParams = {
   pageNumber: 1,
   orderBy: "name",
   countries: [],
   types: [],
+  searchTerm: null,
 };
 
 // initial state
@@ -60,6 +61,22 @@ export const wineSlice = createSlice({
   name: "wine",
   initialState: wineAdapter.getInitialState<WineState>(initialState),
   reducers: {
+    resetAll: (state) => {
+      wineAdapter.removeAll(state);
+      state = { ...state, ...initialState };
+    },
+    resetSearchParam: (state) => {
+      state.wineParams.searchTerm = null;
+    },
+    setParams: (state, action) => {
+      state.wineParams = {
+        ...state.wineParams,
+        ...action.payload,
+        pageNumber: 1,
+      };
+      // trigger fetch
+      state.allFetched = false;
+    },
     setMetaData: (state, action) => {
       state.metaData = action.payload;
     },
@@ -137,4 +154,10 @@ export const wineSelectors = wineAdapter.getSelectors(
   (state: RootState) => state.wine
 );
 
-export const { setMetaData, setPageNumber } = wineSlice.actions;
+export const {
+  setMetaData,
+  setPageNumber,
+  resetSearchParam,
+  setParams,
+  resetAll,
+} = wineSlice.actions;

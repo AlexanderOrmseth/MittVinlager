@@ -5,7 +5,7 @@ const InventoryPage = () => {
   return (
     <>
       <div className="flex my-4 relative flex-row">
-        <aside className="w-60 max-h-screen mr-3 pr-1 overflow-auto sticky top-2">
+        <aside className="w-60 mr-3 pr-1 ">
           <WineFilter />
         </aside>
         <div className="flex-1">

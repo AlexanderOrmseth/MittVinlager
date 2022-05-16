@@ -1,9 +1,12 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
-import { useAppSelector } from "../store/configureStore";
+import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { Moon, SignOut, User, Wine } from "phosphor-react";
+import { signOut } from "../../features/account/accountSlice";
+import { resetAll } from "../../features/wine/slices/wineSlice";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
 
@@ -60,7 +63,8 @@ const Header = () => {
                 icon: <SignOut size="1.2rem" />,
                 divide: true,
                 fnc: () => {
-                  console.log("Log out");
+                  dispatch(signOut());
+                  dispatch(resetAll());
                 },
               },
             ]}

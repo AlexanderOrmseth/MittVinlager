@@ -1,5 +1,6 @@
 import { Menu, Transition } from "@headlessui/react";
 import { CaretDown } from "phosphor-react";
+import { Fragment } from "react";
 import { MenuButton } from "../models/menuButton";
 
 interface Props {
@@ -24,9 +25,7 @@ const DropDownMenu = ({
       }`}
     >
       <Menu.Button
-        className={`inline-flex select-none w-full shadow-xxs items-center gap-2 rounded-md 
-           bg-white px-4 py-2 border capitalize transition-all cursor-pointer  text-center font-medium
-            text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700 ${className}`}
+        className={`inline-flex btn-white items-center gap-2 capitalize ${className}`}
       >
         {!icon ? (
           <>
@@ -38,6 +37,7 @@ const DropDownMenu = ({
         )}
       </Menu.Button>
       <Transition
+        as={Fragment}
         enter="transition ease-out duration-100"
         enterFrom="transform opacity-0 scale-95"
         enterTo="transform opacity-100 scale-100"

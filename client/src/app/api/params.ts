@@ -1,6 +1,6 @@
 export interface WineParams {
   orderBy: string;
-  searchTerm?: string;
+  searchTerm: string | null;
   types: string[];
   countries: string[];
 
@@ -15,7 +15,7 @@ export const getAxiosParams = (wineParams: WineParams) => {
   if (wineParams.searchTerm) params.append("searchTerm", wineParams.searchTerm);
 
   if (wineParams.countries.length > 0)
-    params.append("brands", wineParams.countries.toString());
+    params.append("countries", wineParams.countries.toString());
 
   if (wineParams.types.length > 0)
     params.append("types", wineParams.types.toString());

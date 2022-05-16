@@ -1,4 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 import {
   Controller,
   FieldValues,
@@ -137,6 +138,7 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
                 </div>
               </Listbox.Button>
               <Transition
+                as={Fragment}
                 enter="transition duration-300 ease-out"
                 enterFrom="transform scale-95 opacity-0"
                 enterTo="transform scale-100 opacity-100"
