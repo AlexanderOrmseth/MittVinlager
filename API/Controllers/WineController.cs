@@ -33,10 +33,12 @@ public class WineController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WineDto>>> GetWine([FromQuery] WineParams wineParams)
+    public async Task<ActionResult<IEnumerable<WineDto>>> GetWine([FromQuery] WineParams wineParams,
+        CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
 
+        Thread.Sleep(500);
 
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
@@ -50,23 +52,23 @@ public class WineController : BaseApiController
 
         // query with filers
         var wines =
-            await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber);
+            await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, cancellationToken);
 
         Response.AddPaginationHeader(wines.MetaData);
         return wines;
     }
 
     [HttpGet("filters")]
-    public async Task<IActionResult> GetFilters()
+    public async Task<IActionResult> GetFilters(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
 
         // filter options
-        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct().ToListAsync();
+        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct().ToListAsync(cancellationToken);
 
         var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null).Select(w => w.Country)
             .Distinct()
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
 
         // return
         return Ok(new {countries, types});

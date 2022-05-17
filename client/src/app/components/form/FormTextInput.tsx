@@ -16,6 +16,7 @@ interface Props<T> extends UseControllerProps<T> {
   rows?: number;
   maxLength?: number;
   required?: boolean;
+  focus?: boolean;
 }
 
 const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
@@ -40,6 +41,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
                   !!fieldState.error ? "border-wine-500" : ""
                 }`}
                 {...rest}
+                autoFocus={props.focus}
                 value={value || ""}
                 placeholder={props.placeholder}
                 type={props.type ?? "text"}

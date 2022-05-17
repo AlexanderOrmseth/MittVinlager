@@ -40,7 +40,7 @@ public class AccountController : BaseApiController
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         var user = new User {UserName = registerDto.Username, Email = registerDto.Email};
 
@@ -59,17 +59,18 @@ public class AccountController : BaseApiController
         await _userManager.AddToRoleAsync(user, "Member");
 
 
-        /*return new UserDto
+        return new UserDto
         {
-            Username = user.UserName,
-            Token = await _tokenService.CreateToken(user),
-            KnownAs = user.KnownAs,
-            Gender = user.Gender
-        };*/
-
-        return StatusCode(201);
+            Email = user.Email,
+            UserName = user.UserName,
+            Token = await _tokenService.GenerateToken(user),
+        };
     }
 
+    /// <summary>
+    /// Gets current logged in user
+    /// </summary>
+    /// <returns>Email, Username, Token</returns>
     [Authorize]
     [HttpGet("currentUser")]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
@@ -89,6 +90,9 @@ public class AccountController : BaseApiController
         };
     }
 
+    /// <summary>
+    /// Deletes user and all wine and images stored to that user.
+    /// </summary>
     [Authorize]
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteUser()
@@ -104,7 +108,7 @@ public class AccountController : BaseApiController
 
         // could not delete user
         if (!result.Succeeded) return BadRequest("Klarte ikke slette bruker");
-        
+
         // delete all images
         await _imageService.DeleteAllUserImages(user.Id);
         return Ok();

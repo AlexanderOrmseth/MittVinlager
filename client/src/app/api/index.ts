@@ -84,6 +84,7 @@ const Wine = {
   addWine: (newWine: FormModel) => requests.post("wine", newWine),
   updateWine: (updatedWine: FormModel, id: number) =>
     requests.put(`wine/${id}`, updatedWine),
+  deleteWine: (id: number) => requests.delete(`wine/${id}`),
 };
 
 const api = {

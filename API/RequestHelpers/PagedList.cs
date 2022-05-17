@@ -23,12 +23,14 @@ public class PagedList<T> : List<T>
 
     public MetaData MetaData { get; set; }
 
-    public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, int pageNumber)
+    public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, int pageNumber,
+        CancellationToken cancellationToken)
     {
-        var count = await query.CountAsync(); // item count
+        var count = await query.CountAsync(cancellationToken); // item count
 
         // skip 0 items on page 1. on page 2 skip 1*pageSize
-        var items = await query.Skip(((pageNumber == 0 ? 1 : pageNumber) - 1) * PageSize).Take(PageSize).ToListAsync();
+        var items = await query.Skip(((pageNumber == 0 ? 1 : pageNumber) - 1) * PageSize).Take(PageSize)
+            .ToListAsync(cancellationToken);
 
         return new PagedList<T>(items, count, pageNumber);
     }

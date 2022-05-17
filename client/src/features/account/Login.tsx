@@ -8,37 +8,43 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { signIn } from "./accountSlice";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingButton from "../../app/components/LoadingButton";
-import { SignIn } from "phosphor-react";
+import { SignIn, WarningOctagon } from "phosphor-react";
 import AuthForm from "../../app/layout/AuthForm";
+import { useState } from "react";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [loginError, setLoginError] = useState("");
   const {
     handleSubmit,
     control,
-    setError,
-    formState: { isSubmitting, errors, isValid },
+    formState: { isSubmitting, isValid },
   } = useForm({
     mode: "all",
+    reValidateMode: "onChange",
     resolver: yupResolver(loginSchema),
   });
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      console.log(data);
-      const res = await dispatch(signIn(data));
+      await dispatch(signIn(data));
       toast.success(`Velkommen ${data.username}`);
       navigate("/inventory");
-      console.log(res);
     } catch (error: any) {
-      console.error(error);
+      setLoginError(error.error?.title || "Feil");
     }
   };
 
   return (
     <AuthForm title="Logg inn">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        {loginError && (
+          <div className="font-medium flex flex-row items-center gap-x-2 text-wine-500">
+            <WarningOctagon size="2rem" />
+            {loginError}
+          </div>
+        )}
         <FormTextInput
           name="username"
           label="Brukernavn"

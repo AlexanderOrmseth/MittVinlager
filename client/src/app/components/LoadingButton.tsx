@@ -6,6 +6,7 @@ interface Props {
   type?: "button" | "submit";
   onClick?: () => void;
   disabled: boolean;
+  className?: string;
   loadingText: string;
 }
 
@@ -13,6 +14,7 @@ const LoadingButton = ({
   loading,
   onClick,
   children,
+  className,
   disabled,
   loadingText,
   type,
@@ -24,7 +26,7 @@ const LoadingButton = ({
       disabled={disabled || loading}
       className={`btn-primary inline-flex items-center gap-2 h-10 ${
         disabled && !loading ? "opacity-50 cursor-not-allowed" : ""
-      }`}
+      } ${className ? className : ""}`}
     >
       {loading ? (
         <>

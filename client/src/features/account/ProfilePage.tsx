@@ -1,11 +1,14 @@
 import { UserMinus } from "phosphor-react";
+import { useState } from "react";
 import LoadingButton from "../../app/components/LoadingButton";
+import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { resetAll } from "../wine/slices/wineSlice";
 import { deleteUser } from "./accountSlice";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
+  const [isOpen, setIsOpen] = useState(false);
   const { user, status } = useAppSelector((state) => state.account);
 
   return (
@@ -21,19 +24,11 @@ const ProfilePage = () => {
         </div>
       )}
       <div className="mt-4">
-        <LoadingButton
-          onClick={() => {
-            dispatch(deleteUser());
-            dispatch(resetAll());
-          }}
-          loading={status === "loading"}
-          disabled={status === "loading"}
-          loadingText="Sletter bruker..."
-        >
-          <UserMinus size="1.5rem" />
-          Slett meg
-        </LoadingButton>
+        <button className="btn-white w-auto" onClick={() => setIsOpen(true)}>
+          Slett bruker
+        </button>
       </div>
+      <DeleteUserModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 };

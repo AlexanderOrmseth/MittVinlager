@@ -14,8 +14,27 @@ const initialState: AccountState = {
   user: null,
 };
 
+const namespace = "account";
+
+/* Register
+ */
+export const register = createAsyncThunk<User, FieldValues>(
+  `${namespace}/register`,
+  async (data, thunkAPI) => {
+    try {
+      const user = await agent.Account.register(data);
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+/* Sign In
+ */
 export const signIn = createAsyncThunk<User, FieldValues>(
-  "account/signIn",
+  `${namespace}/signIn`,
   async (data, thunkAPI) => {
     try {
       const user = await agent.Account.login(data);
@@ -27,9 +46,10 @@ export const signIn = createAsyncThunk<User, FieldValues>(
   }
 );
 
-// if nothing in local storage -> nothing will happen -> no request will happen
+/* Fetch current user
+ */
 export const fetchCurrentUser = createAsyncThunk<User>(
-  "account/fetchCurrentUser",
+  `${namespace}/fetchCurrentUser`,
   async (_, thunkAPI) => {
     thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem("user")!)));
     try {
@@ -50,9 +70,10 @@ export const fetchCurrentUser = createAsyncThunk<User>(
   }
 );
 
-// if nothing in local storage -> nothing will happen -> no request will happen
+/* Delete user
+ */
 export const deleteUser = createAsyncThunk<void>(
-  "account/deleteUser",
+  `${namespace}/deleteUser`,
   async (_, thunkAPI) => {
     try {
       await agent.Account.deleteUser();
@@ -71,7 +92,7 @@ export const deleteUser = createAsyncThunk<void>(
 );
 
 export const accountSlice = createSlice({
-  name: "account",
+  name: namespace,
   initialState,
   reducers: {
     signOut: (state) => {
@@ -94,31 +115,24 @@ export const accountSlice = createSlice({
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
       localStorage.removeItem("user");
-      toast.error("Session expired - please login again");
+      toast.error("Sessionen er utgått, venligst logg inn igjen.");
     });
 
     /* Delete user
      */
-    builder.addCase(deleteUser.pending, (state) => {
-      state.status = "loading";
-    });
     builder.addCase(deleteUser.fulfilled, (state) => {
       state.user = null;
       localStorage.removeItem("user");
       toast.success("Brukeren er slettet.");
       state.status = "idle";
     });
-    builder.addCase(deleteUser.rejected, (state, action) => {
-      console.error(action.payload);
-      state.status = "idle";
-      throw action.payload;
-    });
 
     /* Matchers
      */
     builder.addMatcher(
-      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled),
+      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled, register.fulfilled),
       (state, action) => {
+        state.status = "idle";
         let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
         let roles =
           claims[
@@ -130,10 +144,31 @@ export const accountSlice = createSlice({
         };
       }
     );
-    builder.addMatcher(isAnyOf(signIn.rejected), (state, action) => {
-      console.error(action.payload);
-      throw action.payload;
-    });
+
+    /* Loading
+     */
+    builder.addMatcher(
+      isAnyOf(
+        signIn.pending,
+        fetchCurrentUser.pending,
+        deleteUser.pending,
+        register.pending
+      ),
+      (state) => {
+        state.status = "loading";
+      }
+    );
+
+    /* Rejected
+     */
+    builder.addMatcher(
+      isAnyOf(signIn.rejected, register.rejected, deleteUser.rejected),
+      (state, action) => {
+        state.status = "idle";
+        console.error(action.payload);
+        throw action.payload;
+      }
+    );
   },
 });
 

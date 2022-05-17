@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import api from "../../app/api";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import { FormModel } from "../../app/models/wine";
+import { useAppDispatch } from "../../app/store/configureStore";
 import WineForm from "./form/WineForm";
+import { triggerFetch } from "./slices/wineSlice";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { wine, id, status } = useFetchSingleWine();
   const [serverErrors, setServerErrors] = useState<Record<
     string,
@@ -23,16 +26,12 @@ const UpdateWinePage = () => {
     }
 
     try {
-      console.log(data);
-
-      const response = await api.Wine.updateWine(data, parseInt(id));
+      await api.Wine.updateWine(data, parseInt(id));
+      dispatch(triggerFetch());
       navigate("/inventory");
-      console.log("update wine response", response);
     } catch (error: any) {
       console.error("Update wine error", error);
-      if (error) {
-        setServerErrors(error);
-      }
+      if (error) setServerErrors(error);
     }
   };
 

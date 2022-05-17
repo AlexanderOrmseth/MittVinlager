@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "./validation/validationSchema";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../../app/store/configureStore";
-import { signIn } from "./accountSlice";
+import { register, signIn } from "./accountSlice";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../app/api";
 import AuthForm from "../../app/layout/AuthForm";
@@ -18,6 +18,7 @@ const Register = () => {
   const {
     handleSubmit,
     control,
+    setError,
     formState: { isSubmitting, errors, isValid },
   } = useForm({
     mode: "all",
@@ -26,13 +27,22 @@ const Register = () => {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      console.log(data);
-      const res = await api.Account.register(data);
-      toast.success(`Bruker opprettet`);
-      navigate("/login");
-      console.log(res);
-    } catch (error: any) {
-      console.error(error);
+      await dispatch(register(data));
+      navigate("/inventory");
+    } catch (error) {
+      const errorr = error as { keyName: string }[];
+      for (const [key, value] of Object.entries(errorr)) {
+        let fieldName = "custom";
+
+        if (key.includes("Name")) fieldName = "username";
+        else if (key.toLowerCase().includes("email")) fieldName = "email";
+        else if (key.toLocaleLowerCase().includes("password"))
+          fieldName = "password";
+
+        setError(fieldName, {
+          types: { ...value },
+        });
+      }
     }
   };
 
@@ -42,12 +52,13 @@ const Register = () => {
         <FormTextInput
           name="username"
           label="Brukernavn"
+          focus
           placeholder="brukernavn"
           control={control}
         />
         <FormTextInput
           name="email"
-          label="Email"
+          label="E-postaddresse"
           type="email"
           placeholder="email"
           control={control}
@@ -55,6 +66,13 @@ const Register = () => {
         <FormTextInput
           name="password"
           label="Passord"
+          type="password"
+          placeholder="passord"
+          control={control}
+        />
+        <FormTextInput
+          name="passwordConfirmation"
+          label="Bekreft passord"
           type="password"
           placeholder="passord"
           control={control}

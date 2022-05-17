@@ -65,6 +65,10 @@ export const wineSlice = createSlice({
       wineAdapter.removeAll(state);
       state = { ...state, ...initialState };
     },
+    triggerFetch: (state) => {
+      state.allFetched = false;
+      state.filtersFetched = false;
+    },
     resetSearchParam: (state) => {
       state.wineParams.searchTerm = null;
     },
@@ -74,7 +78,9 @@ export const wineSlice = createSlice({
         ...action.payload,
         pageNumber: 1,
       };
+
       // trigger fetch
+
       state.allFetched = false;
     },
     setMetaData: (state, action) => {
@@ -160,4 +166,5 @@ export const {
   resetSearchParam,
   setParams,
   resetAll,
+  triggerFetch,
 } = wineSlice.actions;

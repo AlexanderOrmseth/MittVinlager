@@ -17,8 +17,9 @@ import { formatDate, formatPrice } from "../../../app/util/format";
 
 interface Props {
   wine: Wine;
+  handleDeleteWine: (id: number, name: string) => void;
 }
-const WineCard = ({ wine }: Props) => {
+const WineCard = ({ wine, handleDeleteWine }: Props) => {
   const navigate = useNavigate();
   return (
     <div className=" bg-white border hover:border-slate-300 hover:shadow-lg shadow-xxs transition-all rounded  appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none">
@@ -41,9 +42,7 @@ const WineCard = ({ wine }: Props) => {
               text: "Slett",
               icon: <Trash size="1.2rem" />,
               divide: true,
-              fnc: () => {
-                console.log("Log out");
-              },
+              fnc: () => handleDeleteWine(wine.wineId, wine.name),
             },
           ]}
           text=""
