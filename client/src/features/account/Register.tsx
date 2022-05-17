@@ -1,13 +1,10 @@
 import { FieldValues, useForm } from "react-hook-form";
 import FormTextInput from "../../app/components/form/FormTextInput";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "./validation/validationSchema";
-import toast from "react-hot-toast";
 import { useAppDispatch } from "../../app/store/configureStore";
-import { register, signIn } from "./accountSlice";
+import { register } from "./accountSlice";
 import { Link, useNavigate } from "react-router-dom";
-import api from "../../app/api";
 import AuthForm from "../../app/layout/AuthForm";
 import LoadingButton from "../../app/components/LoadingButton";
 import { UserPlus } from "phosphor-react";
@@ -19,7 +16,7 @@ const Register = () => {
     handleSubmit,
     control,
     setError,
-    formState: { isSubmitting, errors, isValid },
+    formState: { isSubmitting, isValid },
   } = useForm({
     mode: "all",
     resolver: yupResolver(registerSchema),

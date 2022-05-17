@@ -1,15 +1,10 @@
-import { UserMinus } from "phosphor-react";
 import { useState } from "react";
-import LoadingButton from "../../app/components/LoadingButton";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { resetAll } from "../wine/slices/wineSlice";
-import { deleteUser } from "./accountSlice";
+import { useAppSelector } from "../../app/store/configureStore";
 
 const ProfilePage = () => {
-  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const { user, status } = useAppSelector((state) => state.account);
+  const { user } = useAppSelector((state) => state.account);
 
   return (
     <div>

@@ -1,10 +1,8 @@
-import { PayloadAction } from "@reduxjs/toolkit";
 import { Robot, SmileyXEyes } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
-import { Wine } from "../../../app/models/wine";
 import {
   useAppDispatch,
   useAppSelector,

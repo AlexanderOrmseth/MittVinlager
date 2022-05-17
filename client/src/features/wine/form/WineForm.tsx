@@ -45,7 +45,7 @@ const WineForm = ({
     reset,
     getValues,
     setError,
-    formState: { isSubmitting, errors, isValid, isDirty },
+    formState: { isSubmitting, isValid },
   } = useForm<FormModel>({
     mode: "all",
     defaultValues,
