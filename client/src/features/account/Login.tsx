@@ -46,6 +46,7 @@ const Login = () => {
           </div>
         )}
         <FormTextInput
+          focus
           name="username"
           label="Brukernavn"
           placeholder="brukernavn"

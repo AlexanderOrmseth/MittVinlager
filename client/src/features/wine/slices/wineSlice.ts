@@ -61,10 +61,7 @@ export const wineSlice = createSlice({
   name: "wine",
   initialState: wineAdapter.getInitialState<WineState>(initialState),
   reducers: {
-    resetAll: (state) => {
-      wineAdapter.removeAll(state);
-      state = { ...state, ...initialState };
-    },
+    resetAll: () => wineAdapter.getInitialState<WineState>(initialState),
     triggerFetch: (state) => {
       state.allFetched = false;
       state.filtersFetched = false;

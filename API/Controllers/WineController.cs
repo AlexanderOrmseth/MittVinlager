@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Security.Principal;
 using API.Context;
@@ -38,8 +39,6 @@ public class WineController : BaseApiController
     {
         var userId = await GetUserId(User);
 
-        Thread.Sleep(500);
-
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
             .Include(w => w.UserDetailses)
@@ -64,7 +63,8 @@ public class WineController : BaseApiController
         var userId = await GetUserId(User);
 
         // filter options
-        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct().ToListAsync(cancellationToken);
+        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct()
+            .ToListAsync(cancellationToken);
 
         var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null).Select(w => w.Country)
             .Distinct()
@@ -87,7 +87,7 @@ public class WineController : BaseApiController
             .FirstOrDefaultAsync(w => w.WineId == id);
 
         // check if wine exists
-        if (wine == null)
+        if (wine is null)
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
@@ -124,11 +124,11 @@ public class WineController : BaseApiController
         var newWine = MapWineFormDtoToWine(wineFormDto, userId);
 
         // adding image url + image id
-        if (wineFormDto.ProductId != null && wineFormDto.ProductId.IsNumeric())
+        if (wineFormDto.ProductId is not null && wineFormDto.ProductId.IsNumeric())
         {
             var imageResult = await _imageService.AddImageAsync(wineFormDto.ProductId, userId);
 
-            if (imageResult.Error != null)
+            if (imageResult.Error is not null)
                 return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
 
             newWine.PictureUrl = imageResult.SecureUrl.ToString();
@@ -215,7 +215,7 @@ public class WineController : BaseApiController
         wine.UserDetailses.UserRating = wineFormDto.UserDetails.UserRating;
 
 
-        // check changes
+        // check changes TODO:
         var changes = _context.Entry(wine).State == EntityState.Unchanged;
 
         if (changes)

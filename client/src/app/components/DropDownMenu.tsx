@@ -49,22 +49,22 @@ const DropDownMenu = ({
             <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right dropdown">
               <div className="px-1 py-1">
                 {buttons.map((button, i) => (
-                  <Menu.Item key={i}>
-                    {({ active }) => (
-                      <div>
-                        {button.divide && <div className="my-2 border-t"></div>}
+                  <div key={i}>
+                    {button.divide && <div className="my-2 border-t"></div>}
+                    <Menu.Item>
+                      {({ active }) => (
                         <button
                           onClick={button.fnc}
                           className={`${
                             active ? "bg-wine-500 text-white" : "text-gray-900"
-                          } group flex w-full items-center gap-x-2 rounded-md px-2 py-2 text-sm`}
+                          } group flex w-full items-center gap-x-2 select-none rounded-md px-2 py-2 text-sm`}
                         >
                           {button.icon && button.icon}
                           {button.text}
                         </button>
-                      </div>
-                    )}
-                  </Menu.Item>
+                      )}
+                    </Menu.Item>
+                  </div>
                 ))}
               </div>
             </Menu.Items>

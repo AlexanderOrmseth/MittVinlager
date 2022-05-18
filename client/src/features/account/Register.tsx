@@ -27,15 +27,13 @@ const Register = () => {
       await dispatch(register(data));
       navigate("/inventory");
     } catch (error) {
-      const errorr = error as { keyName: string }[];
-      for (const [key, value] of Object.entries(errorr)) {
+      const err = error as { keyName: string }[];
+      for (const [key, value] of Object.entries(err)) {
         let fieldName = "custom";
-
         if (key.includes("Name")) fieldName = "username";
         else if (key.toLowerCase().includes("email")) fieldName = "email";
         else if (key.toLocaleLowerCase().includes("password"))
           fieldName = "password";
-
         setError(fieldName, {
           types: { ...value },
         });

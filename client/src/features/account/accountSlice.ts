@@ -116,6 +116,7 @@ export const accountSlice = createSlice({
       state.user = null;
       localStorage.removeItem("user");
       toast.error("Sessionen er utgått, venligst logg inn igjen.");
+      state.status = "idle";
     });
 
     /* Delete user

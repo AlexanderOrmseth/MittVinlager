@@ -18,6 +18,7 @@ import {
 } from "../../../app/store/configureStore";
 import { getCountries } from "../slices/wineAsyncThunks";
 import { ThreeDots } from "react-loading-icons";
+import FormDatePicker from "../../../app/components/form/FormDatePicker";
 interface Props {
   title: string;
   submitText: string;
@@ -73,7 +74,19 @@ const WineForm = ({
   // reset with Wine values
   useEffect(() => {
     if (!wine) return;
-    reset(wine);
+
+    // convert date to date..
+    const modifiedWine = {
+      ...wine,
+      userDetails: {
+        ...wine.userDetails,
+        purchaseDate: wine.userDetails.purchaseDate
+          ? new Date(wine.userDetails.purchaseDate)
+          : null,
+      },
+    };
+
+    reset(modifiedWine);
   }, [wine, reset]);
 
   // fetch countries
@@ -355,12 +368,11 @@ const WineForm = ({
                 />
               </div>
               <div className="grid grid-cols-3 gap-4">
-                <FormTextInput
+                {/* <FormDatePicker
                   control={control}
                   name="userDetails.purchaseDate"
                   label="Kjøpsdato"
-                  placeholder="kjøpsdato"
-                />
+                /> */}
                 <FormYearPicker
                   control={control}
                   name="userDetails.drinkingWindowMin"
