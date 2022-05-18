@@ -4,7 +4,8 @@ import {
 } from "../../../app/store/configureStore";
 import { setPageNumber } from "../slices/wineSlice";
 import { CaretLeft, CaretRight } from "phosphor-react";
-import ThreeDots from "react-loading-icons/dist/components/three-dots";
+import { ThreeDots } from "react-loading-icons";
+
 interface Props {
   status: string;
   top: boolean;
