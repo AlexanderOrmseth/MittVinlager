@@ -6,7 +6,7 @@ interface Props {
 
 const DescriptionList = ({ title, children, titleElement }: Props) => {
   return (
-    <dl className="border rounded-lg">
+    <dl className="">
       {titleElement ? (
         titleElement
       ) : (

@@ -13,7 +13,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
 import placeholderImg from "../../../app/assets/bottle.png";
 import DropDownMenu from "../../../app/components/DropDownMenu";
-import { formatDate, formatPrice } from "../../../app/util/format";
+import {
+  formatAlcoholContent,
+  formatDate,
+  formatPrice,
+  formatVolume,
+} from "../../../app/util/format";
 
 interface Props {
   wine: Wine;
@@ -62,9 +67,11 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             <div>{wine.type}</div>
             {wine.year && wine.year > 0 && <div>{wine.year}</div>}
             {wine.volume && wine.volume > 0 && (
-              <div>{wine.volume * 100} cl</div>
+              <div>{formatVolume(wine.volume)}</div>
             )}
-            <div>{wine.alcoholContent || 0}%</div>
+            {wine.alcoholContent && (
+              <div>{formatAlcoholContent(wine.alcoholContent)}</div>
+            )}
           </div>
           <ul className="space-y-0.5">
             <div className="flex flex-row items-center flex-wrap gap-2">

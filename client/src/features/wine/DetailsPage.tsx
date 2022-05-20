@@ -5,6 +5,7 @@ import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
 import { PencilLine, Trash, Link as LinkIcon } from "phosphor-react";
 import WineDetails from "./details/WineDetails";
 import WineImageZoom from "./details/WineImageZoom";
+import { formatDate } from "../../app/util/format";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,13 +16,19 @@ const DetailsPage = () => {
 
   return (
     <>
-      <div>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
-          <div className="col-span-2 space-y-4">
+      <div className="my-4">
+        <div className="flex flex-row gap-x-2 justify-center items-center rounded-t-lg pl-4 lg:py-6 py-4">
+          <div className={`flag f32 ${wine.countryId}`}></div>
+          <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
+            {wine.name}
+          </h2>
+        </div>
+        <div className="grid md:grid-cols-3 grid-cols-1 border-t gap-4">
+          <div className="col-span-2 pt-4 space-y-4">
             <WineDetails wine={wine} />
           </div>
 
-          <div className="">
+          <div className="border-l pl-4 pt-4 space-y-4">
             <div className="flex mb-4 lg:flex-row flex-col gap-2">
               <Link
                 className="btn-white flex-1 justify-center w-auto flex items-center gap-x-2"
@@ -56,6 +63,13 @@ const DetailsPage = () => {
                 />
                 Slett
               </button>
+            </div>
+            <div className="text-sm pt-4 border-t">
+              <p>Dato opprettet: {formatDate(new Date(wine.createdAt))}</p>
+              <p>
+                Sist endret:{" "}
+                {wine.updatedAt ? formatDate(new Date(wine.updatedAt)) : ""}
+              </p>
             </div>
             <div className="p-2 pt-4 border-t">
               <WineImageZoom

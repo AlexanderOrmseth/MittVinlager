@@ -1,9 +1,14 @@
-import AsideDisclosure from "../../../app/components/AsideDisclosure";
+import { Heart } from "phosphor-react";
 import DescriptionItem from "../../../app/components/dl/DescriptionItem";
 import DescriptionList from "../../../app/components/dl/DescriptionList";
 import TastePie, { list, text } from "../../../app/components/TastePie";
 import { Wine } from "../../../app/models/wine";
-import { formatPrice, formatVolume } from "../../../app/util/format";
+import {
+  formatAlcoholContent,
+  formatPrice,
+  formatVolume,
+} from "../../../app/util/format";
+
 interface Props {
   wine: Wine;
 }
@@ -25,21 +30,16 @@ const WineDetails = ({ wine }: Props) => {
 
   return (
     <>
-      <DescriptionList
-        titleElement={
-          <div className="flex flex-row gap-x-2 items-center rounded-t-lg pl-4 lg:py-6 py-4">
-            <div className={`flag f32 ${wine.countryId}`}></div>
-            <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
-              {wine.name}
-            </h2>
-          </div>
-        }
-      >
+      <DescriptionList title="Vindetaljer">
+        <DescriptionItem dt="Navn" dd={wine.name} />
         <DescriptionItem dt="Type" dd={wine.type} />
         <DescriptionItem dt="Pris" dd={formatPrice(wine.price)} />
         <DescriptionItem dt="Årgang" dd={wine.year} />
         <DescriptionItem dt="Volum" dd={formatVolume(wine.volume)} />
-        <DescriptionItem dt="Alkoholinnhold" dd={wine.alcoholContent || ""} />
+        <DescriptionItem
+          dt="Alkoholinnhold"
+          dd={formatAlcoholContent(wine.alcoholContent)}
+        />
         <DescriptionItem dt="Lagringsgrad" dd={wine.storagePotential} />
         <DescriptionItem dt="Land" dd={wine.country} />
         <DescriptionItem dt="Region, distrikt">
@@ -58,7 +58,7 @@ const WineDetails = ({ wine }: Props) => {
         <DescriptionItem dt="Duft" dd={wine.odour} />
         <DescriptionItem dt="Smak" dd={wine.taste} />
         <DescriptionItem dt="Smaksverdier">
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap items-center justify-around gap-4">
             {tasteValues.map(({ value, type, displayText }, i) => {
               return !value ? null : (
                 <div
@@ -77,12 +77,17 @@ const WineDetails = ({ wine }: Props) => {
 
       <DescriptionList title="Brukerdetaljer">
         <DescriptionItem dt="Antall" dd={wine.userDetails.quantity} />
-        <DescriptionItem
-          dt="Favoritt"
-          dd={
-            wine.userDetails.favorite ? "Favoritt" : "Ikke lagret som favoritt"
-          }
-        />
+        <DescriptionItem dt="Favoritt">
+          {wine.userDetails.favorite ? (
+            <div className="flex flex-row items-center gap-x-1">
+              <Heart size="1.3rem" weight="duotone" className="text-wine-500" />
+              Favoritt
+            </div>
+          ) : (
+            "Ikke lagret som favoritt"
+          )}
+        </DescriptionItem>
+        <DescriptionItem dt="Dine notater" dd={wine.userDetails.userNote} />
         <DescriptionItem
           dt="Karakter"
           dd={!!wine.userDetails.score ? wine.userDetails.score : ""}
@@ -96,7 +101,9 @@ const WineDetails = ({ wine }: Props) => {
         </DescriptionItem>
         <DescriptionItem
           dt="Stjerner"
-          dd={!!wine.userDetails.userRating ? wine.userDetails.userRating : ""}
+          dd={
+            !!wine.userDetails.userRating ? wine.userDetails.userRating / 2 : ""
+          }
         />
       </DescriptionList>
     </>

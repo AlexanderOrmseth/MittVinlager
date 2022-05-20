@@ -28,6 +28,9 @@ export const formatVolume = (volume: number | null | undefined): string => {
   return volume ? `${volume * 100} cl` : "";
 };
 
+export const formatAlcoholContent = (ac: number | null | undefined): string =>
+  ac ? `${ac}%` : "";
+
 export const formatPrice = (price: number | null | undefined) => {
   if (price == null || isNaN(price)) return "0 kr";
   let num = price;

@@ -214,6 +214,8 @@ public class WineController : BaseApiController
         wine.UserDetailses.Score = wineFormDto.UserDetails.Score;
         wine.UserDetailses.UserRating = wineFormDto.UserDetails.UserRating;
 
+        // will always have a change
+        wine.UpdatedAt = DateTime.UtcNow;
 
         // check changes TODO:
         var changes = _context.Entry(wine).State == EntityState.Unchanged;
