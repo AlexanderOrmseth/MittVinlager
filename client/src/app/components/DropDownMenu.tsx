@@ -26,7 +26,7 @@ const DropDownMenu = ({
           }`}
         >
           <Menu.Button
-            className={`inline-flex btn-white items-center gap-2 capitalize ${className}`}
+            className={`inline-flex btn-white items-center gap-2 ${className}`}
           >
             {!icon ? (
               <>

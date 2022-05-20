@@ -19,6 +19,8 @@ import {
 import { getCountries } from "../slices/wineAsyncThunks";
 import { ThreeDots } from "react-loading-icons";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
+import { schema } from "./validationSchema";
+import { yupResolver } from "@hookform/resolvers/yup";
 interface Props {
   title: string;
   submitText: string;
@@ -50,7 +52,7 @@ const WineForm = ({
   } = useForm<FormModel>({
     mode: "all",
     defaultValues,
-    //resolver: yupResolver(loginSchema),
+    resolver: yupResolver(schema),
   });
 
   useEffect(() => {

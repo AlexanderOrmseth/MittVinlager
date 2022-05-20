@@ -24,6 +24,10 @@ export const formatDate = (date: Date, short = false) => {
   return `${date.getDate()}. ${month} ${date.getFullYear()}`;
 };
 
+export const formatVolume = (volume: number | null | undefined): string => {
+  return volume ? `${volume * 100} cl` : "";
+};
+
 export const formatPrice = (price: number | null | undefined) => {
   if (price == null || isNaN(price)) return "0 kr";
   let num = price;

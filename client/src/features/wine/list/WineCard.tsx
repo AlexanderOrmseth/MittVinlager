@@ -58,7 +58,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           alt="Bilde av en vin"
         />
         <div className="flex-1">
-          <div className="flex mb-2.5 items-center text-slate-500 flex-row gap-2">
+          <div className="flex mb-2.5 items-center text-slate-500 flex-row comma">
             <div>{wine.type}</div>
             {wine.year && wine.year > 0 && <div>{wine.year}</div>}
             {wine.volume && wine.volume > 0 && (
@@ -69,18 +69,28 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           <ul className="space-y-0.5">
             <div className="flex flex-row items-center flex-wrap gap-2">
               <div>
-                <MapPinLine size="1.25rem" weight="duotone" color="#64748b" />
+                <MapPinLine
+                  size="1.25rem"
+                  weight="duotone"
+                  className="text-slate-500"
+                />
               </div>
-              {wine.country && (
-                <div className="font-medium">{wine.country}</div>
-              )}
-              {wine.region && <div>{wine.region}</div>}
-              {wine.subRegion && <div>{wine.subRegion}</div>}
+              <div className="comma">
+                {wine.country && (
+                  <span className="font-medium">{wine.country}</span>
+                )}
+                {wine.region && <span>{wine.region}</span>}
+                {wine.subRegion && <span>{wine.subRegion}</span>}
+              </div>
             </div>
 
             {!!wine.userDetails.userRating && (
               <li className="flex items-center flex-row gap-2">
-                <Star size="1.25rem" weight="duotone" color="#64748b" />
+                <Star
+                  size="1.25rem"
+                  weight="duotone"
+                  className="text-slate-500"
+                />
                 <div>{wine.userDetails.userRating / 2} stjerner</div>
               </li>
             )}
@@ -89,7 +99,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 <HeartStraight
                   size="1.25rem"
                   weight="duotone"
-                  color="#64748b"
+                  className="text-slate-500"
                 />
                 <div>favoritt</div>
               </li>
@@ -97,14 +107,22 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
 
             {!!wine.price && (
               <li className="flex items-center flex-row gap-2">
-                <Coins size="1.25rem" weight="duotone" color="#64748b" />
+                <Coins
+                  size="1.25rem"
+                  weight="duotone"
+                  className="text-slate-500"
+                />
                 {formatPrice(wine.price)}
               </li>
             )}
 
             {wine.userDetails.quantity >= 0 && (
               <li className="flex items-center flex-row gap-2">
-                <BeerBottle size="1.25rem" weight="duotone" color="#64748b" />
+                <BeerBottle
+                  size="1.25rem"
+                  weight="duotone"
+                  className="text-slate-500"
+                />
                 {wine.userDetails.quantity}
               </li>
             )}
@@ -114,7 +132,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 <CalendarBlank
                   size="1.25rem"
                   weight="duotone"
-                  color="#64748b"
+                  className="text-slate-500"
                 />
                 {formatDate(new Date(wine.createdAt))}
               </li>

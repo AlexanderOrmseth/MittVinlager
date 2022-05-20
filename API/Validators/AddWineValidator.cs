@@ -18,7 +18,6 @@ public class AddWineValidator : AbstractValidator<WineFormDto>
             .NotEmpty().WithMessage("Type er påkrevd.")
             .MaximumLength(20).WithMessage("Type kan max være 20 bokstaver.");
 
-        // TODO: remove required
         RuleFor(x => x.Year)
             .InclusiveBetween(0, 3000).WithMessage("Årgang må være mellom 0 og 3000.");
 

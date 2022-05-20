@@ -20,6 +20,7 @@ module.exports = {
         "success-500": "#04A777",
         "another-green-wine-500": "#04A777",
         "blue-wine-500": "#456990",
+        "green-wine-25": "#f4f7f7",
         "green-wine-50": "#e8efef",
         "green-wine-100": "#dae5e6",
         "green-wine-500": "#1A5E63",
