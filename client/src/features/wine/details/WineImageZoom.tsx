@@ -7,8 +7,8 @@ const WineImageZoom = ({
   pictureUrl,
   productId,
 }: {
-  pictureUrl: string;
-  productId: string;
+  pictureUrl?: string | null;
+  productId?: string | null;
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
 

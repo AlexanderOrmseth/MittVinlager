@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs;
 
-public class WineFormDto
+public class WineBaseModel
 {
     [Required(ErrorMessage = "Navn på vin er påkrevd.")]
     public string Name { get; set; } = null!;
@@ -11,11 +11,6 @@ public class WineFormDto
     public string Type { get; set; } = null!;
 
     public int? Year { get; set; }
-
-    // image
-    public string? PublicId { get; set; }
-    public string? PictureUrl { get; set; }
-
     public int? Price { get; set; }
     public double? Volume { get; set; }
     public int? AlcoholContent { get; set; }

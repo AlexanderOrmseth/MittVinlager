@@ -1,4 +1,3 @@
-import { UserDetails } from "./../../../app/models/wine";
 import * as yup from "yup";
 
 const emptyStringToNull = (value: string, originalValue: string) => {
@@ -26,7 +25,7 @@ export const schema = yup.object().shape({
   year: yup
     .number()
     .typeError("Årgang må være et tall.")
-    .nullable()
+    .nullable(true)
     .transform(emptyStringToNull)
     .min(0, "Årgang må være over år 0.")
     .max(3000, "Årgang må være under år 3000."),

@@ -1,45 +1,51 @@
-export interface Wine extends FormModel {
+export interface Wine extends WineBaseModel {
   wineId: number;
+
   createdAt: string;
   updatedAt?: string | null;
+
+  publicId?: string | null;
+  pictureUrl?: string | null;
 }
 
-export interface FormModel {
+interface WineBaseModel {
   name: string;
   type: string;
   year?: number | null;
   price?: number | null;
   volume?: number | null;
   alcoholContent?: number | null;
-  country: string;
+  country?: string | null;
   countryId?: string | null;
-  region: string;
-  subRegion: string;
-  productId: string;
-  grapes: string;
-  manufacturerName: string;
-  storagePotential: string;
-  colour: string;
-  odour: string;
-  taste: string;
+  region?: string | null;
+  subRegion?: string | null;
+  productId?: string | null;
+  grapes?: string | null;
+  manufacturerName?: string | null;
+  storagePotential?: string | null;
+  colour?: string | null;
+  odour?: string | null;
+  taste?: string | null;
   freshness: number;
   fullness: number;
   bitterness: number;
   sweetness: number;
   tannins: number;
   userDetails: UserDetails;
-  publicId?: string | null;
-  pictureUrl?: string | null;
+}
+
+export interface FormModel extends WineBaseModel {
+  file?: File | null;
 }
 
 export interface UserDetails {
   quantity: number;
-  purchaseLocation: string;
+  purchaseLocation?: string | null;
   purchaseDate?: string | null | Date;
   drinkingWindowMin?: number | null;
   drinkingWindowMax?: number | null;
-  userNote: string;
+  userNote?: string | null;
   favorite: boolean;
-  score: number | null;
-  userRating: number | null;
+  score?: number | null;
+  userRating?: number | null;
 }

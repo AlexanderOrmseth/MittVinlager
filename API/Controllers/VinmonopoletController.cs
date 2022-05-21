@@ -24,7 +24,7 @@ public class VinmonopoletController : BaseApiController
     /// <param name="productId"></param>
     /// <returns></returns>
     [HttpGet("{productId}")]
-    public async Task<ActionResult<WineFormDto>> GetWineByProductNumber(string productId)
+    public async Task<ActionResult<WineBaseModel>> GetWineByProductNumber(string productId)
     {
         // check if parameter is an URL -> substring find ID
         if (!productId.IsNumeric())
@@ -82,9 +82,9 @@ public class VinmonopoletController : BaseApiController
         }
     }
 
-    private static WineFormDto MapVinmonopoletResponseToDto(VinmonopoletResponseModel response)
+    private static WineBaseModel MapVinmonopoletResponseToDto(VinmonopoletResponseModel response)
     {
-        return new WineFormDto
+        return new WineBaseModel
         {
             Name = response.Basic.ProductLongName.IsNotEmpty()
                 ? response.Basic.ProductLongName

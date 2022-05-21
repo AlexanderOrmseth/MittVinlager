@@ -14,7 +14,7 @@ interface Props<T> extends UseControllerProps<T> {
   errors?: string[];
 }
 
-const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
+const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
     ...props,
   });
@@ -35,4 +35,4 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
   );
 };
 
-export default FormTextInput;
+export default FormYearPicker;

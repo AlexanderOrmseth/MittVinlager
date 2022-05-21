@@ -6,7 +6,7 @@ import { FormModel } from "../../../app/models/wine";
 
 interface Props {
   handleResetForm: (values: FormModel) => void;
-  productId?: string;
+  productId?: string | null;
   name?: string;
 }
 

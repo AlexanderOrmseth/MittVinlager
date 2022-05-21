@@ -21,6 +21,7 @@ import { ThreeDots } from "react-loading-icons";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
+import FormFilePicker from "../../../app/components/form/FormFilePicker";
 interface Props {
   title: string;
   submitText: string;
@@ -46,14 +47,17 @@ const WineForm = ({
     handleSubmit,
     control,
     reset,
-    getValues,
     setError,
+    watch,
     formState: { isSubmitting, isValid },
   } = useForm<FormModel>({
     mode: "all",
     defaultValues,
     resolver: yupResolver(schema),
   });
+
+  const watchFile = watch("file", null);
+  const watchProductId = watch("productId", null);
 
   useEffect(() => {
     if (!serverErrors) return;
@@ -103,14 +107,15 @@ const WineForm = ({
   };
 
   const imageSrc = (): string => {
-    if (wine && wine.pictureUrl && wine.productId === getValues("productId")) {
-      return wine.pictureUrl;
+    if (watchFile) {
+      return URL.createObjectURL(watchFile);
     }
 
-    if (getValues("productId")) {
-      return `https://bilder.vinmonopolet.no/cache/300x300-0/${getValues(
-        "productId"
-      )}-1.jpg`;
+    if (wine && wine.pictureUrl && wine.productId === watchProductId) {
+      return wine.pictureUrl;
+    }
+    if (watchProductId) {
+      return `https://bilder.vinmonopolet.no/cache/300x300-0/${watchProductId}-1.jpg`;
     }
 
     return placeholderImg;
@@ -232,6 +237,11 @@ const WineForm = ({
                   />
                 </div>
                 <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                  <FormFilePicker
+                    name="file"
+                    label="Velg bilde"
+                    control={control}
+                  />
                   <FormTextInput
                     required
                     control={control}

@@ -74,7 +74,7 @@ const DetailsPage = () => {
             <div className="p-2 pt-4 border-t">
               <WineImageZoom
                 productId={wine.productId}
-                pictureUrl={wine.pictureUrl || ""}
+                pictureUrl={wine.pictureUrl}
               />
             </div>
           </div>

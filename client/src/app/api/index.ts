@@ -4,6 +4,8 @@ import { PaginatedResponse } from "../models/pagination";
 import { FormModel } from "../models/wine";
 import { store } from "../store/configureStore";
 
+import { serialize } from "object-to-formdata";
+
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -61,6 +63,18 @@ const requests = {
   post: (url: string, body: {}) => axios.post(url, body).then(res),
   put: (url: string, body: {}) => axios.put(url, body).then(res),
   delete: (url: string) => axios.delete(url).then(res),
+  postForm: (url: string, data: FormData) =>
+    axios
+      .post(url, data, {
+        headers: { "Content-type": "multipart/form-data" },
+      })
+      .then(res),
+  putForm: (url: string, data: FormData) =>
+    axios
+      .put(url, data, {
+        headers: { "Content-type": "multipart/form-data" },
+      })
+      .then(res),
 };
 
 const Account = {
@@ -81,9 +95,10 @@ const Wine = {
     requests.get("wine", params, config),
   getWineById: (id: number) => requests.get(`wine/${id}`),
   getFilters: () => requests.get("wine/filters"),
-  addWine: (newWine: FormModel) => requests.post("wine", newWine),
+  addWine: (newWine: FormModel) =>
+    requests.postForm("wine", serialize(newWine)),
   updateWine: (updatedWine: FormModel, id: number) =>
-    requests.put(`wine/${id}`, updatedWine),
+    requests.putForm(`wine/${id}`, serialize(updatedWine)),
   deleteWine: (id: number) => requests.delete(`wine/${id}`),
 };
 

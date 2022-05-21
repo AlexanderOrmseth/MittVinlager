@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace API.Validators;
 
-public class AddWineValidator : AbstractValidator<WineFormDto>
+public class AddWineValidator : AbstractValidator<AddWineDto>
 {
     public AddWineValidator()
     {

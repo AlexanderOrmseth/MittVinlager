@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using System.Security.Claims;
 using System.Security.Principal;
 using API.Context;
 using API.DTOs;
@@ -110,7 +108,7 @@ public class WineController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<WineDto>> AddWine([FromBody] WineFormDto wineFormDto)
+    public async Task<ActionResult<WineDto>> AddWine([FromForm] AddWineDto formBody)
     {
         // get user id
         var userId = await GetUserId(User);
@@ -121,12 +119,13 @@ public class WineController : BaseApiController
             return BadRequest();
         }
 
-        var newWine = MapWineFormDtoToWine(wineFormDto, userId);
+        var newWine = MapFormToWine(formBody, userId);
 
-        // adding image url + image id
-        if (wineFormDto.ProductId is not null && wineFormDto.ProductId.IsNumeric())
+        // Adding image
+        if (formBody.File is not null)
         {
-            var imageResult = await _imageService.AddImageAsync(wineFormDto.ProductId, userId);
+            // add image from file
+            var imageResult = await _imageService.AddImageFromFileAsync(formBody.File, userId);
 
             if (imageResult.Error is not null)
                 return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
@@ -134,6 +133,21 @@ public class WineController : BaseApiController
             newWine.PictureUrl = imageResult.SecureUrl.ToString();
             newWine.PublicId = imageResult.PublicId;
         }
+        else
+        {
+            // from product Id
+            if (formBody.ProductId is not null && formBody.ProductId.IsNumeric())
+            {
+                var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+
+                if (imageResult.Error is not null)
+                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+                newWine.PictureUrl = imageResult.SecureUrl.ToString();
+                newWine.PublicId = imageResult.PublicId;
+            }
+        }
+
 
         // add wine
         _context.Wines.Add(newWine);
@@ -156,7 +170,7 @@ public class WineController : BaseApiController
     /// </summary>
     /// <returns></returns>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<WineDto>> UpdateWine([FromBody] WineFormDto wineFormDto, int id)
+    public async Task<ActionResult<WineDto>> UpdateWine([FromForm] AddWineDto formBody, int id)
     {
         var wine = await _context.Wines
             .Include(w => w.UserDetailses)
@@ -181,38 +195,38 @@ public class WineController : BaseApiController
         var productId = wine.ProductId;
 
         // update values
-        wine.Name = wineFormDto.Name;
-        wine.Type = wineFormDto.Type;
-        wine.Year = wineFormDto.Year;
-        wine.Price = wineFormDto.Price;
-        wine.Volume = wineFormDto.Volume;
-        wine.AlcoholContent = wineFormDto.AlcoholContent;
-        wine.Country = wineFormDto.Country;
-        wine.CountryId = wineFormDto.CountryId;
-        wine.Region = wineFormDto.Region;
-        wine.SubRegion = wineFormDto.SubRegion;
-        wine.ProductId = wineFormDto.ProductId;
-        wine.Grapes = wineFormDto.Grapes;
-        wine.ManufacturerName = wineFormDto.ManufacturerName;
-        wine.StoragePotential = wineFormDto.StoragePotential;
-        wine.Colour = wineFormDto.Colour;
-        wine.Odour = wineFormDto.Odour;
-        wine.Taste = wineFormDto.Taste;
-        wine.Freshness = wineFormDto.Freshness;
-        wine.Fullness = wineFormDto.Fullness;
-        wine.Bitterness = wineFormDto.Bitterness;
-        wine.Sweetness = wineFormDto.Sweetness;
-        wine.Tannins = wineFormDto.Tannins;
+        wine.Name = formBody.Name;
+        wine.Type = formBody.Type;
+        wine.Year = formBody.Year;
+        wine.Price = formBody.Price;
+        wine.Volume = formBody.Volume;
+        wine.AlcoholContent = formBody.AlcoholContent;
+        wine.Country = formBody.Country;
+        wine.CountryId = formBody.CountryId;
+        wine.Region = formBody.Region;
+        wine.SubRegion = formBody.SubRegion;
+        wine.ProductId = formBody.ProductId;
+        wine.Grapes = formBody.Grapes;
+        wine.ManufacturerName = formBody.ManufacturerName;
+        wine.StoragePotential = formBody.StoragePotential;
+        wine.Colour = formBody.Colour;
+        wine.Odour = formBody.Odour;
+        wine.Taste = formBody.Taste;
+        wine.Freshness = formBody.Freshness;
+        wine.Fullness = formBody.Fullness;
+        wine.Bitterness = formBody.Bitterness;
+        wine.Sweetness = formBody.Sweetness;
+        wine.Tannins = formBody.Tannins;
         // update user details
-        wine.UserDetailses.Quantity = wineFormDto.UserDetails.Quantity;
-        wine.UserDetailses.PurchaseLocation = wineFormDto.UserDetails.PurchaseLocation;
-        wine.UserDetailses.PurchaseDate = wineFormDto.UserDetails.PurchaseDate;
-        wine.UserDetailses.DrinkingWindowMin = wineFormDto.UserDetails.DrinkingWindowMin;
-        wine.UserDetailses.DrinkingWindowMax = wineFormDto.UserDetails.DrinkingWindowMax;
-        wine.UserDetailses.UserNote = wineFormDto.UserDetails.UserNote;
-        wine.UserDetailses.Favorite = wineFormDto.UserDetails.Favorite;
-        wine.UserDetailses.Score = wineFormDto.UserDetails.Score;
-        wine.UserDetailses.UserRating = wineFormDto.UserDetails.UserRating;
+        wine.UserDetailses.Quantity = formBody.UserDetails.Quantity;
+        wine.UserDetailses.PurchaseLocation = formBody.UserDetails.PurchaseLocation;
+        wine.UserDetailses.PurchaseDate = formBody.UserDetails.PurchaseDate;
+        wine.UserDetailses.DrinkingWindowMin = formBody.UserDetails.DrinkingWindowMin;
+        wine.UserDetailses.DrinkingWindowMax = formBody.UserDetails.DrinkingWindowMax;
+        wine.UserDetailses.UserNote = formBody.UserDetails.UserNote;
+        wine.UserDetailses.Favorite = formBody.UserDetails.Favorite;
+        wine.UserDetailses.Score = formBody.UserDetails.Score;
+        wine.UserDetailses.UserRating = formBody.UserDetails.UserRating;
 
         // will always have a change
         wine.UpdatedAt = DateTime.UtcNow;
@@ -226,14 +240,15 @@ public class WineController : BaseApiController
         }
 
         // new product Id
-        if (wineFormDto.ProductId != null && wineFormDto.ProductId.IsNumeric() &&
-            !string.Equals(productId, wineFormDto.ProductId))
+        // Adding image
+        if (formBody.File is not null)
         {
-            // Already has an image attached
+            // add image from file
+
             if (!string.IsNullOrEmpty(wine.PublicId))
             {
                 // replace image
-                var imageResult = await _imageService.UpdateImageAsync(wineFormDto.ProductId, wine.PublicId);
+                var imageResult = await _imageService.UpdateImageFromFileAsync(formBody.File, wine.PublicId);
 
                 if (imageResult.Error != null)
                     return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
@@ -241,7 +256,38 @@ public class WineController : BaseApiController
                 wine.PictureUrl = imageResult.SecureUrl.ToString();
                 wine.PublicId = imageResult.PublicId;
             }
+            else
+            {
+                // add new image
+                var imageResult = await _imageService.AddImageFromFileAsync(formBody.File, userId);
+
+                if (imageResult.Error is not null)
+                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+                wine.PictureUrl = imageResult.SecureUrl.ToString();
+                wine.PublicId = imageResult.PublicId;
+            }
         }
+        else
+        {
+            if (formBody.ProductId != null && formBody.ProductId.IsNumeric() &&
+                !string.Equals(productId, formBody.ProductId))
+            {
+                // Already has an image attached
+                if (!string.IsNullOrEmpty(wine.PublicId))
+                {
+                    // replace image
+                    var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
+
+                    if (imageResult.Error != null)
+                        return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+                    wine.PictureUrl = imageResult.SecureUrl.ToString();
+                    wine.PublicId = imageResult.PublicId;
+                }
+            }
+        }
+
 
         var result = await _context.SaveChangesAsync(acceptAllChangesOnSuccess: true) > 0;
 
@@ -312,7 +358,6 @@ public class WineController : BaseApiController
             Year = wine.Year,
             Price = wine.Price,
             PictureUrl = wine.PictureUrl,
-            PublicId = wine.ProductId,
             Volume = wine.Volume,
             AlcoholContent = wine.AlcoholContent,
             Country = wine.Country,
@@ -348,43 +393,43 @@ public class WineController : BaseApiController
         };
     }
 
-    private static Wine MapWineFormDtoToWine(WineFormDto wineFormDto, int userId)
+    private static Wine MapFormToWine(WineBaseModel formBody, int userId)
     {
         return new Wine(userId)
         {
-            Name = wineFormDto.Name,
-            Type = wineFormDto.Type,
-            Year = wineFormDto.Year,
-            Price = wineFormDto.Price,
-            Volume = wineFormDto.Volume,
-            AlcoholContent = wineFormDto.AlcoholContent,
-            Country = wineFormDto.Country,
-            CountryId = wineFormDto.CountryId,
-            Region = wineFormDto.Region,
-            SubRegion = wineFormDto.SubRegion,
-            ProductId = wineFormDto.ProductId,
-            Grapes = wineFormDto.Grapes,
-            ManufacturerName = wineFormDto.ManufacturerName,
-            StoragePotential = wineFormDto.StoragePotential,
-            Colour = wineFormDto.Colour,
-            Odour = wineFormDto.Odour,
-            Taste = wineFormDto.Taste,
-            Freshness = wineFormDto.Freshness,
-            Fullness = wineFormDto.Fullness,
-            Bitterness = wineFormDto.Bitterness,
-            Sweetness = wineFormDto.Sweetness,
-            Tannins = wineFormDto.Tannins,
+            Name = formBody.Name,
+            Type = formBody.Type,
+            Year = formBody.Year,
+            Price = formBody.Price,
+            Volume = formBody.Volume,
+            AlcoholContent = formBody.AlcoholContent,
+            Country = formBody.Country,
+            CountryId = formBody.CountryId,
+            Region = formBody.Region,
+            SubRegion = formBody.SubRegion,
+            ProductId = formBody.ProductId,
+            Grapes = formBody.Grapes,
+            ManufacturerName = formBody.ManufacturerName,
+            StoragePotential = formBody.StoragePotential,
+            Colour = formBody.Colour,
+            Odour = formBody.Odour,
+            Taste = formBody.Taste,
+            Freshness = formBody.Freshness,
+            Fullness = formBody.Fullness,
+            Bitterness = formBody.Bitterness,
+            Sweetness = formBody.Sweetness,
+            Tannins = formBody.Tannins,
             UserDetailses = new WineUserDetails
             {
-                Quantity = wineFormDto.UserDetails.Quantity,
-                PurchaseLocation = wineFormDto.UserDetails.PurchaseLocation,
-                PurchaseDate = wineFormDto.UserDetails.PurchaseDate,
-                DrinkingWindowMin = wineFormDto.UserDetails.DrinkingWindowMin,
-                DrinkingWindowMax = wineFormDto.UserDetails.DrinkingWindowMax,
-                UserNote = wineFormDto.UserDetails.UserNote,
-                Favorite = wineFormDto.UserDetails.Favorite,
-                Score = wineFormDto.UserDetails.Score,
-                UserRating = wineFormDto.UserDetails.UserRating,
+                Quantity = formBody.UserDetails.Quantity,
+                PurchaseLocation = formBody.UserDetails.PurchaseLocation,
+                PurchaseDate = formBody.UserDetails.PurchaseDate,
+                DrinkingWindowMin = formBody.UserDetails.DrinkingWindowMin,
+                DrinkingWindowMax = formBody.UserDetails.DrinkingWindowMax,
+                UserNote = formBody.UserDetails.UserNote,
+                Favorite = formBody.UserDetails.Favorite,
+                Score = formBody.UserDetails.Score,
+                UserRating = formBody.UserDetails.UserRating,
             }
         };
     }

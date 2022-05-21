@@ -27,8 +27,48 @@ public class ImageService
             var uploadParams = new ImageUploadParams
             {
                 PublicIdPrefix = $"user{userId}",
-                Folder = "MittVinlager",
-                File = new FileDescription(VinmonopoletImageUrl(productId))
+                File = new FileDescription(VinmonopoletImageUrl(productId)),
+                Transformation = new Transformation().Height(300).Width(300).Crop("limit").Quality(90)
+            };
+            uploadResult = await _cloudinary.UploadAsync(uploadParams);
+        }
+
+        return uploadResult;
+    }
+
+    public async Task<ImageUploadResult> AddImageFromFileAsync(IFormFile file, int userId)
+    {
+        var uploadResult = new ImageUploadResult();
+
+        if (file.Length > 0 && file.ContentType.Contains("image"))
+        {
+            await using var stream = file.OpenReadStream();
+            var uploadParams = new ImageUploadParams
+            {
+                PublicIdPrefix = $"user{userId}",
+                File = new FileDescription(file.FileName, stream),
+                Transformation = new Transformation().Height(300).Width(300).Crop("limit").Quality(90)
+            };
+            uploadResult = await _cloudinary.UploadAsync(uploadParams);
+        }
+
+        return uploadResult;
+    }
+
+    public async Task<ImageUploadResult> UpdateImageFromFileAsync(IFormFile file, string publicId)
+    {
+        var uploadResult = new ImageUploadResult();
+
+        if (file.Length > 0 && file.ContentType.Contains("image"))
+        {
+            await using var stream = file.OpenReadStream();
+            var uploadParams = new ImageUploadParams
+            {
+                PublicId = publicId,
+                Invalidate = true,
+                Overwrite = true,
+                File = new FileDescription(file.FileName, stream),
+                Transformation = new Transformation().Height(300).Width(300).Crop("limit").Quality(90)
             };
             uploadResult = await _cloudinary.UploadAsync(uploadParams);
         }
@@ -47,7 +87,8 @@ public class ImageService
                 PublicId = publicId,
                 Invalidate = true,
                 Overwrite = true,
-                File = new FileDescription(VinmonopoletImageUrl(productId))
+                File = new FileDescription(VinmonopoletImageUrl(productId)),
+                Transformation = new Transformation().Height(300).Width(300).Crop("limit").Quality(90)
             };
             uploadResult = await _cloudinary.UploadAsync(uploadParams);
         }
