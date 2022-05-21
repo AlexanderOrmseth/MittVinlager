@@ -273,13 +273,6 @@ const WineForm = ({
                   />
                   <FormTextInput
                     control={control}
-                    name="productId"
-                    label="Produktnummer"
-                    definition="!"
-                    placeholder="produktnummer"
-                  />
-                  <FormTextInput
-                    control={control}
                     name="manufacturerName"
                     label="Produsent"
                     placeholder="produsent"
