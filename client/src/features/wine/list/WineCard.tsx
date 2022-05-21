@@ -58,7 +58,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
       </header>
       <div className="p-4 flex flex-row gap-x-6 items-center text-sm">
         <img
-          className="max-h-32"
+          className="object-scale-down h-32 w-32"
           src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
           alt="Bilde av en vin"
         />

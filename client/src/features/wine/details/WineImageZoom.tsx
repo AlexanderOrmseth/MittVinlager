@@ -25,16 +25,17 @@ const WineImageZoom = ({
         transitionDuration={400}
         onZoomChange={handleZoomChange}
       >
-        <div className="w-28">
+        <div>
           <img
             hidden={isZoomed}
-            className="mx-auto"
+            className="mx-auto object-scale-down h-80 w-80"
             alt="Bilde av vin"
             src={pictureUrl || placeholderImg}
           />
           {productId && (
             <img
               hidden={!isZoomed}
+              className="object-scale-down h-80 w-80"
               alt="Bilde av vin"
               src={`https://bilder.vinmonopolet.no/cache/900x900-0/${productId}-1.jpg`}
             />

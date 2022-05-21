@@ -10,7 +10,7 @@ import Vinmonopolet from "./Vinmonopolet";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import { PlusCircle } from "phosphor-react";
+import { PencilSimpleLine, PlusCircle } from "phosphor-react";
 import placeholderImg from "../../../app/assets/bottle.png";
 import {
   useAppDispatch,
@@ -231,17 +231,12 @@ const WineForm = ({
               <div className="sm:flex flex-row items-center gap-4">
                 <div className="sm:mb-0 select-none mb-4 rounded-lg border p-6 bg-white">
                   <img
-                    className="mx-auto max-h-80"
+                    className="mx-auto object-scale-down h-64 w-64"
                     src={`${imageSrc()}`}
                     alt="Bilde av en vin."
                   />
                 </div>
                 <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
-                  <FormFilePicker
-                    name="file"
-                    label="Velg bilde"
-                    control={control}
-                  />
                   <FormTextInput
                     required
                     control={control}
@@ -290,6 +285,13 @@ const WineForm = ({
                     placeholder="produsent"
                   />
                 </div>
+              </div>
+              <div>
+                <FormFilePicker
+                  name="file"
+                  label="Velg bilde"
+                  control={control}
+                />
               </div>
             </Tab.Panel>
             <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
@@ -447,7 +449,11 @@ const WineForm = ({
             loadingText="Legger til vin..."
             type="submit"
           >
-            <PlusCircle size="1.5rem" />
+            {wine ? (
+              <PencilSimpleLine size="1.5rem" />
+            ) : (
+              <PlusCircle size="1.5rem" />
+            )}
             {submitText}
           </LoadingButton>
         </div>
