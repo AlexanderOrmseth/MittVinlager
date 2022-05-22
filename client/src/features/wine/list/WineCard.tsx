@@ -19,6 +19,7 @@ import {
   formatPrice,
   formatVolume,
 } from "../../../app/util/format";
+import Stars from "../../../app/components/Stars";
 
 interface Props {
   wine: Wine;
@@ -27,7 +28,11 @@ interface Props {
 const WineCard = ({ wine, handleDeleteWine }: Props) => {
   const navigate = useNavigate();
   return (
-    <div className=" bg-white border hover:border-slate-300 hover:shadow-lg shadow-xxs transition-all rounded  appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none">
+    <div
+      className={`border bg-white hover:border-slate-300 hover:shadow-lg shadow-xxs transition-all rounded ${
+        wine.userDetails.quantity === 0 ? "opacity-50 " : ""
+      }`}
+    >
       <header className="flex items-center justify-between border-b">
         <Link
           to={`${wine.wineId}`}
@@ -56,14 +61,14 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           icon={<DotsThree size="1.5rem" />}
         />
       </header>
-      <div className="p-4 flex flex-row gap-x-6 items-center text-sm">
+      <div className="p-4 flex flex-row md:gap-x-4 gap-x-2 items-center text-sm">
         <img
-          className="object-scale-down h-32 w-32"
+          className="object-scale-down lg:h-32 lg:w-32 md:h-28 md:w-28 w-24 h-24"
           src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
           alt="Bilde av en vin"
         />
         <div className="flex-1">
-          <div className="flex mb-2.5 items-center text-slate-500 flex-row comma">
+          <div className="flex flex-wrap mb-2.5 items-center text-slate-500 flex-row gap-2 comma">
             <div>{wine.type}</div>
             {wine.year && wine.year > 0 && <div>{wine.year}</div>}
             {wine.volume && wine.volume > 0 && (
@@ -73,8 +78,14 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               <div>{formatAlcoholContent(wine.alcoholContent)}</div>
             )}
           </div>
+
           <ul className="space-y-0.5">
-            <div className="flex flex-row items-center flex-wrap gap-2">
+            {!!wine.userDetails.userRating && (
+              <li className="mb-1">
+                <Stars stars={wine.userDetails.userRating} size="1.25rem" />
+              </li>
+            )}
+            <div className="flex flex-row items-center gap-2">
               <div>
                 <MapPinLine
                   size="1.25rem"
@@ -82,7 +93,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                   className="text-slate-500"
                 />
               </div>
-              <div className="comma">
+              <div className="comma flex flex-row gap-x-2 flex-wrap items-center">
                 {wine.country && (
                   <span className="font-medium">{wine.country}</span>
                 )}
@@ -91,16 +102,6 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               </div>
             </div>
 
-            {!!wine.userDetails.userRating && (
-              <li className="flex items-center flex-row gap-2">
-                <Star
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-                <div>{wine.userDetails.userRating / 2} stjerner</div>
-              </li>
-            )}
             {wine.userDetails.favorite && (
               <li className="flex items-center flex-row gap-2">
                 <HeartStraight

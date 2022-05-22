@@ -1,7 +1,7 @@
-import { NavLink as TestLink, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
-import { List, Moon, SignOut, User, Wine } from "phosphor-react";
+import { List, Moon, SignOut, User, Wine, X } from "phosphor-react";
 import { signOut } from "../../features/account/accountSlice";
 import { resetAll } from "../../features/wine/slices/wineSlice";
 import { useRef, useState } from "react";
@@ -9,15 +9,13 @@ import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
 
 const Header = () => {
+  const divRef = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
-
-  const divRef = useRef<HTMLDivElement>(null);
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
-
   return (
     <div
       ref={divRef}
@@ -35,7 +33,7 @@ const Header = () => {
       </Link>
 
       <nav
-        className={`flex md:flex-row flex-col md:col-auto md:row-start-auto row-start-2 col-span-2 md:gap-4 md:mt-0 mt-2 gap-2 ${
+        className={`flex md:flex-row flex-col md:col-auto md:row-start-auto row-start-2 col-span-2 md:space-x-4 md:mt-0 mt-2 space-y-2 ${
           isOpen ? "md:block block" : "md:block hidden"
         }`}
       >
@@ -85,7 +83,11 @@ const Header = () => {
           onClick={() => setOpen(!isOpen)}
           className="p-2 md:hidden block"
         >
-          <List size={32} weight="regular" />
+          {isOpen ? (
+            <X size="2rem" weight="regular" />
+          ) : (
+            <List size="2rem" weight="regular" />
+          )}
         </button>
       </div>
     </div>

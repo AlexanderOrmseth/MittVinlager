@@ -26,12 +26,14 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
         {...props}
         render={({ field }) => (
           <Listbox {...field}>
-            <div className="relative z-10">
+            <div className="relative">
               <Listbox.Label className="label">{props.label}</Listbox.Label>
               <Listbox.Button
                 className={({ open }) =>
-                  `w-full text-input text-sm flex leading-4 flex-row gap-3 items-center h-12 ${
-                    open ? "bg-white ring-4 ring-wine-300 ring-opacity-50" : ""
+                  `w-full text-input text-sm min-w-min flex leading-4 flex-row gap-3 items-center h-12 ${
+                    open
+                      ? "bg-white ring-4 ring-wine-300 border-white ring-opacity-50"
+                      : ""
                   }`
                 }
               >

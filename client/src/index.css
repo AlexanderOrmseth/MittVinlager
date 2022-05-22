@@ -46,7 +46,6 @@
   }
 }
 
-.comma > * + *:before {
+.comma > *:not(:last-child):after {
   content: ",";
-  margin-right: 0.5rem;
 }

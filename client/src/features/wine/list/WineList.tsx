@@ -79,7 +79,7 @@ const WineList = () => {
   // else
   else {
     content = (
-      <div className="grid p-4 md:p-6 lg:p-8 md:grid-cols-2 gap-x-4 gap-y-4">
+      <div className="grid p-4 md:p-6 lg:p-8 lg:grid-cols-2 gap-x-4 gap-y-4">
         {wine.map((w) => (
           <WineCard
             key={w.wineId}

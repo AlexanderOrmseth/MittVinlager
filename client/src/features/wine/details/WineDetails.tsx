@@ -1,6 +1,8 @@
 import { Heart } from "phosphor-react";
 import DescriptionItem from "../../../app/components/dl/DescriptionItem";
 import DescriptionList from "../../../app/components/dl/DescriptionList";
+import Score from "../../../app/components/Score";
+import Stars from "../../../app/components/Stars";
 import TastePie, { list, text } from "../../../app/components/TastePie";
 import { Wine } from "../../../app/models/wine";
 import {
@@ -43,7 +45,7 @@ const WineDetails = ({ wine }: Props) => {
         <DescriptionItem dt="Lagringsgrad" dd={wine.storagePotential} />
         <DescriptionItem dt="Land" dd={wine.country} />
         <DescriptionItem dt="Region, distrikt">
-          <div className="comma">
+          <div className="comma space-x-2">
             {wine.region && <span>{wine.region}</span>}
             {wine.subRegion && <span>{wine.subRegion}</span>}
           </div>
@@ -77,6 +79,13 @@ const WineDetails = ({ wine }: Props) => {
 
       <DescriptionList title="Brukerdetaljer">
         <DescriptionItem dt="Antall" dd={wine.userDetails.quantity} />
+        <DescriptionItem dt="Drikkevindu">
+          <div className="space-x-2">
+            <span>{wine.userDetails.drinkingWindowMin || "____"}</span>
+            <span>-</span>
+            <span>{wine.userDetails.drinkingWindowMax || "____"}</span>
+          </div>
+        </DescriptionItem>
         <DescriptionItem dt="Favoritt">
           {wine.userDetails.favorite ? (
             <div className="flex flex-row items-center gap-x-1">
@@ -88,23 +97,12 @@ const WineDetails = ({ wine }: Props) => {
           )}
         </DescriptionItem>
         <DescriptionItem dt="Dine notater" dd={wine.userDetails.userNote} />
-        <DescriptionItem
-          dt="Karakter"
-          dd={!!wine.userDetails.score ? wine.userDetails.score : ""}
-        />
-        <DescriptionItem dt="Drikkevindu">
-          <div className="space-x-2">
-            <span>{wine.userDetails.drinkingWindowMin || "____"}</span>
-            <span>-</span>
-            <span>{wine.userDetails.drinkingWindowMax || "____"}</span>
-          </div>
+        <DescriptionItem dt="Karakter">
+          <Score value={wine.userDetails.score} />
         </DescriptionItem>
-        <DescriptionItem
-          dt="Stjerner"
-          dd={
-            !!wine.userDetails.userRating ? wine.userDetails.userRating / 2 : ""
-          }
-        />
+        <DescriptionItem dt="Stjerner">
+          <Stars stars={wine.userDetails.userRating || 0} />
+        </DescriptionItem>
       </DescriptionList>
     </>
   );

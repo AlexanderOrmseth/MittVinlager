@@ -49,7 +49,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
             ) : (
               <textarea
                 autoComplete="off"
-                className={`text-input resize-none py-0.5 h-auto ${
+                className={`text-input resize-none py-1.5 h-auto ${
                   !!fieldState.error ? "border-wine-500" : ""
                 }`}
                 {...rest}

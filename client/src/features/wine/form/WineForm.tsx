@@ -1,16 +1,16 @@
 import { Tab } from "@headlessui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormCombobox from "../../../app/components/form/FormCombobox";
 import FormRadioTrueFalse from "../../../app/components/form/FormRadioTrueFalse";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
-import { FormModel, Wine } from "../../../app/models/wine";
+import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
 import Vinmonopolet from "./Vinmonopolet";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import { PencilSimpleLine, PlusCircle } from "phosphor-react";
+import { Bug, BugDroid, PencilSimpleLine, PlusCircle } from "phosphor-react";
 import placeholderImg from "../../../app/assets/bottle.png";
 import {
   useAppDispatch,
@@ -22,6 +22,7 @@ import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormFilePicker from "../../../app/components/form/FormFilePicker";
+import FormStarRating from "../../../app/components/form/FormStarRating";
 interface Props {
   title: string;
   submitText: string;
@@ -30,6 +31,43 @@ interface Props {
   wine?: Wine;
 }
 
+type Keys = keyof FormModel | keyof UserDetails;
+const tab1: Keys[] = [
+  "name",
+  "type",
+  "volume",
+  "price",
+  "storagePotential",
+  "region",
+  "subRegion",
+  "year",
+  "alcoholContent",
+  "manufacturerName",
+  "country",
+];
+const tab2: Keys[] = [
+  "freshness",
+  "fullness",
+  "bitterness",
+  "sweetness",
+  "tannins",
+  "grapes",
+  "colour",
+  "odour",
+  "taste",
+];
+const tab3: Keys[] = [
+  "quantity",
+  "purchaseDate",
+  "drinkingWindowMin",
+  "drinkingWindowMax",
+  "purchaseLocation",
+  "userNote",
+  "favorite",
+  "score",
+  "userRating",
+];
+const tabFields = [tab1, tab2, tab3];
 const tabs = ["Generell", "Smaksdetaljer", "Brukerdetaljer"];
 const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
@@ -49,7 +87,7 @@ const WineForm = ({
     reset,
     setError,
     watch,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, errors, isValid },
   } = useForm<FormModel>({
     mode: "all",
     defaultValues,
@@ -100,6 +138,16 @@ const WineForm = ({
     if (!countries) dispatch(getCountries());
   }, [dispatch, countries]);
 
+  const errorCount = (keyNames: Keys[], userDetails = false) => {
+    const err = userDetails ? errors.userDetails : errors;
+    if (!err || Object.keys(err).length === 0) return 0;
+    let errorNum = 0;
+    keyNames.forEach((key) =>
+      err.hasOwnProperty(key) ? (errorNum += 1) : null
+    );
+    return errorNum;
+  };
+
   // Prevent form from submitting on enter
   // TODO: Fix textarea
   const checkKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -137,7 +185,7 @@ const WineForm = ({
 
   return (
     <div className="my-4 ">
-      <div className="flex flex-row gap-x-2 items-center rounded-t-lg pl-4 lg:py-6 py-4">
+      <div className="flex flex-row gap-x-2 items-center rounded-t-lg lg:py-6 py-4">
         <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
           {title}
         </h2>
@@ -148,30 +196,36 @@ const WineForm = ({
         name={wine?.name}
       />
       <form
-        className="rounded mt-4"
+        className="rounded border p-4 mt-4"
         autoComplete="off"
         onKeyDown={(e) => checkKeyDown(e)}
         onSubmit={handleSubmit((d) => handlePreSubmit(d))}
       >
         <Tab.Group>
-          <Tab.List className="flex flex-row gap-0 w-full bg-white-100">
-            {tabs.map((tab) => (
+          <Tab.List className="flex flex-row gap-0 w-full rounded shadow-xxs bg-white-100">
+            {tabs.map((tab, i) => (
               <Tab
                 key={tab}
                 className={({ selected }) =>
                   classNames(
-                    "flex-1 transition-all first:rounded-tl first:border-r-0 last:border-l-0 border border-b last:rounded-tr py-6 text-sm select-none font-medium",
+                    "flex-1 transition-all focus-primary focus:z-10 first:rounded-l first:border-r-0 last:border-l-0 border border-b last:rounded-r py-4 text-sm select-none font-medium",
                     selected
-                      ? "bg-white text-gray-900 border-b-white"
-                      : "text-wine-300 bg-slate-50 hover:text-black hover:bg-slate-50 active:bg-slate-100"
+                      ? "bg-slate-50 text-gray-900"
+                      : "text-gray-400 bg-white hover:text-black hover:bg-slate-50 active:bg-slate-100"
                   )
                 }
               >
+                {!!errorCount(tabFields[i], i === 2) && (
+                  <div className="text-wine-500 animate-bounce flex flex-row items-center gap-x-1 justify-center">
+                    <Bug size="1.5rem" weight="duotone" />
+                    {errorCount(tabFields[i], i === 2)}
+                  </div>
+                )}
                 {tab}
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="border border-t-0 border-b-0 p-4">
+          <Tab.Panels className="mt-4">
             <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormTextInput
@@ -293,7 +347,7 @@ const WineForm = ({
               </div>
             </Tab.Panel>
             <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
-              <div className="grid grid-cols-5 gap-4">
+              <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
                 <FormTasteSelect
                   control={control}
                   name="freshness"
@@ -407,19 +461,7 @@ const WineForm = ({
                 label="Dine notater"
                 placeholder="notater"
               />
-              <FormRadioTrueFalse
-                control={control}
-                name="userDetails.userRating"
-                label="Din vurdering (1-10)"
-                options={[...Array(11)].map((_, i) => {
-                  const hasRating = i > 0;
-                  return {
-                    displayText: hasRating ? i.toString() : "Ingen",
-                    value: hasRating ? i : null,
-                  };
-                })}
-              />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <FormRadioTrueFalse
                   control={control}
                   name="userDetails.favorite"
@@ -428,6 +470,11 @@ const WineForm = ({
                     { displayText: "Nei", value: false },
                     { displayText: "Ja", value: true },
                   ]}
+                />
+                <FormStarRating
+                  control={control}
+                  name="userDetails.userRating"
+                  label="Din vurdering (1-10)"
                 />
                 <FormTextInput
                   control={control}
@@ -441,7 +488,7 @@ const WineForm = ({
         </Tab.Group>
 
         <div className="mt-6 border-t mb-6"></div>
-        <div className="p-4">
+        <div className="">
           <LoadingButton
             disabled={!isValid}
             loading={isSubmitting}

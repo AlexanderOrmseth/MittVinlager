@@ -39,7 +39,7 @@ const Paginator = ({ status, top }: Props) => {
     ${top ? "border-b rounded-t-lg" : "border-t rounded-b-lg"}`}
     >
       <div>Totalt: {metaData?.totalCount}</div>
-      <div className="flex flex-row gap-4 items-center">
+      <div className="flex flex-row sm:gap-4 gap-2 items-center">
         <div>Per side: {metaData?.pageSize}</div>
         <div>
           Side {metaData?.currentPage} av {metaData?.totalPages}

@@ -24,7 +24,9 @@ const FormFilePicker = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { ref, ...rest } }) => <Dropzone {...rest} />}
+        render={({ field: { ref, value, ...rest } }) => (
+          <Dropzone value={value} {...rest} />
+        )}
       />
       <FormInputError error={fieldState.error} />
     </div>

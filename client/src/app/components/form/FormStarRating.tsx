@@ -4,24 +4,17 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
+import StarPicker from "../StarPicker";
 import FormInputError from "./FormInputError";
 
 interface Props<T> extends UseControllerProps<T> {
-  options: Option[];
   label: string;
   errors?: string[];
 }
-
-interface Option {
-  displayText: string;
-  value: any;
-}
-
 const FormStarRating = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
     ...props,
   });
-
   return (
     <div>
       <label className="label" htmlFor={props.name}>
@@ -29,7 +22,7 @@ const FormStarRating = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field }) => <div>Eg er ein stjerne</div>}
+        render={({ field: { ref, ...rest } }) => <StarPicker {...rest} />}
       />
       <FormInputError error={fieldState.error} />
     </div>

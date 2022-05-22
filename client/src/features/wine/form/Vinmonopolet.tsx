@@ -51,9 +51,7 @@ const Vinmonopolet = ({ handleResetForm, productId, name }: Props) => {
             </a>
           </p>
           <button
-            className="rounded border transition-all cursor-pointer px-4 text-center font-medium text-sm bg-white 
-            focus:border-transparent focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none 
-            hover:bg-slate-50 active:bg-slate-100 active:text-gray-700 inline-flex flex-row gap-2 h-10 items-center"
+            className="btn-white w-auto flex-row flex gap-x-2 items-center focus-primary"
             onClick={() => [setNameOfFetched(null), setValue("")]}
           >
             <ArrowLeft size="1.2rem" />
