@@ -28,7 +28,7 @@ const WineImageZoom = ({
         <div>
           <img
             hidden={isZoomed}
-            className="mx-auto object-scale-down h-80 w-80"
+            className="mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64"
             alt="Bilde av vin"
             src={pictureUrl || placeholderImg}
           />

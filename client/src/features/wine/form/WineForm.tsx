@@ -136,29 +136,34 @@ const WineForm = ({
   };
 
   return (
-    <div className="rounded-lg p-8 border">
-      <h2 className="text-3xl mb-6">{title}</h2>
+    <div className="my-4 ">
+      <div className="flex flex-row gap-x-2 items-center rounded-t-lg pl-4 lg:py-6 py-4">
+        <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
+          {title}
+        </h2>
+      </div>
+      <Vinmonopolet
+        handleResetForm={reset}
+        productId={wine?.productId}
+        name={wine?.name}
+      />
       <form
+        className="rounded mt-4"
         autoComplete="off"
         onKeyDown={(e) => checkKeyDown(e)}
         onSubmit={handleSubmit((d) => handlePreSubmit(d))}
       >
-        <Vinmonopolet
-          handleResetForm={reset}
-          productId={wine?.productId}
-          name={wine?.name}
-        />
         <Tab.Group>
-          <Tab.List className="flex space-x-1 rounded bg-white-100 border-2 border-green-wine-500 mt-4 p-0.5">
+          <Tab.List className="flex flex-row gap-0 w-full bg-white-100">
             {tabs.map((tab) => (
               <Tab
                 key={tab}
                 className={({ selected }) =>
                   classNames(
-                    "w-full transition-all rounded py-3 text-sm select-none font-medium",
+                    "flex-1 transition-all first:rounded-tl first:border-r-0 last:border-l-0 border border-b last:rounded-tr py-6 text-sm select-none font-medium",
                     selected
-                      ? "bg-green-wine-500 text-white"
-                      : "text-green-wine-500  hover:text-black hover:bg-slate-50 active:bg-slate-100"
+                      ? "bg-white text-gray-900 border-b-white"
+                      : "text-wine-300 bg-slate-50 hover:text-black hover:bg-slate-50 active:bg-slate-100"
                   )
                 }
               >
@@ -166,7 +171,7 @@ const WineForm = ({
               </Tab>
             ))}
           </Tab.List>
-          <Tab.Panels className="mt-6">
+          <Tab.Panels className="border border-t-0 border-b-0 p-4">
             <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <FormTextInput
@@ -229,7 +234,7 @@ const WineForm = ({
                 />
               </div>
               <div className="sm:flex flex-row items-center gap-4">
-                <div className="sm:mb-0 select-none mb-4 rounded-lg border p-6 bg-white">
+                <div className="sm:mb-0 select-none mb-4 p-2 bg-white">
                   <img
                     className="mx-auto object-scale-down h-64 w-64"
                     src={`${imageSrc()}`}
@@ -434,8 +439,9 @@ const WineForm = ({
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
+
         <div className="mt-6 border-t mb-6"></div>
-        <div className="">
+        <div className="p-4">
           <LoadingButton
             disabled={!isValid}
             loading={isSubmitting}

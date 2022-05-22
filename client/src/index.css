@@ -22,7 +22,9 @@
   }
 
   .nav-link {
-    @apply select-none px-4 py-3 hover:text-wine-400 rounded font-medium transition-all appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    @apply select-none md:px-4 md:py-3 px-2 py-1.5 hover:text-wine-400 rounded font-medium transition-all
+     md:text-left text-center md:bg-white bg-slate-50
+    appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   .nav-link.active {

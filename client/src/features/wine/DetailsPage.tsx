@@ -17,19 +17,19 @@ const DetailsPage = () => {
   return (
     <>
       <div className="my-4">
-        <div className="flex flex-row gap-x-2 justify-center items-center rounded-t-lg pl-4 lg:py-6 py-4">
+        <div className="flex flex-row gap-x-2 items-center rounded-t-lg lg:py-6 py-4">
           <div className={`flag f32 ${wine.countryId}`}></div>
-          <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
+          <h2 className="lg:text-3xl flex-1 md:text-2xl text-xl text-wine-500 font-medium">
             {wine.name}
           </h2>
         </div>
-        <div className="grid md:grid-cols-3 grid-cols-1 border-t gap-4">
+        <div className="grid md:grid-cols-3 grid-cols-1 border-t gap-4 ">
           <div className="col-span-2 pt-4 space-y-4">
             <WineDetails wine={wine} />
           </div>
 
-          <div className="border-l pl-4 pt-4 space-y-4">
-            <div className="flex mb-4 lg:flex-row flex-col gap-2">
+          <div className="pl-4 pt-4 space-y-4 md:row-start-auto md:border-l md:border-b-0 row-start-1 border-b pb-4">
+            <div className="flex mb-4 lg:flex-row md:flex-col sm:flex-row flex-col gap-2">
               <Link
                 className="btn-white flex-1 justify-center w-auto flex items-center gap-x-2"
                 to="update"
@@ -64,11 +64,13 @@ const DetailsPage = () => {
                 Slett
               </button>
             </div>
-            <div className="text-sm pt-4 border-t">
+            <div className="text-sm text-gray-700 pt-4 border-t">
               <p>Dato opprettet: {formatDate(new Date(wine.createdAt))}</p>
               <p>
                 Sist endret:{" "}
-                {wine.updatedAt ? formatDate(new Date(wine.updatedAt)) : ""}
+                {wine.updatedAt
+                  ? formatDate(new Date(wine.updatedAt))
+                  : "Ingen endring"}
               </p>
             </div>
             <div className="p-2 pt-4 border-t">
