@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import FormCombobox from "../../../app/components/form/FormCombobox";
 import FormRadioTrueFalse from "../../../app/components/form/FormRadioTrueFalse";
@@ -10,7 +10,7 @@ import Vinmonopolet from "./Vinmonopolet";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import { Bug, BugDroid, PencilSimpleLine, PlusCircle } from "phosphor-react";
+import { Bug, PencilSimpleLine, PlusCircle } from "phosphor-react";
 import placeholderImg from "../../../app/assets/bottle.png";
 import {
   useAppDispatch,
@@ -68,7 +68,7 @@ const tab3: Keys[] = [
   "userRating",
 ];
 const tabFields = [tab1, tab2, tab3];
-const tabs = ["Generell", "Smaksdetaljer", "Brukerdetaljer"];
+const tabs = ["Vindetaljer", "Smaksdetaljer", "Brukerdetaljer"];
 const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
 const WineForm = ({
@@ -138,6 +138,7 @@ const WineForm = ({
     if (!countries) dispatch(getCountries());
   }, [dispatch, countries]);
 
+  // Count errors in tabs
   const errorCount = (keyNames: Keys[], userDetails = false) => {
     const err = userDetails ? errors.userDetails : errors;
     if (!err || Object.keys(err).length === 0) return 0;
@@ -146,12 +147,6 @@ const WineForm = ({
       err.hasOwnProperty(key) ? (errorNum += 1) : null
     );
     return errorNum;
-  };
-
-  // Prevent form from submitting on enter
-  // TODO: Fix textarea
-  const checkKeyDown = (e: React.KeyboardEvent<HTMLFormElement>) => {
-    if (e.code === "Enter") e.preventDefault();
   };
 
   const imageSrc = (): string => {
@@ -198,7 +193,6 @@ const WineForm = ({
       <form
         className="rounded border p-4 mt-4"
         autoComplete="off"
-        onKeyDown={(e) => checkKeyDown(e)}
         onSubmit={handleSubmit((d) => handlePreSubmit(d))}
       >
         <Tab.Group>

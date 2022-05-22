@@ -19,6 +19,11 @@ interface Props<T> extends UseControllerProps<T> {
   focus?: boolean;
 }
 
+// prevent from submitting by pressing enter inside input
+const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.code === "Enter") e.preventDefault();
+};
+
 const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
     ...props,
@@ -36,9 +41,12 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
           <div className="relative">
             {!props.textarea ? (
               <input
+                onKeyDown={(e) => checkKeyDown(e)}
                 autoComplete="off"
                 className={`text-input ${
-                  !!fieldState.error ? "border-wine-500" : ""
+                  !!fieldState.error
+                    ? "border-wine-200 bg-red-50 text-wine-900 placeholder:text-transparent"
+                    : ""
                 }`}
                 {...rest}
                 autoFocus={props.focus}
@@ -50,7 +58,9 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
               <textarea
                 autoComplete="off"
                 className={`text-input resize-none py-1.5 h-auto ${
-                  !!fieldState.error ? "border-wine-500" : ""
+                  !!fieldState.error
+                    ? "border-wine-200 bg-red-50 text-wine-900 placeholder:text-transparent"
+                    : ""
                 }`}
                 {...rest}
                 value={value || ""}
