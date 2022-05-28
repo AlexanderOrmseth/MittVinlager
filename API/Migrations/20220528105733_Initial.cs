@@ -166,6 +166,7 @@ namespace API.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false),
                     Type = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    ImageByUser = table.Column<bool>(type: "boolean", nullable: true),
                     Year = table.Column<int>(type: "integer", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: true),
                     Volume = table.Column<double>(type: "double precision", nullable: true),
@@ -233,8 +234,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "327fd2f0-d4a1-458c-b3e0-2077d697dcec", "Member", "MEMBER" },
-                    { 2, "c97de3da-65bd-4a25-ac25-68ce5f89988e", "Admin", "ADMIN" }
+                    { 1, "7a35c2c0-0899-4f2f-a739-c1cb9fa5e5c2", "Member", "MEMBER" },
+                    { 2, "c20c9eeb-f5a2-4e71-bdaf-64d44296b828", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

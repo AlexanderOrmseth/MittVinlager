@@ -24,6 +24,11 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
 
   if (!props.list) return null;
 
+  // prevent from submitting by pressing enter inside input
+  const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === "Enter") e.preventDefault();
+  };
+
   const filteredList =
     term === ""
       ? props.list
@@ -59,6 +64,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                 <Combobox.Input
                   name={field.name + "Term"}
                   autoComplete="off"
+                  onKeyDown={checkKeyDown}
                   placeholder="land"
                   className="text-input pl-12 flex-1"
                   onChange={(e) => setTerm(e.target.value)}

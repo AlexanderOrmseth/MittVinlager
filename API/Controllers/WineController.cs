@@ -132,6 +132,7 @@ public class WineController : BaseApiController
 
             newWine.PictureUrl = imageResult.SecureUrl.ToString();
             newWine.PublicId = imageResult.PublicId;
+            newWine.ImageByUser = true;
         }
         else
         {
@@ -145,6 +146,7 @@ public class WineController : BaseApiController
 
                 newWine.PictureUrl = imageResult.SecureUrl.ToString();
                 newWine.PublicId = imageResult.PublicId;
+                newWine.ImageByUser = false;
             }
         }
 
@@ -244,7 +246,6 @@ public class WineController : BaseApiController
         if (formBody.File is not null)
         {
             // add image from file
-
             if (!string.IsNullOrEmpty(wine.PublicId))
             {
                 // replace image
@@ -255,6 +256,7 @@ public class WineController : BaseApiController
 
                 wine.PictureUrl = imageResult.SecureUrl.ToString();
                 wine.PublicId = imageResult.PublicId;
+                wine.ImageByUser = true;
             }
             else
             {
@@ -266,24 +268,44 @@ public class WineController : BaseApiController
 
                 wine.PictureUrl = imageResult.SecureUrl.ToString();
                 wine.PublicId = imageResult.PublicId;
+                wine.ImageByUser = true;
             }
         }
-        else
+        else // image from product id
         {
-            if (formBody.ProductId != null && formBody.ProductId.IsNumeric() &&
-                !string.Equals(productId, formBody.ProductId))
+            // validate product id
+            if (formBody.ProductId != null && formBody.ProductId.IsNumeric())
             {
-                // Already has an image attached
+                // already has image
                 if (!string.IsNullOrEmpty(wine.PublicId))
                 {
-                    // replace image
-                    var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
+                    // If product id is different and image is not an user image
+                    // If user wants to reset the image
+                    if (!string.Equals(productId, formBody.ProductId) && !wine.ImageByUser || formBody.ResetImage)
+                    {
+                        // replace image
+                        var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
 
-                    if (imageResult.Error != null)
+                        if (imageResult.Error != null)
+                            return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+
+                        wine.PictureUrl = imageResult.SecureUrl.ToString();
+                        wine.PublicId = imageResult.PublicId;
+                        wine.ImageByUser = false;
+                    }
+                }
+                // does not have image -> add new
+                else
+                {
+                    // add new image
+                    var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+
+                    if (imageResult.Error is not null)
                         return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
 
                     wine.PictureUrl = imageResult.SecureUrl.ToString();
                     wine.PublicId = imageResult.PublicId;
+                    wine.ImageByUser = false;
                 }
             }
         }
@@ -378,6 +400,7 @@ public class WineController : BaseApiController
             Tannins = wine.Tannins,
             CreatedAt = wine.CreatedAt,
             UpdatedAt = wine.UpdatedAt,
+            ImageByUser = wine.ImageByUser,
             UserDetails = new WineUserDetailsDto
             {
                 Quantity = wine.UserDetailses.Quantity,

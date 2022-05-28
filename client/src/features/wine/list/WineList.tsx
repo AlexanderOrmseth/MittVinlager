@@ -79,7 +79,7 @@ const WineList = () => {
   // else
   else {
     content = (
-      <div className="grid p-4 md:p-6 lg:p-8 lg:grid-cols-2 gap-x-4 gap-y-4">
+      <div className="grid p-4 lg:grid-cols-2 gap-2">
         {wine.map((w) => (
           <WineCard
             key={w.wineId}
@@ -92,7 +92,7 @@ const WineList = () => {
   }
 
   return (
-    <div className="border rounded-lg">
+    <div className="">
       <Paginator status={status} top={true} />
 
       {content}

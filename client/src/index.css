@@ -4,6 +4,12 @@
 
 @import url("./app/css/flags.css");
 
+#root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
 @layer components {
   .btn-primary {
     @apply text-white transition-all bg-wine-500 hover:bg-wine-600 font-medium rounded text-sm px-5 h-9 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
@@ -12,13 +18,13 @@
   .text-input {
     @apply flex-1 rounded border
     transition-all placeholder:text-slate-400 
-    placeholder:lowercase bg-slate-50 
+    placeholder:lowercase bg-white
     focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none 
-    w-full h-10 px-3 text-gray-800;
+    w-full h-12 px-3 text-gray-800;
   }
 
   .label {
-    @apply block text-gray-900 text-sm font-semibold mb-0.5;
+    @apply block text-gray-900 text-sm font-medium mb-0.5;
   }
 
   .nav-link {

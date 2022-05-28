@@ -39,7 +39,7 @@ const StarPicker = ({ value, onChange }: Props) => {
       <button
         type="button"
         onClick={handleDecrement}
-        className="btn-white w-auto shadow-none rounded focus-primary"
+        className="btn-white w-auto shadow-none rounded h-10 focus-primary"
       >
         <Minus size="1.2rem" weight="regular" />
       </button>
@@ -47,7 +47,7 @@ const StarPicker = ({ value, onChange }: Props) => {
       <button
         type="button"
         onClick={handleIncrement}
-        className="btn-white w-auto shadow-none rounded focus-primary"
+        className="btn-white w-auto shadow-none rounded h-10 focus-primary"
       >
         <Plus size="1.2rem" weight="regular" />
       </button>

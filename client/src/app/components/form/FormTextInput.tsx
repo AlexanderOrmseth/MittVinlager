@@ -45,7 +45,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
                 autoComplete="off"
                 className={`text-input ${
                   !!fieldState.error
-                    ? "border-wine-200 bg-red-50 text-wine-900 placeholder:text-transparent"
+                    ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
                     : ""
                 }`}
                 {...rest}
@@ -59,7 +59,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
                 autoComplete="off"
                 className={`text-input resize-none py-1.5 h-auto ${
                   !!fieldState.error
-                    ? "border-wine-200 bg-red-50 text-wine-900 placeholder:text-transparent"
+                    ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
                     : ""
                 }`}
                 {...rest}
@@ -70,7 +70,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
               />
             )}
             {props.definition && (
-              <span className="absolute select-none pointer-events-none right-1.5 h-5 leading-5 top-2.5 px-2 text-sm rounded text-slate-800 bg-slate-200">
+              <span className="absolute select-none pointer-events-none right-1.5 h-5 leading-5 top-3.5 px-2 text-sm rounded text-slate-800 bg-slate-100">
                 {props.definition}
               </span>
             )}

@@ -1,10 +1,11 @@
 import { Heart } from "phosphor-react";
+import { UseFormGetValues } from "react-hook-form";
 import DescriptionItem from "../../../app/components/dl/DescriptionItem";
 import DescriptionList from "../../../app/components/dl/DescriptionList";
 import Score from "../../../app/components/Score";
 import Stars from "../../../app/components/Stars";
 import TastePie, { list, text } from "../../../app/components/TastePie";
-import { Wine } from "../../../app/models/wine";
+import { FormModel, WineBaseModel } from "../../../app/models/wine";
 import {
   formatAlcoholContent,
   formatPrice,
@@ -12,7 +13,7 @@ import {
 } from "../../../app/util/format";
 
 interface Props {
-  wine: Wine;
+  wine: WineBaseModel;
 }
 
 interface TasteValue {

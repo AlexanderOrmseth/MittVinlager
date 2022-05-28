@@ -12,10 +12,9 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
       {({ open }) => (
         <>
           <Disclosure.Button
-            className="flex w-full justify-between rounded-lg 
-            bg-green-wine-50 px-4 py-3 text-left font-medium text-green-wine-500 
-            hover:bg-green-wine-100 
-            focus:outline-none focus-visible:ring text-sm focus-visible:ring-purple-500 focus-visible:ring-opacity-75"
+            className="flex w-full justify-between rounded-full
+            bg-green-wine-50 px-5 py-3 text-left font-medium text-green-wine-500 
+            hover:bg-green-wine-100 text-sm"
           >
             <span>{text}</span>
             <CaretUp

@@ -35,8 +35,10 @@ const Paginator = ({ status, top }: Props) => {
 
   return (
     <div
-      className={` bg-slate-50 flex py-1 px-4 items-center text-sm gap-4 flex-row text-slate-700 justify-between 
-    ${top ? "border-b rounded-t-lg" : "border-t rounded-b-lg"}`}
+      className={`bg-white ${
+        top ? "border-b" : "border-t"
+      } flex py-1 px-4 items-center text-sm gap-4 flex-row text-slate-500 justify-between 
+   `}
     >
       <div>Totalt: {metaData?.totalCount}</div>
       <div className="flex flex-row sm:gap-4 gap-2 items-center">
@@ -56,14 +58,14 @@ const Paginator = ({ status, top }: Props) => {
           <>
             <button
               disabled={leftDisabled}
-              className="px-2 py-1 rounded disabled:cursor-not-allowed disabled:opacity-50 text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+              className="px-2 py-1 rounded disabled:cursor-not-allowed disabled:opacity-25 text-slate-700 hover:text-slate-900 hover:bg-slate-100"
               onClick={handlePreviousPage}
             >
               <CaretLeft size="1.5rem" />
             </button>
             <button
               disabled={rightDisabled}
-              className="px-2 py-1 rounded  disabled:cursor-not-allowed disabled:opacity-50 text-slate-700 hover:text-slate-900 hover:bg-slate-100"
+              className="px-2 py-1 rounded  disabled:cursor-not-allowed disabled:opacity-25 text-slate-700 hover:text-slate-900 hover:bg-slate-100"
               onClick={handleNextPage}
             >
               <CaretRight size="1.5rem" />

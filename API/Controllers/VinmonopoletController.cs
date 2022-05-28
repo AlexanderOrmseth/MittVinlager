@@ -46,7 +46,7 @@ public class VinmonopoletController : BaseApiController
                 return MapVinmonopoletResponseToDto(response!.First());
             }
 
-            return NotFound(new ProblemDetails {Title = "Fant ikke vinen på Vinmonopolet"});
+            return NotFound(new ProblemDetails {Title = "Fant ikke vinen på Vinmonopolet."});
         }
         catch (Exception ex)
         {

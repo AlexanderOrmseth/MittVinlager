@@ -24,7 +24,7 @@ const DetailsPage = () => {
           </h2>
         </div>
         <div className="grid md:grid-cols-3 grid-cols-1 border-t md:gap-x-4 md:gap-y-0 gap-y-4 ">
-          <div className="col-span-2 pt-4 space-y-4">
+          <div className="col-span-2 pt-2 space-y-4">
             <WineDetails wine={wine} />
           </div>
 

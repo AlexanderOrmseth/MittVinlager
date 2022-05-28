@@ -19,6 +19,9 @@ public class Wine
     [Required] public string Name { get; set; } = null!;
     [Required] public string Type { get; set; } = null!;
 
+    // if image file uploaded by user
+    public bool ImageByUser { get; set; }
+
     // optional
     [Range(0, 3000)] public int? Year { get; set; }
     public int? Price { get; set; }

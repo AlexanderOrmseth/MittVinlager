@@ -6,9 +6,10 @@ export interface Wine extends WineBaseModel {
 
   publicId?: string | null;
   pictureUrl?: string | null;
+  imageByUser?: boolean;
 }
 
-interface WineBaseModel {
+export interface WineBaseModel {
   name: string;
   type: string;
   year?: number | null;
@@ -36,6 +37,7 @@ interface WineBaseModel {
 
 export interface FormModel extends WineBaseModel {
   file?: File | null;
+  resetImage: boolean;
 }
 
 export interface UserDetails {

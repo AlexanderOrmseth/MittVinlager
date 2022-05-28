@@ -23,6 +23,7 @@ export const defaultValues: FormModel = {
   sweetness: 0,
   tannins: 0,
   file: null,
+  resetImage: false,
   userDetails: {
     quantity: 1,
     purchaseLocation: null,

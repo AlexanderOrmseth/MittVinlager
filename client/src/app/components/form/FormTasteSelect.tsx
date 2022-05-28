@@ -30,7 +30,7 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
               <Listbox.Label className="label">{props.label}</Listbox.Label>
               <Listbox.Button
                 className={({ open }) =>
-                  `w-full text-input text-sm min-w-min flex leading-4 flex-row gap-3 items-center h-12 ${
+                  `w-full btn-white text-sm min-w-min flex leading-4 flex-row gap-3 items-center h-12 focus-primary ${
                     open
                       ? "bg-white ring-4 ring-wine-300 border-white ring-opacity-50"
                       : ""

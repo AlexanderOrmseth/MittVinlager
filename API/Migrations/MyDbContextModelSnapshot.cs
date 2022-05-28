@@ -17,7 +17,7 @@ namespace API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -54,14 +54,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "327fd2f0-d4a1-458c-b3e0-2077d697dcec",
+                            ConcurrencyStamp = "7a35c2c0-0899-4f2f-a739-c1cb9fa5e5c2",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "c97de3da-65bd-4a25-ac25-68ce5f89988e",
+                            ConcurrencyStamp = "c20c9eeb-f5a2-4e71-bdaf-64d44296b828",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -179,6 +179,9 @@ namespace API.Migrations
                     b.Property<string>("Grapes")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
+
+                    b.Property<bool?>("ImageByUser")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ManufacturerName")
                         .HasMaxLength(70)

@@ -20,6 +20,7 @@ import {
   formatVolume,
 } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
+import Score from "../../../app/components/Score";
 
 interface Props {
   wine: Wine;
@@ -29,46 +30,60 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`border bg-white hover:border-slate-300 hover:shadow-lg shadow-xxs transition-all rounded ${
+      className={`border border-slate-200   rounded-lg ${
         wine.userDetails.quantity === 0 ? "opacity-50 " : ""
       }`}
     >
-      <header className="flex items-center justify-between border-b">
-        <Link
-          to={`${wine.wineId}`}
-          className="flex flex-1 flex-row items-center gap-2 px-2 py-1  hover:bg-slate-50 text-green-wine-500 hover:underline"
+      <Link
+        to={`${wine.wineId}`}
+        className="relative flex flex-row items-center rounded-t-lg bg-white hover:bg-slate-50 "
+      >
+        <div
+          className="absolute top-0 right-0"
+          onClick={(e) => {
+            // prevent link click
+            e.stopPropagation();
+            e.preventDefault();
+          }}
         >
-          <div className={`f32 flag ${wine.countryId && wine.countryId}`}></div>
-          <h4 className="font-medium flex-1 leading-4">{wine.name}</h4>
-        </Link>
-        <DropDownMenu
-          buttons={[
-            {
-              text: "Rediger",
-              icon: <Pen size="1.2rem" />,
-              fnc: () => navigate(`/inventory/${wine.wineId}/update`),
-            },
-            {
-              text: "Slett",
-              icon: <Trash size="1.2rem" />,
-              divide: true,
-              fnc: () => handleDeleteWine(wine.wineId, wine.name),
-            },
-          ]}
-          text=""
-          fullHeight
-          className="border-0 shadow-none border-l rounded-none h-full rounded-tr px-2"
-          icon={<DotsThree size="1.5rem" />}
-        />
-      </header>
-      <div className="p-4 flex flex-row md:gap-x-4 gap-x-2 items-center text-sm">
-        <img
-          className="object-scale-down lg:h-32 lg:w-32 md:h-28 md:w-28 w-24 h-24"
-          src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
-          alt="Bilde av en vin"
-        />
-        <div className="flex-1">
-          <div className="flex flex-wrap mb-2.5 items-center text-slate-500 flex-row gap-2 comma">
+          <DropDownMenu
+            buttons={[
+              {
+                text: "Rediger",
+                icon: <Pen size="1.2rem" />,
+                fnc: () => navigate(`/inventory/${wine.wineId}/update`),
+              },
+              {
+                text: "Slett",
+                icon: <Trash size="1.2rem" />,
+                divide: true,
+                fnc: () => handleDeleteWine(wine.wineId, wine.name),
+              },
+            ]}
+            text=""
+            className="border-0 rounded-none rounded-tr-lg shadow-none w-12 h-10 "
+            icon={<DotsThree size="1.5rem" />}
+          />
+        </div>
+        <div className="relative p-1">
+          {wine.userDetails.favorite && (
+            <HeartStraight
+              size="1.25rem"
+              weight="duotone"
+              className="text-wine-500 absolute top-1 left-1"
+            />
+          )}
+          <img
+            className="object-scale-down lg:h-32 lg:w-28 rounded md:h-28 md:w-28 w-28 h-28"
+            src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
+            alt="Bilde av en vin"
+          />
+        </div>
+        <div className="flex flex-1 flex-col border-l border-slate-100 gap-2 p-4 ">
+          <h4 className="font-medium leading-4 text-green-wine-500">
+            {wine.name}
+          </h4>
+          <div className="flex text-sm flex-wrap items-center text-slate-500 flex-row gap-2 comma">
             <div>{wine.type}</div>
             {wine.year && wine.year > 0 && <div>{wine.year}</div>}
             {wine.volume && wine.volume > 0 && (
@@ -78,74 +93,68 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               <div>{formatAlcoholContent(wine.alcoholContent)}</div>
             )}
           </div>
-
-          <ul className="space-y-0.5">
-            {!!wine.userDetails.userRating && (
-              <li className="mb-1">
-                <Stars stars={wine.userDetails.userRating} size="1.25rem" />
-              </li>
-            )}
-            <div className="flex flex-row items-center gap-2">
-              <div>
-                <MapPinLine
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-              </div>
-              <div className="comma flex flex-row gap-x-2 flex-wrap items-center">
-                {wine.country && (
-                  <span className="font-medium">{wine.country}</span>
-                )}
-                {wine.region && <span>{wine.region}</span>}
-                {wine.subRegion && <span>{wine.subRegion}</span>}
-              </div>
+          <div className="flex flex-row items-center gap-2">
+            <div className="comma flex flex-row gap-x-2 text-sm text-slate-500 flex-wrap items-center">
+              <span
+                className={`f32 flag ${wine.countryId && wine.countryId}`}
+              ></span>
+              {wine.country && (
+                <span className="font-medium">{wine.country}</span>
+              )}
+              {wine.region && <span>{wine.region}</span>}
+              {wine.subRegion && <span>{wine.subRegion}</span>}
             </div>
+          </div>
+        </div>
+      </Link>
+      <div className="px-4 flex flex-row md:gap-x-4 gap-x-2 items-center text-sm">
+        <div className="py-4 flex-1 border-t">
+          <div className="flex flex-row items-start">
+            <ul className="space-y-0.5 flex-1">
+              <li className="flex items-center justify-around flex-wrap flex-row gap-x-4 gap-y-2">
+                <div className="flex items-center flex-row gap-2">
+                  <BeerBottle
+                    size="1.25rem"
+                    weight="duotone"
+                    className="text-slate-500"
+                  />
+                  {wine.userDetails.quantity}
+                </div>
+                {!!wine.price && (
+                  <div className="flex items-center flex-row gap-2">
+                    <Coins
+                      size="1.25rem"
+                      weight="duotone"
+                      className="text-slate-500"
+                    />
+                    {formatPrice(wine.price)}
+                  </div>
+                )}
+                {wine.createdAt && (
+                  <div className="flex items-center flex-row gap-2">
+                    <CalendarBlank
+                      size="1.25rem"
+                      weight="duotone"
+                      className="text-slate-500"
+                    />
+                    {formatDate(new Date(wine.createdAt))}
+                  </div>
+                )}
 
-            {wine.userDetails.favorite && (
-              <li className="flex items-center flex-row gap-2">
-                <HeartStraight
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-                <div>favoritt</div>
-              </li>
-            )}
+                {!!wine.userDetails.userRating && (
+                  <Stars stars={wine.userDetails.userRating} size="1.25rem" />
+                )}
 
-            {!!wine.price && (
-              <li className="flex items-center flex-row gap-2">
-                <Coins
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-                {formatPrice(wine.price)}
+                {!!wine.userDetails.userRating && (
+                  <Score
+                    value={wine.userDetails.score}
+                    hideDefinition
+                    size={8}
+                  />
+                )}
               </li>
-            )}
-
-            {wine.userDetails.quantity >= 0 && (
-              <li className="flex items-center flex-row gap-2">
-                <BeerBottle
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-                {wine.userDetails.quantity}
-              </li>
-            )}
-
-            {wine.createdAt && (
-              <li className="flex items-center flex-row gap-2">
-                <CalendarBlank
-                  size="1.25rem"
-                  weight="duotone"
-                  className="text-slate-500"
-                />
-                {formatDate(new Date(wine.createdAt))}
-              </li>
-            )}
-          </ul>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

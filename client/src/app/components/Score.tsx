@@ -1,7 +1,9 @@
 interface Props {
   value?: number | null;
+  hideDefinition?: boolean;
+  size?: number;
 }
-const Score = ({ value }: Props) => {
+const Score = ({ value, hideDefinition, size }: Props) => {
   if (!value) return null;
 
   const getScoreDefinition = () => {
@@ -20,18 +22,30 @@ const Score = ({ value }: Props) => {
   const style = `linear-gradient(-90deg, #a91f36 50%, transparent 50%), linear-gradient(${degrees}deg, #a91f36 50%, transparent 50%)`;
 
   return (
-    <div className="flex flex-row flex-wrap items-center gap-2">
-      <div className="w-12 h-12 aspect-square  relative select-none">
+    <div
+      className={`${
+        hideDefinition ? "" : "flex flex-row flex-wrap items-center gap-2"
+      }`}
+    >
+      <div
+        className={` ${
+          size ? `w-${size} h-${size}` : "w-9 h-9"
+        } relative flex items-center justify-center rounded-full select-none`}
+      >
         <div
           style={{ backgroundImage: style }}
-          className="w-full h-full rounded-full bg-slate-100 flex items-center justify-center"
+          className={`rounded-full w-full h-full bg-slate-100 flex items-center justify-center `}
         >
-          <div className="w-9 h-9 rounded-full flex items-center justify-center bg-white">
+          <div
+            className={`flex rounded-full items-center ${
+              size ? `w-${size - 1} h-${size - 1}` : "w-8 h-8"
+            } justify-center  bg-white`}
+          >
             {value}
           </div>
         </div>
       </div>
-      <div>{getScoreDefinition()}</div>
+      {!hideDefinition && <div>{getScoreDefinition()}</div>}
     </div>
   );
 };

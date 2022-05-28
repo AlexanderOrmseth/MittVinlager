@@ -67,7 +67,7 @@ const Dropzone = ({
             {isDragReject ? "Denne filtypen støttes ikke!" : "Dra bildet hit"}
           </p>
         ) : (
-          <div className="rounded border text-center bg-slate-50 border-dashed p-4 py-8 hover:bg-slate-100 hover:border-slate-500">
+          <div className="rounded border text-center bg-slate-100 border-dashed border-slate-300 p-4 py-8 hover:bg-slate-100 hover:border-slate-500">
             <div className="flex flex-row gap-2 justify-center items-center">
               <FileImage size="2rem" weight="duotone" />
               Trykk her, eller dra et bilde hit
