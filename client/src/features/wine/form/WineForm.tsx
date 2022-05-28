@@ -9,7 +9,13 @@ import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import { Bug, Eye, PencilSimpleLine, PlusCircle } from "phosphor-react";
+import {
+  ArrowRight,
+  Bug,
+  Eye,
+  PencilSimpleLine,
+  PlusCircle,
+} from "phosphor-react";
 
 import {
   useAppDispatch,
@@ -184,7 +190,7 @@ const WineForm = ({
         isOpen={vinmonopoletModalIsOpen}
         handleResetForm={reset}
       />
-      <div className="bg-slate-50 rounded-lg p-8">
+      <div className="bg-slate-50 shadow rounded-lg md:p-8 p-4 ">
         <h2 className="lg:text-3xl md:text-2xl text-xl text-gray-900 font-medium">
           {title}
         </h2>
@@ -193,7 +199,7 @@ const WineForm = ({
           å hente vin fra Vinmonopolet.no.
         </div>
         <Tab.Group>
-          <div className="my-6 flex flex-row gap-x-2 justify-between items-center">
+          <div className="my-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex bg-white rounded shadow flex-row">
               {tabs.map((tab, i) => (
                 <Tab
@@ -201,7 +207,7 @@ const WineForm = ({
                   className={({ selected }) =>
                     classNames(
                       "relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr",
-                      "py-4 px-8 text-sm select-none font-medium border-b-2",
+                      "py-4 md:px-8 px-4 text-sm select-none font-medium border-b-2",
                       selected
                         ? " text-wine-500 rounded-b-none border-b-wine-500"
                         : "text-gray-700 hover:text-black border-b-transparent"
@@ -222,8 +228,9 @@ const WineForm = ({
             </Tab.List>
             <button
               onClick={() => setVinmonopoletModalIsOpen(true)}
-              className="btn-primary py-4 h-auto"
+              className="btn-secondary flex flex-row gap-x-2 items-center py-4 h-auto"
             >
+              <ArrowRight size="1.3rem" />
               Hent fra Vinmonopolet
             </button>
           </div>
@@ -255,7 +262,7 @@ const WineForm = ({
                     placeholder="lagringsgrad"
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid sm:grid-cols-3 gap-4">
                   {countryStatus === "loading" ? (
                     <div className="flex items-center flex-col justify-center space-x-4">
                       <ThreeDots

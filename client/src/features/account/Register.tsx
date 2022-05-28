@@ -78,6 +78,7 @@ const Register = () => {
             type="submit"
             loading={isSubmitting}
             loadingText="Logger inn..."
+            className="h-12"
           >
             <UserPlus size="1.5rem" />
             Opprett bruker

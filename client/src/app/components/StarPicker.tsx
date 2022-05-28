@@ -35,19 +35,21 @@ const StarPicker = ({ value, onChange }: Props) => {
   };
 
   return (
-    <div className="flex flex-row gap-2 items-center">
+    <div className="flex flex-row items-center">
       <button
         type="button"
         onClick={handleDecrement}
-        className="btn-white w-auto shadow-none rounded h-10 focus-primary"
+        className="btn-white rounded-l-full w-auto shadow-none pl-5 focus:z-10 rounded h-12 focus-primary"
       >
         <Minus size="1.2rem" weight="regular" />
       </button>
-      <Stars stars={value || 0} size="2rem"></Stars>
+      <div className="bg-white self-stretch flex items-center px-2 border-y">
+        <Stars stars={value || 0} size="2rem"></Stars>
+      </div>
       <button
         type="button"
         onClick={handleIncrement}
-        className="btn-white w-auto shadow-none rounded h-10 focus-primary"
+        className="btn-white rounded-r-full w-auto shadow-none pr-5 rounded h-12 focus-primary"
       >
         <Plus size="1.2rem" weight="regular" />
       </button>
