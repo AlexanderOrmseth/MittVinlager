@@ -16,7 +16,9 @@ const Layout = () => {
           <div className="flex flex-wrap gap-4 text-sm">
             <a
               href="https://github.com/AlexanderOrmseth/MittVinlager"
-              className="bg-gray-900 hover:bg-black text-white rounded flex items-center gap-x-1  border-white py-1 px-2"
+              target="_blank"
+              className="bg-gray-900 hover:bg-black text-white rounded flex items-center gap-x-1 border-white py-1 px-2"
+              rel="noreferrer"
             >
               <GithubLogo size="1.5rem" />
               GitHub

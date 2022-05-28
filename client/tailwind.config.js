@@ -6,6 +6,7 @@ module.exports = {
         xxs: "0 1px 1px #0000000f",
       },
       colors: {
+        "slate-25": "#fbfcfd",
         "wine-25": "#fffafa",
         "wine-50": "#eed2d7",
         "wine-100": "#dda5af",

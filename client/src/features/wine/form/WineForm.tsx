@@ -190,16 +190,17 @@ const WineForm = ({
         isOpen={vinmonopoletModalIsOpen}
         handleResetForm={reset}
       />
-      <div className="bg-slate-50 shadow rounded-lg md:p-8 p-4 ">
-        <h2 className="lg:text-3xl md:text-2xl text-xl text-gray-900 font-medium">
-          {title}
-        </h2>
-        <div className="mt-4 text-slate-700">
-          Her kan du legge til vin. Trykk på "Hent fra Vinmonopolet" knappen for
-          å hente vin fra Vinmonopolet.no.
-        </div>
+      <h2 className="lg:text-3xl md:text-2xl text-xl text-gray-900 font-medium">
+        {title}
+      </h2>
+      <div className="mt-4 text-slate-700">
+        Her kan du legge til vin. Trykk på "Hent fra Vinmonopolet" knappen for å
+        hente vin fra Vinmonopolet.no.
+      </div>
+
+      <div className="bg-slate-25 mt-6 border rounded-lg md:p-8 p-4 ">
         <Tab.Group>
-          <div className="my-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
+          <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex bg-white rounded shadow flex-row">
               {tabs.map((tab, i) => (
                 <Tab
@@ -207,7 +208,7 @@ const WineForm = ({
                   className={({ selected }) =>
                     classNames(
                       "relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr",
-                      "py-4 md:px-8 px-4 text-sm select-none font-medium border-b-2",
+                      "h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2",
                       selected
                         ? " text-wine-500 rounded-b-none border-b-wine-500"
                         : "text-gray-700 hover:text-black border-b-transparent"
@@ -228,9 +229,9 @@ const WineForm = ({
             </Tab.List>
             <button
               onClick={() => setVinmonopoletModalIsOpen(true)}
-              className="btn-secondary flex flex-row gap-x-2 items-center py-4 h-auto"
+              className="btn-secondary flex rounded-full flex-row gap-x-2 items-center h-12"
             >
-              <ArrowRight size="1.3rem" />
+              <ArrowRight size="1.5rem" />
               Hent fra Vinmonopolet
             </button>
           </div>
@@ -262,52 +263,8 @@ const WineForm = ({
                     placeholder="lagringsgrad"
                   />
                 </div>
-                <div className="grid sm:grid-cols-3 gap-4">
-                  {countryStatus === "loading" ? (
-                    <div className="flex items-center flex-col justify-center space-x-4">
-                      <ThreeDots
-                        height={"2rem"}
-                        width={"2.5rem"}
-                        className="mx-4"
-                        fill="gray"
-                      />
-                      <span className="text-slate-500 text-sm">
-                        Laster land...
-                      </span>
-                    </div>
-                  ) : (
-                    <>
-                      {countries ? (
-                        <FormCombobox
-                          name="country"
-                          label="Land"
-                          control={control}
-                          list={countries}
-                        />
-                      ) : (
-                        <FormTextInput
-                          control={control}
-                          name="country"
-                          label="Land"
-                          placeholder="land"
-                        />
-                      )}
-                    </>
-                  )}
-                  <FormTextInput
-                    control={control}
-                    name="region"
-                    label="Distrikt"
-                    placeholder="distrikt"
-                  />
-                  <FormTextInput
-                    control={control}
-                    name="subRegion"
-                    label="Underdistrikt"
-                    placeholder="underdistrikt"
-                  />
-                </div>
-                <div className="sm:flex flex-row items-center gap-4">
+
+                <div className="md:flex flex-row items-center gap-4">
                   <FormImage
                     file={watchFile}
                     wine={{
@@ -319,7 +276,7 @@ const WineForm = ({
                     name="resetImage"
                     control={control}
                   />
-                  <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                  <div className="grid flex-1 grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
                     <FormTextInput
                       required
                       control={control}
@@ -359,6 +316,49 @@ const WineForm = ({
                       name="manufacturerName"
                       label="Produsent"
                       placeholder="produsent"
+                    />
+                    {countryStatus === "loading" ? (
+                      <div className="flex items-center flex-col justify-center space-x-4">
+                        <ThreeDots
+                          height={"2rem"}
+                          width={"2.5rem"}
+                          className="mx-4"
+                          fill="gray"
+                        />
+                        <span className="text-slate-500 text-sm">
+                          Laster land...
+                        </span>
+                      </div>
+                    ) : (
+                      <>
+                        {countries ? (
+                          <FormCombobox
+                            name="country"
+                            label="Land"
+                            control={control}
+                            list={countries}
+                          />
+                        ) : (
+                          <FormTextInput
+                            control={control}
+                            name="country"
+                            label="Land"
+                            placeholder="land"
+                          />
+                        )}
+                      </>
+                    )}
+                    <FormTextInput
+                      control={control}
+                      name="region"
+                      label="Distrikt"
+                      placeholder="distrikt"
+                    />
+                    <FormTextInput
+                      control={control}
+                      name="subRegion"
+                      label="Underdistrikt"
+                      placeholder="underdistrikt"
                     />
                   </div>
                 </div>
@@ -516,7 +516,7 @@ const WineForm = ({
                 loading={isSubmitting}
                 loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}
                 type="submit"
-                className="h-auto py-3"
+                className="h-auto py-2 rounded-full"
               >
                 {wine ? (
                   <PencilSimpleLine size="1.5rem" />
@@ -526,7 +526,7 @@ const WineForm = ({
                 {submitText}
               </LoadingButton>
               <button
-                className="px-5 focus-primary flex flex-row gap-x-2 items-center bg-slate-200 text-sm transition-all hover:bg-slate-300 disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium rounded w-auto h-auto py-3"
+                className="px-5 shadow-xxs focus-primary flex rounded-full flex-row gap-x-2 items-center bg-slate-100 text-sm transition-all hover:bg-slate-200 disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setIsOpen(true)}

@@ -57,7 +57,7 @@ const Vinmonopolet = ({ handleResetForm, productId, setIsOpen }: Props) => {
         </label>
         <div className="flex flex-row gap-2 items-center">
           <input
-            className={`text-input text ${
+            className={`text-input text h-12 px-3 text-lg ${
               error ? "border-wine-500 bg-wine-25" : ""
             }`}
             type="text"

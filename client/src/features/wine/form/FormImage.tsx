@@ -55,7 +55,7 @@ const FormImage = <T extends FieldValues>({
   }, [wine, productId, file, field.value]);
 
   return (
-    <div className="sm:mb-0 shadow rounded select-none mb-4 p-2 bg-white">
+    <div className="md:mb-0 shadow rounded select-none mb-4 p-2 bg-white">
       <img
         className="mx-auto object-scale-down h-64 w-64"
         src={imageSrc || placeholderImg}
