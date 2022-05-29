@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthForm from "../../app/layout/AuthForm";
 import LoadingButton from "../../app/components/LoadingButton";
 import { UserPlus } from "phosphor-react";
+import { useEffect } from "react";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -16,11 +17,21 @@ const Register = () => {
     handleSubmit,
     control,
     setError,
+    watch,
+    trigger,
+    getFieldState,
     formState: { isSubmitting, isValid },
   } = useForm({
-    mode: "all",
+    mode: "onSubmit",
     resolver: yupResolver(registerSchema),
   });
+
+  // trigger validation on passwordConfirmation
+  const watchPassword = watch("password");
+  useEffect(() => {
+    if (!getFieldState("passwordConfirmation").isDirty) return;
+    trigger("passwordConfirmation");
+  }, [watchPassword, trigger, getFieldState]);
 
   const onSubmit = async (data: FieldValues) => {
     try {
@@ -74,7 +85,7 @@ const Register = () => {
         />
         <div className="flex items-end flex-wrap gap-4 justify-between">
           <LoadingButton
-            disabled={isSubmitting || !isValid}
+            disabled={isSubmitting}
             type="submit"
             loading={isSubmitting}
             loadingText="Logger inn..."

@@ -11,6 +11,7 @@ interface Props {
   maxValue: number;
   dropDownMinValue: number;
   dropDownMaxValue: number;
+  hasError?: boolean;
 }
 
 const YearPicker = ({
@@ -23,6 +24,7 @@ const YearPicker = ({
   maxValue,
   dropDownMaxValue,
   dropDownMinValue,
+  hasError,
 }: Props) => {
   const [isOpen, setOpen] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
@@ -58,7 +60,11 @@ const YearPicker = ({
         value={value || ""}
         onChange={(e) => [handleOnChange(e), onBlur]}
         onFocus={() => setOpen(true)}
-        className="text-input"
+        className={`text-input ${
+          hasError
+            ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
+            : ""
+        }`}
       />
       {isOpen && (
         <div className="dropdown z-10">

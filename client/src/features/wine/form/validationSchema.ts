@@ -171,7 +171,10 @@ export const schema = yup.object().shape({
       .typeError("Drikkevindu må være et tall.")
       .nullable()
       .transform(emptyStringToNull)
-      .min(0, "Drikkevindu må være mellom 0 og 3000.")
+      .min(
+        yup.ref("drinkingWindowMin") || 0,
+        "Drikkevindu-til må være høyere eller lik drikkevindu-fra."
+      )
       .max(3000, "Drikkevindu må være mellom 0 og 3000."),
     userRating: yup
       .number()

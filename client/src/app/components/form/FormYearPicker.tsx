@@ -33,6 +33,7 @@ const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
         render={({ field: { ref, ...rest } }) => (
           <YearPicker
             {...rest}
+            hasError={!!fieldState.error}
             minValue={props.minValue}
             maxValue={props.maxValue}
             dropDownMinValue={props.dropDownMinValue}

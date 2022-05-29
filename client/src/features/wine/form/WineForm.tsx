@@ -14,6 +14,8 @@ import {
   Eye,
   PencilSimpleLine,
   PlusCircle,
+  Warning,
+  WarningCircle,
 } from "phosphor-react";
 
 import {
@@ -97,6 +99,7 @@ const WineForm = ({
     setError,
     watch,
     getValues,
+    trigger,
     formState: { isSubmitting, errors, isValid },
   } = useForm<FormModel>({
     mode: "all",
@@ -105,6 +108,7 @@ const WineForm = ({
   });
 
   const watchFile = watch("file", null);
+  const watchDrinkingWindowMin = watch("userDetails.drinkingWindowMin");
 
   useEffect(() => {
     if (!serverErrors) return;
@@ -141,6 +145,12 @@ const WineForm = ({
 
     reset(modifiedWine);
   }, [wine, reset]);
+
+  // effect watching on drinkingwindowMin
+  useEffect(() => {
+    console.log("sup");
+    trigger("userDetails.drinkingWindowMax");
+  }, [watchDrinkingWindowMin, trigger]);
 
   // fetch countries
   useEffect(() => {
@@ -215,7 +225,7 @@ const WineForm = ({
                   }
                 >
                   {!!getErrorCount(tabFields[i], i === 2) && (
-                    <div className="text-wine-500 absolute -top-2 left-0 w-full animate-bounce">
+                    <div className="text-wine-400 pointer-events-none absolute -top-2 left-0 w-full animate-bounce">
                       <div className="flex flex-row items-center gap-x-1 justify-center">
                         <Bug size="1.5rem" weight="duotone" />
                         {getErrorCount(tabFields[i], i === 2)}
@@ -237,7 +247,8 @@ const WineForm = ({
           <div className="mt-6 border-t relative border-slate-200 mb-6">
             {getValues("productId") && (
               <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-25">
-                produktId: {getValues("productId")}
+                <span className="select-none">produktId: </span>
+                {getValues("productId")}
               </span>
             )}
           </div>
@@ -528,7 +539,7 @@ const WineForm = ({
                 {submitText}
               </LoadingButton>
               <button
-                className="px-5 btn-white focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm   disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
+                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm   disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setIsOpen(true)}
