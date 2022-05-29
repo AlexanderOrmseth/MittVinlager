@@ -7,18 +7,34 @@ interface Props {
   name?: string;
   placeholder?: string;
   onBlur?: () => void;
+  minValue: number;
+  maxValue: number;
+  dropDownMinValue: number;
+  dropDownMaxValue: number;
 }
 
-const YearPicker = ({ onChange, value, placeholder, name, onBlur }: Props) => {
+const YearPicker = ({
+  onChange,
+  value,
+  placeholder,
+  name,
+  onBlur,
+  minValue,
+  maxValue,
+  dropDownMaxValue,
+  dropDownMinValue,
+}: Props) => {
   const [isOpen, setOpen] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
-  const currentYear = new Date().getFullYear();
+
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
 
+  const length = dropDownMaxValue - dropDownMinValue;
+
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = parseInt(e.target.value.replace(/\D/g, ""));
-    val >= 0 && val <= 3000 ? onChange(val) : onChange(null);
+    val >= minValue && val <= maxValue ? onChange(val) : onChange(null);
   };
 
   const handleYearTagClicked = (val: number) => {
@@ -27,7 +43,8 @@ const YearPicker = ({ onChange, value, placeholder, name, onBlur }: Props) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Tab") setOpen(false);
+    if (e.code === "Enter") e.preventDefault();
+    else if (e.key === "Tab") setOpen(false);
   };
 
   return (
@@ -48,19 +65,19 @@ const YearPicker = ({ onChange, value, placeholder, name, onBlur }: Props) => {
           <div className="text-sm text-slate-700 border-b border-slate-200 pb-0.5 px-4">
             Skriv inn ett år, eller velg år nedenfor.
           </div>
-          {[...Array(15)].map((_, i) => {
-            const tagYear = currentYear - 5 + i;
+          {[...Array(length)].map((_, i) => {
+            const num = dropDownMinValue + i;
             return (
               <div
-                onClick={() => handleYearTagClicked(tagYear)}
+                onClick={() => handleYearTagClicked(num)}
                 className={`cursor-default rounded text-sm gap-2 select-none py-2 px-4 hover:bg-slate-200  ${
-                  tagYear === value
+                  num === value
                     ? "underline text-black bg-slate-100"
                     : "text-gray-700 bg-white"
                 }`}
                 key={i}
               >
-                {tagYear}
+                {num}
               </div>
             );
           })}

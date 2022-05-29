@@ -2,7 +2,6 @@ import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormCombobox from "../../../app/components/form/FormCombobox";
-import FormRadioTrueFalse from "../../../app/components/form/FormRadioTrueFalse";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
 import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
@@ -23,7 +22,6 @@ import {
 } from "../../../app/store/configureStore";
 import { getCountries } from "../slices/wineAsyncThunks";
 import { ThreeDots } from "react-loading-icons";
-import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import FormFilePicker from "../../../app/components/form/FormFilePicker";
@@ -31,6 +29,7 @@ import FormStarRating from "../../../app/components/form/FormStarRating";
 import WineDetailsModal from "../../../app/components/modals/WineDetailsModal";
 import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
+import FormToggle from "../../../app/components/form/FormToggle";
 interface Props {
   title: string;
   submitText: string;
@@ -237,7 +236,7 @@ const WineForm = ({
           </div>
           <div className="mt-6 border-t relative border-slate-200 mb-6">
             {getValues("productId") && (
-              <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-50">
+              <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-25">
                 produktId: {getValues("productId")}
               </span>
             )}
@@ -284,8 +283,12 @@ const WineForm = ({
                       label="Type"
                       placeholder="Vintype"
                     />
-                    <FormTextInput
+                    <FormYearPicker
                       control={control}
+                      minValue={0}
+                      maxValue={3000}
+                      dropDownMinValue={new Date().getFullYear() - 10}
+                      dropDownMaxValue={new Date().getFullYear() + 1}
                       name="year"
                       label="Årgang"
                       placeholder="årgang"
@@ -458,19 +461,28 @@ const WineForm = ({
                   />
                 </div>
                 <div className="grid grid-cols-3 gap-4">
-                  {/* <FormDatePicker
-                  control={control}
-                  name="userDetails.purchaseDate"
-                  label="Kjøpsdato"
-                /> */}
+                  <FormTextInput
+                    control={control}
+                    name="userDetails.score"
+                    label="Karakter (50-100)"
+                    placeholder="karakter"
+                  />
                   <FormYearPicker
                     control={control}
+                    minValue={0}
+                    maxValue={3000}
+                    dropDownMinValue={new Date().getFullYear() - 5}
+                    dropDownMaxValue={new Date().getFullYear() + 5}
                     name="userDetails.drinkingWindowMin"
                     label="Drikkevindu (fra)"
                     placeholder="år fra"
                   />
                   <FormYearPicker
                     control={control}
+                    minValue={0}
+                    maxValue={3000}
+                    dropDownMinValue={new Date().getFullYear() - 5}
+                    dropDownMaxValue={new Date().getFullYear() + 10}
                     name="userDetails.drinkingWindowMax"
                     label="Drikkevindu (til)"
                     placeholder="år til"
@@ -486,25 +498,15 @@ const WineForm = ({
                   placeholder="notater"
                 />
                 <div className="grid grid-cols-3 gap-4">
-                  <FormRadioTrueFalse
+                  <FormToggle
                     control={control}
                     name="userDetails.favorite"
                     label="Favoritt?"
-                    options={[
-                      { displayText: "Nei", value: false },
-                      { displayText: "Ja", value: true },
-                    ]}
                   />
                   <FormStarRating
                     control={control}
                     name="userDetails.userRating"
                     label="Din vurdering"
-                  />
-                  <FormTextInput
-                    control={control}
-                    name="userDetails.score"
-                    label="Karakter (50-100)"
-                    placeholder="karakter"
                   />
                 </div>
               </Tab.Panel>
@@ -526,7 +528,7 @@ const WineForm = ({
                 {submitText}
               </LoadingButton>
               <button
-                className="px-5 shadow-xxs focus-primary flex rounded-full flex-row gap-x-2 items-center bg-slate-100 text-sm transition-all hover:bg-slate-200 disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
+                className="px-5 btn-white focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm   disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setIsOpen(true)}

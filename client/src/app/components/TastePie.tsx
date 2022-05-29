@@ -95,13 +95,13 @@ export const text = {
 const TastePie = ({ percent, size }: { percent: number; size: string }) => {
   return (
     <div
-      className={`shadow aspect-square rounded-full`}
+      className={`aspect-square border-2 border-slate-25 ring-2 ring-[#1a3363] rounded-full`}
       style={{
         height: size,
         width: size,
-        background: `conic-gradient(#2e2e2e 0% ${percent}%, #f8fafc ${percent}%)`,
+        background: `conic-gradient(#1a3363 0% ${percent}%, #fbfcfd ${percent}%)`,
       }}
-    ></div>
+    />
   );
 };
 

@@ -233,14 +233,6 @@ public class WineController : BaseApiController
         // will always have a change
         wine.UpdatedAt = DateTime.UtcNow;
 
-        // check changes TODO:
-        var changes = _context.Entry(wine).State == EntityState.Unchanged;
-
-        if (changes)
-        {
-            return BadRequest(new ProblemDetails {Title = "Du har ikke gjort noen endringer!"});
-        }
-
         // new product Id
         // Adding image
         if (formBody.File is not null)
@@ -311,7 +303,7 @@ public class WineController : BaseApiController
         }
 
 
-        var result = await _context.SaveChangesAsync(acceptAllChangesOnSuccess: true) > 0;
+        var result = await _context.SaveChangesAsync() > 0;
 
         if (result)
         {
@@ -328,7 +320,7 @@ public class WineController : BaseApiController
         var wine = await _context.Wines.FindAsync(id);
 
         // check if wine exists
-        if (wine == null)
+        if (wine is null)
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }

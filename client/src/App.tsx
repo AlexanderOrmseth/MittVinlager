@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import {
-  BallTriangle,
-  Puff,
-  SpinningCircles,
-  TailSpin,
-} from "react-loading-icons";
+import { Puff } from "react-loading-icons";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";

@@ -4,9 +4,7 @@ import {
   Coins,
   DotsThree,
   HeartStraight,
-  MapPinLine,
   Pen,
-  Star,
   Trash,
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";

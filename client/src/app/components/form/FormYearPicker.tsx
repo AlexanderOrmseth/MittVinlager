@@ -12,6 +12,10 @@ interface Props<T> extends UseControllerProps<T> {
   type?: string;
   placeholder?: string;
   errors?: string[];
+  minValue: number;
+  maxValue: number;
+  dropDownMinValue: number;
+  dropDownMaxValue: number;
 }
 
 const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
@@ -27,7 +31,14 @@ const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
       <Controller
         {...props}
         render={({ field: { ref, ...rest } }) => (
-          <YearPicker {...rest} placeholder={props.placeholder} />
+          <YearPicker
+            {...rest}
+            minValue={props.minValue}
+            maxValue={props.maxValue}
+            dropDownMinValue={props.dropDownMinValue}
+            dropDownMaxValue={props.dropDownMaxValue}
+            placeholder={props.placeholder}
+          />
         )}
       />
       <FormInputError error={fieldState.error} />

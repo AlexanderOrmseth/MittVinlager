@@ -65,27 +65,25 @@ const FormImage = <T extends FieldValues>({
         <Controller
           {...rest}
           render={({ field: { value, onChange, ...rest } }) => (
-            <>
-              <div className="flex flex-row gap-2 items-center mt-2">
-                <Switch
-                  {...rest}
-                  checked={value}
-                  onChange={onChange}
+            <div className="flex flex-row gap-2 items-center mt-2">
+              <Switch
+                {...rest}
+                checked={value}
+                onChange={onChange}
+                className={`${
+                  value ? "bg-wine-500" : "bg-slate-200 hover:bg-slate-300"
+                } relative transition-colors duration-100 inline-flex h-6 w-11 items-center rounded-full`}
+              >
+                <span
                   className={`${
-                    value ? "bg-wine-500" : "bg-slate-200 hover:bg-slate-300"
-                  } relative transition-colors duration-100 inline-flex h-6 w-11 items-center rounded-full`}
-                >
-                  <span
-                    className={`${
-                      value ? "translate-x-6" : "translate-x-1"
-                    } inline-block h-4 w-4 transform transition ease-in-out  rounded-full bg-white`}
-                  />
-                </Switch>
-                <span className="text-sm font-medium text-gray-700">
-                  Tilbakestill bilde
-                </span>
-              </div>
-            </>
+                    value ? "translate-x-6" : "translate-x-1"
+                  } inline-block h-4 w-4 transform transition ease-in-out  rounded-full bg-white`}
+                />
+              </Switch>
+              <span className="text-sm font-medium text-gray-700">
+                Tilbakestill bilde
+              </span>
+            </div>
           )}
         />
       )}

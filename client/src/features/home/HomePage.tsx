@@ -1,9 +1,4 @@
-import { useState } from "react";
-import { formatDate } from "../../app/util/format";
-
 const HomePage = () => {
-  const [value, onChange] = useState<Date | undefined>(new Date());
-
   return (
     <div>
       <h1 className="mb-4 text-3xl">Mitt Vinlager</h1>
