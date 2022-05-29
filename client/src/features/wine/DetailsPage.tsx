@@ -23,6 +23,7 @@ const DetailsPage = () => {
             {wine.name}
           </h2>
         </div>
+        <p>Fix border på 2 element</p>
         <div className="my-4 pb-4 gap-y-4 border-b flex sm:flex-row flex-col sm:items-center sm:justify-between">
           <div className="flex flex-row gap-y-2">
             <Link

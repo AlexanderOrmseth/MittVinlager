@@ -77,14 +77,14 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
 
         <div className="flex-1 flex items-center justify-center flex-col gap-y-2">
           <img
-            className="object-scale-down lg:h-40 lg:w-32 rounded md:h-28 md:w-28 w-28 h-28"
+            className="object-scale-down pointer-events-none select-none lg:h-40 lg:w-32 rounded md:h-28 md:w-28 w-28 h-28"
             src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
             alt="Bilde av en vin"
           />
           {(!!wine.userDetails.userRating ||
             wine.userDetails.favorite ||
             wine.userDetails.score) && (
-            <div className="flex flex-row text-sm items-center gap-2">
+            <div className="flex flex-row text-sm items-center gap-4">
               {!!wine.userDetails.userRating && (
                 <Stars stars={wine.userDetails.userRating} size="1.25rem" />
               )}
@@ -98,7 +98,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               )}
 
               {wine.userDetails.score && (
-                <Score value={wine.userDetails.score} hideDefinition size={7} />
+                <Score value={wine.userDetails.score} hideDefinition size={6} />
               )}
             </div>
           )}

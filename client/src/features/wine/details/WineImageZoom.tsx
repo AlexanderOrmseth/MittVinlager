@@ -13,8 +13,11 @@ const WineImageZoom = ({
   imageByUser?: boolean;
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
+
+  const enabled = productId || imageByUser;
+
   const handleZoomChange = (shouldZoom: boolean) => {
-    if (productId || imageByUser) {
+    if (enabled) {
       setIsZoomed(shouldZoom);
     }
   };
@@ -29,14 +32,14 @@ const WineImageZoom = ({
         transitionDuration={400}
         onZoomChange={handleZoomChange}
       >
-        <div>
+        <>
           <img
             hidden={isZoomed}
             className="mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64"
             alt="Bilde av vin"
             src={pictureUrl || placeholderImg}
           />
-          {(imageByUser || productId) && (
+          {enabled && (
             <img
               hidden={!isZoomed}
               className="object-scale-down h-80 w-80"
@@ -44,9 +47,9 @@ const WineImageZoom = ({
               src={zoomedImage}
             />
           )}
-        </div>
+        </>
       </Zoom>
-      {productId && (
+      {enabled && (
         <p className="text-slate-600 text-sm">
           Trykk på bilde for å zoome inn.
         </p>
