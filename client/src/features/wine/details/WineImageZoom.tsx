@@ -6,18 +6,22 @@ import "react-medium-image-zoom/dist/styles.css";
 const WineImageZoom = ({
   pictureUrl,
   productId,
+  imageByUser,
 }: {
   pictureUrl?: string | null;
   productId?: string | null;
+  imageByUser?: boolean;
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
-
   const handleZoomChange = (shouldZoom: boolean) => {
-    if (productId) {
+    if (productId || imageByUser) {
       setIsZoomed(shouldZoom);
     }
   };
-
+  const zoomedImage =
+    imageByUser && pictureUrl
+      ? pictureUrl
+      : `https://bilder.vinmonopolet.no/cache/900x900-0/${productId}-1.jpg`;
   return (
     <div className="flex flex-col items-center">
       <Zoom
@@ -32,12 +36,12 @@ const WineImageZoom = ({
             alt="Bilde av vin"
             src={pictureUrl || placeholderImg}
           />
-          {productId && (
+          {(imageByUser || productId) && (
             <img
               hidden={!isZoomed}
               className="object-scale-down h-80 w-80"
               alt="Bilde av vin"
-              src={`https://bilder.vinmonopolet.no/cache/900x900-0/${productId}-1.jpg`}
+              src={zoomedImage}
             />
           )}
         </div>

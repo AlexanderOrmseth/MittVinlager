@@ -21,7 +21,7 @@ module.exports = {
         "b-darg-500": "#2E2E3A",
         "success-500": "#04A777",
         "another-green-wine-500": "#04A777",
-        "blue-wine-500": "#456990",
+        "blue-wine-500": "#1a3363",
         "green-wine-25": "#f4f7f7",
         "green-wine-50": "#e8efef",
         "green-wine-100": "#dae5e6",

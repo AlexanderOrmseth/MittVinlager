@@ -60,19 +60,21 @@ const WineDetails = ({ wine }: Props) => {
         <DescriptionItem dt="Duft" dd={wine.odour} />
         <DescriptionItem dt="Smak" dd={wine.taste} />
         <DescriptionItem dt="Smaksverdier">
-          <div className="flex flex-wrap items-center justify-around gap-4">
-            {tasteValues.map(({ value, type, displayText }, i) => {
-              return !value ? null : (
-                <div
-                  key={i}
-                  className="flex py-2 flex-col items-center gap-y-2"
-                >
-                  <p className="font-medium text-slate-500">{displayText}</p>
-                  <TastePie percent={list[value].percent} size={"2rem"} />
-                  <p>{text[type][value]}</p>
-                </div>
-              );
-            })}
+          <div className="flex flex-wrap items-center gap-4">
+            {tasteValues
+              .filter((pie) => pie.value)
+              .map(({ value, type, displayText }, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="flex py-2 flex-col items-center gap-y-2"
+                  >
+                    <p className="font-medium text-slate-500">{displayText}</p>
+                    <TastePie percent={list[value].percent} size={"2rem"} />
+                    <p>{text[type][value]}</p>
+                  </div>
+                );
+              })}
           </div>
         </DescriptionItem>
       </DescriptionList>

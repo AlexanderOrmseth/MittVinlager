@@ -46,7 +46,7 @@ const WineList = () => {
   // loading
   if (status === "loading") {
     content = (
-      <div className="grid p-4 md:p-6 lg:p-8 md:grid-cols-2 gap-x-4 gap-y-4">
+      <div className="grid md:grid-cols-2 gap-x-4 gap-y-4">
         <WineCardSkeleton />
         <WineCardSkeleton />
         <WineCardSkeleton />
@@ -58,7 +58,7 @@ const WineList = () => {
   else if (!wine.length) {
     if (wineParams === initialParams) {
       content = (
-        <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 p-4">
+        <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 ">
           <SmileyXEyes size="5rem" weight="light" />
           <p>Du har ikke lagret noen vin</p>
           <Link to="new" className="btn-primary h-auto py-2">
@@ -68,7 +68,7 @@ const WineList = () => {
       );
     } else {
       content = (
-        <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 p-4">
+        <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2">
           <Robot size="5rem" weight="light" />
           <p>Beep boop, du har ingen vin som treffer valgt filter.</p>
           <button className="btn-primary">Tilbakestill filter</button>
@@ -79,7 +79,7 @@ const WineList = () => {
   // else
   else {
     content = (
-      <div className="grid p-4 lg:grid-cols-2 gap-2">
+      <div className="grid lg:grid-cols-2 gap-2">
         {wine.map((w) => (
           <WineCard
             key={w.wineId}
@@ -92,11 +92,12 @@ const WineList = () => {
   }
 
   return (
-    <div className="">
+    <div className="flex flex-1 flex-col">
       <Paginator status={status} top={true} />
 
-      {content}
-
+      <div className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
+        {content}
+      </div>
       <Paginator status={status} top={false} />
 
       <DeleteWineModal

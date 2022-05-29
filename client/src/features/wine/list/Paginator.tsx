@@ -35,9 +35,9 @@ const Paginator = ({ status, top }: Props) => {
 
   return (
     <div
-      className={`bg-white ${
-        top ? "border-b" : "border-t"
-      } flex py-1 px-4 items-center text-sm gap-4 flex-row text-slate-500 justify-between 
+      className={` ${
+        top ? "" : ""
+      } flex border rounded-lg bg-white shadow-sm md:py-1.5 py-1 px-4 items-center text-sm gap-4 flex-row text-gray-700 justify-between 
    `}
     >
       <div>Totalt: {metaData?.totalCount}</div>

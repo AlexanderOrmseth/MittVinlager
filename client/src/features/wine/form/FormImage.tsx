@@ -61,7 +61,7 @@ const FormImage = <T extends FieldValues>({
         src={imageSrc || placeholderImg}
         alt="Bilde av en vin."
       />
-      {wine.imageByUser && !file && (
+      {wine.imageByUser && productId && !file && (
         <Controller
           {...rest}
           render={({ field: { value, onChange, ...rest } }) => (
