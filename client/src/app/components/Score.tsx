@@ -37,7 +37,7 @@ const Score = ({ value, hideDefinition, size }: Props) => {
           className={`rounded-full w-full h-full bg-slate-100 flex items-center justify-center `}
         >
           <div
-            className={`flex rounded-full items-center ${
+            className={`flex rounded-full overflow-hidden items-center ${
               size && size < 7 ? "text-xs" : "text-sm"
             } ${
               size ? `w-${size - 1} h-${size - 1}` : "w-8 h-8"

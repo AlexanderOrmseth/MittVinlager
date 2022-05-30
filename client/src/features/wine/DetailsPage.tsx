@@ -23,7 +23,6 @@ const DetailsPage = () => {
             {wine.name}
           </h2>
         </div>
-        <p>Fix border på 2 element</p>
         <div className="my-4 pb-4 gap-y-4 border-b flex sm:flex-row flex-col sm:items-center sm:justify-between">
           <div className="flex flex-row gap-y-2">
             <Link
@@ -39,7 +38,7 @@ const DetailsPage = () => {
             </Link>
             {wine.productId && (
               <a
-                className="btn-white rounded-none border-x-0 w-auto justify-center flex items-center gap-x-2"
+                className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
                 href={`https://www.vinmonopolet.no/Producenter/Larsen/Larsen-V-S-O-P-/p/${wine.productId}`}
                 target="_blank"
                 rel="noreferrer"
@@ -50,7 +49,7 @@ const DetailsPage = () => {
             )}
             <button
               onClick={() => setIsOpen(true)}
-              className="btn-white rounded-full rounded-l-none justify-center w-auto flex items-center gap-x-2"
+              className="btn-white rounded-full border-l-0 rounded-l-none justify-center w-auto flex items-center gap-x-2"
             >
               <Trash
                 size="1.25rem"

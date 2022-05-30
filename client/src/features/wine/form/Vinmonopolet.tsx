@@ -1,6 +1,11 @@
-import { Link as LinkIcon, DownloadSimple } from "phosphor-react";
+import { RadioGroup } from "@headlessui/react";
+import { Link as LinkIcon, DownloadSimple, Check } from "phosphor-react";
 import { useState } from "react";
-import { UseFormReset } from "react-hook-form";
+import {
+  UseFormGetValues,
+  UseFormReset,
+  UseFormSetValue,
+} from "react-hook-form";
 import api from "../../../app/api";
 import LoadingButton from "../../../app/components/LoadingButton";
 import { FormModel } from "../../../app/models/wine";
@@ -10,20 +15,67 @@ interface Props {
   productId?: string | null;
   name?: string;
   setIsOpen: (value: boolean) => void;
+  setValue: UseFormSetValue<FormModel>;
+  getValues: UseFormGetValues<FormModel>;
 }
 
-const Vinmonopolet = ({ handleResetForm, productId, setIsOpen }: Props) => {
-  const [value, setValue] = useState<string>(productId || "11395502");
+const radioValues = [
+  {
+    value: 1,
+    title: "Alle verdier",
+    description: "Henter og erstatter alle verdier",
+  },
+  {
+    value: 2,
+    title: "Kun pris",
+    description: "Erstatter kun verdien til pris",
+  },
+  {
+    value: 3,
+    title: "Ignorer brukerdetaljer",
+    description: "Henter og erstatter alle verdier untatt brukerdetaljer",
+  },
+];
+
+const Vinmonopolet = ({
+  handleResetForm,
+  productId,
+  setIsOpen,
+  setValue,
+  getValues,
+}: Props) => {
+  const [inputValue, setInputValue] = useState<string>(productId || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [resetAction, setResetAction] = useState(1);
 
   const handleFetchWine = async () => {
     setLoading(true);
     try {
       const res = (await api.Vinmonopolet.getWineByProductId(
-        value
+        inputValue
       )) as FormModel;
-      handleResetForm(res);
+
+      switch (resetAction) {
+        case 1:
+          // reset entire form
+          handleResetForm(res);
+          break;
+        case 2:
+          // replace price
+          setValue("price", res.price);
+          break;
+        case 3:
+          // reset everything but keep userDetails
+          const { userDetails, ...rest } = res;
+          handleResetForm({ ...rest, userDetails: getValues("userDetails") });
+          break;
+        default:
+          // reset entire form
+          handleResetForm(res);
+          break;
+      }
+
       setIsOpen(false);
     } catch (error: any) {
       console.error(error);
@@ -51,36 +103,67 @@ const Vinmonopolet = ({ handleResetForm, productId, setIsOpen }: Props) => {
           <span>9680901</span>
         </div>
       </div>
-      <div className="p-4 bg-slate-50 rounded-lg">
-        <label htmlFor="vinmonopoletProductId" className="label">
-          Hent vin fra Vinmonopolet
-        </label>
-        <div className="flex flex-row gap-2 items-center">
+      <div className="p-4 bg-slate-50 space-y-6 rounded-lg">
+        <div>
+          <label htmlFor="vinmonopoletProductId" className="label">
+            ProduktId/Link
+          </label>
           <input
             className={`text-input text h-12 px-3 text-lg ${
               error ? "border-wine-500 bg-wine-25" : ""
             }`}
             type="text"
             name="vinmonopoletProductId"
-            value={value}
+            value={inputValue}
             autoComplete="off"
             placeholder="produktnummer/url"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-          <LoadingButton
-            loadingText="Henter vin..."
-            disabled={value.length < 1}
-            loading={loading}
-            onClick={handleFetchWine}
-            className="h-12"
-          >
-            <DownloadSimple size="1.5rem" />
-            Hent vin
-          </LoadingButton>
         </div>
-        <div>
-          Hent kun pris, ignorer brukerdetaljer, erstatt alt - RADIO BUTTON
-        </div>
+
+        <RadioGroup
+          className="space-y-1"
+          value={resetAction}
+          onChange={setResetAction}
+        >
+          <RadioGroup.Label className="label">Velg verdier</RadioGroup.Label>
+          {radioValues.map((radio) => (
+            <RadioGroup.Option key={radio.value} value={radio.value}>
+              {({ checked, active }) => (
+                <div
+                  className={`p-3 rounded 
+                ${
+                  checked
+                    ? "bg-blue-wine-500 text-green-wine-25"
+                    : "bg-slate-200 text-gray-900 hover:bg-slate-300"
+                } flex flex-row gap-x-2 items-center cursor-pointer select-none`}
+                >
+                  <div className="flex-1">
+                    <p className="font-medium">{radio.title}</p>
+                    <p className="opacity-80 text-sm">{radio.description}</p>
+                  </div>
+                  {checked && (
+                    <div className="border-2 border-white rounded-full p-0.5">
+                      <Check size="1.2rem" weight="bold" />
+                    </div>
+                  )}
+                </div>
+              )}
+            </RadioGroup.Option>
+          ))}
+        </RadioGroup>
+
+        <LoadingButton
+          loadingText="Henter vin..."
+          disabled={inputValue.length < 1}
+          loading={loading}
+          onClick={handleFetchWine}
+          className="h-12 w-full rounded-full justify-center"
+        >
+          <DownloadSimple size="1.5rem" />
+          Hent vin
+        </LoadingButton>
+
         {error && <p className="text-wine-500 text-sm italic">{error}</p>}
       </div>
     </>

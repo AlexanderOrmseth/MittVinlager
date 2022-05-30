@@ -1,4 +1,4 @@
-import { Robot, SmileyXEyes } from "phosphor-react";
+import { Ghost, Robot, SmileyXEyes } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
@@ -59,7 +59,7 @@ const WineList = () => {
     if (wineParams === initialParams) {
       content = (
         <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 ">
-          <SmileyXEyes size="5rem" weight="light" />
+          <Ghost size="5rem" weight="light" />
           <p>Du har ikke lagret noen vin</p>
           <Link to="new" className="btn-primary h-auto py-2">
             Legg til vin

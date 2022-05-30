@@ -99,6 +99,7 @@ const WineForm = ({
     setError,
     watch,
     getValues,
+    setValue,
     trigger,
     formState: { isSubmitting, errors, isValid },
   } = useForm<FormModel>({
@@ -148,7 +149,6 @@ const WineForm = ({
 
   // effect watching on drinkingwindowMin
   useEffect(() => {
-    console.log("sup");
     trigger("userDetails.drinkingWindowMax");
   }, [watchDrinkingWindowMin, trigger]);
 
@@ -196,8 +196,11 @@ const WineForm = ({
       />
       <VinmonopoletModal
         setIsOpen={setVinmonopoletModalIsOpen}
+        productId={wine?.productId}
         isOpen={vinmonopoletModalIsOpen}
         handleResetForm={reset}
+        getValues={getValues}
+        setValue={setValue}
       />
       <h2 className="lg:text-3xl md:text-2xl text-xl text-gray-900 font-medium">
         {title}
