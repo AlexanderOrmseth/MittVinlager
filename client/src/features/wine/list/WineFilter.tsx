@@ -11,7 +11,7 @@ import { getFilters } from "../slices/wineAsyncThunks";
 import { setParams } from "../slices/wineSlice";
 
 const WineFilter = () => {
-  const { filtersFetched, filterOptions, wineParams } = useAppSelector(
+  const { filtersFetched, filterOptions, wineParams, status } = useAppSelector(
     (state) => state.wine
   );
   const dispatch = useAppDispatch();
@@ -21,9 +21,11 @@ const WineFilter = () => {
     if (!filtersFetched) dispatch(getFilters());
   }, [filtersFetched, dispatch]);
 
+  const disabled = status === "loading";
+
   return (
     <div className="flex gap-y-4 flex-col">
-      <WineSearch />
+      <WineSearch disabled={disabled} />
       <ListBox
         label="Sorter"
         items={[
@@ -56,12 +58,14 @@ const WineFilter = () => {
             displayText: "Type desc",
           },
         ]}
+        disabled={disabled}
         selected={wineParams.orderBy}
         onChange={(item: string) => dispatch(setParams({ orderBy: item }))}
       />
 
       <AsideDisclosure text="Land">
         <WineCheckboxFilter
+          disabled={disabled}
           onChange={(items: string[]) =>
             dispatch(setParams({ countries: items }))
           }
@@ -72,6 +76,7 @@ const WineFilter = () => {
 
       <AsideDisclosure text="Typer">
         <WineCheckboxFilter
+          disabled={disabled}
           onChange={(items: string[]) => dispatch(setParams({ types: items }))}
           items={filterOptions.types}
           checked={wineParams.types}

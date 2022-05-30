@@ -12,8 +12,9 @@ interface Props {
   selected: string;
   onChange: (item: string) => void;
   label: string;
+  disabled: boolean;
 }
-const ListBox = ({ items, selected, onChange, label }: Props) => {
+const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
   return (
     <div>
       <Listbox value={selected} onChange={onChange}>
@@ -39,11 +40,14 @@ const ListBox = ({ items, selected, onChange, label }: Props) => {
             <Listbox.Options className="dropdown">
               {items.map((item, i) => (
                 <Listbox.Option
+                  disabled={disabled}
                   key={i}
-                  className={({ active, selected }) =>
+                  className={({ active, selected, disabled }) =>
                     `cursor-default flex items-center leading-4 rounded text-sm select-none py-2 px-4 ${
-                      active && !selected ? "bg-slate-200 text-black" : ""
-                    } ${selected ? "bg-wine-500 text-white" : ""}`
+                      disabled ? "opacity-50" : ""
+                    } ${active && !selected ? "bg-slate-200 text-black" : ""} ${
+                      selected ? "bg-wine-500 text-white" : ""
+                    }`
                   }
                   value={item.value}
                 >

@@ -4,7 +4,7 @@ import { setParams } from "../../../features/wine/slices/wineSlice";
 import useDebounce from "../../hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 
-const WineSearch = () => {
+const WineSearch = ({ disabled }: { disabled: boolean }) => {
   const { wineParams } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
   const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
@@ -19,17 +19,22 @@ const WineSearch = () => {
     dispatch(setParams({ searchTerm: debouncedValue }));
   }, [debouncedValue, dispatch]);
 
-  const handleOnChange = (val: HTMLInputElement["value"]) => setSearchTerm(val);
+  const handleOnChange = (val: HTMLInputElement["value"]) => {
+    if (disabled) return;
+    setSearchTerm(val);
+  };
   return (
     <div>
       <label className="label">Søk på vin</label>
-      <div className="flex flex-row items-center">
+      <div
+        className={`flex flex-row items-center ${disabled ? "opacity-50" : ""}`}
+      >
         <MagnifyingGlass
           className="absolute ml-2 text-slate-500"
           size="1.25rem"
         />
         <input
-          className="text-input pl-8 bg-white shadow-xxs py-3"
+          className="text-input pl-8 shadow-xxs"
           type="text"
           placeholder="søk på vin"
           value={searchTerm}
