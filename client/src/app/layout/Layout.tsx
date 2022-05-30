@@ -5,13 +5,13 @@ import Header from "./Header";
 const Layout = () => {
   return (
     <>
-      <header className="py-4 bg-white border-b w-full border px-4 xl:px-0">
+      <header className="py-4 bg-white border-b w-full border min-w-[320px] px-4 xl:px-0">
         <Header />
       </header>
-      <main className="flex-grow flex flex-col w-full max-w-screen-xl pt-4 pb-12 mx-auto px-4 xl:px-0">
+      <main className="flex-grow flex flex-col w-full max-w-screen-xl min-w-[320px] pt-4 pb-12 mx-auto px-4 xl:px-0">
         <Outlet />
       </main>
-      <footer className="py-8 relative w-full max-w-screen-xl mx-auto px-4 border-t xl:px-0">
+      <footer className="py-8 relative w-full max-w-screen-xl min-w-[320px] mx-auto px-4 border-t xl:px-0">
         <div className="flex flex-row gap-4 justify-around items-center">
           <div className="flex flex-wrap gap-4 text-sm">
             <a

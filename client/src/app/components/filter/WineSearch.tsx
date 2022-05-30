@@ -10,6 +10,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
   const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
   const debouncedValue = useDebounce<string>(searchTerm, 1000);
   const firstUpdate = useRef(true);
+
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;

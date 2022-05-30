@@ -82,18 +82,6 @@ const WineFilter = () => {
           checked={wineParams.types}
         />
       </AsideDisclosure>
-
-      {/*   <AsideDisclosure text="filterOptions">
-        <pre className="inline-block bg-yellow-50 border border-yellow-400 text-sm leading-4 text-yellow-700 text-medium">
-          {JSON.stringify(filterOptions, null, 2)}
-        </pre>
-      </AsideDisclosure>
-
-      <AsideDisclosure text="wineParams">
-        <pre className="inline-block bg-yellow-50 border border-yellow-400 text-sm leading-4 text-yellow-700 text-medium">
-          {JSON.stringify(wineParams, null, 2)}
-        </pre>
-      </AsideDisclosure> */}
     </div>
   );
 };
