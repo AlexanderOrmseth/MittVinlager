@@ -57,12 +57,15 @@ const DeleteWineModal = ({
           loading={loading}
           disabled={!wineToDelete.id}
           loadingText="Sletter vin..."
-          className="justify-center h-10"
+          className="justify-center h-10 rounded-full"
         >
           <Trash size="1.3rem" />
           Slett vin
         </LoadingButton>
-        <button className="btn-white h-10" onClick={() => setIsOpen(false)}>
+        <button
+          className="btn-white h-10 rounded-full"
+          onClick={() => setIsOpen(false)}
+        >
           Tilbake
         </button>
       </div>

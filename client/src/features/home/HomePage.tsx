@@ -2,6 +2,7 @@ const HomePage = () => {
   return (
     <div>
       <h1 className="mb-4 text-3xl">Mitt Vinlager</h1>
+      <div className="my-4 font-bold">website image gallery</div>
       <div className="space-y-3 max-w-screen-md">
         <p>
           Med Mitt Vinlager får du tilgang til din egen vinkjeller på nettet der

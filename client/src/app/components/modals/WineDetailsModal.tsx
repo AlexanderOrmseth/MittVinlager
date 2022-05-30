@@ -32,7 +32,7 @@ const WineDetailsModal = ({ isOpen, setIsOpen, getValues }: Props) => {
       <div>
         <WineDetails wine={values} />
         <button
-          className="btn-white my-4 h-10"
+          className="btn-white my-4 h-10 rounded-full"
           onClick={() => setIsOpen(false)}
         >
           Tilbake

@@ -37,7 +37,7 @@ public class WineController : BaseApiController
     {
         var userId = await GetUserId(User);
 
-        Thread.Sleep(1000);
+        //Thread.Sleep(1000);
 
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)

@@ -65,7 +65,7 @@ const Login = () => {
             type="submit"
             loading={isSubmitting}
             loadingText="Logger inn..."
-            className="h-12"
+            className="h-10 rounded-full"
           >
             <SignIn size="1.5rem" />
             Logg inn

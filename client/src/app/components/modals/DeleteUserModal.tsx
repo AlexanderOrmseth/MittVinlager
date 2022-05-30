@@ -51,12 +51,15 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
             loading={status === "loading"}
             disabled={value !== "SLETTMEG"}
             loadingText="Sletter bruker..."
-            className="justify-center h-10"
+            className="justify-center h-10 rounded-full"
           >
             <UserMinus size="1.3rem" />
             Slett meg
           </LoadingButton>
-          <button className="btn-white h-10" onClick={() => setIsOpen(false)}>
+          <button
+            className="btn-white h-10 rounded-full"
+            onClick={() => setIsOpen(false)}
+          >
             Tilbake
           </button>
         </div>

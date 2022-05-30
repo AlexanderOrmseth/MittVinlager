@@ -25,7 +25,7 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
   };
 
   return (
-    <div className="">
+    <div className="select-none">
       {items.map((item, i) => (
         <div
           className={`flex flex-row items-center gap-x-2 transition-all text-gray-700  rounded p-2 ${
