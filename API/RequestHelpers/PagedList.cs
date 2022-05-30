@@ -8,14 +8,15 @@ public class PagedList<T> : List<T>
     private const int PageSize = 20;
 
     // constructor
-    private PagedList(IEnumerable<T> items, int count, int pageNumber)
+    private PagedList(IEnumerable<T> items, int count, int resultCount, int pageNumber)
     {
         MetaData = new MetaData
         {
+            ResultCount = resultCount,
             TotalCount = count,
             PageSize = PageSize,
             CurrentPage = pageNumber,
-            TotalPages = (int) Math.Ceiling(count / (double) PageSize)
+            TotalPages = (int) Math.Ceiling(resultCount / (double) PageSize)
         };
 
         AddRange(items);
@@ -23,15 +24,15 @@ public class PagedList<T> : List<T>
 
     public MetaData MetaData { get; set; }
 
-    public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, int pageNumber,
+    public static async Task<PagedList<T>> ToPagedList(IQueryable<T> query, int pageNumber, int count,
         CancellationToken cancellationToken)
     {
-        var count = await query.CountAsync(cancellationToken); // item count
+        var resultCount = await query.CountAsync(cancellationToken); // item count
 
         // skip 0 items on page 1. on page 2 skip 1*pageSize
         var items = await query.Skip(((pageNumber == 0 ? 1 : pageNumber) - 1) * PageSize).Take(PageSize)
             .ToListAsync(cancellationToken);
 
-        return new PagedList<T>(items, count, pageNumber);
+        return new PagedList<T>(items, count, resultCount, pageNumber);
     }
 }

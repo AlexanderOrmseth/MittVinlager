@@ -7,8 +7,10 @@ import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 const WineSearch = ({ disabled }: { disabled: boolean }) => {
   const { wineParams } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
+
   const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
   const debouncedValue = useDebounce<string>(searchTerm, 1000);
+
   const firstUpdate = useRef(true);
 
   useEffect(() => {

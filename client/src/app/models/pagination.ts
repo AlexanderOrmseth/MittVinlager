@@ -3,6 +3,7 @@ export interface MetaData {
   totalPages: number;
   pageSize: number;
   totalCount: number;
+  resultCount: number;
 }
 
 export class PaginatedResponse<T> {

@@ -12,7 +12,7 @@
 
 @layer components {
   .btn-primary {
-    @apply text-white transition-all bg-wine-500 hover:bg-wine-600 font-medium rounded text-sm px-5 h-9 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    @apply text-white transition-all select-none bg-wine-500 hover:bg-wine-600 font-medium rounded-full text-sm px-5 py-2.5 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   .btn-secondary {
@@ -32,7 +32,7 @@
   }
 
   .nav-link {
-    @apply select-none md:px-4 md:py-3 px-2 py-1.5 hover:text-wine-400 rounded font-medium transition-all
+    @apply select-none md:px-4 md:py-3 px-2 py-4 hover:text-wine-400 rounded font-medium transition-colors
      md:text-left text-center md:bg-white bg-slate-50
     appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }

@@ -40,7 +40,9 @@ const Paginator = ({ status, top }: Props) => {
       } flex border rounded bg-white shadow-xxs md:py-1.5 py-1 px-4 items-center text-sm gap-4 flex-row text-gray-900 font-medium justify-between 
    `}
     >
-      <div>Totalt: {metaData?.totalCount}</div>
+      <div>
+        Totalt: {metaData?.resultCount}/{metaData?.totalCount}
+      </div>
       <div className="flex flex-row sm:gap-4 gap-2 items-center">
         <div>Per side: {metaData?.pageSize}</div>
         <div>

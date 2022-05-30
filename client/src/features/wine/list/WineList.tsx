@@ -1,4 +1,4 @@
-import { Ghost, Robot, SmileyXEyes } from "phosphor-react";
+import { Ghost, Robot } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
@@ -8,7 +8,7 @@ import {
   useAppSelector,
 } from "../../../app/store/configureStore";
 import { allWine } from "../slices/wineAsyncThunks";
-import { initialParams, wineSelectors } from "../slices/wineSlice";
+import { resetParams, wineSelectors } from "../slices/wineSlice";
 import Paginator from "./Paginator";
 import WineCard from "./WineCard";
 
@@ -20,7 +20,7 @@ const WineList = () => {
   }>({ id: null, name: null });
 
   const wine = useAppSelector(wineSelectors.selectAll);
-  const { allFetched, status, wineParams } = useAppSelector(
+  const { allFetched, status, metaData, wineParams } = useAppSelector(
     (state) => state.wine
   );
 
@@ -56,12 +56,12 @@ const WineList = () => {
   }
   // no wine
   else if (!wine.length) {
-    if (wineParams === initialParams) {
+    if (!metaData?.totalCount) {
       content = (
         <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 ">
           <Ghost size="5rem" weight="light" />
           <p>Du har ikke lagret noen vin</p>
-          <Link to="new" className="btn-primary h-auto py-2">
+          <Link to="new" className="btn-primary">
             Legg til vin
           </Link>
         </div>
@@ -71,7 +71,12 @@ const WineList = () => {
         <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2">
           <Robot size="5rem" weight="light" />
           <p>Beep boop, du har ingen vin som treffer valgt filter.</p>
-          <button className="btn-primary">Tilbakestill filter</button>
+          <button
+            onClick={() => dispatch(resetParams())}
+            className="btn-primary"
+          >
+            Tilbakestill filter
+          </button>
         </div>
       );
     }

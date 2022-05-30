@@ -38,6 +38,8 @@ public class WineController : BaseApiController
         var userId = await GetUserId(User);
 
         //Thread.Sleep(1000);
+        var count = await _context.Wines
+            .Where(wine => wine.UserId == userId).CountAsync(cancellationToken);
 
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
@@ -51,7 +53,7 @@ public class WineController : BaseApiController
 
         // query with filers
         var wines =
-            await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, cancellationToken);
+            await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, count, cancellationToken);
 
         Response.AddPaginationHeader(wines.MetaData);
         return wines;

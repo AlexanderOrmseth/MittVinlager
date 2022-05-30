@@ -69,6 +69,10 @@ export const wineSlice = createSlice({
     resetSearchParam: (state) => {
       state.wineParams.searchTerm = null;
     },
+    resetParams: (state) => {
+      state.wineParams = initialParams;
+      state.allFetched = false;
+    },
     setParams: (state, action) => {
       state.wineParams = {
         ...state.wineParams,
@@ -77,7 +81,6 @@ export const wineSlice = createSlice({
       };
 
       // trigger fetch
-
       state.allFetched = false;
     },
     setMetaData: (state, action) => {
@@ -162,6 +165,7 @@ export const {
   setPageNumber,
   resetSearchParam,
   setParams,
+  resetParams,
   resetAll,
   triggerFetch,
 } = wineSlice.actions;
