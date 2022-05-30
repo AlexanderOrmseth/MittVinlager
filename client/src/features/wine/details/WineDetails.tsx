@@ -43,7 +43,14 @@ const WineDetails = ({ wine }: Props) => {
           dd={formatAlcoholContent(wine.alcoholContent)}
         />
         <DescriptionItem dt="Lagringsgrad" dd={wine.storagePotential} />
-        <DescriptionItem dt="Land" dd={wine.country} />
+        <DescriptionItem dt="Land">
+          <div className="flex items-center gap-x-1">
+            {wine.countryId && (
+              <span className={`f16 flag ${wine.countryId}`} />
+            )}
+            {wine.country && wine.country}
+          </div>
+        </DescriptionItem>
         <DescriptionItem dt="Region, distrikt">
           <div className="comma space-x-2">
             {wine.region && <span>{wine.region}</span>}

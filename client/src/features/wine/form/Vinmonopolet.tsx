@@ -78,6 +78,9 @@ const Vinmonopolet = ({ handleResetForm, productId, setIsOpen }: Props) => {
             Hent vin
           </LoadingButton>
         </div>
+        <div>
+          Hent kun pris, ignorer brukerdetaljer, erstatt alt - RADIO BUTTON
+        </div>
         {error && <p className="text-wine-500 text-sm italic">{error}</p>}
       </div>
     </>

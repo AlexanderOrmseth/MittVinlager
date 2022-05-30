@@ -64,7 +64,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           {wine.name}
         </h4>
 
-        <div className="flex text-sm justify-center flex-wrap items-center text-slate-500 flex-row gap-2 comma">
+        <div className="flex text-sm justify-center flex-wrap items-center text-gray-500 flex-row gap-2 comma">
           <div>{wine.type}</div>
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
           {wine.volume && wine.volume > 0 && (
@@ -105,10 +105,8 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
         </div>
 
         <div className="flex flex-row justify-center items-center gap-2">
-          <div className="comma flex flex-row gap-x-2 text-sm text-slate-500 flex-wrap items-center">
-            <span
-              className={`f32 flag ${wine.countryId && wine.countryId}`}
-            ></span>
+          <div className="comma flex flex-row gap-x-2 text-sm text-gray-500 flex-wrap items-center">
+            <span className={`f16 flag ${wine.countryId && wine.countryId}`} />
             {wine.country && (
               <span className="font-medium text-gray-700">{wine.country}</span>
             )}
@@ -116,7 +114,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             {wine.subRegion && <span>{wine.subRegion}</span>}
           </div>
         </div>
-        <div className="flex text-sm items-center justify-around flex-wrap flex-row gap-x-4 gap-y-2">
+        <div className="flex text-sm items-center text-gray-700 justify-around flex-wrap flex-row gap-x-4 gap-y-2">
           <div className="flex items-center flex-row gap-2">
             <BeerBottle
               size="1.25rem"
