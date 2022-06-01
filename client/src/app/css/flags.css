@@ -4,13 +4,13 @@
   color: transparent;
 }
 .f32.flag {
-  height: 31px;
+  height: 32px;
   width: 32px;
   line-height: 32px;
   background: url(./flags32.png) no-repeat;
 }
 .f16.flag {
-  height: 14px;
+  height: 16px;
   width: 16px;
   line-height: 16px;
   background: url(./flags16.png) no-repeat;

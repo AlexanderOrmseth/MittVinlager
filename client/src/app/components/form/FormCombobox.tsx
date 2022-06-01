@@ -60,7 +60,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                   className={`absolute select-none pointer-events-none left-2 f32 flag ${
                     selectedCountryId ? selectedCountryId.toLowerCase() : ""
                   }`}
-                ></div>
+                />
                 <Combobox.Input
                   name={field.name + "Term"}
                   autoComplete="off"

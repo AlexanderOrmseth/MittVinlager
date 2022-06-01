@@ -3,6 +3,7 @@ interface Props {
   dd?: string | number | null | undefined;
   children?: React.ReactNode;
 }
+
 const DescriptionItem = ({ dt, dd, children }: Props) => {
   return (
     <div className="px-4 odd:bg-white even:bg-slate-50 rounded lg:py-2.5 py-1.5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">

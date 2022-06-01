@@ -14,8 +14,6 @@ import {
   Eye,
   PencilSimpleLine,
   PlusCircle,
-  Warning,
-  WarningCircle,
 } from "phosphor-react";
 
 import {
@@ -32,6 +30,7 @@ import WineDetailsModal from "../../../app/components/modals/WineDetailsModal";
 import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
 import FormToggle from "../../../app/components/form/FormToggle";
+import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   title: string;
   submitText: string;
@@ -80,6 +79,25 @@ const tabFields = [tab1, tab2, tab3];
 const tabs = ["Vindetaljer", "Smaksdetaljer", "Brukerdetaljer"];
 const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
+const tabAnim = {
+  hide: {
+    opacity: 0,
+    translateY: -8,
+    transition: {
+      duration: 0.2,
+      ease: "linear",
+    },
+  },
+  show: {
+    opacity: 1,
+    translateY: 0,
+    transition: {
+      duration: 0.2,
+      ease: "linear",
+    },
+  },
+};
+
 const WineForm = ({
   onSubmit,
   serverErrors,
@@ -91,6 +109,7 @@ const WineForm = ({
   const { countries, countryStatus } = useAppSelector((state) => state.wine);
   const [isOpen, setIsOpen] = useState(false);
   const [vinmonopoletModalIsOpen, setVinmonopoletModalIsOpen] = useState(false);
+  const [tabIndex, setTabIndex] = useState(0);
 
   const {
     handleSubmit,
@@ -211,12 +230,12 @@ const WineForm = ({
       </div>
 
       <div className="bg-slate-25 mt-6 border rounded-lg md:p-8 p-4 ">
-        <Tab.Group>
+        <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex bg-white rounded shadow flex-row">
               {tabs.map((tab, i) => (
                 <Tab
-                  key={tab}
+                  key={i}
                   className={({ selected }) =>
                     classNames(
                       "relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr",
@@ -260,270 +279,293 @@ const WineForm = ({
             onSubmit={handleSubmit((d) => handlePreSubmit(d))}
           >
             <Tab.Panels>
-              <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormTextInput
-                    required
-                    control={control}
-                    name="name"
-                    label="Navn"
-                    placeholder="navn på vin"
-                  />
-                  <FormTextInput
-                    control={control}
-                    name="storagePotential"
-                    label="Lagringsgrad"
-                    placeholder="lagringsgrad"
-                  />
-                </div>
-
-                <div className="md:flex flex-row items-center gap-4">
-                  <FormImage
-                    file={watchFile}
-                    wine={{
-                      pictureUrl: wine?.pictureUrl,
-                      imageByUser: wine?.imageByUser,
-                      productId: wine?.productId,
-                    }}
-                    productId={getValues("productId")}
-                    name="resetImage"
-                    control={control}
-                  />
-                  <div className="grid flex-1 grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+              <AnimatePresence initial={false}>
+                <Tab.Panel
+                  key={0}
+                  as={motion.div}
+                  initial="hide"
+                  animate="show"
+                  variants={tabAnim}
+                  className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <FormTextInput
                       required
                       control={control}
-                      name="type"
-                      label="Type"
-                      placeholder="Vintype"
+                      name="name"
+                      label="Navn"
+                      placeholder="navn på vin"
+                    />
+                    <FormTextInput
+                      control={control}
+                      name="storagePotential"
+                      label="Lagringsgrad"
+                      placeholder="lagringsgrad"
+                    />
+                  </div>
+
+                  <div className="md:flex flex-row items-center gap-4">
+                    <FormImage
+                      file={watchFile}
+                      wine={{
+                        pictureUrl: wine?.pictureUrl,
+                        imageByUser: wine?.imageByUser,
+                        productId: wine?.productId,
+                      }}
+                      productId={getValues("productId")}
+                      name="resetImage"
+                      control={control}
+                    />
+                    <div className="grid flex-1 grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                      <FormTextInput
+                        required
+                        control={control}
+                        name="type"
+                        label="Type"
+                        placeholder="Vintype"
+                      />
+                      <FormYearPicker
+                        control={control}
+                        minValue={0}
+                        maxValue={3000}
+                        dropDownMinValue={new Date().getFullYear() - 10}
+                        dropDownMaxValue={new Date().getFullYear() + 1}
+                        name="year"
+                        label="Årgang"
+                        placeholder="årgang"
+                      />
+                      <FormTextInput
+                        control={control}
+                        name="volume"
+                        label="Volum"
+                        definition="liter"
+                        placeholder="volum"
+                      />
+                      <FormTextInput
+                        control={control}
+                        name="price"
+                        label="Pris"
+                        definition="kr"
+                        placeholder="pris"
+                      />
+                      <FormTextInput
+                        control={control}
+                        name="alcoholContent"
+                        label="Alkoholdinnhold"
+                        definition="%"
+                        placeholder="alkoholinnhold"
+                      />
+                      <FormTextInput
+                        control={control}
+                        name="manufacturerName"
+                        label="Produsent"
+                        placeholder="produsent"
+                      />
+                      {countryStatus === "loading" ? (
+                        <div className="flex items-center flex-col justify-center space-x-4">
+                          <ThreeDots
+                            height={"2rem"}
+                            width={"2.5rem"}
+                            className="mx-4"
+                            fill="gray"
+                          />
+                          <span className="text-slate-500 text-sm">
+                            Laster land...
+                          </span>
+                        </div>
+                      ) : (
+                        <>
+                          {countries ? (
+                            <FormCombobox
+                              name="country"
+                              label="Land"
+                              control={control}
+                              list={countries}
+                            />
+                          ) : (
+                            <FormTextInput
+                              control={control}
+                              name="country"
+                              label="Land"
+                              placeholder="land"
+                            />
+                          )}
+                        </>
+                      )}
+                      <FormTextInput
+                        control={control}
+                        name="region"
+                        label="Distrikt"
+                        placeholder="distrikt"
+                      />
+                      <FormTextInput
+                        control={control}
+                        name="subRegion"
+                        label="Underdistrikt"
+                        placeholder="underdistrikt"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <FormFilePicker
+                      name="file"
+                      label="Velg bilde"
+                      control={control}
+                    />
+                  </div>
+                </Tab.Panel>
+                <Tab.Panel
+                  as={motion.div}
+                  key={1}
+                  initial="hide"
+                  animate="show"
+                  variants={tabAnim}
+                  className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
+                >
+                  <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+                    <FormTasteSelect
+                      control={control}
+                      name="freshness"
+                      type="freshness"
+                      label="Ferskhet"
+                    />
+                    <FormTasteSelect
+                      label="Fylde"
+                      type="fullness"
+                      name="fullness"
+                      control={control}
+                    />
+                    <FormTasteSelect
+                      label="Bitterhet"
+                      type="bitterness"
+                      name="bitterness"
+                      control={control}
+                    />
+                    <FormTasteSelect
+                      label="Sødme"
+                      type="sweetness"
+                      name="sweetness"
+                      control={control}
+                    />
+                    <FormTasteSelect
+                      label="Tanninsk"
+                      type="tannins"
+                      name="tannins"
+                      control={control}
+                    />
+                  </div>
+                  <FormTextInput
+                    textarea
+                    rows={2}
+                    maxLength={500}
+                    control={control}
+                    name="grapes"
+                    label="Råstoff"
+                    placeholder=""
+                  />
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormTextInput
+                      textarea
+                      rows={2}
+                      maxLength={500}
+                      control={control}
+                      name="colour"
+                      label="Farge"
+                      placeholder="farge"
+                    />
+                    <FormTextInput
+                      textarea
+                      rows={2}
+                      maxLength={500}
+                      control={control}
+                      name="odour"
+                      label="Duft"
+                      placeholder="duft"
+                    />
+                  </div>
+                  <FormTextInput
+                    textarea
+                    rows={3}
+                    maxLength={500}
+                    control={control}
+                    name="taste"
+                    label="Smak"
+                    placeholder="smak"
+                  />
+                </Tab.Panel>
+                <Tab.Panel
+                  as={motion.div}
+                  key={2}
+                  initial="hide"
+                  animate="show"
+                  variants={tabAnim}
+                  className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
+                >
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormTextInput
+                      control={control}
+                      name="userDetails.quantity"
+                      label="Antall"
+                      placeholder="antall"
+                    />
+                    <FormTextInput
+                      control={control}
+                      name="userDetails.purchaseLocation"
+                      label="Kjøpested"
+                      placeholder="kjøpested"
+                    />
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <FormTextInput
+                      control={control}
+                      name="userDetails.score"
+                      label="Karakter (50-100)"
+                      placeholder="karakter"
                     />
                     <FormYearPicker
                       control={control}
                       minValue={0}
                       maxValue={3000}
-                      dropDownMinValue={new Date().getFullYear() - 10}
-                      dropDownMaxValue={new Date().getFullYear() + 1}
-                      name="year"
-                      label="Årgang"
-                      placeholder="årgang"
+                      dropDownMinValue={new Date().getFullYear() - 5}
+                      dropDownMaxValue={new Date().getFullYear() + 5}
+                      name="userDetails.drinkingWindowMin"
+                      label="Drikkevindu (fra)"
+                      placeholder="år fra"
                     />
-                    <FormTextInput
+                    <FormYearPicker
                       control={control}
-                      name="volume"
-                      label="Volum"
-                      definition="liter"
-                      placeholder="volum"
-                    />
-                    <FormTextInput
-                      control={control}
-                      name="price"
-                      label="Pris"
-                      definition="kr"
-                      placeholder="pris"
-                    />
-                    <FormTextInput
-                      control={control}
-                      name="alcoholContent"
-                      label="Alkoholdinnhold"
-                      definition="%"
-                      placeholder="alkoholinnhold"
-                    />
-                    <FormTextInput
-                      control={control}
-                      name="manufacturerName"
-                      label="Produsent"
-                      placeholder="produsent"
-                    />
-                    {countryStatus === "loading" ? (
-                      <div className="flex items-center flex-col justify-center space-x-4">
-                        <ThreeDots
-                          height={"2rem"}
-                          width={"2.5rem"}
-                          className="mx-4"
-                          fill="gray"
-                        />
-                        <span className="text-slate-500 text-sm">
-                          Laster land...
-                        </span>
-                      </div>
-                    ) : (
-                      <>
-                        {countries ? (
-                          <FormCombobox
-                            name="country"
-                            label="Land"
-                            control={control}
-                            list={countries}
-                          />
-                        ) : (
-                          <FormTextInput
-                            control={control}
-                            name="country"
-                            label="Land"
-                            placeholder="land"
-                          />
-                        )}
-                      </>
-                    )}
-                    <FormTextInput
-                      control={control}
-                      name="region"
-                      label="Distrikt"
-                      placeholder="distrikt"
-                    />
-                    <FormTextInput
-                      control={control}
-                      name="subRegion"
-                      label="Underdistrikt"
-                      placeholder="underdistrikt"
+                      minValue={0}
+                      maxValue={3000}
+                      dropDownMinValue={new Date().getFullYear() - 5}
+                      dropDownMaxValue={new Date().getFullYear() + 10}
+                      name="userDetails.drinkingWindowMax"
+                      label="Drikkevindu (til)"
+                      placeholder="år til"
                     />
                   </div>
-                </div>
-                <div>
-                  <FormFilePicker
-                    name="file"
-                    label="Velg bilde"
-                    control={control}
-                  />
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
-                <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
-                  <FormTasteSelect
-                    control={control}
-                    name="freshness"
-                    type="freshness"
-                    label="Ferskhet"
-                  />
-                  <FormTasteSelect
-                    label="Fylde"
-                    type="fullness"
-                    name="fullness"
-                    control={control}
-                  />
-                  <FormTasteSelect
-                    label="Bitterhet"
-                    type="bitterness"
-                    name="bitterness"
-                    control={control}
-                  />
-                  <FormTasteSelect
-                    label="Sødme"
-                    type="sweetness"
-                    name="sweetness"
-                    control={control}
-                  />
-                  <FormTasteSelect
-                    label="Tanninsk"
-                    type="tannins"
-                    name="tannins"
-                    control={control}
-                  />
-                </div>
-                <FormTextInput
-                  textarea
-                  rows={2}
-                  maxLength={500}
-                  control={control}
-                  name="grapes"
-                  label="Råstoff"
-                  placeholder=""
-                />
-                <div className="grid grid-cols-2 gap-4">
                   <FormTextInput
                     textarea
-                    rows={2}
+                    rows={3}
                     maxLength={500}
                     control={control}
-                    name="colour"
-                    label="Farge"
-                    placeholder="farge"
+                    name="userDetails.userNote"
+                    label="Dine notater"
+                    placeholder="notater"
                   />
-                  <FormTextInput
-                    textarea
-                    rows={2}
-                    maxLength={500}
-                    control={control}
-                    name="odour"
-                    label="Duft"
-                    placeholder="duft"
-                  />
-                </div>
-                <FormTextInput
-                  textarea
-                  rows={3}
-                  maxLength={500}
-                  control={control}
-                  name="taste"
-                  label="Smak"
-                  placeholder="smak"
-                />
-              </Tab.Panel>
-              <Tab.Panel className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8">
-                <div className="grid grid-cols-2 gap-4">
-                  <FormTextInput
-                    control={control}
-                    name="userDetails.quantity"
-                    label="Antall"
-                    placeholder="antall"
-                  />
-                  <FormTextInput
-                    control={control}
-                    name="userDetails.purchaseLocation"
-                    label="Kjøpested"
-                    placeholder="kjøpested"
-                  />
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <FormTextInput
-                    control={control}
-                    name="userDetails.score"
-                    label="Karakter (50-100)"
-                    placeholder="karakter"
-                  />
-                  <FormYearPicker
-                    control={control}
-                    minValue={0}
-                    maxValue={3000}
-                    dropDownMinValue={new Date().getFullYear() - 5}
-                    dropDownMaxValue={new Date().getFullYear() + 5}
-                    name="userDetails.drinkingWindowMin"
-                    label="Drikkevindu (fra)"
-                    placeholder="år fra"
-                  />
-                  <FormYearPicker
-                    control={control}
-                    minValue={0}
-                    maxValue={3000}
-                    dropDownMinValue={new Date().getFullYear() - 5}
-                    dropDownMaxValue={new Date().getFullYear() + 10}
-                    name="userDetails.drinkingWindowMax"
-                    label="Drikkevindu (til)"
-                    placeholder="år til"
-                  />
-                </div>
-                <FormTextInput
-                  textarea
-                  rows={3}
-                  maxLength={500}
-                  control={control}
-                  name="userDetails.userNote"
-                  label="Dine notater"
-                  placeholder="notater"
-                />
-                <div className="grid grid-cols-3 gap-4">
-                  <FormToggle
-                    control={control}
-                    name="userDetails.favorite"
-                    label="Favoritt?"
-                  />
-                  <FormStarRating
-                    control={control}
-                    name="userDetails.userRating"
-                    label="Din vurdering"
-                  />
-                </div>
-              </Tab.Panel>
+                  <div className="grid grid-cols-3 gap-4">
+                    <FormToggle
+                      control={control}
+                      name="userDetails.favorite"
+                      label="Favoritt?"
+                    />
+                    <FormStarRating
+                      control={control}
+                      name="userDetails.userRating"
+                      label="Din vurdering"
+                    />
+                  </div>
+                </Tab.Panel>
+              </AnimatePresence>
             </Tab.Panels>
             <div className="mt-6 border-t border-slate-200 mb-6"></div>
             <div className="flex flex-row flex-wrap gap-2 items-center">
@@ -532,7 +574,6 @@ const WineForm = ({
                 loading={isSubmitting}
                 loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}
                 type="submit"
-                className="h-auto py-2 rounded-full"
               >
                 {wine ? (
                   <PencilSimpleLine size="1.5rem" />
@@ -542,7 +583,7 @@ const WineForm = ({
                 {submitText}
               </LoadingButton>
               <button
-                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm   disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-500 font-medium w-auto h-auto py-2"
+                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 disabled:hover:bg-gray-300 font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setIsOpen(true)}

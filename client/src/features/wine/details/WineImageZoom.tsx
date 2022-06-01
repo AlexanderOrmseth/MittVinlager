@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Controlled as Zoom } from "react-medium-image-zoom";
 import placeholderImg from "../../../app/assets/bottle.png";
 import "react-medium-image-zoom/dist/styles.css";
+import { motion } from "framer-motion";
 
 const WineImageZoom = ({
   pictureUrl,
@@ -26,7 +27,15 @@ const WineImageZoom = ({
       ? pictureUrl
       : `https://bilder.vinmonopolet.no/cache/900x900-0/${productId}-1.jpg`;
   return (
-    <div className="flex flex-col items-center">
+    <motion.div
+      initial={{ x: 10, opacity: 0 }}
+      animate={{
+        x: 0,
+        opacity: 1,
+      }}
+      transition={{ type: "spring", stiffness: 60, delay: 0 }}
+      className="flex flex-col items-center"
+    >
       <Zoom
         isZoomed={isZoomed}
         transitionDuration={400}
@@ -54,7 +63,7 @@ const WineImageZoom = ({
           Trykk på bilde for å zoome inn.
         </p>
       )}
-    </div>
+    </motion.div>
   );
 };
 

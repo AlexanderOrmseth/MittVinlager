@@ -272,6 +272,9 @@ public class WineController : BaseApiController
             // validate product id
             if (formBody.ProductId != null && formBody.ProductId.IsNumeric())
             {
+                // user wants to update image 
+                    // do stuff
+                
                 // already has image
                 if (!string.IsNullOrEmpty(wine.PublicId))
                 {

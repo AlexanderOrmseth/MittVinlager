@@ -24,7 +24,7 @@ const WineFilter = () => {
   const disabled = status === "loading";
 
   return (
-    <div className="flex gap-y-4 flex-col">
+    <div className="space-y-4 sticky top-4 overflow-y-auto pr-2 max-h-screen">
       <WineSearch disabled={disabled} />
       <ListBox
         label="Sorter"

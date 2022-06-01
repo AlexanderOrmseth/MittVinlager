@@ -26,7 +26,7 @@ const LoadingButton = ({
       disabled={disabled || loading}
       className={`btn-primary inline-flex items-center gap-2 h-10 ${
         disabled && !loading
-          ? "bg-gray-400 cursor-not-allowed hover:bg-gray-500"
+          ? "bg-gray-300 cursor-not-allowed text-gray-500 hover:bg-gray-300"
           : ""
       } ${className ? className : ""}`}
     >

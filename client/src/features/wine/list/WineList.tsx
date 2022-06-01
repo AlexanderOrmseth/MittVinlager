@@ -1,7 +1,8 @@
-import { Ghost, Robot } from "phosphor-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Ghost, Robot, Spinner } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
+//import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
 import {
   useAppDispatch,
@@ -20,7 +21,7 @@ const WineList = () => {
   }>({ id: null, name: null });
 
   const wine = useAppSelector(wineSelectors.selectAll);
-  const { allFetched, status, metaData, wineParams } = useAppSelector(
+  const { allFetched, status, metaData } = useAppSelector(
     (state) => state.wine
   );
 
@@ -30,7 +31,6 @@ const WineList = () => {
   useEffect(() => {
     if (!allFetched) {
       const promise = dispatch(allWine());
-
       return () => {
         promise.abort();
       };
@@ -45,14 +45,7 @@ const WineList = () => {
   let content = null;
   // loading
   if (status === "loading") {
-    content = (
-      <div className="grid md:grid-cols-2 gap-x-4 gap-y-4">
-        <WineCardSkeleton />
-        <WineCardSkeleton />
-        <WineCardSkeleton />
-        <WineCardSkeleton />
-      </div>
-    );
+    content = <Spinner size="5rem" className="animate-spin" />;
   }
   // no wine
   else if (!wine.length) {
@@ -70,7 +63,7 @@ const WineList = () => {
       content = (
         <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2">
           <Robot size="5rem" weight="light" />
-          <p>Beep boop, du har ingen vin som treffer valgt filter.</p>
+          <p>Beep boop! Du har ingen vin som treffer valgt filter.</p>
           <button
             onClick={() => dispatch(resetParams())}
             className="btn-primary"
@@ -85,13 +78,22 @@ const WineList = () => {
   else {
     content = (
       <div className="grid lg:grid-cols-2 gap-2">
-        {wine.map((w) => (
-          <WineCard
-            key={w.wineId}
-            wine={w}
-            handleDeleteWine={handleDeleteWine}
-          />
-        ))}
+        <AnimatePresence>
+          {wine.map((w, i) => (
+            <motion.div
+              key={w.wineId}
+              layout
+              initial={{ opacity: 0, translateY: 10 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{
+                duration: 0.2,
+                delay: i * 0.05,
+              }}
+            >
+              <WineCard wine={w} handleDeleteWine={handleDeleteWine} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     );
   }
@@ -100,7 +102,7 @@ const WineList = () => {
     <div className="flex flex-1 flex-col">
       <Paginator status={status} top={true} />
 
-      <div className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
+      <div className="flex-1 h-full p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
         {content}
       </div>
       <Paginator status={status} top={false} />

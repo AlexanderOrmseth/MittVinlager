@@ -116,9 +116,10 @@ const Vinmonopolet = ({
             name="vinmonopoletProductId"
             value={inputValue}
             autoComplete="off"
-            placeholder="produktnummer/url"
+            placeholder="produktId"
             onChange={(e) => setInputValue(e.target.value)}
           />
+          {error && <p className="text-wine-500 text-sm italic">{error}</p>}
         </div>
 
         <RadioGroup
@@ -134,7 +135,7 @@ const Vinmonopolet = ({
                   className={`p-3 rounded 
                 ${
                   checked
-                    ? "bg-blue-wine-500 text-green-wine-25"
+                    ? "bg-blue-wine-500 text-slate-50"
                     : "bg-slate-200 text-gray-900 hover:bg-slate-300"
                 } flex flex-row gap-x-2 items-center cursor-pointer select-none`}
                 >
@@ -163,8 +164,6 @@ const Vinmonopolet = ({
           <DownloadSimple size="1.5rem" />
           Hent vin
         </LoadingButton>
-
-        {error && <p className="text-wine-500 text-sm italic">{error}</p>}
       </div>
     </>
   );
