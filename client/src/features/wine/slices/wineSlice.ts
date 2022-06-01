@@ -19,6 +19,7 @@ interface WineState {
   filterStatus: "loading" | "idle";
   countryStatus: "loading" | "idle" | "failed";
   countries: Country[] | null;
+  gridView: boolean;
   // filterOptions = filters for logged in user depending on users inventory.
   filterOptions: {
     countries: string[];
@@ -44,6 +45,7 @@ const initialState: WineState = {
   filterStatus: "idle",
   countryStatus: "idle",
   countries: null,
+  gridView: true,
   filterOptions: {
     countries: [],
     types: [],
@@ -82,6 +84,9 @@ export const wineSlice = createSlice({
 
       // trigger fetch
       state.allFetched = false;
+    },
+    setGridView: (state, action) => {
+      state.gridView = action.payload;
     },
     setMetaData: (state, action) => {
       state.metaData = action.payload;
@@ -167,5 +172,6 @@ export const {
   setParams,
   resetParams,
   resetAll,
+  setGridView,
   triggerFetch,
 } = wineSlice.actions;

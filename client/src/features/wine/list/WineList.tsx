@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { Ghost, Robot, Spinner } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -12,6 +11,7 @@ import { allWine } from "../slices/wineAsyncThunks";
 import { resetParams, wineSelectors } from "../slices/wineSlice";
 import Paginator from "./Paginator";
 import WineCard from "./WineCard";
+import WineRowItem from "./WineRowItem";
 
 const WineList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ const WineList = () => {
   }>({ id: null, name: null });
 
   const wine = useAppSelector(wineSelectors.selectAll);
-  const { allFetched, status, metaData } = useAppSelector(
+  const { allFetched, status, metaData, gridView } = useAppSelector(
     (state) => state.wine
   );
 
@@ -77,23 +77,24 @@ const WineList = () => {
   // else
   else {
     content = (
-      <div className="grid lg:grid-cols-2 gap-2">
-        <AnimatePresence>
-          {wine.map((w, i) => (
-            <motion.div
+      <div
+        className={`${gridView ? "grid lg:grid-cols-2 gap-2" : "space-y-2"}`}
+      >
+        {wine.map((w, i) =>
+          gridView ? (
+            <WineCard
               key={w.wineId}
-              layout
-              initial={{ opacity: 0, translateY: 10 }}
-              animate={{ opacity: 1, translateY: 0 }}
-              transition={{
-                duration: 0.2,
-                delay: i * 0.05,
-              }}
-            >
-              <WineCard wine={w} handleDeleteWine={handleDeleteWine} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              wine={w}
+              handleDeleteWine={handleDeleteWine}
+            />
+          ) : (
+            <WineRowItem
+              key={w.wineId}
+              wine={w}
+              handleDeleteWine={handleDeleteWine}
+            />
+          )
+        )}
       </div>
     );
   }
@@ -102,9 +103,10 @@ const WineList = () => {
     <div className="flex flex-1 flex-col">
       <Paginator status={status} top={true} />
 
-      <div className="flex-1 h-full p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
+      <div className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
         {content}
       </div>
+
       <Paginator status={status} top={false} />
 
       <DeleteWineModal

@@ -75,7 +75,7 @@ const DetailsPage = () => {
             <WineDetails wine={wine} />
           </div>
 
-          <div className="pl-0 md:pl-4 space-y-4 md:row-start-auto md:border-b-0 row-start-1 border-b pb-4">
+          <div className="pl-0 md:pl-4 relative md:row-start-auto md:border-b-0 row-start-1 border-b pb-4">
             <WineImageZoom
               productId={wine.productId}
               pictureUrl={wine.pictureUrl}

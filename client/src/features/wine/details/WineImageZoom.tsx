@@ -34,7 +34,7 @@ const WineImageZoom = ({
         opacity: 1,
       }}
       transition={{ type: "spring", stiffness: 60, delay: 0 }}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center md:sticky md:top-0 overflow-auto"
     >
       <Zoom
         isZoomed={isZoomed}
