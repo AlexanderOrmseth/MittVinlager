@@ -1,6 +1,7 @@
 import { useState } from "react";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import { useAppSelector } from "../../app/store/configureStore";
+import Statistics from "../statistics/Statistics";
 
 const ProfilePage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,9 @@ const ProfilePage = () => {
           Slett bruker
         </button>
       </div>
+
+      <Statistics />
+
       <DeleteUserModal isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );

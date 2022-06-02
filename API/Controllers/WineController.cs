@@ -76,6 +76,26 @@ public class WineController : BaseApiController
         return Ok(new {countries, types});
     }
 
+    [HttpGet("statistics")]
+    public async Task<ActionResult> GetWineStatistics(CancellationToken cancellationToken)
+    {
+        var userId = await GetUserId(User);
+
+        var query = await _context.Wines
+            .Where(wine => wine.UserId == userId && wine.UserDetailses.Quantity > 0)
+            .GroupBy(x => x.Type)
+            .Select(x => new
+            {
+                Type = x.Key, Quantity = x.Sum(wine => wine.UserDetailses.Quantity),
+                Value = x.Sum(wine => wine.Price * wine.UserDetailses.Quantity),
+                Unique = x.Count()
+            })
+            .ToListAsync(cancellationToken);
+
+        return Ok(new {query});
+    }
+
+
     /// <summary>
     /// Get wine by id
     /// </summary>
@@ -273,8 +293,8 @@ public class WineController : BaseApiController
             if (formBody.ProductId != null && formBody.ProductId.IsNumeric())
             {
                 // user wants to update image 
-                    // do stuff
-                
+                // do stuff
+
                 // already has image
                 if (!string.IsNullOrEmpty(wine.PublicId))
                 {

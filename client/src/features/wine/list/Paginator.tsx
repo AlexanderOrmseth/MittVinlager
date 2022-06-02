@@ -5,6 +5,7 @@ import {
 import { setPageNumber } from "../slices/wineSlice";
 import { CaretLeft, CaretRight } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
+import ViewModeToggle from "../../../app/components/filter/ViewModeToggle";
 
 interface Props {
   status: string;
@@ -40,8 +41,9 @@ const Paginator = ({ status, top }: Props) => {
       } flex border rounded bg-white shadow-xxs md:py-1.5 py-1 px-4 items-center text-sm gap-4 flex-row text-gray-900 font-medium justify-between 
    `}
     >
-      <div>
+      <div className="flex items-center">
         Totalt: {metaData?.resultCount}/{metaData?.totalCount}
+        {top && <ViewModeToggle />}
       </div>
       <div className="flex flex-row sm:gap-4 gap-2 items-center">
         <div>Per side: {metaData?.pageSize}</div>

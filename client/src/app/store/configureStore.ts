@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 // import slices
 import { accountSlice } from "../../features/account/accountSlice";
+import { statisticsSlice } from "../../features/statistics/statisticsSlice";
 import { wineSlice } from "../../features/wine/slices/wineSlice";
 
 export const store = configureStore({
   reducer: {
     account: accountSlice.reducer,
     wine: wineSlice.reducer,
+    statistics: statisticsSlice.reducer,
   },
 });
 

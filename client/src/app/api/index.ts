@@ -100,6 +100,8 @@ const Wine = {
   updateWine: (updatedWine: FormModel, id: number) =>
     requests.putForm(`wine/${id}`, serialize(updatedWine)),
   deleteWine: (id: number) => requests.delete(`wine/${id}`),
+  getStatistics: (config?: AxiosRequestConfig) =>
+    requests.get("wine/statistics", undefined, config),
 };
 
 const api = {
