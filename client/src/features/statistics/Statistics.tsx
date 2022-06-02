@@ -2,7 +2,20 @@ import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import { getStatistics } from "./statisticsSlice";
-import Chart, { ReactGoogleChartEvent } from "react-google-charts";
+
+import { PieChart } from "react-minimal-pie-chart";
+import { formatPrice } from "../../app/util/format";
+
+const colors = [
+  "#a1b9e6",
+  "#507cd1",
+  "#3568ca",
+  "#a91f36",
+  "#e77e8f",
+  "#d72845",
+  "#6bd1d8",
+  "#35c0ca",
+];
 
 const Statistics = () => {
   const dispatch = useAppDispatch();
@@ -18,27 +31,54 @@ const Statistics = () => {
 
   if (status === "rejected") return <div>Error...</div>;
 
-  const data = () => {
-    let chartData = [["Type", "Antall"]] as any;
-    wineStatistics.forEach((data) =>
-      chartData.push([data.type, data.quantity])
-    );
-    return chartData;
-  };
+  var randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
   return (
     <div>
       {wineStatistics.length > 0 && (
-        <div className="bg-slate-50 border">
-          <Chart
-            chartType="PieChart"
-            height="600px"
-            data={data()}
-            options={{
-              pieSliceText: "label",
-              title: "Antall typer",
-            }}
-          />
+        <div className="grid grid-cols-2 gap-2 my-8 bg-slate-50 rounded-lg p-8">
+          <div>
+            <h3 className="text-center font-medium mb-2">Antall</h3>
+            <PieChart
+              animate={true}
+              className="h-80"
+              labelPosition={90}
+              lineWidth={50}
+              paddingAngle={2}
+              labelStyle={{ fontSize: "4px" }}
+              label={({ dataEntry }) =>
+                dataEntry.title + ": " + dataEntry.value
+              }
+              data={wineStatistics.map((data, i) => {
+                return {
+                  title: data.type,
+                  value: data.quantity,
+                  color: colors[i],
+                };
+              })}
+            />
+          </div>
+          <div>
+            <h3 className="text-center font-medium mb-2">Verdi</h3>
+            <PieChart
+              animate={true}
+              className="h-80"
+              labelPosition={90}
+              lineWidth={50}
+              paddingAngle={2}
+              labelStyle={{ fontSize: "4px" }}
+              label={({ dataEntry }) =>
+                dataEntry.title + ": " + formatPrice(dataEntry.value)
+              }
+              data={wineStatistics.map((data, i) => {
+                return {
+                  title: data.type,
+                  value: data.value,
+                  color: colors[i],
+                };
+              })}
+            />
+          </div>
         </div>
       )}
 
