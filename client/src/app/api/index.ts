@@ -102,6 +102,8 @@ const Wine = {
   deleteWine: (id: number) => requests.delete(`wine/${id}`),
   getStatistics: (config?: AxiosRequestConfig) =>
     requests.get("wine/statistics", undefined, config),
+  getHistory: (config?: AxiosRequestConfig) =>
+    requests.get("wine/history", undefined, config),
 };
 
 const api = {

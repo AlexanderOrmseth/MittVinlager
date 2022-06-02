@@ -34,7 +34,7 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
         cancelToken: source.token,
       });
 
-      return response.query;
+      return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -61,4 +61,4 @@ export const statisticsSlice = createSlice({
   },
 });
 
-export const {} = statisticsSlice.actions;
+//export const {} = statisticsSlice.actions;

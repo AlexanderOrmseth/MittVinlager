@@ -76,12 +76,36 @@ public class WineController : BaseApiController
         return Ok(new {countries, types});
     }
 
+    [HttpGet("history")]
+    public async Task<ActionResult> GetHistory(CancellationToken cancellationToken)
+    {
+        var userId = await GetUserId(User);
+
+        var lastPurchased = await _context.Wines
+            .Where(wine => wine.UserId == userId && wine.UserDetailses.PurchaseDate.HasValue)
+            .Select(w => new
+            {
+                w.Name,
+                w.WineId,
+                Date = w.UserDetailses.PurchaseDate,
+                w.PictureUrl
+            })
+            .OrderBy(w => w.Date)
+            .Take(10)
+            .ToListAsync(cancellationToken);
+
+        return Ok(lastPurchased);
+    }
+
+    /// <summary>
+    /// Gets quantity and value of each wine type 
+    /// </summary>
     [HttpGet("statistics")]
     public async Task<ActionResult> GetWineStatistics(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
 
-        var query = await _context.Wines
+        var data = await _context.Wines
             .Where(wine => wine.UserId == userId && wine.UserDetailses.Quantity > 0)
             .GroupBy(x => x.Type)
             .Select(x => new
@@ -92,7 +116,7 @@ public class WineController : BaseApiController
             })
             .ToListAsync(cancellationToken);
 
-        return Ok(new {query});
+        return Ok(new {data});
     }
 
 
