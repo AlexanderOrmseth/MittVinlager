@@ -32,7 +32,7 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
         source.cancel();
       });
 
-      // fetch wine
+      // fetch statistics
       const response = await api.Wine.getStatistics({
         cancelToken: source.token,
       });

@@ -6,17 +6,19 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from "react-hook-form";
-import api from "../../../app/api";
-import LoadingButton from "../../../app/components/LoadingButton";
-import { FormModel } from "../../../app/models/wine";
+import api from "../api";
+import LoadingButton from "./LoadingButton";
+import { FormModel } from "../models/wine";
 
 interface Props {
-  handleResetForm: UseFormReset<FormModel>;
-  productId?: string | null;
-  name?: string;
   setIsOpen: (value: boolean) => void;
-  setValue: UseFormSetValue<FormModel>;
-  getValues: UseFormGetValues<FormModel>;
+  productId?: string | null;
+
+  setValues: UseFormReset<FormModel> | ((values: FormModel) => void);
+  isWishlist: boolean;
+
+  setValue?: UseFormSetValue<FormModel>;
+  getValues?: UseFormGetValues<FormModel>;
 }
 
 const radioValues = [
@@ -38,11 +40,12 @@ const radioValues = [
 ];
 
 const Vinmonopolet = ({
-  handleResetForm,
+  setValues,
   productId,
   setIsOpen,
   setValue,
   getValues,
+  isWishlist,
 }: Props) => {
   const [inputValue, setInputValue] = useState<string>(productId || "");
   const [loading, setLoading] = useState(false);
@@ -56,24 +59,28 @@ const Vinmonopolet = ({
         inputValue
       )) as FormModel;
 
-      switch (resetAction) {
-        case 1:
-          // reset entire form
-          handleResetForm(res);
-          break;
-        case 2:
-          // replace price
-          setValue("price", res.price);
-          break;
-        case 3:
-          // reset everything but keep userDetails
-          const { userDetails, ...rest } = res;
-          handleResetForm({ ...rest, userDetails: getValues("userDetails") });
-          break;
-        default:
-          // reset entire form
-          handleResetForm(res);
-          break;
+      if (isWishlist) {
+        setValues(res);
+      } else if (setValue && getValues) {
+        switch (resetAction) {
+          case 1:
+            // reset entire form
+            setValues(res);
+            break;
+          case 2:
+            // replace price
+            setValue("price", res.price);
+            break;
+          case 3:
+            // reset everything but keep userDetails
+            const { userDetails, ...rest } = res;
+            setValues({ ...rest, userDetails: getValues("userDetails") });
+            break;
+          default:
+            // reset entire form
+            setValues(res);
+            break;
+        }
       }
 
       setIsOpen(false);
@@ -122,37 +129,39 @@ const Vinmonopolet = ({
           {error && <p className="text-wine-500 text-sm italic">{error}</p>}
         </div>
 
-        <RadioGroup
-          className="space-y-1"
-          value={resetAction}
-          onChange={setResetAction}
-        >
-          <RadioGroup.Label className="label">Velg verdier</RadioGroup.Label>
-          {radioValues.map((radio) => (
-            <RadioGroup.Option key={radio.value} value={radio.value}>
-              {({ checked, active }) => (
-                <div
-                  className={`p-3 rounded 
+        {!isWishlist && (
+          <RadioGroup
+            className="space-y-1"
+            value={resetAction}
+            onChange={setResetAction}
+          >
+            <RadioGroup.Label className="label">Velg verdier</RadioGroup.Label>
+            {radioValues.map((radio) => (
+              <RadioGroup.Option key={radio.value} value={radio.value}>
+                {({ checked, active }) => (
+                  <div
+                    className={`p-3 rounded 
                 ${
                   checked
                     ? "bg-blue-wine-500 text-slate-50"
                     : "bg-slate-200 text-gray-900 hover:bg-slate-300"
                 } flex flex-row gap-x-2 items-center cursor-pointer select-none`}
-                >
-                  <div className="flex-1">
-                    <p className="font-medium">{radio.title}</p>
-                    <p className="opacity-80 text-sm">{radio.description}</p>
-                  </div>
-                  {checked && (
-                    <div className="border-2 border-white rounded-full p-0.5">
-                      <Check size="1.2rem" weight="bold" />
+                  >
+                    <div className="flex-1">
+                      <p className="font-medium">{radio.title}</p>
+                      <p className="opacity-80 text-sm">{radio.description}</p>
                     </div>
-                  )}
-                </div>
-              )}
-            </RadioGroup.Option>
-          ))}
-        </RadioGroup>
+                    {checked && (
+                      <div className="border-2 border-white rounded-full p-0.5">
+                        <Check size="1.2rem" weight="bold" />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </RadioGroup.Option>
+            ))}
+          </RadioGroup>
+        )}
 
         <LoadingButton
           loadingText="Henter vin..."

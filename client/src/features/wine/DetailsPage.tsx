@@ -16,10 +16,10 @@ const DetailsPage = () => {
 
   return (
     <>
-      <div className="">
+      <div>
         <div className="flex flex-row mb-4 gap-x-2 items-center">
           <div className={`flag f32 ${wine.countryId}`}></div>
-          <h2 className="lg:text-3xl md:text-2xl text-xl text-wine-500 font-medium">
+          <h2 className="md:text-4xl text-3xl font-bold text-wine-500">
             {wine.name}
           </h2>
         </div>

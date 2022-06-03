@@ -218,7 +218,7 @@ const WineForm = ({
         setIsOpen={setVinmonopoletModalIsOpen}
         productId={wine?.productId}
         isOpen={vinmonopoletModalIsOpen}
-        handleResetForm={reset}
+        setValues={reset}
         getValues={getValues}
         setValue={setValue}
       />

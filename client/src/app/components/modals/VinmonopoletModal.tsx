@@ -3,26 +3,28 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from "react-hook-form";
-import Vinmonopolet from "../../../features/wine/form/Vinmonopolet";
+import Vinmonopolet from "../Vinmonopolet";
 import { FormModel } from "../../models/wine";
 import Modal from "./Modal";
 
 interface Props {
   isOpen: boolean;
-  productId?: string | null;
   setIsOpen: (val: boolean) => void;
-  handleResetForm: UseFormReset<FormModel>;
-  setValue: UseFormSetValue<FormModel>;
-  getValues: UseFormGetValues<FormModel>;
+  setValues: UseFormReset<FormModel> | ((values: FormModel) => void);
+  productId?: string | null;
+  isWishlist?: boolean;
+  setValue?: UseFormSetValue<FormModel>;
+  getValues?: UseFormGetValues<FormModel>;
 }
 
 const VinmonopoletModal = ({
   isOpen,
   setIsOpen,
-  handleResetForm,
+  setValues,
   setValue,
   getValues,
   productId,
+  isWishlist = false,
 }: Props) => {
   return (
     <Modal
@@ -38,7 +40,8 @@ const VinmonopoletModal = ({
           setValue={setValue}
           getValues={getValues}
           productId={productId}
-          handleResetForm={handleResetForm}
+          isWishlist={isWishlist}
+          setValues={setValues}
         />
       </div>
     </Modal>

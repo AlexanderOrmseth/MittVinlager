@@ -3,6 +3,7 @@ using System;
 using API.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220603130928_addedWishItem")]
+    partial class addedWishItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,14 +56,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "5506f9dd-3e7e-4d91-bae3-40d050832f10",
+                            ConcurrencyStamp = "fc762acc-48ff-4de8-9652-3c3a745baeb7",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "af1682df-7fb5-43ae-80bc-6e62273bdefc",
+                            ConcurrencyStamp = "e4206417-1080-464b-b074-e8102402f4a7",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -298,45 +300,6 @@ namespace API.Migrations
                     b.ToTable("WineUserDetails");
                 });
 
-            modelBuilder.Entity("API.Entities.WishItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("AlcoholContent")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int?>("Price")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("WishItems");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -462,17 +425,6 @@ namespace API.Migrations
                     b.Navigation("Wine");
                 });
 
-            modelBuilder.Entity("API.Entities.WishItem", b =>
-                {
-                    b.HasOne("API.Entities.User", "User")
-                        .WithMany("Wishlist")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("API.Entities.Role", null)
@@ -527,8 +479,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.User", b =>
                 {
                     b.Navigation("Wines");
-
-                    b.Navigation("Wishlist");
                 });
 
             modelBuilder.Entity("API.Entities.Wine", b =>

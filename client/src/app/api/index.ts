@@ -1,10 +1,10 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
+import { serialize } from "object-to-formdata";
 import { PaginatedResponse } from "../models/pagination";
 import { FormModel } from "../models/wine";
+import { WishItem } from "./../models/wishItem";
 import { store } from "../store/configureStore";
-
-import { serialize } from "object-to-formdata";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
 
@@ -104,10 +104,19 @@ const Wine = {
     requests.get("wine/statistics", undefined, config),
 };
 
+const Wishlist = {
+  getWishlist: (config?: AxiosRequestConfig) =>
+    requests.get("wishlist", undefined, config),
+  deleteWishItem: (id: number) => requests.delete(`wishlist/${id}`),
+  addWishItem: (newWishItem: WishItem) =>
+    requests.post("wishlist", newWishItem),
+};
+
 const api = {
   Account,
   Vinmonopolet,
   Wine,
+  Wishlist,
 };
 
 export default api;

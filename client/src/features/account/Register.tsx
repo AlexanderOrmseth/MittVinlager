@@ -20,7 +20,7 @@ const Register = () => {
     watch,
     trigger,
     getFieldState,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting },
   } = useForm({
     mode: "onSubmit",
     resolver: yupResolver(registerSchema),

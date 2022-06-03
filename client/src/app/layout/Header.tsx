@@ -42,6 +42,7 @@ const Header = () => {
           <>
             <NavLink end setOpen={setOpen} text="Vinsamling" to="/inventory" />
             <NavLink setOpen={setOpen} text="Ny vin" to="/inventory/new" />
+            <NavLink setOpen={setOpen} text="Ønskeliste" to="/wishlist" />
           </>
         ) : (
           <>

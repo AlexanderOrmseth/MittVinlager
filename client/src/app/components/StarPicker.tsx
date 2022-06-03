@@ -1,4 +1,3 @@
-import { Minus, Plus } from "phosphor-react";
 import Stars from "./Stars";
 interface Props {
   value: number | null;

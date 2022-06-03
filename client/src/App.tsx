@@ -14,6 +14,7 @@ import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";
 import UpdateWinePage from "./features/wine/UpdateWinePage";
+import Wishlist from "./features/wishlist/Wishlist";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -85,6 +86,14 @@ function App() {
               element={
                 <AuthRedirect>
                   <UpdateWinePage />
+                </AuthRedirect>
+              }
+            />
+            <Route
+              path="wishlist"
+              element={
+                <AuthRedirect>
+                  <Wishlist />
                 </AuthRedirect>
               }
             />

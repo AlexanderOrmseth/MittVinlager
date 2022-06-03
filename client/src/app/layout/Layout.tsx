@@ -36,7 +36,9 @@ const Layout = () => {
           <p className="text-gray-700 text-sm">Utviklet av Alexander Ormseth</p>
         </div>
         <p className="text-center absolute left-0 -top-2.5 text-gray-500 text-sm w-full">
-          <span className="bg-white px-2">Mitt Vinlager © 2021</span>
+          <span className="bg-white px-2">
+            Mitt Vinlager © 2021-{new Date().getFullYear()}
+          </span>
         </p>
       </footer>
     </>
