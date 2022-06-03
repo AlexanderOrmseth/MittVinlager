@@ -31,6 +31,7 @@ import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
+import Title from "../../../app/layout/Title";
 interface Props {
   title: string;
   submitText: string;
@@ -221,9 +222,7 @@ const WineForm = ({
         getValues={getValues}
         setValue={setValue}
       />
-      <h2 className="lg:text-3xl md:text-2xl text-xl text-gray-900 font-medium">
-        {title}
-      </h2>
+      <Title title={title} border Icon={wine ? PencilSimpleLine : PlusCircle} />
       <div className="mt-4 text-slate-700">
         Her kan du legge til vin. Trykk på "Hent fra Vinmonopolet" knappen for å
         hente vin fra Vinmonopolet.no.

@@ -1,4 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { LastPurchased } from "./../../app/models/statistics";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../app/api";
 import { Statistics } from "../../app/models/statistics";
@@ -9,12 +10,14 @@ interface StatisticsState {
   status: "idle" | "loading" | "rejected";
   statisticsFetched: boolean;
   wineStatistics: Statistics[];
+  lastPurchased: LastPurchased[];
   history: null;
 }
 
 const initialState: StatisticsState = {
   status: "idle",
   statisticsFetched: false,
+  lastPurchased: [],
   wineStatistics: [],
   history: null,
 };
@@ -33,8 +36,8 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
       const response = await api.Wine.getStatistics({
         cancelToken: source.token,
       });
-
-      return response.data;
+      console.log(response);
+      return response;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -49,11 +52,15 @@ export const statisticsSlice = createSlice({
     builder.addCase(getStatistics.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(getStatistics.fulfilled, (state, action) => {
-      state.status = "idle";
-      state.wineStatistics = action.payload;
-      state.statisticsFetched = true;
-    });
+    builder.addCase(
+      getStatistics.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.status = "idle";
+        state.wineStatistics = action.payload.data;
+        state.lastPurchased = action.payload.lastPurchased;
+        state.statisticsFetched = true;
+      }
+    );
     builder.addCase(getStatistics.rejected, (state) => {
       state.status = "rejected";
       state.statisticsFetched = true;

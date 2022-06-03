@@ -23,7 +23,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
       <div className="flex-1">
         <div className="font-medium leading-4 ">
           <Link
-            className="text-blue-wine-500 hover:text-blue-wine-200 hover:underline"
+            className="text-blue-wine-500 font-bold hover:text-blue-wine-200 hover:underline"
             to={`${wine.wineId}`}
           >
             {wine.name}

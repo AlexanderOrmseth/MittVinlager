@@ -82,6 +82,20 @@ public class WineController : BaseApiController
         var userId = await GetUserId(User);
 
         var lastPurchased = await _context.Wines
+            .Where(wine => wine.UserId == userId)
+            .Select(w => new
+            {
+                w.Name,
+                w.WineId,
+                Date = w.CreatedAt,
+                w.PictureUrl
+            })
+            .OrderBy(w => w.Date)
+            .Take(10)
+            .ToListAsync(cancellationToken);
+
+
+        /*var lastPurchased = await _context.Wines
             .Where(wine => wine.UserId == userId && wine.UserDetailses.PurchaseDate.HasValue)
             .Select(w => new
             {
@@ -92,8 +106,7 @@ public class WineController : BaseApiController
             })
             .OrderBy(w => w.Date)
             .Take(10)
-            .ToListAsync(cancellationToken);
-
+            .ToListAsync(cancellationToken);*/
         return Ok(lastPurchased);
     }
 
@@ -116,7 +129,20 @@ public class WineController : BaseApiController
             })
             .ToListAsync(cancellationToken);
 
-        return Ok(new {data});
+        var lastPurchased = await _context.Wines
+            .Where(wine => wine.UserId == userId)
+            .Select(w => new
+            {
+                w.Name,
+                w.WineId,
+                Date = w.CreatedAt,
+                w.PictureUrl
+            })
+            .OrderBy(w => w.Date)
+            .Take(10)
+            .ToListAsync(cancellationToken);
+
+        return Ok(new {data, lastPurchased});
     }
 
 

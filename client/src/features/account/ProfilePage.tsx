@@ -1,13 +1,13 @@
 import {
-  At,
   CalendarBlank,
   ChartPieSlice,
+  Door,
   IdentificationBadge,
-  Smiley,
   User,
 } from "phosphor-react";
 import { useState } from "react";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
+import Title from "../../app/layout/Title";
 import { useAppSelector } from "../../app/store/configureStore";
 import History from "../statistics/History";
 import Statistics from "../statistics/Statistics";
@@ -21,14 +21,7 @@ const ProfilePage = () => {
       <DeleteUserModal isOpen={isOpen} setIsOpen={setIsOpen} />
       <div className="space-y-8">
         <section>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 flex border-b pb-2 flex-row gap-x-2 items-center">
-            <IdentificationBadge
-              className="text-gray-700"
-              size="1.2em"
-              weight="regular"
-            />
-            Profil
-          </h2>
+          <Title title="Profil" border Icon={IdentificationBadge} />
           {user && (
             <div className="p-8 border inline-flex flex-col justify-center items-center gap-y-5 rounded-lg">
               <div className="text-4xl font-medium text-blue-wine-400">
@@ -39,9 +32,10 @@ const ProfilePage = () => {
                 {user.email}
               </div>
               <button
-                className="btn-primary h-12 rounded-full w-full"
+                className="btn-primary h-12 rounded-full flex flex-row items-center justify-center gap-x-2 w-full"
                 onClick={() => setIsOpen(true)}
               >
+                <Door size="1.75rem" weight="duotone" />
                 Slett meg
               </button>
             </div>
@@ -49,26 +43,12 @@ const ProfilePage = () => {
         </section>
 
         <section>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 flex border-b pb-2 flex-row gap-x-2 items-center">
-            <ChartPieSlice
-              className="text-gray-700"
-              size="1.2em"
-              weight="regular"
-            />
-            Lagerstatus
-          </h2>
+          <Title title="Lagerstatus" border Icon={ChartPieSlice} />
           <Statistics />
         </section>
 
         <section>
-          <h2 className="text-4xl font-bold text-gray-900 mb-4 flex border-b pb-2 flex-row gap-x-2 items-center">
-            <CalendarBlank
-              className="text-gray-700"
-              size="1.2em"
-              weight="regular"
-            />
-            Sist kjøpt
-          </h2>
+          <Title title="Sist kjøpt" border Icon={CalendarBlank} />
           <History />
         </section>
       </div>

@@ -118,16 +118,17 @@ const Statistics = () => {
           {wineStatistics.map((data, i) => (
             <div
               key={i}
-              className="grid grid-cols-3 py-2 rounded gap-2 px-2 text-gray-700 hover:text-gray-900 hover:bg-slate-100"
+              className="grid grid-cols-3 py-2 even:bg-slate-100 rounded gap-2 px-2"
             >
-              <div className="">
+              <div>
                 <Link
-                  className="text-green-wine-500 font-medium"
+                  className="text-green-wine-500 hover:text-green-wine-600 hover:underline font-medium"
                   to="/inventory"
                 >
                   {data.type}
                 </Link>
               </div>
+
               <div className="text-right">{data.quantity}</div>
               <div className="text-right">{formatPrice(data.value)}</div>
             </div>
