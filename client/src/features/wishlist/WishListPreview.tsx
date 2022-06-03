@@ -4,7 +4,7 @@ import LoadingButton from "../../app/components/LoadingButton";
 import { FormModel } from "../../app/models/wine";
 import { WishItem } from "../../app/models/wishItem";
 import { useAppDispatch } from "../../app/store/configureStore";
-import { formatPrice } from "../../app/util/format";
+import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { triggerFetch } from "./wishlistSlice";
 interface Props {
   wine: FormModel | null;
@@ -48,10 +48,17 @@ const WishListPreview = ({ wine, setWine }: Props) => {
   };
 
   return (
-    <div>
-      <div>
-        <h3>{wine.name}</h3>
+    <div className="p-4 bg-white border rounded-lg text-center basis-96">
+      <h3 className="font-bold text-blue-wine-500 mb-2">{wine.name}</h3>
+      <img
+        className="object-scale-down mx-auto pointer-events-none select-none rounded w-36 h-36"
+        src={`https://bilder.vinmonopolet.no/cache/400x400-0/${wine.productId}-1.jpg`}
+        alt={`Bilde av en vin: ${wine.name}`}
+      />
+      <div className="grid text-gray-700 my-3 grid-cols-2 gap-2">
         <p>{wine.type}</p>
+        <p>{formatAlcoholContent(wine.alcoholContent)}</p>
+        <p>{wine.country}</p>
         <p>{formatPrice(wine.price)}</p>
       </div>
 
@@ -60,6 +67,7 @@ const WishListPreview = ({ wine, setWine }: Props) => {
         disabled={!wine}
         onClick={handleAddWishListItem}
         loadingText="Legger til vin..."
+        className="w-full justify-center"
       >
         Legg til
       </LoadingButton>

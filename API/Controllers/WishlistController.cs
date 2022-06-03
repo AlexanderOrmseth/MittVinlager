@@ -74,7 +74,7 @@ public class WishlistController : BaseApiController
         // User can only have 10 items in their wishlist
         if (await _context.Wishlist.CountAsync(wine => wine.UserId == userId) > 10)
         {
-            return BadRequest();
+            return BadRequest(new ProblemDetails{ Title = "Du kan max ha 10 vin i ønskelisten din."});
         }
 
         var newWishItem = MapDtoToEntity(wishItemDto, userId);

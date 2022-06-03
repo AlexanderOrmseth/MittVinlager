@@ -47,6 +47,10 @@ export const wishlistSlice = createSlice({
     triggerFetch: (state) => {
       state.isFetched = false;
     },
+    removeWishlistItem: (state, action) => {
+      state.wishItems =
+        state.wishItems?.filter((item) => item.id !== action.payload) || null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getWishlist.pending, (state) => {
@@ -64,4 +68,4 @@ export const wishlistSlice = createSlice({
   },
 });
 
-export const { triggerFetch } = wishlistSlice.actions;
+export const { triggerFetch, removeWishlistItem } = wishlistSlice.actions;
