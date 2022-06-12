@@ -1,6 +1,8 @@
+import { PlusCircle } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../app/api";
+import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import { useAppDispatch } from "../../app/store/configureStore";
 import WineForm from "./form/WineForm";
@@ -31,12 +33,13 @@ const NewWinePage = () => {
 
   return (
     <div>
-      <WineForm
-        title="Ny Vin"
-        submitText="Legg til vin"
-        onSubmit={onSubmit}
-        serverErrors={serverErrors}
-      />
+      <Title title="Ny Vin" border Icon={PlusCircle}>
+        <p>
+          Her kan du legge til vin. Trykk på "Hent fra Vinmonopolet" knappen for
+          å hente vin fra Vinmonopolet.no.
+        </p>
+      </Title>
+      <WineForm onSubmit={onSubmit} serverErrors={serverErrors} />
     </div>
   );
 };

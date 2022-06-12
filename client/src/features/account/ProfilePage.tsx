@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import {
   CalendarBlank,
   ChartPieSlice,
@@ -8,13 +9,21 @@ import {
 import { useState } from "react";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import Title from "../../app/layout/Title";
-import { useAppSelector } from "../../app/store/configureStore";
+import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import History from "../statistics/History";
 import Statistics from "../statistics/Statistics";
+import { getStatistics } from "../statistics/statisticsSlice";
 
 const ProfilePage = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
+
+  const { statisticsFetched } = useAppSelector((state) => state.statistics);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!statisticsFetched) dispatch(getStatistics());
+  }, [dispatch, statisticsFetched]);
 
   return (
     <>
@@ -23,7 +32,7 @@ const ProfilePage = () => {
         <section>
           <Title title="Profil" border Icon={IdentificationBadge} />
           {user && (
-            <div className="p-8 border inline-flex flex-col justify-center items-center gap-y-5 rounded-lg">
+            <div className="p-8 border inline-flex max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
               <div className="text-4xl font-medium text-blue-wine-400">
                 {user.userName}
               </div>

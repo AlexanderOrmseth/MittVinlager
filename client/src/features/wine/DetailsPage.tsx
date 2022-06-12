@@ -34,7 +34,7 @@ const DetailsPage = () => {
               <PencilLine
                 size="1.25rem"
                 weight="duotone"
-                className="text-slate-600"
+                className="text-slate-700"
               />
               Rediger
             </Link>
@@ -45,7 +45,11 @@ const DetailsPage = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                <LinkIcon size="1.25rem" weight="duotone" />
+                <LinkIcon
+                  size="1.25rem"
+                  weight="duotone"
+                  className="text-slate-700"
+                />
                 Link
               </a>
             )}

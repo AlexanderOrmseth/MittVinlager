@@ -31,10 +31,7 @@ import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
-import Title from "../../../app/layout/Title";
 interface Props {
-  title: string;
-  submitText: string;
   onSubmit: (data: FormModel) => void;
   serverErrors: Record<string, string[]> | null;
   wine?: Wine;
@@ -78,7 +75,6 @@ const tab3: Keys[] = [
 ];
 const tabFields = [tab1, tab2, tab3];
 const tabs = ["Vindetaljer", "Smaksdetaljer", "Brukerdetaljer"];
-const classNames = (...classes: string[]) => classes.filter(Boolean).join(" ");
 
 const tabAnim = {
   hide: {
@@ -99,13 +95,7 @@ const tabAnim = {
   },
 };
 
-const WineForm = ({
-  onSubmit,
-  serverErrors,
-  wine,
-  title,
-  submitText,
-}: Props) => {
+const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   const dispatch = useAppDispatch();
   const { countries, countryStatus } = useAppSelector((state) => state.wine);
   const [isOpen, setIsOpen] = useState(false);
@@ -222,11 +212,6 @@ const WineForm = ({
         getValues={getValues}
         setValue={setValue}
       />
-      <Title title={title} border Icon={wine ? PencilSimpleLine : PlusCircle} />
-      <div className="mt-4 text-slate-700">
-        Her kan du legge til vin. Trykk på "Hent fra Vinmonopolet" knappen for å
-        hente vin fra Vinmonopolet.no.
-      </div>
 
       <div className="bg-slate-25 mt-6 border rounded-lg md:p-8 p-4 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
@@ -236,13 +221,11 @@ const WineForm = ({
                 <Tab
                   key={i}
                   className={({ selected }) =>
-                    classNames(
-                      "relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr",
-                      "h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2",
+                    `relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2 ${
                       selected
                         ? " text-wine-500 rounded-b-none border-b-wine-500"
                         : "text-gray-700 hover:text-black border-b-transparent"
-                    )
+                    }`
                   }
                 >
                   {!!getErrorCount(tabFields[i], i === 2) && (
@@ -579,7 +562,7 @@ const WineForm = ({
                 ) : (
                   <PlusCircle size="1.5rem" />
                 )}
-                {submitText}
+                {wine ? "Rediger vin" : "Legg til"}
               </LoadingButton>
               <button
                 className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled-btn font-medium w-auto h-auto py-2"

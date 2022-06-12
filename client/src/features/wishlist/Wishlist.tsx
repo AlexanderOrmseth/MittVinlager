@@ -36,11 +36,12 @@ const Wishlist = () => {
         setIsOpen={setIsOpen}
       />
       <div>
-        <Title title="Ønskeliste" Icon={Sparkle} border />
-        <p>
-          Her kan du legge til vin i egen ønskeliste. Du kan max ha 10 vin i
-          ønskelisten.
-        </p>
+        <Title title="Ønskeliste" Icon={Sparkle} border>
+          <p>
+            Her kan du legge til vin i egen ønskeliste. Du kan max ha 10 vin i
+            ønskelisten.
+          </p>
+        </Title>
 
         <div className="my-4">
           <button

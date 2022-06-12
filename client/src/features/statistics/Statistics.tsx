@@ -1,13 +1,11 @@
-import { useEffect } from "react";
-
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { getStatistics } from "./statisticsSlice";
-
+import { useAppSelector } from "../../app/store/configureStore";
 import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../app/util/format";
 import { Link } from "react-router-dom";
+import Spinner from "../../app/components/loading/Spinner";
 
-const colors = [
+// chart colors
+const pieColors = [
   "#a1b9e6",
   "#507cd1",
   "#3568ca",
@@ -18,22 +16,28 @@ const colors = [
   "#35c0ca",
 ];
 
+// chart options
+const pieOptions = {
+  animate: true,
+  className: "h-80",
+  labelPosition: 90,
+  lineWidth: 50,
+  paddingAngle: 2,
+  labelStyle: { fontSize: "4px" },
+};
+
 const Statistics = () => {
-  const dispatch = useAppDispatch();
-  const { wineStatistics, status, statisticsFetched } = useAppSelector(
+  const { wineStatistics, status } = useAppSelector(
     (state) => state.statistics
   );
 
-  useEffect(() => {
-    if (!statisticsFetched) dispatch(getStatistics());
-  }, [dispatch, statisticsFetched]);
-
-  if (status === "loading") return <div>Laster statistikk...</div>;
+  if (status === "loading") return <Spinner text="Laster statistikk" />;
 
   if (status === "rejected")
     return <div>Error, kunne ikke hente statistikk.</div>;
 
-  if (!wineStatistics || wineStatistics.length === 0) return null;
+  if (!wineStatistics || wineStatistics.length === 0)
+    return <div>Ingen data å vise.</div>;
 
   const total = [
     {
@@ -70,18 +74,13 @@ const Statistics = () => {
             Antall
           </h3>
           <PieChart
-            animate={true}
-            className="h-80"
-            labelPosition={90}
-            lineWidth={50}
-            paddingAngle={2}
-            labelStyle={{ fontSize: "4px" }}
+            {...pieOptions}
             label={({ dataEntry }) => dataEntry.title + ": " + dataEntry.value}
             data={wineStatistics.map((data, i) => {
               return {
                 title: data.type,
                 value: data.quantity,
-                color: colors[i],
+                color: pieColors[i],
               };
             })}
           />
@@ -91,12 +90,7 @@ const Statistics = () => {
             Verdi
           </h3>
           <PieChart
-            animate={true}
-            className="h-80"
-            labelPosition={90}
-            lineWidth={50}
-            paddingAngle={2}
-            labelStyle={{ fontSize: "4px" }}
+            {...pieOptions}
             label={({ dataEntry }) =>
               dataEntry.title + ": " + formatPrice(dataEntry.value)
             }
@@ -104,7 +98,7 @@ const Statistics = () => {
               return {
                 title: data.type,
                 value: data.value,
-                color: colors[i],
+                color: pieColors[i],
               };
             })}
           />
@@ -118,13 +112,10 @@ const Statistics = () => {
           {wineStatistics.map((data, i) => (
             <div
               key={i}
-              className="grid grid-cols-3 py-2 even:bg-slate-100 rounded gap-2 px-2"
+              className="grid grid-cols-3 py-2 odd:bg-slate-100 rounded gap-2 px-2"
             >
               <div>
-                <Link
-                  className="text-green-wine-500 hover:text-green-wine-600 hover:underline font-medium"
-                  to="/inventory"
-                >
+                <Link className="link" to="/inventory">
                   {data.type}
                 </Link>
               </div>

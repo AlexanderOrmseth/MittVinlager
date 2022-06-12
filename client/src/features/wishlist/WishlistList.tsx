@@ -36,30 +36,28 @@ const WishlistList = ({ items }: Props) => {
             key={wishItem.id}
             name={wishItem.name}
             pictureUrl={wishItem.pictureUrl}
+            externalLink
+            to={vinmonopoletLink(wishItem.productId)}
           >
             <>
-              <div className="flex-1 mb-2 flex items-center gap-2 comma">
+              <div className="flex-1 mb-2 text-sm flex items-center gap-2 comma">
                 <p>{wishItem.type}</p>
                 {wishItem.country && <p>{wishItem.country}</p>}
                 {!!wishItem.price && <p>{formatPrice(wishItem.price)}</p>}
                 {!!wishItem.alcoholContent && (
                   <p>{formatAlcoholContent(wishItem.alcoholContent)}</p>
                 )}
-                <a
-                  className="link"
-                  href={vinmonopoletLink(wishItem.productId)}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  link
-                </a>
               </div>
               <button
                 disabled={loading}
                 onClick={() => handleDeleteWishItem(wishItem.id)}
                 className="btn-white flex flex-row items-center gap-x-2 py-1.5 w-auto disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Trash size="1.5rem" />
+                <Trash
+                  size="1.5rem"
+                  weight="duotone"
+                  className="text-wine-500"
+                />
                 Slett
               </button>
             </>

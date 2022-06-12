@@ -1,9 +1,18 @@
 import { formatDate } from "../../app/util/format";
 import { useAppSelector } from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
+import Spinner from "../../app/components/loading/Spinner";
 
 const History = () => {
-  const { lastPurchased } = useAppSelector((state) => state.statistics);
+  const { lastPurchased, status } = useAppSelector((state) => state.statistics);
+
+  if (status === "loading") return <Spinner text="Laster statistikk" />;
+
+  if (status === "rejected")
+    return <div>Error, kunne ikke hente statistikk.</div>;
+
+  if (!lastPurchased || lastPurchased.length === 0)
+    return <div>Ingen data å vise.</div>;
 
   return (
     <div>
