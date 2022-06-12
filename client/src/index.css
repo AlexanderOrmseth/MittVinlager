@@ -51,6 +51,10 @@
             text-sm hover:bg-slate-50 active:bg-slate-100 active:text-gray-700;
   }
 
+  .disabled-btn {
+    @apply disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500;
+  }
+
   .focus-primary {
     @apply focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }

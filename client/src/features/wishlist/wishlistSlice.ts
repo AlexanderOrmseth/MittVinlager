@@ -63,7 +63,7 @@ export const wishlistSlice = createSlice({
     });
     builder.addCase(getWishlist.rejected, (state) => {
       state.status = "rejected";
-      state.isFetched = true;
+      state.isFetched = false;
     });
   },
 });

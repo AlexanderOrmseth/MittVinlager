@@ -6,4 +6,5 @@ export interface WishItem {
   country?: string | null;
   price?: number | null;
   alcoholContent?: number | null;
+  pictureUrl?: string | null;
 }

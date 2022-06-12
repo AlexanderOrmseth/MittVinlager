@@ -24,7 +24,11 @@ const Score = ({ value, hideDefinition, size }: Props) => {
   return (
     <div
       className={`${
-        hideDefinition ? "" : "flex flex-row flex-wrap items-center gap-2"
+        hideDefinition
+          ? size
+            ? `w-${size} h-${size}`
+            : "w-9 h-9"
+          : "flex flex-row flex-wrap items-center gap-2"
       }`}
     >
       <div

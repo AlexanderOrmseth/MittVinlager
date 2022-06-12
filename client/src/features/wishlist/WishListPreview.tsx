@@ -5,6 +5,7 @@ import { FormModel } from "../../app/models/wine";
 import { WishItem } from "../../app/models/wishItem";
 import { useAppDispatch } from "../../app/store/configureStore";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
+import { vinmonopoletImage } from "../../app/util/vinmonopolet";
 import { triggerFetch } from "./wishlistSlice";
 interface Props {
   wine: FormModel | null;
@@ -52,7 +53,7 @@ const WishListPreview = ({ wine, setWine }: Props) => {
       <h3 className="font-bold text-blue-wine-500 mb-2">{wine.name}</h3>
       <img
         className="object-scale-down mx-auto pointer-events-none select-none rounded w-36 h-36"
-        src={`https://bilder.vinmonopolet.no/cache/400x400-0/${wine.productId}-1.jpg`}
+        src={vinmonopoletImage(wine.productId, 200)}
         alt={`Bilde av en vin: ${wine.name}`}
       />
       <div className="grid text-gray-700 my-3 grid-cols-2 gap-2">

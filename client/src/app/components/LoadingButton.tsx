@@ -21,18 +21,21 @@ const LoadingButton = ({
 }: Props) => {
   return (
     <button
-      type={type ?? "button"}
+      type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`btn-primary inline-flex items-center gap-2 h-10 ${
-        disabled && !loading
-          ? "bg-gray-300 cursor-not-allowed text-gray-500 hover:bg-gray-300"
-          : ""
-      } ${className ? className : ""}`}
+      className={`btn-primary inline-flex items-center gap-2 h-10 disabled-btn ${
+        className ? className : ""
+      }`}
     >
       {loading ? (
         <>
-          <Puff height={"1.5rem"} width={"1.5rem"} strokeWidth={4} />
+          <Puff
+            height="1.5rem"
+            stroke="rgb(55 65 81)"
+            width="1.5rem"
+            strokeWidth={4}
+          />
           {loadingText}
         </>
       ) : (

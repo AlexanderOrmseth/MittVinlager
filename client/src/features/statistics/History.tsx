@@ -1,4 +1,3 @@
-import placeholderImg from "../../app/assets/bottle.png";
 import { formatDate } from "../../app/util/format";
 import { useAppSelector } from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
@@ -13,7 +12,7 @@ const History = () => {
           {lastPurchased.map((wine) => (
             <WineListItem
               key={wine.wineId}
-              pictureUrl={wine.pictureUrl || placeholderImg}
+              pictureUrl={wine.pictureUrl}
               name={wine.name}
               to={`/inventory/${wine.wineId}`}
             >

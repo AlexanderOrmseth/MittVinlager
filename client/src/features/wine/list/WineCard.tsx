@@ -9,7 +9,6 @@ import {
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
-import placeholderImg from "../../../app/assets/bottle.png";
 import DropDownMenu from "../../../app/components/DropDownMenu";
 import {
   formatAlcoholContent,
@@ -19,6 +18,7 @@ import {
 } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
+import { placeholder } from "../../../app/util/vinmonopolet";
 
 interface Props {
   wine: Wine;
@@ -78,7 +78,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
         <div className="flex-1 flex items-center justify-center flex-col gap-y-2">
           <img
             className="object-scale-down pointer-events-none select-none lg:h-40 lg:w-32 rounded md:h-28 md:w-28 w-28 h-28"
-            src={`${wine.pictureUrl ? wine.pictureUrl : placeholderImg}`}
+            src={wine.pictureUrl || placeholder}
             alt="Bilde av en vin"
           />
           {(!!wine.userDetails.userRating ||

@@ -582,7 +582,7 @@ const WineForm = ({
                 {submitText}
               </LoadingButton>
               <button
-                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled:bg-gray-300 disabled:cursor-not-allowed disabled:text-gray-500 disabled:hover:bg-gray-300 font-medium w-auto h-auto py-2"
+                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled-btn font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setIsOpen(true)}

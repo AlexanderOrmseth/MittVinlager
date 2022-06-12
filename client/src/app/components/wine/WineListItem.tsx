@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { placeholder } from "../../util/vinmonopolet";
 
 interface Props {
   name: string;
-  pictureUrl: string | undefined;
+  pictureUrl?: string | undefined | null;
   children: React.ReactNode;
   to?: string;
 }
@@ -11,7 +12,7 @@ const WineListItem = ({ name, pictureUrl, children, to }: Props) => {
     <div className="flex items-center bg-white rounded shadow p-1">
       <img
         className="object-scale-down pointer-events-none select-none rounded w-28 h-28"
-        src={pictureUrl}
+        src={pictureUrl || placeholder}
         alt={`Bilde av en vin: ${name}`}
       />
       <div className="flex-1 ml-2">

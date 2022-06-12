@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../app/api";
+import Spinner from "../../app/components/loading/Spinner";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import { FormModel } from "../../app/models/wine";
 import { useAppDispatch } from "../../app/store/configureStore";
@@ -16,7 +17,8 @@ const UpdateWinePage = () => {
     string[]
   > | null>(null);
 
-  if (status === "loading") return <div>Laster inn vin!</div>;
+  if (status === "loading") return <Spinner text="Laster vin..." />;
+
   if (!wine) return <div>vinen eksisterer ikke!</div>;
 
   const onSubmit = async (data: FormModel) => {

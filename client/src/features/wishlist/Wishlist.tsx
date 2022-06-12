@@ -1,24 +1,19 @@
-import { Info, Sparkle, Trash } from "phosphor-react";
+import { Sparkle } from "phosphor-react";
 import { useEffect, useState } from "react";
-import api from "../../app/api";
+import Spinner from "../../app/components/loading/Spinner";
 import VinmonopoletModal from "../../app/components/modals/VinmonopoletModal";
-import WineListItem from "../../app/components/wine/WineListItem";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
-import { formatAlcoholContent, formatPrice } from "../../app/util/format";
-import {
-  vinmonopoletImage,
-  vinmonopoletLink,
-} from "../../app/util/vinmonopolet";
+import WishlistList from "./WishlistList";
 import WishListPreview from "./WishListPreview";
-import { getWishlist, removeWishlistItem } from "./wishlistSlice";
+import { getWishlist } from "./wishlistSlice";
 
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [wine, setWine] = useState<FormModel | null>(null);
   const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
+
   const { isFetched, status, wishItems } = useAppSelector(
     (state) => state.wishlist
   );
@@ -31,21 +26,6 @@ const Wishlist = () => {
       };
     }
   }, [dispatch, isFetched]);
-
-  if (status === "loading") return <div>Laster ønskeliste...</div>;
-
-  const handleDeleteWishItem = async (id: number) => {
-    setLoading(true);
-    try {
-      const response = await api.Wishlist.deleteWishItem(id);
-      dispatch(removeWishlistItem(id));
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <>
@@ -66,8 +46,11 @@ const Wishlist = () => {
           <button
             type="button"
             onClick={() => setIsOpen(true)}
-            disabled={loading}
-            className="btn-secondary w-full h-12 rounded-full"
+            disabled={
+              status === "loading" ||
+              (wishItems != null && wishItems?.length >= 10)
+            }
+            className="btn-secondary w-full h-12 rounded-full disabled-btn"
           >
             Hent vin
           </button>
@@ -76,47 +59,10 @@ const Wishlist = () => {
         <div className="flex gap-4 items-start flex-row">
           <WishListPreview setWine={setWine} wine={wine} />
           <div className="flex-1 p-4 bg-slate-50 rounded-lg space-y-2">
-            {!!wishItems?.length ? (
-              wishItems.map((wishItem) => (
-                <WineListItem
-                  key={wishItem.id}
-                  name={wishItem.name}
-                  pictureUrl={vinmonopoletImage(wishItem.productId, 300)}
-                >
-                  <>
-                    <div className="flex-1 mb-2 flex items-center gap-2 comma">
-                      <p>{wishItem.type}</p>
-                      {wishItem.country && <p>{wishItem.country}</p>}
-                      {!!wishItem.price && <p>{formatPrice(wishItem.price)}</p>}
-                      {!!wishItem.alcoholContent && (
-                        <p>{formatAlcoholContent(wishItem.alcoholContent)}</p>
-                      )}
-                      <a
-                        className="link"
-                        href={vinmonopoletLink(wishItem.productId)}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        link
-                      </a>
-                    </div>
-                    <button
-                      disabled={loading}
-                      onClick={() => handleDeleteWishItem(wishItem.id)}
-                      className="btn-white flex flex-row items-center gap-x-2 py-1.5 w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      <Trash size="1.5rem" />
-                      Slett
-                    </button>
-                  </>
-                </WineListItem>
-              ))
+            {status === "loading" ? (
+              <Spinner text="Laster..." />
             ) : (
-              <div className="text-gray-700 flex items-center">
-                <Info size="1.5rem" className="mr-1" />
-                Du har ingen vin i ønskelisten, trykk "hent vin" og legg til
-                vin.
-              </div>
+              <WishlistList items={wishItems} />
             )}
           </div>
         </div>

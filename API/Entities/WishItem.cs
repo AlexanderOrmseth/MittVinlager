@@ -15,6 +15,9 @@ public class WishItem
     [Required] public string Type { get; set; } = null!;
     [Required] public string ProductId { get; set; } = null!;
 
+    public string? PublicId { get; set; }
+    public string? PictureUrl { get; set; }
+
     public string? Country { get; set; }
     public int? Price { get; set; }
     public int? AlcoholContent { get; set; }

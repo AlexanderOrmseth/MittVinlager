@@ -1,6 +1,7 @@
-import { Ghost, Robot, Spinner } from "phosphor-react";
+import { Ghost, Robot } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Spinner from "../../../app/components/loading/Spinner";
 //import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
 import {
@@ -45,7 +46,7 @@ const WineList = () => {
   let content = null;
   // loading
   if (status === "loading") {
-    content = <Spinner size="5rem" className="animate-spin" />;
+    content = <Spinner text="Laster..." />;
   }
   // no wine
   else if (!wine.length) {

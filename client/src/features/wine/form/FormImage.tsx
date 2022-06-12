@@ -6,7 +6,7 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-import placeholderImg from "../../../app/assets/bottle.png";
+import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 
 interface Props<T> extends UseControllerProps<T> {
   file?: File | null;
@@ -30,9 +30,7 @@ const FormImage = <T extends FieldValues>({
 
   useEffect(() => {
     const handleResetImage = () => {
-      setImageSrc(
-        `https://bilder.vinmonopolet.no/cache/300x300-0/${productId}-1.jpg`
-      );
+      setImageSrc(vinmonopoletImage(productId, 300));
     };
 
     if (file) {
@@ -58,7 +56,7 @@ const FormImage = <T extends FieldValues>({
     <div className="md:mb-0 shadow rounded select-none mb-4 p-2 bg-white">
       <img
         className="mx-auto object-scale-down h-64 w-64"
-        src={imageSrc || placeholderImg}
+        src={imageSrc || placeholder}
         alt="Bilde av en vin."
       />
       {wine.imageByUser && productId && !file && (

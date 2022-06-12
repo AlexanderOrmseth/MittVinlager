@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Controlled as Zoom } from "react-medium-image-zoom";
-import placeholderImg from "../../../app/assets/bottle.png";
 import "react-medium-image-zoom/dist/styles.css";
 import { motion } from "framer-motion";
+import { vinmonopoletImage, placeholder } from "../../../app/util/vinmonopolet";
 
 const WineImageZoom = ({
   pictureUrl,
@@ -14,18 +14,25 @@ const WineImageZoom = ({
   imageByUser?: boolean;
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
+  const [zoomedImage, setZoomedImage] = useState<string | undefined>(undefined);
 
   const enabled = productId || imageByUser;
 
   const handleZoomChange = (shouldZoom: boolean) => {
     if (enabled) {
+      // to prevent fetching vinmonopolet image before its needed
+      if (!zoomedImage) {
+        setZoomedImage(
+          imageByUser && pictureUrl
+            ? pictureUrl
+            : vinmonopoletImage(productId, 900)
+        );
+      }
+
       setIsZoomed(shouldZoom);
     }
   };
-  const zoomedImage =
-    imageByUser && pictureUrl
-      ? pictureUrl
-      : `https://bilder.vinmonopolet.no/cache/900x900-0/${productId}-1.jpg`;
+
   return (
     <motion.div
       initial={{ x: 10, opacity: 0 }}
@@ -43,15 +50,17 @@ const WineImageZoom = ({
       >
         <>
           <img
-            hidden={isZoomed}
-            className="mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64"
+            className={`mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64 ${
+              isZoomed ? "hidden" : "block"
+            }`}
             alt="Bilde av vin"
-            src={pictureUrl || placeholderImg}
+            src={pictureUrl || placeholder}
           />
           {enabled && (
             <img
-              hidden={!isZoomed}
-              className="object-scale-down h-80 w-80"
+              className={`object-scale-down h-80 w-80 ${
+                isZoomed ? "block" : "hidden"
+              }`}
               alt="Bilde av vin"
               src={zoomedImage}
             />

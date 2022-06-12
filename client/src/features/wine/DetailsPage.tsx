@@ -6,12 +6,14 @@ import { PencilLine, Trash, Link as LinkIcon } from "phosphor-react";
 import WineDetails from "./details/WineDetails";
 import WineImageZoom from "./details/WineImageZoom";
 import { formatDate } from "../../app/util/format";
+import Spinner from "../../app/components/loading/Spinner";
+import { vinmonopoletLink } from "../../app/util/vinmonopolet";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { wine, id, status } = useFetchSingleWine();
 
-  if (status === "loading") return <div>Laster inn vin!</div>;
+  if (status === "loading") return <Spinner text="Laster vin..." />;
   if (!wine) return <div>vinen eksisterer ikke!</div>;
 
   return (
@@ -39,7 +41,7 @@ const DetailsPage = () => {
             {wine.productId && (
               <a
                 className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
-                href={`https://www.vinmonopolet.no/Producenter/Larsen/Larsen-V-S-O-P-/p/${wine.productId}`}
+                href={vinmonopoletLink(wine.productId)}
                 target="_blank"
                 rel="noreferrer"
               >
