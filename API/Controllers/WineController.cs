@@ -37,16 +37,30 @@ public class WineController : BaseApiController
     {
         var userId = await GetUserId(User);
 
-        //Thread.Sleep(1000);
         var count = await _context.Wines
             .Where(wine => wine.UserId == userId).CountAsync(cancellationToken);
 
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
-            .Include(w => w.UserDetailses)
-            .Search(wineParams.SearchTerm!)
-            .Sort(wineParams.OrderBy!)
-            .Filter(wineParams.Countries!, wineParams.Types!)
+
+            // Search
+            .Where(wineParams.SearchTerm.IsNotEmpty(),
+                w => w.Name.ToLower().Contains(wineParams.SearchTerm!.Trim().ToLower()))
+
+            // Country
+            .Where(wineParams.Countries.IsNotEmpty(),
+                w => w.Country != null && wineParams.Countries!.ToLower().Contains(w.Country.ToLower()))
+
+            // Quantity
+            //.Where(true, w => w.UserDetailses.Quantity >= 1)
+
+            // Types
+            .Where(wineParams.Types.IsNotEmpty(),
+                w => wineParams.Types!.ToLower().Contains(w.Type.ToLower()))
+
+            // Sort
+            .Sort(wineParams.OrderBy)
+            .Include(w => w.UserDetails)
             .Select(w => MapWineToWineDto(w))
             .AsQueryable();
 
@@ -65,10 +79,12 @@ public class WineController : BaseApiController
         var userId = await GetUserId(User);
 
         // filter options
-        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type).Distinct()
+        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type)
+            .Distinct()
             .ToListAsync(cancellationToken);
 
-        var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null).Select(w => w.Country)
+        var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null)
+            .Select(w => w.Country)
             .Distinct()
             .ToListAsync(cancellationToken);
 
@@ -76,6 +92,20 @@ public class WineController : BaseApiController
         return Ok(new {countries, types});
     }
 
+    [HttpGet("lastConsumed")]
+    public async Task<ActionResult> LastConsumed(CancellationToken cancellationToken)
+    {
+        var userId = await GetUserId(User);
+
+        var consumedList = await _context.Consumed.Where(c => c.UserId == userId)
+            .OrderBy(c => c.Date)
+            .Take(10)
+            .Select(w => new {w.Date, w.Wine.Name, w.Wine.WineId, w.Wine.PictureUrl})
+            .ToListAsync(cancellationToken);
+
+        return Ok(consumedList);
+    }
+    
     [HttpGet("history")]
     public async Task<ActionResult> GetHistory(CancellationToken cancellationToken)
     {
@@ -119,12 +149,12 @@ public class WineController : BaseApiController
         var userId = await GetUserId(User);
 
         var data = await _context.Wines
-            .Where(wine => wine.UserId == userId && wine.UserDetailses.Quantity > 0)
+            .Where(wine => wine.UserId == userId && wine.UserDetails.Quantity > 0)
             .GroupBy(x => x.Type)
             .Select(x => new
             {
-                Type = x.Key, Quantity = x.Sum(wine => wine.UserDetailses.Quantity),
-                Value = x.Sum(wine => wine.Price * wine.UserDetailses.Quantity),
+                Type = x.Key, Quantity = x.Sum(wine => wine.UserDetails.Quantity),
+                Value = x.Sum(wine => wine.Price * wine.UserDetails.Quantity),
                 Unique = x.Count()
             })
             .ToListAsync(cancellationToken);
@@ -155,7 +185,7 @@ public class WineController : BaseApiController
     public async Task<ActionResult<WineDto>> GetSingleWine(int id)
     {
         var wine = await _context.Wines
-            .Include(w => w.UserDetailses)
+            .Include(w => w.UserDetails)
             .FirstOrDefaultAsync(w => w.WineId == id);
 
         // check if wine exists
@@ -249,7 +279,7 @@ public class WineController : BaseApiController
     public async Task<ActionResult<WineDto>> UpdateWine([FromForm] AddWineDto formBody, int id)
     {
         var wine = await _context.Wines
-            .Include(w => w.UserDetailses)
+            .Include(w => w.UserDetails)
             .FirstOrDefaultAsync(w => w.WineId == id);
 
         // check if wine exists and id parameter matches wine
@@ -294,15 +324,15 @@ public class WineController : BaseApiController
         wine.Sweetness = formBody.Sweetness;
         wine.Tannins = formBody.Tannins;
         // update user details
-        wine.UserDetailses.Quantity = formBody.UserDetails.Quantity;
-        wine.UserDetailses.PurchaseLocation = formBody.UserDetails.PurchaseLocation;
-        wine.UserDetailses.PurchaseDate = formBody.UserDetails.PurchaseDate;
-        wine.UserDetailses.DrinkingWindowMin = formBody.UserDetails.DrinkingWindowMin;
-        wine.UserDetailses.DrinkingWindowMax = formBody.UserDetails.DrinkingWindowMax;
-        wine.UserDetailses.UserNote = formBody.UserDetails.UserNote;
-        wine.UserDetailses.Favorite = formBody.UserDetails.Favorite;
-        wine.UserDetailses.Score = formBody.UserDetails.Score;
-        wine.UserDetailses.UserRating = formBody.UserDetails.UserRating;
+        wine.UserDetails.Quantity = formBody.UserDetails.Quantity;
+        wine.UserDetails.PurchaseLocation = formBody.UserDetails.PurchaseLocation;
+        wine.UserDetails.PurchaseDate = formBody.UserDetails.PurchaseDate;
+        wine.UserDetails.DrinkingWindowMin = formBody.UserDetails.DrinkingWindowMin;
+        wine.UserDetails.DrinkingWindowMax = formBody.UserDetails.DrinkingWindowMax;
+        wine.UserDetails.UserNote = formBody.UserDetails.UserNote;
+        wine.UserDetails.Favorite = formBody.UserDetails.Favorite;
+        wine.UserDetails.Score = formBody.UserDetails.Score;
+        wine.UserDetails.UserRating = formBody.UserDetails.UserRating;
 
         // will always have a change
         wine.UpdatedAt = DateTime.UtcNow;
@@ -391,6 +421,114 @@ public class WineController : BaseApiController
         return BadRequest(new ProblemDetails {Title = "Problem updating wine"});
     }
 
+    
+    [HttpGet("consumed/{wineId:int}")]
+    public async Task<ActionResult<List<DateTime>>> GetConsumedDates(int wineId)
+    {
+        // get wine
+        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+
+        // check if wine exists
+        if (wine is null)
+        {
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
+        }
+        
+        var userId = await GetUserId(User);
+
+        // check if wine belongs to user
+        if (wine.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        // list of Id and Dates
+        var dates = wine.Consumed.Select(w => new {w.Date, w.Id}).ToList();
+
+        return Ok(dates);
+    }
+    
+    [HttpDelete("consumed/{wineId:int}")]
+    public async Task<ActionResult> DeleteConsumed(int wineId, int consumedId)
+    {
+        // get wine
+        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+
+        // check if wine exists
+        if (wine is null)
+        {
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke på denne vinen."});
+        }
+        
+        var userId = await GetUserId(User);
+
+        // check if wine belongs to user
+        if (wine.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        var consumed = wine.Consumed.Find(w => w.Id == consumedId);
+        
+
+        // date does not exist/already deleted
+        if (consumed is null)
+        {
+            return NotFound(new ProblemDetails {Title = "Denne datoen eksisterer ikke."});
+        }
+
+        // remove date
+        wine.Consumed.Remove(consumed);
+    
+        // save changes
+        var result = await _context.SaveChangesAsync() > 0;
+        
+        // success
+        if (result)
+        {
+            return Ok();
+        }
+
+        // else bad request
+        return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
+    }
+    
+    [HttpPost("consumed/{wineId:int}")]
+    public async Task<ActionResult> Consumed(int wineId, DateTime date)
+    {
+        // get wine
+        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+
+        // check if wine exists
+        if (wine is null)
+        {
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
+        }
+        
+        var userId = await GetUserId(User);
+
+        // check if wine belongs to user
+        if (wine.UserId != userId)
+        {
+            return Forbid();
+        }
+
+        var consumed = new Consumed {Date = date, UserId = userId};
+        wine.Consumed.Add(consumed);
+
+        var result = await _context.SaveChangesAsync() > 0;
+
+        
+        // success
+        if (result)
+        {
+            return Ok();
+        }
+
+        // else bad request
+        return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
+    }
+
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> RemoveWine(int id)
     {
@@ -472,15 +610,15 @@ public class WineController : BaseApiController
             ImageByUser = wine.ImageByUser,
             UserDetails = new WineUserDetailsDto
             {
-                Quantity = wine.UserDetailses.Quantity,
-                PurchaseLocation = wine.UserDetailses.PurchaseLocation,
-                PurchaseDate = wine.UserDetailses.PurchaseDate,
-                DrinkingWindowMin = wine.UserDetailses.DrinkingWindowMin,
-                DrinkingWindowMax = wine.UserDetailses.DrinkingWindowMax,
-                UserNote = wine.UserDetailses.UserNote,
-                Favorite = wine.UserDetailses.Favorite,
-                Score = wine.UserDetailses.Score,
-                UserRating = wine.UserDetailses.UserRating,
+                Quantity = wine.UserDetails.Quantity,
+                PurchaseLocation = wine.UserDetails.PurchaseLocation,
+                PurchaseDate = wine.UserDetails.PurchaseDate,
+                DrinkingWindowMin = wine.UserDetails.DrinkingWindowMin,
+                DrinkingWindowMax = wine.UserDetails.DrinkingWindowMax,
+                UserNote = wine.UserDetails.UserNote,
+                Favorite = wine.UserDetails.Favorite,
+                Score = wine.UserDetails.Score,
+                UserRating = wine.UserDetails.UserRating,
             }
         };
     }
@@ -511,7 +649,7 @@ public class WineController : BaseApiController
             Bitterness = formBody.Bitterness,
             Sweetness = formBody.Sweetness,
             Tannins = formBody.Tannins,
-            UserDetailses = new WineUserDetails
+            UserDetails = new WineUserDetails
             {
                 Quantity = formBody.UserDetails.Quantity,
                 PurchaseLocation = formBody.UserDetails.PurchaseLocation,

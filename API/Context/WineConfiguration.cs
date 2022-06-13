@@ -10,10 +10,15 @@ public class WineConfiguration : IEntityTypeConfiguration<Wine>
     public void Configure(EntityTypeBuilder<Wine> entity)
     {
         // a wine has one userDetail
-        entity.HasOne(w => w.UserDetailses)
+        entity.HasOne(w => w.UserDetails)
             .WithOne(i => i.Wine)
             .HasForeignKey<WineUserDetails>(w => w.Id)
             .OnDelete(DeleteBehavior.Cascade);
+
+        /*entity.HasMany(w => w.Consumed)
+            .WithOne(i => i.Wine)
+            .HasForeignKey(w => w.Id)
+            .OnDelete(DeleteBehavior.Cascade);*/
 
         // REQUIRED
         entity.Property(w => w.Name)

@@ -5,12 +5,12 @@ namespace API.Extensions;
 public static class LinqExtensions
 {
     /// <summary>
-    /// Filters a sequence of based on a predicate of when condition is true.
+    /// Filters a sequence of based on a predicate if the condition is true.
     /// </summary>
     /// <returns>An IQueryable</returns>
-    public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> source, bool when,
+    public static IQueryable<TSource> Where<TSource>(this IQueryable<TSource> query, bool condition,
         Expression<Func<TSource, bool>> predicate)
     {
-        return when ? source.Where(predicate) : source;
+        return condition ? query.Where(predicate) : query;
     }
 }

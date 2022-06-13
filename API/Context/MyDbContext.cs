@@ -12,6 +12,7 @@ public class MyDbContext : IdentityDbContext<User, Role, int>
 
     public virtual DbSet<Wine> Wines { get; set; } = null!;
     public virtual DbSet<WishItem> Wishlist { get; set; } = null!;
+    public virtual DbSet<Consumed> Consumed { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -21,6 +21,8 @@ const WineImageZoom = ({
   const handleZoomChange = (shouldZoom: boolean) => {
     if (enabled) {
       // to prevent fetching vinmonopolet image before its needed
+
+      // TODO on scroll change....
       if (!zoomedImage) {
         setZoomedImage(
           imageByUser && pictureUrl

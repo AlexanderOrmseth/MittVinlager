@@ -1,13 +1,11 @@
-using System.Net;
 using System.Text;
 using API.Context;
 using API.Entities;
 using API.Middleware;
 using API.Services;
-using API.Validators;
+using API.Services.EmailService;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -65,10 +63,10 @@ builder.Services.AddAuthentication(options =>
     });
 builder.Services.AddAuthorization();
 
-// add token service
+// Added services
 builder.Services.AddScoped<TokenService>();
-// add image service
 builder.Services.AddScoped<ImageService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // add an httpClient factory (in order fetch vinmonopolet API)
 builder.Services.AddHttpClient();

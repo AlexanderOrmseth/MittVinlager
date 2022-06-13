@@ -34,8 +34,8 @@ public class Wine
     public string? ProductId { get; set; }
     public string? Grapes { get; set; }
 
-    public string? ManufacturerName { get; set; } // 1 to 1
-    public string? StoragePotential { get; set; } // 1 to 1
+    public string? ManufacturerName { get; set; } 
+    public string? StoragePotential { get; set; }
 
     public string? Colour { get; set; }
     public string? Odour { get; set; }
@@ -52,16 +52,13 @@ public class Wine
     public int Sweetness { get; set; }
     public int Tannins { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
 
-    public DateTime? UpdatedAt { get; set; } = null;
+    public DateTime? UpdatedAt { get; set; }
 
-    [JsonIgnore] public WineUserDetails UserDetailses { get; set; }
+    [JsonIgnore] public WineUserDetails UserDetails { get; set; }
 
-
-    public Wine()
-    {
-    }
+    [JsonIgnore] public List<Consumed> Consumed { get; set; }
 
     public Wine(int userId)
     {

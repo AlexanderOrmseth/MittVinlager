@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220612112620_addedImageToWishListItem")]
-    partial class addedImageToWishListItem
+    [Migration("20220613220847_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,32 @@ namespace API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("API.Entities.Consumed", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("WineId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WineId");
+
+                    b.ToTable("Consumed");
+                });
 
             modelBuilder.Entity("API.Entities.Role", b =>
                 {
@@ -56,14 +82,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "1f400590-399f-49bc-9f41-0dc676053728",
+                            ConcurrencyStamp = "26a00fee-eb50-4316-9191-f32efa938d8a",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "0319600f-e63f-40e4-8bb7-768d092a32c0",
+                            ConcurrencyStamp = "09751010-ef9d-460f-a526-765b4030fbd5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -448,6 +474,25 @@ namespace API.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("API.Entities.Consumed", b =>
+                {
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Wine", "Wine")
+                        .WithMany("Consumed")
+                        .HasForeignKey("WineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Wine");
+                });
+
             modelBuilder.Entity("API.Entities.Wine", b =>
                 {
                     b.HasOne("API.Entities.User", "User")
@@ -462,7 +507,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.WineUserDetails", b =>
                 {
                     b.HasOne("API.Entities.Wine", "Wine")
-                        .WithOne("UserDetailses")
+                        .WithOne("UserDetails")
                         .HasForeignKey("API.Entities.WineUserDetails", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -541,7 +586,9 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Wine", b =>
                 {
-                    b.Navigation("UserDetailses")
+                    b.Navigation("Consumed");
+
+                    b.Navigation("UserDetails")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

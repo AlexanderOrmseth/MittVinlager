@@ -166,7 +166,7 @@ namespace API.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(120)", maxLength: 120, nullable: false),
                     Type = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                    ImageByUser = table.Column<bool>(type: "boolean", nullable: true),
+                    ImageByUser = table.Column<bool>(type: "boolean", nullable: false),
                     Year = table.Column<int>(type: "integer", nullable: true),
                     Price = table.Column<int>(type: "integer", nullable: true),
                     Volume = table.Column<double>(type: "double precision", nullable: true),
@@ -204,6 +204,60 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "WishItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    ProductId = table.Column<string>(type: "text", nullable: false),
+                    PublicId = table.Column<string>(type: "text", nullable: true),
+                    PictureUrl = table.Column<string>(type: "text", nullable: true),
+                    Country = table.Column<string>(type: "text", nullable: true),
+                    Price = table.Column<int>(type: "integer", nullable: true),
+                    AlcoholContent = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WishItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WishItems_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Consumed",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    WineId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Consumed", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Consumed_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Consumed_Wine_WineId",
+                        column: x => x.WineId,
+                        principalTable: "Wine",
+                        principalColumn: "WineId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WineUserDetails",
                 columns: table => new
                 {
@@ -234,8 +288,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "7a35c2c0-0899-4f2f-a739-c1cb9fa5e5c2", "Member", "MEMBER" },
-                    { 2, "c20c9eeb-f5a2-4e71-bdaf-64d44296b828", "Admin", "ADMIN" }
+                    { 1, "26a00fee-eb50-4316-9191-f32efa938d8a", "Member", "MEMBER" },
+                    { 2, "09751010-ef9d-460f-a526-765b4030fbd5", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -276,8 +330,23 @@ namespace API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Consumed_UserId",
+                table: "Consumed",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Consumed_WineId",
+                table: "Consumed",
+                column: "WineId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Wine_UserId",
                 table: "Wine",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WishItems_UserId",
+                table: "WishItems",
                 column: "UserId");
         }
 
@@ -299,7 +368,13 @@ namespace API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Consumed");
+
+            migrationBuilder.DropTable(
                 name: "WineUserDetails");
+
+            migrationBuilder.DropTable(
+                name: "WishItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

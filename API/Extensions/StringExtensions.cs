@@ -2,9 +2,9 @@ namespace API.Extensions;
 
 public static class StringExtensions
 {
-    public static bool IsEmpty(this string value) => string.IsNullOrWhiteSpace(value);
+    public static bool IsEmpty(this string? value) => string.IsNullOrWhiteSpace(value);
 
-    public static bool IsNotEmpty(this string value) => !string.IsNullOrWhiteSpace(value);
+    public static bool IsNotEmpty(this string? value) => !string.IsNullOrWhiteSpace(value);
 
     public static bool IsEqual(this string? value, string compareWith) =>
         value?.Equals(compareWith) ?? false;
