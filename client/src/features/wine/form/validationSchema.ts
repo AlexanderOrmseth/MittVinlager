@@ -1,3 +1,4 @@
+import { formatDate } from "./../../../app/util/format";
 import * as yup from "yup";
 
 const emptyStringToNull = (value: string, originalValue: string) => {
@@ -6,6 +7,11 @@ const emptyStringToNull = (value: string, originalValue: string) => {
   }
   return value;
 };
+
+const today = new Date();
+let tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+tomorrow.setHours(0, 0, 0, 0);
 
 export const schema = yup.object().shape({
   /* required */
@@ -189,6 +195,10 @@ export const schema = yup.object().shape({
       .nullable()
       .transform(emptyStringToNull)
       .max(500, "Dine notater kan max være 500 bokstaver."),
+    purchaseDate: yup
+      .date()
+      .nullable()
+      .max(tomorrow, `Kjøpsdato må være mindre enn ${formatDate(tomorrow)}`),
     purchaseLocation: yup
       .string()
       .trim()

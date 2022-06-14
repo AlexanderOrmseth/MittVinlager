@@ -502,6 +502,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                       name="userDetails.purchaseDate"
                       label="Dato kjøpt"
                       text="Velg dato"
+                      hereafter={false}
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-4">

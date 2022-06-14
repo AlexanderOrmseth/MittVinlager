@@ -11,6 +11,7 @@ interface Props<T> extends UseControllerProps<T> {
   label: string;
   errors?: string[];
   text: string;
+  hereafter: boolean;
 }
 
 const FormDatePicker = <T extends FieldValues>(props: Props<T>) => {
@@ -27,7 +28,12 @@ const FormDatePicker = <T extends FieldValues>(props: Props<T>) => {
         <Controller
           {...props}
           render={({ field: { onChange, value } }) => (
-            <DatePicker onChange={onChange} value={value} text={props.text} />
+            <DatePicker
+              hereafter={props.hereafter}
+              onChange={onChange}
+              value={value}
+              text={props.text}
+            />
           )}
         />
       }

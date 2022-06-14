@@ -25,22 +25,29 @@ const months = [
   "Desember",
 ];
 
+const today = new Date();
+
+let tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);
+tomorrow.setHours(0, 0, 0, 0);
+
 const weekdays = ["man", "tir", "ons", "tor", "fre", "lør", "søn"];
 
 interface Props {
   value: Date | null;
   onChange: (date: Date | null) => void;
   text: string;
+  hereafter: boolean;
 }
 
-const DatePicker = ({ value, onChange, text }: Props) => {
+const DatePicker = ({ value, onChange, text, hereafter }: Props) => {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
   useEffect(() => {
     if (!value) {
-      setYear(new Date().getFullYear());
-      setMonth(new Date().getMonth());
+      setYear(today.getFullYear());
+      setMonth(today.getMonth());
     } else {
       setYear(value.getFullYear());
       setMonth(value.getMonth());
@@ -55,9 +62,13 @@ const DatePicker = ({ value, onChange, text }: Props) => {
     e.preventDefault();
     amount = amount ?? 1;
     if (add) {
-      year + amount < 3000 ? setYear(year + amount) : console.log("year error");
+      year + amount < 3000
+        ? setYear(year + amount)
+        : console.log("max year is 3000.");
     } else {
-      year + amount > 0 ? setYear(year - amount) : console.log("year error");
+      year + amount > 0
+        ? setYear(year - amount)
+        : console.log("min year is 0.");
     }
   };
   const handleMonthChange = (
@@ -87,7 +98,7 @@ const DatePicker = ({ value, onChange, text }: Props) => {
   };
 
   const handleDateChange = (day: number) => {
-    onChange(new Date(year, month, day + 1));
+    onChange(new Date(year, month, day + 1, 0, 0, 0, 0));
   };
 
   const isSelectedDate = (i: number): boolean => {
@@ -98,6 +109,17 @@ const DatePicker = ({ value, onChange, text }: Props) => {
         ? true
         : false;
     }
+    return false;
+  };
+
+  const isHereafter = (i: number): boolean => {
+    const shownDate = new Date(year, month, i + 1, 0, 0, 0, 0);
+
+    // disable date
+    if (shownDate > tomorrow) {
+      return true;
+    }
+
     return false;
   };
 
@@ -115,8 +137,12 @@ const DatePicker = ({ value, onChange, text }: Props) => {
           close();
           event.preventDefault();
         }}
-        disabled={isSelectedDate(i)}
-        className={`text-gray-700 hover:bg-slate-100 hover:text-gray-900 py-2 rounded disabled:bg-wine-500 disabled:text-white`}
+        disabled={!hereafter ? isHereafter(i) : false}
+        className={` py-2 rounded ${
+          isSelectedDate(i)
+            ? "bg-wine-500 text-white"
+            : "text-gray-700 hover:bg-slate-100 hover:text-gray-900"
+        } disabled:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:text-gray-700`}
         key={i}
       >
         {i + 1}
@@ -228,7 +254,13 @@ const DatePicker = ({ value, onChange, text }: Props) => {
                     <button
                       className="btn-white shadow-none"
                       onClick={(event) => {
-                        onChange(new Date());
+                        onChange(
+                          new Date(
+                            today.getFullYear(),
+                            today.getMonth(),
+                            today.getDate()
+                          )
+                        );
                         event.preventDefault();
                         close();
                       }}

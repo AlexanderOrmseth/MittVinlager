@@ -9,16 +9,13 @@ public static class WineExtension
         // if no params -> sort wine by name
         if (orderBy.IsEmpty()) return query.OrderBy(w => w.Name);
 
-        // if params 
-        query = orderBy switch
+
+        query = orderBy?[..1] switch
         {
-            "price" => query.OrderBy(w => w.Price),
-            "priceDesc" => query.OrderByDescending(p => p.Price),
-            "country" => query.OrderBy(w => w.Country),
-            "countryDesc" => query.OrderByDescending(w => w.Country),
-            "type" => query.OrderBy(w => w.Type),
-            "typeDesc" => query.OrderByDescending(w => w.Type),
-            _ => query.OrderBy(w => w.Name) // if no matches
+            "p" => query.OrderBy(wine => wine.Price, orderBy.EndsWith("Desc")),
+            "t" => query.OrderBy(wine => wine.Type, orderBy.EndsWith("Desc")),
+            "c" => query.OrderBy(wine => wine.Country, orderBy.EndsWith("Desc")),
+            _ => query.OrderBy(wine => wine.Name)
         };
 
         return query;

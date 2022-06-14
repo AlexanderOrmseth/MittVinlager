@@ -237,18 +237,11 @@ namespace API.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     WineId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Consumed", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Consumed_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Consumed_Wine_WineId",
                         column: x => x.WineId,
@@ -288,8 +281,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "26a00fee-eb50-4316-9191-f32efa938d8a", "Member", "MEMBER" },
-                    { 2, "09751010-ef9d-460f-a526-765b4030fbd5", "Admin", "ADMIN" }
+                    { 1, "7e71b623-0dae-44d5-ae5e-9b590db650a7", "Member", "MEMBER" },
+                    { 2, "f4b41e9a-f5e2-4173-a8b5-0751ecda1fc5", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -328,11 +321,6 @@ namespace API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Consumed_UserId",
-                table: "Consumed",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Consumed_WineId",

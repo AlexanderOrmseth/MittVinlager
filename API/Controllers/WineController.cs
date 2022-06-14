@@ -97,12 +97,27 @@ public class WineController : BaseApiController
     {
         var userId = await GetUserId(User);
 
-        var consumedList = await _context.Consumed.Where(c => c.UserId == userId)
+        /*var consumedList = await _context.Consumed.Where(c => c.UserId == userId)
             .OrderBy(c => c.Date)
             .Take(10)
             .Select(w => new {w.Date, w.Wine.Name, w.Wine.WineId, w.Wine.PictureUrl})
             .ToListAsync(cancellationToken);
+            */
 
+
+        var consumedList = await _context.Wines.Where(w => w.UserId.Equals(userId))
+            .Join(_context.Consumed, wine => wine.WineId, consumed => consumed.WineId,
+                (wine, consumed) => new
+                {
+                    consumed.Date,
+                    wine.Name,
+                    wine.WineId,
+                    wine.PictureUrl
+                })
+            .OrderByDescending(c => c.Date)
+            .Take(10)
+            .ToListAsync(cancellationToken);
+        
         return Ok(consumedList);
     }
 
@@ -409,7 +424,7 @@ public class WineController : BaseApiController
         }
 
         // list of Id and Dates
-        var dates = wine.Consumed.Select(w => new {w.Date, w.Id}).ToList();
+        var dates = wine.Consumed.Select(w => new {w.Date, w.Id}).OrderByDescending(w => w.Date).ToList();
 
         return Ok(dates);
     }
@@ -479,7 +494,7 @@ public class WineController : BaseApiController
             return Forbid();
         }
 
-        var consumed = new Consumed {Date = date, UserId = userId};
+        var consumed = new Consumed {Date = date};
         wine.Consumed.Add(consumed);
 
         var result = await _context.SaveChangesAsync() > 0;

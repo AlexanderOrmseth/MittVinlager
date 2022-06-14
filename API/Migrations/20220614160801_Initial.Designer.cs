@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220613220847_Initial")]
+    [Migration("20220614160801_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,15 +35,10 @@ namespace API.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("WineId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("WineId");
 
@@ -82,14 +77,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "26a00fee-eb50-4316-9191-f32efa938d8a",
+                            ConcurrencyStamp = "7e71b623-0dae-44d5-ae5e-9b590db650a7",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "09751010-ef9d-460f-a526-765b4030fbd5",
+                            ConcurrencyStamp = "f4b41e9a-f5e2-4173-a8b5-0751ecda1fc5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -476,19 +471,11 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Consumed", b =>
                 {
-                    b.HasOne("API.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.Wine", "Wine")
                         .WithMany("Consumed")
                         .HasForeignKey("WineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
 
                     b.Navigation("Wine");
                 });
