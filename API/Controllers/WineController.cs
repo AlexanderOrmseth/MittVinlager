@@ -105,40 +105,6 @@ public class WineController : BaseApiController
 
         return Ok(consumedList);
     }
-    
-    [HttpGet("history")]
-    public async Task<ActionResult> GetHistory(CancellationToken cancellationToken)
-    {
-        var userId = await GetUserId(User);
-
-        var lastPurchased = await _context.Wines
-            .Where(wine => wine.UserId == userId)
-            .Select(w => new
-            {
-                w.Name,
-                w.WineId,
-                Date = w.CreatedAt,
-                w.PictureUrl
-            })
-            .OrderBy(w => w.Date)
-            .Take(10)
-            .ToListAsync(cancellationToken);
-
-
-        /*var lastPurchased = await _context.Wines
-            .Where(wine => wine.UserId == userId && wine.UserDetailses.PurchaseDate.HasValue)
-            .Select(w => new
-            {
-                w.Name,
-                w.WineId,
-                Date = w.UserDetailses.PurchaseDate,
-                w.PictureUrl
-            })
-            .OrderBy(w => w.Date)
-            .Take(10)
-            .ToListAsync(cancellationToken);*/
-        return Ok(lastPurchased);
-    }
 
     /// <summary>
     /// Gets quantity and value of each wine type 
@@ -160,15 +126,15 @@ public class WineController : BaseApiController
             .ToListAsync(cancellationToken);
 
         var lastPurchased = await _context.Wines
-            .Where(wine => wine.UserId == userId)
+            .Where(wine => wine.UserId == userId && wine.UserDetails.PurchaseDate.HasValue)
             .Select(w => new
             {
                 w.Name,
                 w.WineId,
-                Date = w.CreatedAt,
+                Date = w.UserDetails.PurchaseDate,
                 w.PictureUrl
             })
-            .OrderBy(w => w.Date)
+            .OrderByDescending(w => w.Date)
             .Take(10)
             .ToListAsync(cancellationToken);
 
@@ -421,7 +387,7 @@ public class WineController : BaseApiController
         return BadRequest(new ProblemDetails {Title = "Problem updating wine"});
     }
 
-    
+
     [HttpGet("consumed/{wineId:int}")]
     public async Task<ActionResult<List<DateTime>>> GetConsumedDates(int wineId)
     {
@@ -433,7 +399,7 @@ public class WineController : BaseApiController
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
-        
+
         var userId = await GetUserId(User);
 
         // check if wine belongs to user
@@ -447,7 +413,7 @@ public class WineController : BaseApiController
 
         return Ok(dates);
     }
-    
+
     [HttpDelete("consumed/{wineId:int}")]
     public async Task<ActionResult> DeleteConsumed(int wineId, int consumedId)
     {
@@ -459,7 +425,7 @@ public class WineController : BaseApiController
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke på denne vinen."});
         }
-        
+
         var userId = await GetUserId(User);
 
         // check if wine belongs to user
@@ -469,7 +435,7 @@ public class WineController : BaseApiController
         }
 
         var consumed = wine.Consumed.Find(w => w.Id == consumedId);
-        
+
 
         // date does not exist/already deleted
         if (consumed is null)
@@ -479,10 +445,10 @@ public class WineController : BaseApiController
 
         // remove date
         wine.Consumed.Remove(consumed);
-    
+
         // save changes
         var result = await _context.SaveChangesAsync() > 0;
-        
+
         // success
         if (result)
         {
@@ -492,7 +458,7 @@ public class WineController : BaseApiController
         // else bad request
         return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
     }
-    
+
     [HttpPost("consumed/{wineId:int}")]
     public async Task<ActionResult> Consumed(int wineId, DateTime date)
     {
@@ -504,7 +470,7 @@ public class WineController : BaseApiController
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
-        
+
         var userId = await GetUserId(User);
 
         // check if wine belongs to user
@@ -518,7 +484,7 @@ public class WineController : BaseApiController
 
         var result = await _context.SaveChangesAsync() > 0;
 
-        
+
         // success
         if (result)
         {

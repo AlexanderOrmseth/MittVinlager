@@ -88,6 +88,14 @@ const WineDetails = ({ wine }: Props) => {
 
       <DescriptionList delay={2} title="Brukerdetaljer">
         <DescriptionItem dt="Antall" dd={wine.userDetails.quantity} />
+        <DescriptionItem
+          dt="Dato kjøpt"
+          dd={wine.userDetails.purchaseDate?.toString()}
+        />
+        <DescriptionItem
+          dt="Sted kjøpt"
+          dd={wine.userDetails.purchaseLocation}
+        />
         <DescriptionItem dt="Drikkevindu">
           <div className="space-x-2">
             <span>{wine.userDetails.drinkingWindowMin || "____"}</span>

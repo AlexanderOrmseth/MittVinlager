@@ -31,6 +31,7 @@ import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
+import FormDatePicker from "../../../app/components/form/FormDatePicker";
 interface Props {
   onSubmit: (data: FormModel) => void;
   serverErrors: Record<string, string[]> | null;
@@ -483,7 +484,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                   variants={tabAnim}
                   className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
                 >
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <FormTextInput
                       control={control}
                       name="userDetails.quantity"
@@ -495,6 +496,12 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                       name="userDetails.purchaseLocation"
                       label="Kjøpested"
                       placeholder="kjøpested"
+                    />
+                    <FormDatePicker
+                      control={control}
+                      name="userDetails.purchaseDate"
+                      label="Dato kjøpt"
+                      text="Velg dato"
                     />
                   </div>
                   <div className="grid grid-cols-3 gap-4">
