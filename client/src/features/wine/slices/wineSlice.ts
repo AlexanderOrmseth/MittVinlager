@@ -5,7 +5,13 @@ import {
   getFilters,
   getWineById,
 } from "./wineAsyncThunks";
-import { createEntityAdapter, createSlice, isAnyOf } from "@reduxjs/toolkit";
+import {
+  createEntityAdapter,
+  createSlice,
+  isAnyOf,
+  PayloadAction,
+  Update,
+} from "@reduxjs/toolkit";
 import { WineParams } from "../../../app/api/params";
 import { MetaData } from "../../../app/models/pagination";
 import { Wine } from "../../../app/models/wine";
@@ -85,6 +91,18 @@ export const wineSlice = createSlice({
       // trigger fetch
       state.allFetched = false;
     },
+    decrementQuantity: (
+      state,
+      action: PayloadAction<{ id: number; quantity: number }>
+    ) => {
+      const update: Update<Wine> = {
+        id: action.payload.id,
+        changes: { userDetails: { quantity: action.payload.quantity - 1 } },
+      };
+
+      // update quantity
+      wineAdapter.updateOne(state, update);
+    },
     setGridView: (state, action) => {
       state.gridView = action.payload;
     },
@@ -154,7 +172,7 @@ export const wineSlice = createSlice({
     /* Wine Loading */
     builder.addMatcher(
       isAnyOf(allWine.pending, getWineById.pending),
-      (state, action) => {
+      (state) => {
         state.status = "loading";
       }
     );
@@ -174,4 +192,5 @@ export const {
   resetAll,
   setGridView,
   triggerFetch,
+  decrementQuantity,
 } = wineSlice.actions;

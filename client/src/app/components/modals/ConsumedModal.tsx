@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import ConsumedWine from "../../../features/wine/consumed/ConsumedWine";
+import { decrementQuantity } from "../../../features/wine/slices/wineSlice";
 import api from "../../api";
 import { Consumed } from "../../models/consumed";
+import { useAppDispatch } from "../../store/configureStore";
 import DatePicker from "../DatePicker";
 import ErrorBox from "../ErrorBox";
 import { InfoBox } from "../InfoBox";
@@ -17,6 +19,7 @@ interface Props {
 }
 
 const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Consumed[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -29,8 +32,9 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
     try {
       const response = await api.Consumed.getConsumed(wineId);
       setData(response);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      setError(error?.data?.title || "Error, kunne ikke laste drukket-datoer.");
     } finally {
       setLoading(false);
     }
@@ -48,12 +52,18 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
     setLoading(true);
     try {
       (await api.Consumed.addConsumed(wineId, date)) as Consumed[];
+
       // re-fetch dates
       await fetchConsumed();
+
+      // remove 1 from quantity
+      dispatch(decrementQuantity({ id: wineId, quantity }));
+
       setDate(null);
+      setIsOpen(false);
     } catch (error: any) {
       console.error(error);
-      setError(error?.data?.title || null);
+      setError(error?.data?.title || "Error, kunne ikke legge til dato.");
     } finally {
       setLoading(false);
     }
@@ -68,8 +78,9 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
       await api.Consumed.deleteConsumed(id);
       // remove deleted date from state
       setData(data.filter((item) => item.id !== id));
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      setError(error?.data?.title || "Error, kunne ikke slette dato.");
     } finally {
       setLoading(false);
     }

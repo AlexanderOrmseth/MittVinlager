@@ -1,3 +1,4 @@
+import { themeSlice } from "./../../features/themeSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     wine: wineSlice.reducer,
     statistics: statisticsSlice.reducer,
     wishlist: wishlistSlice.reducer,
+    theme: themeSlice.reducer,
   },
 });
 

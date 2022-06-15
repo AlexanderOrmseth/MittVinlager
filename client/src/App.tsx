@@ -10,6 +10,7 @@ import Login from "./features/account/Login";
 import ProfilePage from "./features/account/ProfilePage";
 import Register from "./features/account/Register";
 import HomePage from "./features/home/HomePage";
+import { initTheme } from "./features/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";
@@ -23,6 +24,7 @@ function App() {
   const initApp = useCallback(async () => {
     try {
       console.log("Fetching current user");
+      dispatch(initTheme());
       await dispatch(fetchCurrentUser());
     } catch (error) {
       console.error(error);

@@ -1,3 +1,4 @@
+import { LastConsumed } from "./../../app/models/consumed";
 import { LastPurchased } from "./../../app/models/statistics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -11,7 +12,7 @@ interface StatisticsState {
   statisticsFetched: boolean;
   wineStatistics: Statistics[];
   lastPurchased: LastPurchased[];
-  history: null;
+  lastConsumed: LastConsumed[];
 }
 
 const initialState: StatisticsState = {
@@ -19,7 +20,7 @@ const initialState: StatisticsState = {
   statisticsFetched: false,
   lastPurchased: [],
   wineStatistics: [],
-  history: null,
+  lastConsumed: [],
 };
 
 export const getStatistics = createAsyncThunk<Statistics[], void>(
@@ -58,6 +59,7 @@ export const statisticsSlice = createSlice({
         state.status = "idle";
         state.wineStatistics = action.payload.data;
         state.lastPurchased = action.payload.lastPurchased;
+        state.lastConsumed = action.payload.lastConsumed;
         state.statisticsFetched = true;
       }
     );

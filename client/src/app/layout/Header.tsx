@@ -1,15 +1,17 @@
 import { Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
-import { List, Moon, SignOut, User, Wine, X } from "phosphor-react";
+import { List, Moon, SignOut, Sun, User, Wine, X } from "phosphor-react";
 import { signOut } from "../../features/account/accountSlice";
 import { resetAll } from "../../features/wine/slices/wineSlice";
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
+import { toggleTheme } from "../../features/themeSlice";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
+  const { darkMode } = useAppSelector((state) => state.theme);
   const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
@@ -62,9 +64,13 @@ const Header = () => {
                   fnc: () => navigate("/profile"),
                 },
                 {
-                  text: "Mørkt tema",
-                  icon: <Moon size="1.2rem" />,
-                  fnc: () => navigate("/profile"),
+                  text: darkMode ? "Lyst tema" : "Mørkt tema",
+                  icon: darkMode ? (
+                    <Sun size="1.2rem" />
+                  ) : (
+                    <Moon size="1.2rem" />
+                  ),
+                  fnc: () => dispatch(toggleTheme()),
                 },
                 {
                   text: "Logg ut",

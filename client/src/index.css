@@ -11,6 +11,10 @@
 }
 
 @layer components {
+  body {
+    @apply dark:bg-slate-800 dark:text-slate-50;
+  }
+
   .btn-primary {
     @apply text-white transition-all select-none bg-wine-500 hover:bg-wine-600 font-medium rounded-full text-sm px-5 py-2.5 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }

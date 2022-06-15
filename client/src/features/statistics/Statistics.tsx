@@ -2,8 +2,6 @@ import { useAppSelector } from "../../app/store/configureStore";
 import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../app/util/format";
 import { Link } from "react-router-dom";
-import Spinner from "../../app/components/loading/Spinner";
-import ErrorBox from "../../app/components/ErrorBox";
 import { InfoBox } from "../../app/components/InfoBox";
 
 // chart colors
@@ -29,14 +27,7 @@ const pieOptions = {
 };
 
 const Statistics = () => {
-  const { wineStatistics, status } = useAppSelector(
-    (state) => state.statistics
-  );
-
-  if (status === "loading") return <Spinner text="Laster statistikk..." />;
-
-  if (status === "rejected")
-    return <ErrorBox message="Error, kunne ikke hente statistikk." />;
+  const { wineStatistics } = useAppSelector((state) => state.statistics);
 
   if (!wineStatistics || wineStatistics.length === 0)
     return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
@@ -59,7 +50,7 @@ const Statistics = () => {
   ];
 
   return (
-    <div className="my-8">
+    <div className="my-4">
       <div className="grid my-4 grid-cols-[1fr_1fr_2.2fr] gap-4 text-center">
         {total.map(({ title, data }) => (
           <div key={title} className="p-8 rounded-lg bg-slate-50">

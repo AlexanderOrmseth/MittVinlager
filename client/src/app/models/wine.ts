@@ -47,7 +47,7 @@ export interface UserDetails {
   drinkingWindowMin?: number | null;
   drinkingWindowMax?: number | null;
   userNote?: string | null;
-  favorite: boolean;
+  favorite?: boolean;
   score?: number | null;
   userRating?: number | null;
 }

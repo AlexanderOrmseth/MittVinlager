@@ -20,7 +20,14 @@ const ViewModeToggle = () => {
         } inline-flex items-center h-full w-1/2 transform p-1 transition ease-in-out`}
       >
         <div className="rounded-sm w-full h-full items-center flex justify-center text-slate-50 bg-slate-900">
-          {gridView ? <SquaresFour size="2rem" /> : <Rows size="2rem" />}
+          {gridView ? (
+            <>
+              <SquaresFour size="2rem" />
+              lol
+            </>
+          ) : (
+            <Rows size="2rem" />
+          )}
         </div>
       </span>
     </Switch>

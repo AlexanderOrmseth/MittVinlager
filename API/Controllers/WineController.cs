@@ -92,36 +92,6 @@ public class WineController : BaseApiController
         return Ok(new {countries, types});
     }
 
-    [HttpGet("lastConsumed")]
-    public async Task<ActionResult> LastConsumed(CancellationToken cancellationToken)
-    {
-        var userId = await GetUserId(User);
-
-        /*var consumedList = await _context.Consumed.Where(c => c.UserId == userId)
-            .OrderBy(c => c.Date)
-            .Take(10)
-            .Select(w => new {w.Date, w.Wine.Name, w.Wine.WineId, w.Wine.PictureUrl})
-            .ToListAsync(cancellationToken);
-            */
-
-
-        var consumedList = await _context.Wines.Where(w => w.UserId.Equals(userId))
-            .Join(_context.Consumed, wine => wine.WineId, consumed => consumed.WineId,
-                (wine, consumed) => new
-                {
-                    consumed.Date,
-                    wine.Name,
-                    wine.WineId,
-                    consumed.Id,
-                    wine.PictureUrl
-                })
-            .OrderByDescending(c => c.Date)
-            .Take(10)
-            .ToListAsync(cancellationToken);
-
-        return Ok(consumedList);
-    }
-
     /// <summary>
     /// Gets quantity and value of each wine type 
     /// </summary>
@@ -154,7 +124,21 @@ public class WineController : BaseApiController
             .Take(10)
             .ToListAsync(cancellationToken);
 
-        return Ok(new {data, lastPurchased});
+        var lastConsumed = await _context.Wines.Where(w => w.UserId.Equals(userId))
+            .Join(_context.Consumed, wine => wine.WineId, consumed => consumed.WineId,
+                (wine, consumed) => new
+                {
+                    consumed.Date,
+                    wine.Name,
+                    wine.WineId,
+                    consumed.Id,
+                    wine.PictureUrl
+                })
+            .OrderByDescending(c => c.Date)
+            .Take(10)
+            .ToListAsync(cancellationToken);
+
+        return Ok(new {data, lastPurchased, lastConsumed});
     }
 
 
@@ -486,15 +470,14 @@ public class WineController : BaseApiController
         }
 
         var userId = await GetUserId(User);
-        
-        
+
 
         // check if wine belongs to user
         if (wine.UserId != userId)
         {
             return Forbid();
         }
-        
+
         if (wine.UserDetails.Quantity > 0)
         {
             // remove 1 from quantity

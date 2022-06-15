@@ -13,17 +13,46 @@ import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
 import History from "../statistics/History";
 import Statistics from "../statistics/Statistics";
 import { getStatistics } from "../statistics/statisticsSlice";
+import Consumed from "../statistics/Consumed";
+import ErrorBox from "../../app/components/ErrorBox";
+import Spinner from "../../app/components/loading/Spinner";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
 
-  const { statisticsFetched } = useAppSelector((state) => state.statistics);
+  const { statisticsFetched, status } = useAppSelector(
+    (state) => state.statistics
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!statisticsFetched) dispatch(getStatistics());
   }, [dispatch, statisticsFetched]);
+
+  let content;
+  if (status === "loading") {
+    content = <Spinner text="Laster statistikk..." />;
+  } else if (status === "rejected") {
+    content = <ErrorBox message="Error, kunne ikke hente statistikk" />;
+  } else {
+    content = (
+      <>
+        <section>
+          <Title title="Lagerstatus" border Icon={ChartPieSlice} />
+          <Statistics />
+        </section>
+        <section>
+          <Title title="Sist kjøpt" border Icon={CalendarBlank} />
+          <History />
+        </section>
+        <section>
+          <Title title="Sist drukket" border Icon={CalendarBlank} />
+          <Consumed />
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
@@ -51,15 +80,7 @@ const ProfilePage = () => {
           )}
         </section>
 
-        <section>
-          <Title title="Lagerstatus" border Icon={ChartPieSlice} />
-          <Statistics />
-        </section>
-
-        <section>
-          <Title title="Sist kjøpt" border Icon={CalendarBlank} />
-          <History />
-        </section>
+        {content}
       </div>
     </>
   );

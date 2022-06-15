@@ -30,6 +30,7 @@ export const schema = yup.object().shape({
   /* Numbers */
   year: yup
     .number()
+    .integer("Årgang må være et heltall")
     .typeError("Årgang må være et tall.")
     .nullable(true)
     .transform(emptyStringToNull)
@@ -37,6 +38,7 @@ export const schema = yup.object().shape({
     .max(3000, "Årgang må være under år 3000."),
   alcoholContent: yup
     .number()
+    .integer("Alkoholinnhold må være et heltall")
     .typeError("Alkoholinnhold må være et tall.")
     .nullable()
     .transform(emptyStringToNull)
@@ -51,6 +53,7 @@ export const schema = yup.object().shape({
     .max(100, "Volum kan kun være mellom 0 og 100 liter."),
   price: yup
     .number()
+    .integer("Pris må være et heltall")
     .typeError("Volum må være et tall.")
     .nullable()
     .transform(emptyStringToNull)
@@ -155,11 +158,13 @@ export const schema = yup.object().shape({
     quantity: yup
       .number()
       .required("Antall må fylles ut.")
+      .integer("Antall må være et heltall")
       .typeError("Antall må være et tall.")
       .min(0, "Antall må være mellom 0 og 1000.")
       .max(1000, "Antall må være mellom 0 og 1000."),
     score: yup
       .number()
+      .integer("Karakter må være et heltall")
       .typeError("Karakter må være et tall.")
       .nullable()
       .transform(emptyStringToNull)
@@ -184,6 +189,7 @@ export const schema = yup.object().shape({
       .max(3000, "Drikkevindu må være mellom 0 og 3000."),
     userRating: yup
       .number()
+      .integer("Vurdering må være et heltall")
       .typeError("Vurdering må være et tall.")
       .nullable()
       .transform(emptyStringToNull)
@@ -205,6 +211,9 @@ export const schema = yup.object().shape({
       .nullable()
       .transform(emptyStringToNull)
       .max(70, "Kjøpested kan max være 70 bokstaver."),
-    favorite: yup.bool().typeError("Favoritt kan kun være 'true' / 'false'."),
+    favorite: yup
+      .bool()
+      .typeError("Favoritt kan kun være 'true' / 'false'.")
+      .default(false),
   }),
 });
