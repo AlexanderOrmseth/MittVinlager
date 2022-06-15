@@ -104,6 +104,14 @@ const Wine = {
     requests.get("wine/statistics", undefined, config),
 };
 
+const Consumed = {
+  getConsumed: (wineId: number) => requests.get(`wine/consumed/${wineId}`),
+  addConsumed: (wineId: number, date: Date) =>
+    requests.post(`wine/consumed/${wineId}`, date),
+  deleteConsumed: (consumedId: number) =>
+    requests.delete(`wine/consumed/${consumedId}`),
+};
+
 const Wishlist = {
   getWishlist: (config?: AxiosRequestConfig) =>
     requests.get("wishlist", undefined, config),
@@ -116,6 +124,7 @@ const api = {
   Account,
   Vinmonopolet,
   Wine,
+  Consumed,
   Wishlist,
 };
 

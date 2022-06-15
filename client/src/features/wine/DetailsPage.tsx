@@ -2,15 +2,22 @@ import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
-import { PencilLine, Trash, Link as LinkIcon } from "phosphor-react";
+import {
+  PencilLine,
+  Trash,
+  Link as LinkIcon,
+  CalendarBlank,
+} from "phosphor-react";
 import WineDetails from "./details/WineDetails";
 import WineImageZoom from "./details/WineImageZoom";
 import { formatDate } from "../../app/util/format";
 import Spinner from "../../app/components/loading/Spinner";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
+import ConsumedModal from "../../app/components/modals/ConsumedModal";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isConsumedModalOpen, setIsConsumedModalOpen] = useState(false);
   const { wine, id, status } = useFetchSingleWine();
 
   if (status === "loading") return <Spinner text="Laster vin..." />;
@@ -38,6 +45,17 @@ const DetailsPage = () => {
               />
               Rediger
             </Link>
+            <button
+              onClick={() => setIsConsumedModalOpen(true)}
+              className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
+            >
+              <CalendarBlank
+                size="1.25rem"
+                weight="duotone"
+                className="text-slate-700"
+              />
+              Drukket
+            </button>
             {wine.productId && (
               <a
                 className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
@@ -90,6 +108,12 @@ const DetailsPage = () => {
           </div>
         </div>
       </div>
+      <ConsumedModal
+        wineId={wine.wineId}
+        isOpen={isConsumedModalOpen}
+        quantity={wine.userDetails.quantity}
+        setIsOpen={setIsConsumedModalOpen}
+      />
       <DeleteWineModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}

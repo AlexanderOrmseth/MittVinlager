@@ -1,19 +1,9 @@
-import { useState } from "react";
-import DatePicker from "../../app/components/DatePicker";
-
 const HomePage = () => {
-  const [date, setDate] = useState<Date | null>(null);
   return (
     <div>
       <h1 className="mb-4 text-3xl">Mitt Vinlager</h1>
       <div className="my-4 font-bold">website image gallery</div>
       <div className="space-y-3 max-w-screen-md">
-        <DatePicker
-          hereafter
-          value={date}
-          onChange={setDate}
-          text="Velg dato"
-        />
         <p>
           Med Mitt Vinlager får du tilgang til din egen vinkjeller på nettet der
           du kan lagre opplysninger om de vinene du har kjøpt, spart på eller
@@ -39,7 +29,6 @@ const HomePage = () => {
           innenfor valgt kriteria, det være seg vintype, land, område og årgang.
         </p>
       </div>
-      <DatePicker hereafter value={date} onChange={setDate} text="Velg dato" />
     </div>
   );
 };

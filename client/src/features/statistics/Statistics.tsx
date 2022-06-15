@@ -3,6 +3,8 @@ import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../app/util/format";
 import { Link } from "react-router-dom";
 import Spinner from "../../app/components/loading/Spinner";
+import ErrorBox from "../../app/components/ErrorBox";
+import { InfoBox } from "../../app/components/InfoBox";
 
 // chart colors
 const pieColors = [
@@ -31,13 +33,13 @@ const Statistics = () => {
     (state) => state.statistics
   );
 
-  if (status === "loading") return <Spinner text="Laster statistikk" />;
+  if (status === "loading") return <Spinner text="Laster statistikk..." />;
 
   if (status === "rejected")
-    return <div>Error, kunne ikke hente statistikk.</div>;
+    return <ErrorBox message="Error, kunne ikke hente statistikk." />;
 
   if (!wineStatistics || wineStatistics.length === 0)
-    return <div>Ingen data å vise.</div>;
+    return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
 
   const total = [
     {

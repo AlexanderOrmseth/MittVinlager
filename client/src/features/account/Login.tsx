@@ -1,6 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
 import FormTextInput from "../../app/components/form/FormTextInput";
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "./validation/validationSchema";
 import toast from "react-hot-toast";
@@ -8,9 +7,10 @@ import { useAppDispatch } from "../../app/store/configureStore";
 import { signIn } from "./accountSlice";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingButton from "../../app/components/LoadingButton";
-import { SignIn, WarningOctagon } from "phosphor-react";
+import { SignIn } from "phosphor-react";
 import AuthForm from "../../app/layout/AuthForm";
 import { useState } from "react";
+import ErrorBox from "../../app/components/ErrorBox";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,12 +39,7 @@ const Login = () => {
   return (
     <AuthForm title="Logg inn">
       <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-        {loginError && (
-          <div className="font-medium flex flex-row items-center gap-x-2 text-wine-500">
-            <WarningOctagon size="2rem" />
-            {loginError}
-          </div>
-        )}
+        {loginError && <ErrorBox message={loginError} />}
         <FormTextInput
           focus
           name="username"

@@ -112,12 +112,13 @@ public class WineController : BaseApiController
                     consumed.Date,
                     wine.Name,
                     wine.WineId,
+                    consumed.Id,
                     wine.PictureUrl
                 })
             .OrderByDescending(c => c.Date)
             .Take(10)
             .ToListAsync(cancellationToken);
-        
+
         return Ok(consumedList);
     }
 
@@ -429,28 +430,23 @@ public class WineController : BaseApiController
         return Ok(dates);
     }
 
-    [HttpDelete("consumed/{wineId:int}")]
-    public async Task<ActionResult> DeleteConsumed(int wineId, int consumedId)
+    [HttpDelete("consumed/{consumedId:int}")]
+    public async Task<ActionResult> DeleteConsumed(int consumedId)
     {
         // get wine
-        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+        var wine = await _context.Wines
+            .Include(w => w.Consumed)
+            .Where(w => w.Consumed.Any(c => c.Id.Equals(consumedId))).FirstOrDefaultAsync();
+
 
         // check if wine exists
-        if (wine is null)
-        {
-            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke på denne vinen."});
-        }
-
         var userId = await GetUserId(User);
-
-        // check if wine belongs to user
-        if (wine.UserId != userId)
+        if (wine is null || wine.UserId != userId)
         {
-            return Forbid();
+            return NotFound(new ProblemDetails {Title = "Denne vinen/datoen eksisterer ikke."});
         }
 
-        var consumed = wine.Consumed.Find(w => w.Id == consumedId);
-
+        var consumed = wine.Consumed.Find(w => w.Id.Equals(consumedId));
 
         // date does not exist/already deleted
         if (consumed is null)
@@ -475,10 +471,13 @@ public class WineController : BaseApiController
     }
 
     [HttpPost("consumed/{wineId:int}")]
-    public async Task<ActionResult> Consumed(int wineId, DateTime date)
+    public async Task<ActionResult> Consumed([FromBody] DateTime date, int wineId)
     {
+        Console.WriteLine(date);
+
         // get wine
-        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+        var wine = await _context.Wines.Include(w => w.UserDetails).Include(w => w.Consumed.OrderBy(c => c.Date))
+            .FirstOrDefaultAsync(w => w.WineId == wineId);
 
         // check if wine exists
         if (wine is null)
@@ -487,18 +486,39 @@ public class WineController : BaseApiController
         }
 
         var userId = await GetUserId(User);
+        
+        
 
         // check if wine belongs to user
         if (wine.UserId != userId)
         {
             return Forbid();
         }
+        
+        if (wine.UserDetails.Quantity > 0)
+        {
+            // remove 1 from quantity
+            wine.UserDetails.Quantity--;
+        }
+        else
+        {
+            return BadRequest(new ProblemDetails {Title = "Du har ikke denne vinen på lager. Antall er 0."});
+        }
 
-        var consumed = new Consumed {Date = date};
-        wine.Consumed.Add(consumed);
+        // can max have 10 dates on each wine
+        if (wine.Consumed.Count >= 10)
+        {
+            // replace oldest date
+            wine.Consumed.ElementAt(0).Date = date;
+        }
+        else
+        {
+            // add new date
+            var consumed = new Consumed {Date = date};
+            wine.Consumed.Add(consumed);
+        }
 
         var result = await _context.SaveChangesAsync() > 0;
-
 
         // success
         if (result)

@@ -38,9 +38,18 @@ interface Props {
   onChange: (date: Date | null) => void;
   text: string;
   hereafter: boolean;
+  absolute?: boolean;
+  disabled?: boolean;
 }
 
-const DatePicker = ({ value, onChange, text, hereafter }: Props) => {
+const DatePicker = ({
+  value,
+  onChange,
+  text,
+  hereafter,
+  absolute = true,
+  disabled,
+}: Props) => {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
 
@@ -160,9 +169,14 @@ const DatePicker = ({ value, onChange, text, hereafter }: Props) => {
         <>
           <Popover.Button
             type="button"
-            className={`btn-white w-full flex flex-row items-center gap-x-2 justify-center`}
+            disabled={disabled}
+            className={`btn-white disabled-btn w-full flex flex-row items-center gap-x-2 justify-center`}
           >
-            <CalendarBlank size="1.5rem" className="text-gray-700" />
+            <CalendarBlank
+              size="1.25rem"
+              weight="duotone"
+              className="text-slate-700"
+            />
             {value ? formatDate(value, true) : text}
           </Popover.Button>
           <Transition
@@ -170,11 +184,15 @@ const DatePicker = ({ value, onChange, text, hereafter }: Props) => {
             enter="transition duration-100 ease-out"
             enterFrom="transform scale-95 opacity-0"
             enterTo="transform scale-100 opacity-100"
-            leave="transition duration-75 ease-out"
+            leave={`${absolute ? "transition duration-75 ease-out" : ""}`}
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Popover.Panel className="absolute z-10 w-full bg-white border rounded-lg mt-1 shadow-lg">
+            <Popover.Panel
+              className={`${
+                absolute ? "absolute z-10 shadow-lg" : "block shadow-sm"
+              } bg-white border w-full rounded-lg mt-1 `}
+            >
               {({ close }) => (
                 <>
                   <div className="flex flex-col gap-y-1 p-1">
