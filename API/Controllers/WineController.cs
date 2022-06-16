@@ -1,158 +1,92 @@
 using System.Security.Principal;
-using API.Context;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Interfaces;
 using API.RequestHelpers;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
 [Authorize]
 public class WineController : BaseApiController
 {
-    private readonly MyDbContext _context;
+    #region Fields
+
     private readonly UserManager<User> _userManager;
     private readonly ImageService _imageService;
+    private readonly IWineRepository _wineRepository;
 
+    #endregion
 
-    public WineController(MyDbContext context, UserManager<User> userManager, ImageService imageService)
+    #region Constructor
+
+    public WineController(UserManager<User> userManager, ImageService imageService,
+        IWineRepository wineRepository)
     {
-        _context = context;
         _userManager = userManager;
         _imageService = imageService;
+        _wineRepository = wineRepository;
     }
 
+    #endregion
+
+
     /// <summary>
-    /// Get all wine
+    /// Gets all wine that belongs to user
     /// </summary>
-    /// <returns></returns>
+    /// <returns>20 wine - based on pageSize</returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<WineDto>>> GetWine([FromQuery] WineParams wineParams,
+    public async Task<ActionResult<PagedList<WineDto>>> AllWine([FromQuery] WineParams wineParams,
         CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-
-        var count = await _context.Wines
-            .Where(wine => wine.UserId == userId).CountAsync(cancellationToken);
-
-        var query = _context.Wines
-            .Where(wine => wine.UserId == userId)
-
-            // Search
-            .Where(wineParams.SearchTerm.IsNotEmpty(),
-                w => w.Name.ToLower().Contains(wineParams.SearchTerm!.Trim().ToLower()))
-
-            // Country
-            .Where(wineParams.Countries.IsNotEmpty(),
-                w => w.Country != null && wineParams.Countries!.ToLower().Contains(w.Country.ToLower()))
-
-            // Quantity
-            //.Where(true, w => w.UserDetailses.Quantity >= 1)
-
-            // Types
-            .Where(wineParams.Types.IsNotEmpty(),
-                w => wineParams.Types!.ToLower().Contains(w.Type.ToLower()))
-
-            // Sort
-            .Sort(wineParams.OrderBy)
-            .Include(w => w.UserDetails)
-            .Select(w => MapWineToWineDto(w))
-            .AsQueryable();
-
+        var count = await _wineRepository.CountAll(userId, cancellationToken);
+        var query = _wineRepository.GetAll(userId, wineParams, MapWineToDto);
 
         // query with filers
         var wines =
             await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, count, cancellationToken);
-
         Response.AddPaginationHeader(wines.MetaData);
         return wines;
     }
 
+    /// <summary>
+    /// Get filters that client uses for filter options
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Lists of filter options</returns>
     [HttpGet("filters")]
-    public async Task<IActionResult> GetFilters(CancellationToken cancellationToken)
+    public async Task<ActionResult<object>> GetFilters(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-
-        // filter options
-        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type)
-            .Distinct()
-            .ToListAsync(cancellationToken);
-
-        var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null)
-            .Select(w => w.Country)
-            .Distinct()
-            .ToListAsync(cancellationToken);
-
-        // return
-        return Ok(new {countries, types});
+        return Ok(await _wineRepository.GetFilters(userId, cancellationToken));
     }
 
     /// <summary>
-    /// Gets quantity and value of each wine type 
+    /// Gets 3 lists: value, last purchases and last consumed
     /// </summary>
     [HttpGet("statistics")]
-    public async Task<ActionResult> GetWineStatistics(CancellationToken cancellationToken)
+    public async Task<ActionResult<object>> GetStatistics(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-
-        var data = await _context.Wines
-            .Where(wine => wine.UserId == userId && wine.UserDetails.Quantity > 0)
-            .GroupBy(x => x.Type)
-            .Select(x => new
-            {
-                Type = x.Key, Quantity = x.Sum(wine => wine.UserDetails.Quantity),
-                Value = x.Sum(wine => wine.Price * wine.UserDetails.Quantity),
-                Unique = x.Count()
-            })
-            .ToListAsync(cancellationToken);
-
-        var lastPurchased = await _context.Wines
-            .Where(wine => wine.UserId == userId && wine.UserDetails.PurchaseDate.HasValue)
-            .Select(w => new
-            {
-                w.Name,
-                w.WineId,
-                Date = w.UserDetails.PurchaseDate,
-                w.PictureUrl
-            })
-            .OrderByDescending(w => w.Date)
-            .Take(10)
-            .ToListAsync(cancellationToken);
-
-        var lastConsumed = await _context.Wines.Where(w => w.UserId.Equals(userId))
-            .Join(_context.Consumed, wine => wine.WineId, consumed => consumed.WineId,
-                (wine, consumed) => new
-                {
-                    consumed.Date,
-                    wine.Name,
-                    wine.WineId,
-                    consumed.Id,
-                    wine.PictureUrl
-                })
-            .OrderByDescending(c => c.Date)
-            .Take(10)
-            .ToListAsync(cancellationToken);
-
+        var data = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
+        var lastPurchased = await _wineRepository.GetLastPurchases(userId, cancellationToken);
+        var lastConsumed = await _wineRepository.GetLastConsumed(userId, cancellationToken);
         return Ok(new {data, lastPurchased, lastConsumed});
     }
-
 
     /// <summary>
     /// Get wine by id
     /// </summary>
     /// <returns>A single wine</returns>
-    /// 
     [HttpGet("{id:int}", Name = "GetSingleWine")]
     public async Task<ActionResult<WineDto>> GetSingleWine(int id)
     {
-        var wine = await _context.Wines
-            .Include(w => w.UserDetails)
-            .FirstOrDefaultAsync(w => w.WineId == id);
+        var wine = await _wineRepository.GetOneById(id);
 
         // check if wine exists
         if (wine is null)
@@ -169,27 +103,26 @@ public class WineController : BaseApiController
         }
 
         // return mapped wine
-        return MapWineToWineDto(wine);
+        return MapWineToDto(wine);
     }
-
 
     /// <summary>
     /// Add new wine
     /// </summary>
-    /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<WineDto>> AddWine([FromForm] AddWineDto formBody)
+    public async Task<ActionResult<WineDto>> AddWine([FromForm] AddWineDto formBody,
+        CancellationToken cancellationToken)
     {
         // get user id
         var userId = await GetUserId(User);
 
         // User can only store 200 wines
-        if (await _context.Wines.CountAsync(wine => wine.UserId == userId) > 200)
+        if (await _wineRepository.CountAll(userId, cancellationToken) > 200)
         {
             return BadRequest();
         }
 
-        var newWine = MapFormToWine(formBody, userId);
+        var newWine = MapDtoToWine(formBody, userId);
 
         // Adding image
         if (formBody.File is not null)
@@ -221,32 +154,26 @@ public class WineController : BaseApiController
         }
 
 
-        // add wine
-        _context.Wines.Add(newWine);
-        var result = await _context.SaveChangesAsync() > 0;
+        // Add wine and save
+        var result = await _wineRepository.AddWineThenSave(newWine);
 
-        // TODO : Should return object from getSingleWine -> currently returns newWine
         // success
         if (result)
         {
-            return CreatedAtRoute("GetSingleWine", new {id = newWine.WineId}, newWine);
+            return CreatedAtAction(nameof(GetSingleWine), new {id = newWine.WineId}, newWine);
         }
 
         // else bad request
         return BadRequest(new ProblemDetails {Title = "Problem adding wine"});
     }
 
-
     /// <summary>
     /// Update wine by id
     /// </summary>
-    /// <returns></returns>
     [HttpPut("{id:int}")]
     public async Task<ActionResult<WineDto>> UpdateWine([FromForm] AddWineDto formBody, int id)
     {
-        var wine = await _context.Wines
-            .Include(w => w.UserDetails)
-            .FirstOrDefaultAsync(w => w.WineId == id);
+        var wine = await _wineRepository.GetOneById(id);
 
         // check if wine exists and id parameter matches wine
         if (wine is null)
@@ -376,7 +303,7 @@ public class WineController : BaseApiController
         }
 
 
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await _wineRepository.Save();
 
         if (result)
         {
@@ -387,12 +314,16 @@ public class WineController : BaseApiController
         return BadRequest(new ProblemDetails {Title = "Problem updating wine"});
     }
 
-
+    /// <summary>
+    /// Gets consumed dates of wine with given Id
+    /// </summary>
+    /// <param name="wineId"></param>
+    /// <returns>10 dates</returns>
     [HttpGet("consumed/{wineId:int}")]
-    public async Task<ActionResult<List<DateTime>>> GetConsumedDates(int wineId)
+    public async Task<ActionResult<object>> GetConsumedById(int wineId)
     {
         // get wine
-        var wine = await _context.Wines.Include(w => w.Consumed).FirstOrDefaultAsync(w => w.WineId == wineId);
+        var wine = await _wineRepository.GetWineWithConsumed(wineId);
 
         // check if wine exists
         if (wine is null)
@@ -414,14 +345,15 @@ public class WineController : BaseApiController
         return Ok(dates);
     }
 
+    /// <summary>
+    /// Deletes consumed date by consumedId
+    /// </summary>
+    /// <param name="consumedId"></param>
     [HttpDelete("consumed/{consumedId:int}")]
     public async Task<ActionResult> DeleteConsumed(int consumedId)
     {
         // get wine
-        var wine = await _context.Wines
-            .Include(w => w.Consumed)
-            .Where(w => w.Consumed.Any(c => c.Id.Equals(consumedId))).FirstOrDefaultAsync();
-
+        var wine = await _wineRepository.GetWineByConsumedId(consumedId);
 
         // check if wine exists
         var userId = await GetUserId(User);
@@ -442,7 +374,7 @@ public class WineController : BaseApiController
         wine.Consumed.Remove(consumed);
 
         // save changes
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await _wineRepository.Save();
 
         // success
         if (result)
@@ -454,14 +386,19 @@ public class WineController : BaseApiController
         return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
     }
 
+    /// <summary>
+    /// Adds consumed date to a wine. A wine can have 10 consumed dates.
+    /// Consumed dates will overwrite the oldest date if list length is 10.
+    /// </summary>
+    /// <param name="date"></param>
+    /// <param name="wineId"></param>
     [HttpPost("consumed/{wineId:int}")]
     public async Task<ActionResult> Consumed([FromBody] DateTime date, int wineId)
     {
         Console.WriteLine(date);
 
         // get wine
-        var wine = await _context.Wines.Include(w => w.UserDetails).Include(w => w.Consumed.OrderBy(c => c.Date))
-            .FirstOrDefaultAsync(w => w.WineId == wineId);
+        var wine = await _wineRepository.GetWineWithConsumedAndUserDetails(wineId);
 
         // check if wine exists
         if (wine is null)
@@ -501,7 +438,7 @@ public class WineController : BaseApiController
             wine.Consumed.Add(consumed);
         }
 
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await _wineRepository.Save();
 
         // success
         if (result)
@@ -513,10 +450,14 @@ public class WineController : BaseApiController
         return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
     }
 
+    /// <summary>
+    /// Deletes wine by Id.
+    /// </summary>
+    /// <param name="id"></param>
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> RemoveWine(int id)
+    public async Task<ActionResult> DeleteWine(int id)
     {
-        var wine = await _context.Wines.FindAsync(id);
+        var wine = await _wineRepository.FindOne(id);
 
         // check if wine exists
         if (wine is null)
@@ -538,9 +479,7 @@ public class WineController : BaseApiController
             await _imageService.DeleteImageAsync(wine.PublicId);
         }
 
-        _context.Wines.Remove(wine);
-
-        var result = await _context.SaveChangesAsync() > 0;
+        var result = await _wineRepository.RemoveThenSave(wine);
 
         if (result)
         {
@@ -561,7 +500,8 @@ public class WineController : BaseApiController
         return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
     }
 
-    private static WineDto MapWineToWineDto(Wine wine)
+
+    private static WineDto MapWineToDto(Wine wine)
     {
         return new WineDto
         {
@@ -607,7 +547,7 @@ public class WineController : BaseApiController
         };
     }
 
-    private static Wine MapFormToWine(WineBaseModel formBody, int userId)
+    private static Wine MapDtoToWine(WineBaseModel formBody, int userId)
     {
         return new Wine(userId)
         {

@@ -1,7 +1,9 @@
 using System.Text;
 using API.Context;
 using API.Entities;
+using API.Interfaces;
 using API.Middleware;
+using API.Repositories;
 using API.Services;
 using API.Services.EmailService;
 using FluentValidation.AspNetCore;
@@ -67,6 +69,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IWineRepository, WineRepository>();
 
 // add an httpClient factory (in order fetch vinmonopolet API)
 builder.Services.AddHttpClient();
