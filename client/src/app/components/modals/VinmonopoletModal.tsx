@@ -34,16 +34,14 @@ const VinmonopoletModal = ({
       setIsOpen={setIsOpen}
       xl
     >
-      <div>
-        <Vinmonopolet
-          setIsOpen={setIsOpen}
-          setValue={setValue}
-          getValues={getValues}
-          productId={productId}
-          isWishlist={isWishlist}
-          setValues={setValues}
-        />
-      </div>
+      <Vinmonopolet
+        setIsOpen={setIsOpen}
+        setValue={setValue}
+        getValues={getValues}
+        productId={productId}
+        isWishlist={isWishlist}
+        setValues={setValues}
+      />
     </Modal>
   );
 };

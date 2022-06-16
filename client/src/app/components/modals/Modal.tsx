@@ -77,7 +77,14 @@ const Modal = ({
                 <Dialog.Description className="text-sm mb-4 border-b pb-2 text-slate-600">
                   {description}
                 </Dialog.Description>
+
                 {children}
+                <button
+                  className="btn-white mt-4 h-10 rounded-full"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Tilbake
+                </button>
               </Dialog.Panel>
             </div>
           </div>

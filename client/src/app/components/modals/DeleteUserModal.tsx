@@ -38,30 +38,29 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
           </span>{" "}
           med store bokstaver for å bekrefte sletting av bruker.
         </p>
-        <input
-          placeholder="SLETTMEG"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          className="text-input my-4"
-          type="text"
-        />
-        <div className="grid grid-cols-1 gap-2">
+
+        <div className="p-4 mt-4 bg-slate-50 space-y-6 rounded-lg">
+          <div>
+            <label className="label">Bekreft sletting</label>
+            <input
+              placeholder="SLETTMEG"
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              className="text-input h-12"
+              type="text"
+            />
+          </div>
+
           <LoadingButton
             onClick={handleDeleteUser}
             loading={status === "loading"}
             disabled={value !== "SLETTMEG"}
             loadingText="Sletter bruker..."
-            className="justify-center h-10 rounded-full"
+            className="justify-center h-12 w-full rounded-full"
           >
             <UserMinus size="1.3rem" />
             Slett meg
           </LoadingButton>
-          <button
-            className="btn-white h-10 rounded-full"
-            onClick={() => setIsOpen(false)}
-          >
-            Tilbake
-          </button>
         </div>
       </div>
     </Modal>

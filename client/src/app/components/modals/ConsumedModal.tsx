@@ -117,21 +117,14 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
               </div>
             </AsideDisclosure>
 
-            {!quantity && (
-              <InfoBox
-                message="Du har ikke vinen på lager. Du kan ikke legge til
-                  drukket-datoer når antall er 0."
-              />
-            )}
-
             {error && <ErrorBox message={error} />}
 
-            {data && data.length > 0 ? (
-              <div className="my-4 p-2 border rounded-lg ">
-                <h3 className="mb-0.5 text-center border-b pb-2 font-medium text-sm">
-                  Drukket
-                </h3>
-                <ul className="space-y-1 ">
+            <div className="my-4 p-2 border rounded-lg ">
+              <h3 className="mb-2 text-center border-b pb-2 font-medium text-sm">
+                Drukket
+              </h3>
+              {data && data.length > 0 ? (
+                <ul className="space-y-1">
                   {data.map((item) => (
                     <ConsumedWine
                       deleteConsumed={handleDeleteConsumed}
@@ -141,34 +134,35 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
                     />
                   ))}
                 </ul>
-              </div>
-            ) : (
-              <InfoBox message="Ingen datoer er registrert enda." />
-            )}
+              ) : (
+                <InfoBox message="Ingen datoer er registrert enda." />
+              )}
+            </div>
 
-            <DatePicker
-              text="Velg dato"
-              value={date}
-              onChange={setDate}
-              hereafter={false}
-              absolute={false}
-            />
-            <div className="grid mt-4 grid-cols-1 gap-2">
-              <LoadingButton
-                onClick={handleAddConsumed}
-                loading={loading}
-                disabled={!date || !quantity}
-                loadingText="Legger til dato..."
-                className="justify-center h-10 rounded-full"
-              >
-                Legg til dato
-              </LoadingButton>
-              <button
-                className="btn-white h-10 rounded-full"
-                onClick={() => setIsOpen(false)}
-              >
-                Tilbake
-              </button>
+            {!quantity && <InfoBox message="Du har ikke vinen på lager." />}
+
+            <div className="p-4 mt-4 bg-slate-50 space-y-6 rounded-lg">
+              <div>
+                <label className="label">Velg dato</label>
+                <DatePicker
+                  text="Velg dato"
+                  value={date}
+                  onChange={setDate}
+                  hereafter={false}
+                  absolute={false}
+                />
+              </div>
+              <div className="grid mt-4 grid-cols-1 gap-2">
+                <LoadingButton
+                  onClick={handleAddConsumed}
+                  loading={loading}
+                  disabled={!date || !quantity}
+                  loadingText="Legger til dato..."
+                  className="justify-center h-12 rounded-full"
+                >
+                  Legg til dato
+                </LoadingButton>
+              </div>
             </div>
           </>
         )}

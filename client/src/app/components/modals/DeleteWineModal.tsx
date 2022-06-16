@@ -62,12 +62,6 @@ const DeleteWineModal = ({
           <Trash size="1.3rem" />
           Slett vin
         </LoadingButton>
-        <button
-          className="btn-white h-10 rounded-full"
-          onClick={() => setIsOpen(false)}
-        >
-          Tilbake
-        </button>
       </div>
     </Modal>
   );

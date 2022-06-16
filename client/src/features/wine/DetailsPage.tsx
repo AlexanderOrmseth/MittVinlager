@@ -14,6 +14,7 @@ import { formatDate } from "../../app/util/format";
 import Spinner from "../../app/components/loading/Spinner";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
 import ConsumedModal from "../../app/components/modals/ConsumedModal";
+import { InfoBox } from "../../app/components/InfoBox";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -93,6 +94,9 @@ const DetailsPage = () => {
             </p>
           </div>
         </div>
+        {!wine.userDetails.quantity && (
+          <InfoBox message="Du har ikke vinen på lager." />
+        )}
 
         <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
           <div className="col-span-2 space-y-4">

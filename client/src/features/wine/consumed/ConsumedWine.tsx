@@ -9,7 +9,7 @@ interface Props {
 
 const ConsumedWine = ({ id, date, deleteConsumed }: Props) => {
   return (
-    <div className="flex even:bg-slate-50 p-2 rounded flex-row gap-x-2 items-center">
+    <li className="flex even:bg-slate-50 p-2 rounded flex-row gap-x-2 items-center">
       <div className="flex-1 text-gray-900 font-medium">
         {formatDate(new Date(date))}
       </div>
@@ -19,7 +19,7 @@ const ConsumedWine = ({ id, date, deleteConsumed }: Props) => {
       >
         <Trash className="text-wine-500" size="1.5rem" />
       </button>
-    </div>
+    </li>
   );
 };
 
