@@ -1,17 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using API.Interfaces;
+using CloudinaryDotNet.Actions;
 using Newtonsoft.Json;
 
 
 namespace API.Entities;
 
 [Table("Wine")]
-public class Wine
+public class Wine : IWineWithPicture
 {
     // ids
     [Required] public int WineId { get; set; }
 
-    [JsonIgnore] [Required] public int UserId { get; set; }
+    [JsonIgnore] [Required] public int UserId { get; private set; }
 
     [JsonIgnore] public virtual User User { get; set; }
 
@@ -34,7 +36,7 @@ public class Wine
     public string? ProductId { get; set; }
     public string? Grapes { get; set; }
 
-    public string? ManufacturerName { get; set; } 
+    public string? ManufacturerName { get; set; }
     public string? StoragePotential { get; set; }
 
     public string? Colour { get; set; }
@@ -63,5 +65,12 @@ public class Wine
     public Wine(int userId)
     {
         UserId = userId;
+    }
+
+    public void AddPicture(ImageUploadResult imageUploadResult, bool byUser = false)
+    {
+        PictureUrl = imageUploadResult.SecureUrl.ToString();
+        PublicId = imageUploadResult.PublicId;
+        ImageByUser = byUser;
     }
 }

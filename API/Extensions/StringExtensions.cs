@@ -24,5 +24,5 @@ public static class StringExtensions
     public static bool IsAlphaNumeric(this string value) =>
         !string.IsNullOrWhiteSpace(value) && value.All(char.IsLetterOrDigit);
 
-    public static bool IsNumeric(this string value) => !string.IsNullOrWhiteSpace(value) && value.All(char.IsDigit);
+    public static bool IsNumeric(this string? value) => !string.IsNullOrWhiteSpace(value) && value.All(char.IsDigit);
 }

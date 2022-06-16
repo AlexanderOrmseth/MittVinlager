@@ -124,14 +124,14 @@ public class WineRepository : IWineRepository
     {
         return await _context.Wines
             .Where(wine => wine.UserId == userId && wine.UserDetails.PurchaseDate.HasValue)
-            .Select(w => new
+            .Select(wine => new
             {
-                w.Name,
-                w.WineId,
-                Date = w.UserDetails.PurchaseDate,
-                w.PictureUrl
+                wine.Name,
+                wine.WineId,
+                Date = wine.UserDetails.PurchaseDate,
+                wine.PictureUrl
             })
-            .OrderByDescending(w => w.Date)
+            .OrderByDescending(wine => wine.Date)
             .Take(10)
             .ToListAsync(cancellationToken);
     }

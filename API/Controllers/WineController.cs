@@ -5,6 +5,7 @@ using API.Extensions;
 using API.Interfaces;
 using API.RequestHelpers;
 using API.Services;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -124,33 +125,29 @@ public class WineController : BaseApiController
 
         var newWine = MapDtoToWine(formBody, userId);
 
-        // Adding image
+        // Add image from file
         if (formBody.File is not null)
         {
-            // add image from file
             var imageResult = await _imageService.AddImageFromFileAsync(formBody.File, userId);
 
             if (imageResult.Error is not null)
-                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
-
-            newWine.PictureUrl = imageResult.SecureUrl.ToString();
-            newWine.PublicId = imageResult.PublicId;
-            newWine.ImageByUser = true;
-        }
-        else
-        {
-            // from product Id
-            if (formBody.ProductId is not null && formBody.ProductId.IsNumeric())
             {
-                var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
-
-                if (imageResult.Error is not null)
-                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
-
-                newWine.PictureUrl = imageResult.SecureUrl.ToString();
-                newWine.PublicId = imageResult.PublicId;
-                newWine.ImageByUser = false;
+                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
             }
+
+            newWine.AddPicture(imageResult, true);
+        }
+        //  Add image from valid product id
+        else if (formBody.ProductId.IsNumeric())
+        {
+            var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+
+            if (imageResult.Error is not null)
+            {
+                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+            }
+
+            newWine.AddPicture(imageResult);
         }
 
 
@@ -230,75 +227,52 @@ public class WineController : BaseApiController
         // will always have a change
         wine.UpdatedAt = DateTime.UtcNow;
 
-        // new product Id
-        // Adding image
+        // add/update image from file
         if (formBody.File is not null)
         {
-            // add image from file
-            if (!string.IsNullOrEmpty(wine.PublicId))
-            {
-                // replace image
-                var imageResult = await _imageService.UpdateImageFromFileAsync(formBody.File, wine.PublicId);
+            var imageResult = !string.IsNullOrEmpty(wine.PublicId)
+                ? await _imageService.UpdateImageFromFileAsync(formBody.File, wine.PublicId)
+                : await _imageService.AddImageFromFileAsync(formBody.File, userId);
 
-                if (imageResult.Error != null)
-                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+            if (imageResult.Error is not null)
+                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
 
-                wine.PictureUrl = imageResult.SecureUrl.ToString();
-                wine.PublicId = imageResult.PublicId;
-                wine.ImageByUser = true;
-            }
-            else
-            {
-                // add new image
-                var imageResult = await _imageService.AddImageFromFileAsync(formBody.File, userId);
-
-                if (imageResult.Error is not null)
-                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
-
-                wine.PictureUrl = imageResult.SecureUrl.ToString();
-                wine.PublicId = imageResult.PublicId;
-                wine.ImageByUser = true;
-            }
+            wine.AddPicture(imageResult, true);
         }
-        else // image from product id
+        // Not a file and has a valid product Id
+        else if (formBody.ProductId.IsNumeric())
         {
-            // validate product id
-            if (formBody.ProductId != null && formBody.ProductId.IsNumeric())
+            // already has image
+            if (wine.PublicId.IsNotEmpty())
             {
-                // user wants to update image 
-                // do stuff
+                // Replace image if productId is different, or if user wants to replace image
+                var replaceImage =
+                    !string.Equals(productId, formBody.ProductId) && !wine.ImageByUser
+                    || formBody.ResetImage;
 
-                // already has image
-                if (!string.IsNullOrEmpty(wine.PublicId))
+                if (replaceImage)
                 {
-                    // If product id is different and image is not an user image
-                    // If user wants to reset the image
-                    if (!string.Equals(productId, formBody.ProductId) && !wine.ImageByUser || formBody.ResetImage)
-                    {
-                        // replace image
-                        var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
-
-                        if (imageResult.Error != null)
-                            return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
-
-                        wine.PictureUrl = imageResult.SecureUrl.ToString();
-                        wine.PublicId = imageResult.PublicId;
-                        wine.ImageByUser = false;
-                    }
-                }
-                // does not have image -> add new
-                else
-                {
-                    // add new image
-                    var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+                    var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
 
                     if (imageResult.Error is not null)
+                    {
                         return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+                    }
 
-                    wine.PictureUrl = imageResult.SecureUrl.ToString();
-                    wine.PublicId = imageResult.PublicId;
-                    wine.ImageByUser = false;
+                    wine.AddPicture(imageResult);
                 }
+            }
+            // Has no image
+            else
+            {
+                var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+
+                if (imageResult.Error is not null)
+                {
+                    return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+                }
+
+                wine.AddPicture(imageResult);
             }
         }
 
@@ -418,7 +392,7 @@ public class WineController : BaseApiController
         if (wine.UserDetails.Quantity > 0)
         {
             // remove 1 from quantity
-            wine.UserDetails.Quantity--;
+            wine.UserDetails.DecrementQuantity();
         }
         else
         {

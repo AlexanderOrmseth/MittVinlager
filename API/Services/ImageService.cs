@@ -30,23 +30,15 @@ public class ImageService
         return new Transformation().Height(size).Width(size).Crop("limit").Quality(90);
     }
 
-    // TODO:
-    // "Error in loading https://bilder.vinmonopolet.no/cache/300x300-0/9680901-1.jpg - 403 Forbidden"
-    // "Error in loading https://bilder.vinmonopolet.no/cache/300x300-0/9524805-1.jpg
     public async Task<ImageUploadResult> AddImageAsync(string productId, int userId, bool small = false)
     {
-        var uploadResult = new ImageUploadResult();
-
-        if (productId.Length > 0 && productId.IsNumeric())
+        var uploadParams = new ImageUploadParams
         {
-            var uploadParams = new ImageUploadParams
-            {
-                PublicIdPrefix = $"user{userId}",
-                File = new FileDescription(VinmonopoletImageUrl(productId)),
-                Transformation = ImageTransformation(small)
-            };
-            uploadResult = await _cloudinary.UploadAsync(uploadParams);
-        }
+            PublicIdPrefix = $"user{userId}",
+            File = new FileDescription(VinmonopoletImageUrl(productId)),
+            Transformation = ImageTransformation(small)
+        };
+        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
         return uploadResult;
     }
@@ -55,7 +47,7 @@ public class ImageService
     {
         var uploadResult = new ImageUploadResult();
 
-        if (file.Length > 0 && file.ContentType.Contains("image"))
+        if (IsValidFile(file))
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
@@ -74,7 +66,7 @@ public class ImageService
     {
         var uploadResult = new ImageUploadResult();
 
-        if (file.Length > 0 && file.ContentType.Contains("image"))
+        if (IsValidFile(file))
         {
             await using var stream = file.OpenReadStream();
             var uploadParams = new ImageUploadParams
@@ -92,19 +84,14 @@ public class ImageService
 
     public async Task<ImageUploadResult> UpdateImageAsync(string productId, string publicId)
     {
-        var uploadResult = new ImageUploadResult();
-
-        if (productId.Length > 0 && productId.IsNumeric() && productId.Length > 0)
+        var uploadParams = new ImageUploadParams
         {
-            var uploadParams = new ImageUploadParams
-            {
-                PublicId = publicId,
-                File = new FileDescription(VinmonopoletImageUrl(productId)),
-                Transformation = ImageTransformation()
-            };
+            PublicId = publicId,
+            File = new FileDescription(VinmonopoletImageUrl(productId)),
+            Transformation = ImageTransformation()
+        };
 
-            uploadResult = await _cloudinary.UploadAsync(uploadParams);
-        }
+        var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
         return uploadResult;
     }
@@ -116,9 +103,16 @@ public class ImageService
         return result;
     }
 
+
     public async Task DeleteAllUserImages(int userId)
     {
         await _cloudinary.DeleteResourcesByPrefixAsync($"user{userId}");
+    }
+
+
+    private static bool IsValidFile(IFormFile file)
+    {
+        return file.Length > 0 && file.ContentType.Contains("image");
     }
 
     private static string VinmonopoletImageUrl(string productId)

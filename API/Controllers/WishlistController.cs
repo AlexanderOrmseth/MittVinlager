@@ -1,13 +1,12 @@
 using System.Security.Principal;
-using API.Context;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
@@ -15,14 +14,15 @@ namespace API.Controllers;
 public class WishlistController : BaseApiController
 {
     private readonly UserManager<User> _userManager;
-    private readonly MyDbContext _context;
     private readonly ImageService _imageService;
+    private readonly IWishItemRepository _wishItemRepository;
 
-    public WishlistController(UserManager<User> userManager, MyDbContext context, ImageService imageService)
+    public WishlistController(UserManager<User> userManager, ImageService imageService,
+        IWishItemRepository wishItemRepository)
     {
         _userManager = userManager;
-        _context = context;
         _imageService = imageService;
+        _wishItemRepository = wishItemRepository;
     }
 
     /// <summary>
@@ -35,21 +35,28 @@ public class WishlistController : BaseApiController
         return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
     }
 
+    /// <summary>
+    /// Gets user's wishlist
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>List of wishItemDto</returns>
     [HttpGet]
-    public async Task<ActionResult<List<WishItemDto>>> GetWishlist(CancellationToken cancellationToken)
+    public async Task<ActionResult<ICollection<WishItemDto>>> GetWishlist(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-        
-        var wishlist = await _context.Wishlist.Where(x => x.UserId == userId).Select(x => MapEntityToDto(x))
-            .ToListAsync(cancellationToken);
-
+        var wishlist = await _wishItemRepository.GetAll(userId, MapEntityToDto, cancellationToken);
         return Ok(wishlist);
     }
 
+    /// <summary>
+    /// Deletes wishItem by Id
+    /// </summary>
+    /// <param name="id">wishItemId</param>
+    /// <param name="cancellationToken"></param>
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> RemoveWishItem(int id)
+    public async Task<ActionResult> DeleteWishItem(int id, CancellationToken cancellationToken)
     {
-        var wishItem = await _context.Wishlist.FindAsync(id);
+        var wishItem = await _wishItemRepository.FindOne(id, cancellationToken);
         var userId = await GetUserId(User);
 
         // check if wine exists
@@ -57,16 +64,15 @@ public class WishlistController : BaseApiController
         {
             return NotFound(new ProblemDetails {Title = "Denne eksisterer ikke, eller er allerede slettet."});
         }
-        
-        // if cloudinary has image -> delete
+
+        // Delete image if image exists
         if (!string.IsNullOrEmpty(wishItem.PublicId))
         {
             await _imageService.DeleteImageAsync(wishItem.PublicId);
         }
 
-        _context.Wishlist.Remove(wishItem);
-
-        var result = await _context.SaveChangesAsync() > 0;
+        // remove & save
+        var result = await _wishItemRepository.RemoveThenSave(wishItem, cancellationToken);
 
         if (result)
         {
@@ -76,36 +82,40 @@ public class WishlistController : BaseApiController
         return BadRequest("kunne ikke slette denne vinen.");
     }
 
+    /// <summary>
+    /// Adds wishItem
+    /// </summary>
+    /// <param name="wishItemDto"></param>
+    /// <param name="cancellationToken"></param>
     [HttpPost]
     public async Task<ActionResult> AddWishItem(AddWishItemDto wishItemDto, CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
+        var count = await _wishItemRepository.CountAll(userId, cancellationToken);
 
         // User can only have 10 items in their wishlist
-        if (await _context.Wishlist.CountAsync(wine => wine.UserId == userId, cancellationToken: cancellationToken) > 10)
+        if (count >= 10)
         {
             return BadRequest(new ProblemDetails {Title = "Du kan max ha 10 vin i ønskelisten din."});
         }
 
         var newWishItem = MapDtoToEntity(wishItemDto, userId);
 
-        // add image from product id
+        // Add image from product Id
         if (wishItemDto.ProductId.IsNumeric())
         {
             var imageResult = await _imageService.AddImageAsync(wishItemDto.ProductId, userId, true);
-    
-            // image error
-            if (imageResult.Error is not null)
-                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
 
-            newWishItem.PictureUrl = imageResult.SecureUrl.ToString();
-            newWishItem.PublicId = imageResult.PublicId;
+            if (imageResult.Error is not null)
+            {
+                return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
+            }
+
+            newWishItem.AddPicture(imageResult);
         }
 
-        // add wine
-        _context.Wishlist.Add(newWishItem);
-
-        var result = await _context.SaveChangesAsync(cancellationToken) > 0;
+        // add item and save
+        var result = await _wishItemRepository.AddThenSave(newWishItem, cancellationToken);
 
         // success
         if (result)

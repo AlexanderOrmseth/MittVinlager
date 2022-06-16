@@ -17,4 +17,9 @@ public class WineUserDetails
     public bool Favorite { get; set; }
     public int? Score { get; set; }
     public int? UserRating { get; set; }
+
+    public void DecrementQuantity()
+    {
+        Quantity--;
+    }
 }

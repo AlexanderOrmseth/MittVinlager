@@ -69,7 +69,10 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ImageService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// repositories
 builder.Services.AddScoped<IWineRepository, WineRepository>();
+builder.Services.AddScoped<IWishItemRepository, WishItemRepository>();
 
 // add an httpClient factory (in order fetch vinmonopolet API)
 builder.Services.AddHttpClient();
