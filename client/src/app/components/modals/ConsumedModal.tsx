@@ -4,6 +4,7 @@ import { decrementQuantity } from "../../../features/wine/slices/wineSlice";
 import api from "../../api";
 import { Consumed } from "../../models/consumed";
 import { useAppDispatch } from "../../store/configureStore";
+import AsideDisclosure from "../AsideDisclosure";
 import DatePicker from "../DatePicker";
 import ErrorBox from "../ErrorBox";
 import { InfoBox } from "../InfoBox";
@@ -89,7 +90,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
   return (
     <Modal
       title="Drukket"
-      description="Legger til en drukket dato på vinen og trekker fra antall -1."
+      description='Her kan du legge til "drukket-datoer" som lagres på vinen.'
       isOpen={isOpen}
       setIsOpen={setIsOpen}
     >
@@ -98,24 +99,48 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
           <Spinner text="Laster datoer..." />
         ) : (
           <>
+            <AsideDisclosure text="Hvordan fungerer dette?" defaultOpen={false}>
+              <div className="space-y-2">
+                <p className="text-gray-700">
+                  En vin kan max ha 10 drukket-datoer, den eldste datoen vil bli
+                  <span className="font-bold"> overskrevet</span> automatisk.
+                  Når du legger til en drukket dato vil vinens antall{" "}
+                  <span className="font-bold">reduseres</span> med 1. Du kan
+                  ikke registrere drukket datoer på vin du ikke har på lager,
+                  altså hvor antall er lik 0.
+                </p>
+                <p className="text-gray-700">
+                  På profilsiden kan du se de 10 siste drukket-datoene fra alle
+                  vin, mens på denne siden vises kun drukket-datoer som hører
+                  til valgt vin.
+                </p>
+              </div>
+            </AsideDisclosure>
+
             {!quantity && (
               <InfoBox
                 message="Du har ikke vinen på lager. Du kan ikke legge til
                   drukket-datoer når antall er 0."
               />
             )}
+
             {error && <ErrorBox message={error} />}
 
             {data && data.length > 0 ? (
-              <div className="my-4 space-y-1 p-2 border rounded-lg ">
-                {data.map((item) => (
-                  <ConsumedWine
-                    deleteConsumed={handleDeleteConsumed}
-                    date={item.date}
-                    id={item.id}
-                    key={item.id}
-                  />
-                ))}
+              <div className="my-4 p-2 border rounded-lg ">
+                <h3 className="mb-0.5 text-center border-b pb-2 font-medium text-sm">
+                  Drukket
+                </h3>
+                <ul className="space-y-1 ">
+                  {data.map((item) => (
+                    <ConsumedWine
+                      deleteConsumed={handleDeleteConsumed}
+                      date={item.date}
+                      id={item.id}
+                      key={item.id}
+                    />
+                  ))}
+                </ul>
               </div>
             ) : (
               <InfoBox message="Ingen datoer er registrert enda." />

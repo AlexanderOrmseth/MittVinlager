@@ -27,12 +27,15 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           </Link>
         </div>
         <div className="flex text-gray-500 my-1 flex-row space-x-2 flex-wrap items-center comma">
-          <div className="flex items-center">
-            <span
-              className={`f16 mr-1 flag ${wine.countryId && wine.countryId}`}
-            />
-            {wine.country}
-          </div>
+          {wine.country && (
+            <div className="flex items-center">
+              <span
+                className={`f16 mr-1 flag ${wine.countryId && wine.countryId}`}
+              />
+              {wine.country}
+            </div>
+          )}
+
           <div>{wine.type}</div>
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
 

@@ -61,40 +61,48 @@ const Statistics = () => {
           </div>
         ))}
       </div>
-      <div className="grid md:grid-cols-2 gap-x-2 gap-y-8 my-4 bg-slate-50 rounded-lg p-8">
-        <div>
-          <h3 className="font-medium mb-4 text-center text-gray-700 uppercase text-sm">
-            Antall
-          </h3>
-          <PieChart
-            {...pieOptions}
-            label={({ dataEntry }) => dataEntry.title + ": " + dataEntry.value}
-            data={wineStatistics.map((data, i) => {
-              return {
-                title: data.type,
-                value: data.quantity,
-                color: pieColors[i],
-              };
-            })}
-          />
-        </div>
-        <div>
-          <h3 className="font-medium mb-4 text-center text-gray-700 uppercase text-sm">
-            Verdi
-          </h3>
-          <PieChart
-            {...pieOptions}
-            label={({ dataEntry }) =>
-              dataEntry.title + ": " + formatPrice(dataEntry.value)
-            }
-            data={wineStatistics.map((data, i) => {
-              return {
-                title: data.type,
-                value: data.value,
-                color: pieColors[i],
-              };
-            })}
-          />
+      <div className="bg-slate-50 rounded-lg p-8">
+        <div className="flex items-center mb-4 flex-row gap-x-2">
+          <div className="flex-1">
+            <h3 className="font-medium mb-4 text-center text-gray-700 uppercase text-sm">
+              Antall
+            </h3>
+            <PieChart
+              {...pieOptions}
+              label={({ dataEntry }) =>
+                dataEntry.title + ": " + dataEntry.value
+              }
+              data={wineStatistics.map((data, i) => {
+                return {
+                  title: data.type,
+                  value: data.quantity,
+                  color: pieColors[i],
+                };
+              })}
+            />
+          </div>
+          {wineStatistics.some((data) => data.value) && (
+            <div className="flex-1">
+              <h3 className="font-medium mb-4 text-center text-gray-700 uppercase text-sm">
+                Verdi
+              </h3>
+              <PieChart
+                {...pieOptions}
+                label={({ dataEntry }) =>
+                  dataEntry.title + ": " + formatPrice(dataEntry.value)
+                }
+                data={wineStatistics
+                  .filter((data) => data.value)
+                  .map((data, i) => {
+                    return {
+                      title: data.type,
+                      value: data.value,
+                      color: pieColors[i],
+                    };
+                  })}
+              />
+            </div>
+          )}
         </div>
         <div className="bg-slate-50 col-span-2 rounded-lg p-4">
           <div className="grid grid-cols-3 gap-2 mb-1 border-b font-medium">

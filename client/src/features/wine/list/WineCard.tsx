@@ -106,9 +106,15 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
 
         <div className="flex flex-row justify-center items-center gap-2">
           <div className="comma flex flex-row gap-x-2 text-sm text-gray-500 flex-wrap items-center">
-            <span className={`f16 flag ${wine.countryId && wine.countryId}`} />
             {wine.country && (
-              <span className="font-medium text-gray-700">{wine.country}</span>
+              <>
+                <span
+                  className={`f16 flag ${wine.countryId && wine.countryId}`}
+                />
+                <span className="font-medium text-gray-700">
+                  {wine.country}
+                </span>
+              </>
             )}
             {wine.region && <span>{wine.region}</span>}
             {wine.subRegion && <span>{wine.subRegion}</span>}
