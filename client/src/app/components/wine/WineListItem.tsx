@@ -15,7 +15,7 @@ const WineListItem = ({
   externalLink,
 }: Props) => {
   return (
-    <div className="flex items-center bg-white rounded shadow p-1">
+    <div className="flex items-center bg-white dark:bg-gray-800/40 dark:shadow-md rounded shadow p-1">
       <img
         className="object-scale-down pointer-events-none select-none rounded w-28 h-28"
         src={pictureUrl || placeholder}

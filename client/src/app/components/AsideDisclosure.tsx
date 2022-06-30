@@ -13,14 +13,14 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
         <>
           <Disclosure.Button
             className="flex w-full justify-between rounded-full
-            bg-green-wine-50 px-5 py-3 text-left font-medium text-green-wine-500 
+            bg-green-wine-50 dark:bg-green-wine-300/40 dark:text-green-wine-25 px-5 py-3 text-left font-medium text-green-wine-500 
             hover:bg-green-wine-100 text-sm"
           >
             <span>{text}</span>
             <CaretUp
               className={`transition-all ${
                 open ? "rotate-180 transform" : ""
-              } h-5 w-5 text-green-wine-500`}
+              } h-5 w-5 text-green-wine-500 dark:text-green-wine-25`}
             />
           </Disclosure.Button>
           <Transition

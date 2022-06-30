@@ -39,7 +39,7 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
           med store bokstaver for å bekrefte sletting av bruker.
         </p>
 
-        <div className="p-4 mt-4 bg-slate-50 space-y-6 rounded-lg">
+        <div className="p-4 mt-4 bg-slate-50 space-y-6 dark:bg-gray-800/30 dark:border dark:border-gray-700 rounded-lg">
           <div>
             <label className="label">Bekreft sletting</label>
             <input

@@ -60,8 +60,14 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
                       key={i}
                       className={({ active, selected }) =>
                         `relative cursor-default flex items-center leading-4 rounded text-sm gap-2 select-none py-2 px-4 ${
-                          active && !selected ? "bg-slate-200 text-black" : ""
-                        } ${selected ? "bg-wine-500 text-white" : ""}`
+                          active && !selected
+                            ? "bg-slate-200 dark:bg-gray-700/40 text-black dark:text-gray-300"
+                            : ""
+                        } ${
+                          selected
+                            ? "bg-wine-500 dark:bg-wine-400 text-white"
+                            : ""
+                        }`
                       }
                       value={item.value}
                     >

@@ -70,7 +70,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
               />
             )}
             {props.definition && (
-              <span className="absolute select-none pointer-events-none right-1.5 h-5 leading-5 top-1.5 px-2 text-sm rounded text-slate-800 bg-slate-100">
+              <span className="absolute select-none pointer-events-none right-1.5 h-5 leading-5 top-1.5 px-2 text-sm rounded text-slate-800 dark:text-gray-300 dark:bg-white/20 bg-slate-100">
                 {props.definition}
               </span>
             )}

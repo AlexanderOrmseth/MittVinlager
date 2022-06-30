@@ -29,11 +29,11 @@ const DetailsPage = () => {
       <div>
         <div className="flex flex-row mb-4 gap-x-2 items-center">
           <div className={`flag f32 ${wine.countryId}`}></div>
-          <h2 className="md:text-4xl text-3xl font-bold text-wine-500">
+          <h2 className="md:text-4xl text-3xl font-bold text-wine-500 dark:text-wine-400">
             {wine.name}
           </h2>
         </div>
-        <div className="my-4 pb-4 gap-y-4 border-b flex sm:flex-row flex-col sm:items-center sm:justify-between">
+        <div className="my-4 pb-4 gap-y-4 border-b dark:border-gray-700 flex sm:flex-row flex-col sm:items-center sm:justify-between">
           <div className="flex flex-row gap-y-2">
             <Link
               className="btn-white rounded-full rounded-r-none justify-center w-auto flex items-center gap-x-2"
@@ -42,7 +42,7 @@ const DetailsPage = () => {
               <PencilLine
                 size="1.25rem"
                 weight="duotone"
-                className="text-slate-700"
+                className="text-slate-700 dark:text-slate-400"
               />
               Rediger
             </Link>
@@ -53,7 +53,7 @@ const DetailsPage = () => {
               <CalendarBlank
                 size="1.25rem"
                 weight="duotone"
-                className="text-slate-700"
+                className="text-slate-700 dark:text-slate-400"
               />
               Drukket
             </button>
@@ -67,7 +67,7 @@ const DetailsPage = () => {
                 <LinkIcon
                   size="1.25rem"
                   weight="duotone"
-                  className="text-slate-700"
+                  className="text-slate-700 dark:text-slate-400"
                 />
                 Link
               </a>
@@ -79,12 +79,12 @@ const DetailsPage = () => {
               <Trash
                 size="1.25rem"
                 weight="duotone"
-                className="text-wine-500"
+                className="text-wine-500 dark:text-wine-300"
               />
               Slett
             </button>
           </div>
-          <div className="text-sm text-gray-700">
+          <div className="text-sm text-gray-700 dark:text-gray-400">
             <p>Dato opprettet: {formatDate(new Date(wine.createdAt))}</p>
             <p>
               Sist endret:{" "}

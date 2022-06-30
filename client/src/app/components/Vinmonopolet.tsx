@@ -49,14 +49,32 @@ const Vinmonopolet = ({
 }: Props) => {
   const [inputValue, setInputValue] = useState<string>(productId || "");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [resetAction, setResetAction] = useState(1);
 
+  const isValidProductId = (val?: string): boolean =>
+    val ? /^\d+$/.test(val) : false;
+
   const handleFetchWine = async () => {
-    setLoading(true);
     try {
+      let productId = inputValue.trim();
+      if (
+        productId.includes("https://www.vinmonopolet.no/") &&
+        productId.includes("/p/")
+      ) {
+        productId = productId.split("/p/")[1];
+      }
+
+      // validate product id
+      if (!isValidProductId(productId)) {
+        setError("Error, kunne ikke hente vin med denne produktId'en.");
+        return;
+      }
+
+      setLoading(true);
+
       const res = (await api.Vinmonopolet.getWineByProductId(
-        inputValue
+        productId
       )) as FormModel;
 
       if (isWishlist) {
@@ -72,7 +90,7 @@ const Vinmonopolet = ({
             setValue("price", res.price);
             break;
           case 3:
-            // reset everything but keep userDetails
+            // reset everything but except userDetails
             const { userDetails, ...rest } = res;
             setValues({ ...rest, userDetails: getValues("userDetails") });
             break;
@@ -86,7 +104,10 @@ const Vinmonopolet = ({
       setIsOpen(false);
     } catch (error: any) {
       console.error(error);
-      setError(error.data.title);
+      setError(
+        error?.data?.title ||
+          "Error, kunne ikke hente vin med denne produktId'en"
+      );
     } finally {
       setLoading(false);
     }
@@ -110,7 +131,7 @@ const Vinmonopolet = ({
           <span>9680901</span>
         </div>
       </div>
-      <div className="p-4 bg-slate-50 space-y-6 rounded-lg">
+      <div className="p-4 bg-slate-50 space-y-6 dark:bg-gray-800/30 dark:border dark:border-gray-700 rounded-lg">
         <div>
           <label htmlFor="vinmonopoletProductId" className="label">
             ProduktId/Link

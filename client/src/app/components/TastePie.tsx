@@ -95,7 +95,7 @@ export const text = {
 const TastePie = ({ percent, size }: { percent: number; size: string }) => {
   return (
     <div
-      className={`aspect-square border-2 border-slate-25 ring-2 ring-[#1a3363] rounded-full`}
+      className={`aspect-square border-2 border-slate-25 dark:border-gray-900 ring-2 ring-[#1a3363] rounded-full`}
       style={{
         height: size,
         width: size,

@@ -1,7 +1,7 @@
-using System.Security.Claims;
-using API.Context;
+using System.Web;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -14,13 +14,18 @@ public class AccountController : BaseApiController
     private readonly UserManager<User> _userManager;
     private readonly TokenService _tokenService;
     private readonly ImageService _imageService;
+    private readonly IConfiguration _config;
+    private readonly IEmailSender _emailSender;
 
 
-    public AccountController(UserManager<User> userManager, TokenService tokenService, ImageService imageService)
+    public AccountController(UserManager<User> userManager, TokenService tokenService, ImageService imageService,
+        IConfiguration config, IEmailSender emailSender)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _imageService = imageService;
+        _config = config;
+        _emailSender = emailSender;
     }
 
     [HttpPost("login")]
@@ -56,6 +61,22 @@ public class AccountController : BaseApiController
             return ValidationProblem();
         }
 
+        // email token
+        var userFromDb = await _userManager.FindByEmailAsync(user.Email);
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        var uriBuilder = new UriBuilder(_config["ConfirmEmailPath"]);
+        var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+        query["token"] = token;
+        query["userid"] = userFromDb.Id.ToString();
+        uriBuilder.Query = query.ToString();
+        var urlString = uriBuilder.ToString();
+
+        // also gotta limit number of emails sent...
+        await _emailSender.SendEmailAsync(userFromDb.Email, userFromDb.UserName, urlString,
+            "Confirm your email address");
+
+        // add role
         await _userManager.AddToRoleAsync(user, "Member");
 
 

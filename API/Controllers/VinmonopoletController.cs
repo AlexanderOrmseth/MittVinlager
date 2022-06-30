@@ -22,11 +22,9 @@ public class VinmonopoletController : BaseApiController
     /// Note: Vinmonopolet sends the response as a list even though we specify we want a single product!
     /// </summary>
     /// <param name="productId"></param>
-    /// <returns></returns>
     [HttpGet("{productId}")]
-    public async Task<ActionResult<WineBaseModel>> GetWineByProductNumber(string productId)
+    public async Task<ActionResult<WineBaseModel>> GetWineByProductNumber(string? productId)
     {
-        // check if parameter is an URL -> substring find ID
         if (!productId.IsNumeric())
         {
             return BadRequest(new ProblemDetails {Title = "Dette produktnummeret er ikke gyldig!"});

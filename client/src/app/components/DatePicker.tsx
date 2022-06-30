@@ -149,9 +149,9 @@ const DatePicker = ({
         disabled={!hereafter ? isHereafter(i) : false}
         className={` py-2 rounded ${
           isSelectedDate(i)
-            ? "bg-wine-500 text-white"
-            : "text-gray-700 hover:bg-slate-100 hover:text-gray-900"
-        } disabled:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed disabled:text-gray-700`}
+            ? "bg-wine-500 dark:bg-wine-400 text-white"
+            : "text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-gray-800 dark:hover:text-gray-100 hover:text-gray-900"
+        } disabled:bg-gray-100 dark:disabled:bg-gray-800/80 disabled:opacity-30 disabled:cursor-not-allowed disabled:text-gray-700`}
         key={i}
       >
         {i + 1}
@@ -175,7 +175,7 @@ const DatePicker = ({
             <CalendarBlank
               size="1.25rem"
               weight="duotone"
-              className="text-slate-700"
+              className="text-slate-700 dark:text-gray-300"
             />
             {value ? formatDate(value, true) : text}
           </Popover.Button>
@@ -191,20 +191,20 @@ const DatePicker = ({
             <Popover.Panel
               className={`${
                 absolute ? "absolute z-10 shadow-lg" : "block shadow-sm"
-              } bg-white border w-full rounded-lg mt-1 `}
+              } bg-white dark:bg-gray-900 dark:border-gray-700 border w-full rounded-lg mt-1 `}
             >
               {({ close }) => (
                 <>
                   <div className="flex flex-col gap-y-1 p-1">
                     <div className="flex flex-row gap-x-1 items-center">
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleMonthChange(event, false)}
                       >
                         <CaretLeft size="1.5rem" />
                       </button>
                       <button
-                        className="hover:underline font-semibold flex-1 hover:text-wine-500"
+                        className="hover:underline font-semibold flex-1 hover:text-wine-500 dark:hover:text-wine-300"
                         onClick={(event) => {
                           setMonth(new Date().getMonth());
                           event.preventDefault();
@@ -213,7 +213,7 @@ const DatePicker = ({
                         {months[month]}
                       </button>
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleMonthChange(event, true)}
                       >
                         <CaretRight size="1.5rem" />
@@ -221,19 +221,19 @@ const DatePicker = ({
                     </div>
                     <div className="flex flex-row gap-x-1 items-center">
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleYearChange(event, false)}
                       >
                         <CaretLeft size="1.5rem" />
                       </button>
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleYearChange(event, false, 5)}
                       >
                         <CaretDoubleLeft size="1.5rem" />
                       </button>
                       <button
-                        className="hover:underline font-semibold flex-1 hover:text-wine-500"
+                        className="hover:underline font-semibold flex-1 hover:text-wine-500 dark:hover:text-wine-300"
                         onClick={(event) => {
                           setYear(new Date().getFullYear());
                           event.preventDefault();
@@ -242,13 +242,13 @@ const DatePicker = ({
                         {year}
                       </button>
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleYearChange(event, true, 5)}
                       >
                         <CaretDoubleRight size="1.5rem" />
                       </button>
                       <button
-                        className="btn-white shadow-none text-gray-700 w-auto p-1"
+                        className="btn-white shadow-none text-gray-700 dark:text-gray-300 w-auto p-1"
                         onClick={(event) => handleYearChange(event, true)}
                       >
                         <CaretRight size="1.5rem" />
@@ -256,7 +256,7 @@ const DatePicker = ({
                     </div>
                   </div>
 
-                  <div className="grid px-1 mb-[1px] grid-cols-7 gap-[1px] text-center text-sm text-gray-700 border-b">
+                  <div className="grid px-1 mb-[1px] grid-cols-7 gap-[1px] text-center text-sm text-gray-700 dark:text-gray-400 dark:border-gray-700 border-b">
                     {renderWeekDays}
                   </div>
                   {year && (
@@ -293,7 +293,10 @@ const DatePicker = ({
                       }}
                       className="btn-white shadow-none justify-center flex flex-row gap-x-2 items-center"
                     >
-                      <X size="1.25rem" className="text-gray-700" />
+                      <X
+                        size="1.25rem"
+                        className="text-gray-700 dark:text-gray-300"
+                      />
                       Fjern dato
                     </button>
                   </div>

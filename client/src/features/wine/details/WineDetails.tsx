@@ -76,7 +76,9 @@ const WineDetails = ({ wine }: Props) => {
                     key={i}
                     className="flex py-2 flex-col items-center gap-y-2"
                   >
-                    <p className="font-medium text-slate-500">{displayText}</p>
+                    <p className="font-medium text-slate-500 dark:text-wine-200">
+                      {displayText}
+                    </p>
                     <TastePie percent={list[value].percent} size={"2rem"} />
                     <p>{text[type][value]}</p>
                   </div>

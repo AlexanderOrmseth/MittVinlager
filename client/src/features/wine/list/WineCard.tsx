@@ -29,7 +29,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
   return (
     <Link
       to={`${wine.wineId}`}
-      className="relative h-full p-4 block shadow hover:shadow-sm rounded bg-white hover:bg-slate-25 focus-primary"
+      className="relative h-full p-4 block shadow hover:shadow-sm rounded bg-white hover:bg-slate-25 dark:bg-gray-700/30 dark:hover:bg-gray-700/20 focus-primary"
     >
       <div
         className="absolute top-0 right-0"
@@ -54,17 +54,17 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             },
           ]}
           text=""
-          className="border-0 rounded-none rounded-tr-lg shadow-none w-12 h-10 "
+          className="border-0 rounded-none rounded-tr shadow-none w-12 h-10 "
           icon={<DotsThree size="1.5rem" />}
         />
       </div>
 
       <div className="flex h-full flex-col text-center gap-2">
-        <h4 className="font-bold leading-4 px-8 text-blue-wine-500">
+        <h4 className="font-bold leading-4 px-8 text-blue-wine-500 dark:text-blue-wine-25">
           {wine.name}
         </h4>
 
-        <div className="flex text-sm justify-center flex-wrap items-center text-gray-500 flex-row gap-2 comma">
+        <div className="flex text-sm justify-center flex-wrap items-center text-gray-500 dark:text-gray-300 flex-row gap-2 comma">
           <div>{wine.type}</div>
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
           {wine.volume && wine.volume > 0 && (
@@ -93,7 +93,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 <HeartStraight
                   size="1.25rem"
                   weight="duotone"
-                  className="text-wine-500"
+                  className="text-wine-500 dark:text-wine-300"
                 />
               )}
 
@@ -105,13 +105,13 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
         </div>
 
         <div className="flex flex-row justify-center items-center gap-2">
-          <div className="comma flex flex-row gap-x-2 text-sm text-gray-500 flex-wrap items-center">
+          <div className="comma flex flex-row gap-x-2 text-sm text-gray-500 dark:text-gray-300 flex-wrap items-center">
             {wine.country && (
               <>
                 <span
                   className={`f16 flag ${wine.countryId && wine.countryId}`}
                 />
-                <span className="font-medium text-gray-700">
+                <span className="font-medium text-gray-700 dark:text-gray-200">
                   {wine.country}
                 </span>
               </>
@@ -120,12 +120,12 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             {wine.subRegion && <span>{wine.subRegion}</span>}
           </div>
         </div>
-        <div className="flex text-sm items-center text-gray-700 justify-around flex-wrap flex-row gap-x-4 gap-y-2">
+        <div className="flex text-sm items-center text-gray-700 dark:text-gray-400 justify-around flex-wrap flex-row gap-x-4 gap-y-2">
           <div className="flex items-center flex-row gap-2">
             <BeerBottle
               size="1.25rem"
               weight="duotone"
-              className="text-slate-500"
+              className="text-slate-500 dark:text-gray-400"
             />
             {wine.userDetails.quantity}
           </div>
@@ -134,7 +134,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               <Coins
                 size="1.25rem"
                 weight="duotone"
-                className="text-slate-500"
+                className="text-slate-500 dark:text-gray-400"
               />
               {formatPrice(wine.price)}
             </div>
@@ -145,7 +145,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
               <CalendarBlank
                 size="1.25rem"
                 weight="duotone"
-                className="text-slate-500"
+                className="text-slate-500 dark:text-gray-400"
               />
               {formatDate(new Date(wine.createdAt))}
             </div>

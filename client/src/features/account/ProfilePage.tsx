@@ -61,12 +61,12 @@ const ProfilePage = () => {
         <section>
           <Title title="Profil" border Icon={IdentificationBadge} />
           {user && (
-            <div className="p-8 border inline-flex max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
-              <div className="text-4xl font-medium text-blue-wine-400">
+            <div className="p-8 border dark:border-gray-700 dark:bg-gray-800/30 md:inline-flex flex md:max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
+              <div className="text-4xl font-medium text-blue-wine-400 dark:text-wine-300">
                 {user.userName}
               </div>
               <User size="4rem" weight="regular" />
-              <div className="text-2xl text-gray-600 font-medium">
+              <div className="text-2xl text-gray-600 dark:text-gray-200 font-medium">
                 {user.email}
               </div>
               <button

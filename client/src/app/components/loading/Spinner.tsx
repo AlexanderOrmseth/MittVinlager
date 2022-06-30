@@ -13,7 +13,9 @@ const Spinner = ({ text }: Props) => {
         width="3rem"
         stroke="rgb(55 65 81)"
       />
-      <p className="text-center mt-2 font-bold text-gray-900">{text}</p>
+      <p className="text-center mt-2 font-bold text-gray-900 dark:text-gray-300">
+        {text}
+      </p>
     </div>
   );
 };

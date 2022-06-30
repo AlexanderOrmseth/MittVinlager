@@ -104,7 +104,7 @@ const WineList = () => {
     <div className="flex flex-1 flex-col">
       <Paginator status={status} top={true} />
 
-      <div className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 rounded-lg my-4">
+      <div className="flex-1 p-4 md:p-6 lg:p-8 bg-slate-50 dark:bg-gray-800/40 rounded-lg my-4">
         {content}
       </div>
 

@@ -32,7 +32,7 @@ const Login = () => {
       toast.success(`Velkommen ${data.username}`);
       navigate("/inventory");
     } catch (error: any) {
-      setLoginError(error.error?.title || "Feil");
+      setLoginError(error.error?.title || "Server Error!");
     }
   };
 

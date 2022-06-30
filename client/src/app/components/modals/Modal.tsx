@@ -36,7 +36,7 @@ const Modal = ({
               opacity: 0,
               transition: { duration: 0.15, ease: "easeIn" },
             }}
-            className="fixed inset-0 bg-black/30 backdrop-blur"
+            className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur"
             aria-hidden="true"
           />
 
@@ -66,15 +66,15 @@ const Modal = ({
                 }}
                 className={`mx-auto overflow-hidden w-full align-middle ${
                   xl ? "max-w-2xl" : "max-w-md"
-                }  rounded bg-white shadow-lg p-4`}
+                }  rounded bg-white dark:bg-gray-900 dark:border dark:border-gray-700 shadow-lg dark:shadow-2xl p-4`}
               >
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 mb-2 text-gray-900"
+                  className="text-lg font-medium leading-6 mb-2 text-gray-900 dark:text-gray-50"
                 >
                   {title}
                 </Dialog.Title>
-                <Dialog.Description className="text-sm mb-4 border-b pb-2 text-slate-600">
+                <Dialog.Description className="text-sm mb-4 border-b pb-2 dark:border-gray-700 text-slate-600 dark:text-gray-300">
                   {description}
                 </Dialog.Description>
 

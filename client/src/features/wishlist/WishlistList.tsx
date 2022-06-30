@@ -30,7 +30,7 @@ const WishlistList = ({ items }: Props) => {
   };
 
   return (
-    <div className="flex-1 p-4 bg-slate-50 rounded-lg space-y-2">
+    <div className="flex-1 p-4 bg-slate-50 dark:bg-gray-800/40 rounded-lg space-y-2">
       {items.map((wishItem) => (
         <WineListItem
           key={wishItem.id}
@@ -53,7 +53,11 @@ const WishlistList = ({ items }: Props) => {
               onClick={() => handleDeleteWishItem(wishItem.id)}
               className="btn-white flex flex-row items-center gap-x-2 py-1.5 w-auto disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <Trash size="1.5rem" weight="duotone" className="text-wine-500" />
+              <Trash
+                size="1.5rem"
+                weight="duotone"
+                className="text-wine-500 dark:text-wine-400"
+              />
               Slett
             </button>
           </>

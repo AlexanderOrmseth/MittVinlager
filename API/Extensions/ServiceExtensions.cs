@@ -48,6 +48,18 @@ public static class ServiceExtensions
     {
         services.AddSwaggerGen(c =>
             {
+                // Description
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "MittVinlager API",
+                    Version = "v1",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Alexander Ormseth",
+                        Email = "A_ormseth@hotmail.com",
+                        Url = new Uri("https://github.com/AlexanderOrmseth"),
+                    }
+                });
                 // Add token to swagger
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

@@ -12,7 +12,7 @@ interface Props {
 }
 const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
-    <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white hover:bg-slate-25 flex gap-x-1">
+    <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white dark:bg-gray-700/30 dark:hover:bg-gray-700/20 hover:bg-slate-25 flex gap-x-1">
       <div>
         <img
           className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"
@@ -26,7 +26,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
             {wine.name}
           </Link>
         </div>
-        <div className="flex text-gray-500 my-1 flex-row space-x-2 flex-wrap items-center comma">
+        <div className="flex text-gray-500 dark:text-gray-300 my-1 flex-row space-x-2 flex-wrap items-center comma">
           {wine.country && (
             <div className="flex items-center">
               <span

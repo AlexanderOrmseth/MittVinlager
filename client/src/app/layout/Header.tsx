@@ -8,6 +8,7 @@ import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
 import { toggleTheme } from "../../features/themeSlice";
+import { resetStatistics } from "../../features/statistics/statisticsSlice";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -28,9 +29,13 @@ const Header = () => {
       <Link
         onClick={() => setOpen(false)}
         to="/"
-        className="text-xl font-medium flex flex-row gap-2 items-center"
+        className="text-xl font-medium flex flex-row gap-2 dark:text-gray-200 items-center"
       >
-        <Wine size="1.75rem" weight="duotone" />
+        <Wine
+          size="1.75rem"
+          weight="duotone"
+          className="text-gray-500 dark:text-gray-400"
+        />
         Mitt Vinlager
       </Link>
 
@@ -79,6 +84,7 @@ const Header = () => {
                   fnc: () => {
                     dispatch(signOut());
                     dispatch(resetAll());
+                    dispatch(resetStatistics());
                   },
                 },
               ]}

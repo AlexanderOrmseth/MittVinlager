@@ -50,13 +50,17 @@ const DropDownMenu = ({
               <div className="px-1 py-1">
                 {buttons.map((button, i) => (
                   <div key={i}>
-                    {button.divide && <div className="my-2 border-t"></div>}
+                    {button.divide && (
+                      <div className="my-2 border-t dark:border-gray-800"></div>
+                    )}
                     <Menu.Item>
                       {({ active }) => (
                         <button
                           onClick={button.fnc}
                           className={`${
-                            active ? "bg-wine-500 text-white" : "text-gray-900"
+                            active
+                              ? "bg-wine-500 dark:bg-wine-400 text-white"
+                              : "text-gray-900 dark:text-gray-300"
                           } group flex w-full items-center gap-x-2 select-none rounded-md px-2 py-2 text-sm`}
                         >
                           {button.icon && button.icon}

@@ -23,7 +23,6 @@ const ViewModeToggle = () => {
           {gridView ? (
             <>
               <SquaresFour size="2rem" />
-              lol
             </>
           ) : (
             <Rows size="2rem" />

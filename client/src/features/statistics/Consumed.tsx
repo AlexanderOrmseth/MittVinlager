@@ -11,7 +11,7 @@ const Consumed = () => {
     );
 
   return (
-    <div className="p-4 mt-4 bg-slate-50 space-y-2 rounded-lg">
+    <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
       {lastConsumed.map((item) => (
         <WineListItem
           key={item.id}
@@ -19,7 +19,7 @@ const Consumed = () => {
           name={item.name}
           to={`/inventory/${item.wineId}`}
         >
-          <div className="text-sm text-gray-800">
+          <div className="text-sm text-gray-800 dark:text-gray-200">
             <span className="font-medium">Dato drukket:</span>{" "}
             {formatDate(new Date(item.date))}
           </div>

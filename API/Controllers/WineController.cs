@@ -5,7 +5,6 @@ using API.Extensions;
 using API.Interfaces;
 using API.RequestHelpers;
 using API.Services;
-using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

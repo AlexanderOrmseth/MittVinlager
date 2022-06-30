@@ -100,8 +100,8 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
         ) : (
           <>
             <AsideDisclosure text="Hvordan fungerer dette?" defaultOpen={false}>
-              <div className="space-y-2">
-                <p className="text-gray-700">
+              <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                <p>
                   En vin kan max ha 10 drukket-datoer, den eldste datoen vil bli
                   <span className="font-bold"> overskrevet</span> automatisk.
                   Når du legger til en drukket dato vil vinens antall{" "}
@@ -109,7 +109,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
                   ikke registrere drukket datoer på vin du ikke har på lager,
                   altså hvor antall er lik 0.
                 </p>
-                <p className="text-gray-700">
+                <p>
                   På profilsiden kan du se de 10 siste drukket-datoene fra alle
                   vin, mens på denne siden vises kun drukket-datoer som hører
                   til valgt vin.
@@ -119,11 +119,11 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
 
             {error && <ErrorBox message={error} />}
 
-            <div className="my-4 p-2 border rounded-lg ">
-              <h3 className="mb-2 text-center border-b pb-2 font-medium text-sm">
-                Drukket
-              </h3>
-              {data && data.length > 0 ? (
+            {data && data.length > 0 ? (
+              <div className="my-4 p-2 border rounded-lg dark:border-gray-700">
+                <h3 className="mb-2 text-center border-b dark:border-gray-700 pb-2 font-medium text-sm">
+                  Drukket
+                </h3>
                 <ul className="space-y-1">
                   {data.map((item) => (
                     <ConsumedWine
@@ -134,14 +134,14 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
                     />
                   ))}
                 </ul>
-              ) : (
-                <InfoBox message="Ingen datoer er registrert enda." />
-              )}
-            </div>
+              </div>
+            ) : (
+              <InfoBox message="Ingen datoer er registrert enda." />
+            )}
 
             {!quantity && <InfoBox message="Du har ikke vinen på lager." />}
 
-            <div className="p-4 mt-4 bg-slate-50 space-y-6 rounded-lg">
+            <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/30 dark:border dark:border-gray-700 space-y-6 rounded-lg">
               <div>
                 <label className="label">Velg dato</label>
                 <DatePicker

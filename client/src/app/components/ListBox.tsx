@@ -43,8 +43,8 @@ const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
                   disabled={disabled}
                   key={i}
                   className={({ active, selected, disabled }) =>
-                    `cursor-default flex items-center leading-4 rounded text-sm select-none py-2 px-4 ${
-                      disabled ? "opacity-50" : ""
+                    `cursor-default flex items-center leading-4 rounded text-sm select-none py-2.5 px-4 ${
+                      disabled ? "opacity-50 cursor-not-allowed" : ""
                     } ${active && !selected ? "bg-slate-200 text-black" : ""} ${
                       selected ? "bg-wine-500 text-white" : ""
                     }`

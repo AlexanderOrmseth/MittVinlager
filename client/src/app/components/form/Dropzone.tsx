@@ -77,7 +77,7 @@ const Dropzone = ({
           <p
             className={`${
               isDragActive ? "border border-green-wine-500" : ""
-            } rounded border flex items-center flex-col bg-slate-50 border-dashed p-4 shadow-lg text-green-wine-500 font-medium py-4 `}
+            } rounded border flex items-center flex-col bg-slate-50  border-dashed p-4 shadow-lg text-green-wine-500 font-medium py-4 `}
           >
             {isDragReject ? (
               "Denne filtypen støttes ikke!"
@@ -90,7 +90,7 @@ const Dropzone = ({
             )}
           </p>
         ) : (
-          <div className="rounded border text-center bg-slate-50 border-dashed border-slate-300 p-4 py-4 hover:bg-slate-100 hover:border-slate-500">
+          <div className="rounded border text-center bg-slate-50 dark:bg-gray-800 dark:border-gray-700 border-dashed border-slate-300 p-4 py-4 hover:bg-slate-100 hover:border-slate-500">
             <div className="flex flex-row gap-2 justify-center items-center">
               <FileImage size="1.75rem" weight="duotone" />
               Trykk her, eller dra et bilde hit

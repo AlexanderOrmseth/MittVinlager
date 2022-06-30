@@ -11,9 +11,8 @@ import { getFilters } from "../slices/wineAsyncThunks";
 import { resetParams, setParams } from "../slices/wineSlice";
 
 const WineFilter = () => {
-  const { filtersFetched, filterOptions, wineParams, status } = useAppSelector(
-    (state) => state.wine
-  );
+  const { filtersFetched, filterOptions, wineParams, status, metaData } =
+    useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
   // Fetch filters
@@ -21,7 +20,7 @@ const WineFilter = () => {
     if (!filtersFetched) dispatch(getFilters());
   }, [filtersFetched, dispatch]);
 
-  const disabled = status === "loading";
+  const disabled = status === "loading" || !metaData?.totalCount;
 
   return (
     <div className="space-y-4 sm:pb-0 sm:sticky sm:top-4 sm:overflow-y-auto sm:pr-2 sm:max-h-[calc(100vh-4rem)]">
@@ -38,7 +37,7 @@ const WineFilter = () => {
           },
           {
             value: "priceDesc",
-            displayText: "Pris desc",
+            displayText: "Pris (synkende)",
           },
           {
             value: "country",
@@ -46,7 +45,7 @@ const WineFilter = () => {
           },
           {
             value: "countryDesc",
-            displayText: "Land desc",
+            displayText: "Land (synkende)",
           },
           {
             value: "type",
@@ -54,7 +53,7 @@ const WineFilter = () => {
           },
           {
             value: "typeDesc",
-            displayText: "Type desc",
+            displayText: "Type (synkende)",
           },
         ]}
         disabled={disabled}
@@ -63,7 +62,7 @@ const WineFilter = () => {
       />
       <button
         disabled={disabled}
-        className="btn-secondary rounded-full w-full"
+        className="btn-secondary rounded-full w-full disabled-btn"
         onClick={() => dispatch(resetParams())}
       >
         Tilbakestill

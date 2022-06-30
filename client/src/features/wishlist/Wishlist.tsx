@@ -38,14 +38,13 @@ const Wishlist = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
       />
-      <div>
+      <div className="space-y-4">
         <Title title="Ønskeliste" Icon={Sparkle} border>
           <p>
             Her kan du legge til vin i egen ønskeliste. Du kan max ha 10 vin i
             ønskelisten.
           </p>
         </Title>
-
         <button
           type="button"
           onClick={() => setIsOpen(true)}
@@ -53,7 +52,7 @@ const Wishlist = () => {
             status === "loading" ||
             (wishItems != null && wishItems?.length >= 10)
           }
-          className="btn-secondary w-full h-12 rounded-full disabled-btn my-4"
+          className="btn-secondary w-full h-12 rounded-full disabled-btn"
         >
           Hent vin
         </button>

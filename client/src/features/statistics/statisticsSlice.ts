@@ -48,7 +48,7 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
 export const statisticsSlice = createSlice({
   name: namespace,
   initialState,
-  reducers: {},
+  reducers: { resetStatistics: () => initialState },
   extraReducers: (builder) => {
     builder.addCase(getStatistics.pending, (state) => {
       state.status = "loading";
@@ -70,4 +70,4 @@ export const statisticsSlice = createSlice({
   },
 });
 
-//export const {} = statisticsSlice.actions;
+export const { resetStatistics } = statisticsSlice.actions;

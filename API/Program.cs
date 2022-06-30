@@ -3,10 +3,11 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.Middleware;
+using API.Models;
 using API.Repositories;
 using API.Services;
-using API.Services.EmailService;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 
@@ -14,6 +15,7 @@ const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
+
 // Add services to the container.
 
 // controller
@@ -33,16 +35,27 @@ builder.Services.AddDbContext<MyDbContext>(opt =>
 builder.Services.ConfigureCors(myAllowSpecificOrigins);
 
 // JWT, Auth, Identity
-builder.Services.AddIdentityCore<User>(opt => { opt.User.RequireUniqueEmail = true; })
+builder.Services.AddIdentityCore<User>(opt =>
+    {
+        //opt.Password.RequireNonAlphanumeric = false;
+        opt.User.RequireUniqueEmail = true;
+
+        // TODO: not working
+        opt.SignIn.RequireConfirmedEmail = true;
+    })
     .AddRoles<Role>()
-    .AddEntityFrameworkStores<MyDbContext>();
+    .AddEntityFrameworkStores<MyDbContext>()
+    .AddDefaultTokenProviders(); // for email
+
 builder.Services.AddAuthenticationOptions(configuration);
 builder.Services.AddAuthorization();
 
 // Added services
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ImageService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
+// Email
+builder.Services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 // repositories
 builder.Services.AddScoped<IWineRepository, WineRepository>();
@@ -51,11 +64,14 @@ builder.Services.AddScoped<IWishItemRepository, WishItemRepository>();
 // add an httpClient factory (in order fetch vinmonopolet API)
 builder.Services.AddHttpClient();
 
-// Configure swagger
+// Configure Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwaggerAuth();
 
 var app = builder.Build();
+
+// set localization -> this fixes decimal error -> "." instead of ","
+app.UseRequestLocalization(new RequestLocalizationOptions().SetDefaultCulture("en-US"));
 
 // custom server error (on development with details, not in production)
 app.UseMiddleware<ExceptionMiddleware>();

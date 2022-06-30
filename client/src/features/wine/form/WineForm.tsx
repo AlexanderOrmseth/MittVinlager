@@ -214,18 +214,18 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
         setValue={setValue}
       />
 
-      <div className="bg-slate-25 mt-6 border rounded-lg md:p-8 p-4 ">
+      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-800/30 rounded-lg md:p-8 p-4 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
-            <Tab.List className="inline-flex bg-white rounded shadow flex-row">
+            <Tab.List className="inline-flex w-full max-w-lg bg-white dark:bg-gray-800 rounded shadow flex-row">
               {tabs.map((tab, i) => (
                 <Tab
                   key={i}
                   className={({ selected }) =>
-                    `relative last:border-r-0 border-r focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2 ${
+                    `relative flex-1 last:border-r-0 border-r dark:border-r-gray-700 focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2 ${
                       selected
-                        ? " text-wine-500 rounded-b-none border-b-wine-500"
-                        : "text-gray-700 hover:text-black border-b-transparent"
+                        ? " text-wine-500 rounded-b-none border-b-wine-500 dark:text-white dark:bg-gray-700/80 dark:border-b-wine-400"
+                        : "text-gray-700 dark:text-gray-400 dark:hover:text-gray-500 dark:hover:bg-gray-700/20 hover:text-black border-b-transparent"
                     }`
                   }
                 >
@@ -249,7 +249,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
               Hent fra Vinmonopolet
             </button>
           </div>
-          <div className="mt-6 border-t relative border-slate-200 mb-6">
+          <div className="mt-6 border-t relative border-slate-200 dark:border-gray-700 mb-6">
             {getValues("productId") && (
               <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-25">
                 <span className="select-none">produktId: </span>
@@ -557,7 +557,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                 </Tab.Panel>
               </AnimatePresence>
             </Tab.Panels>
-            <div className="mt-6 border-t border-slate-200 mb-6"></div>
+            <div className="mt-6 border-t border-slate-200 dark:border-gray-700 mb-6"></div>
             <div className="flex flex-row flex-wrap gap-2 items-center">
               <LoadingButton
                 disabled={!isValid}

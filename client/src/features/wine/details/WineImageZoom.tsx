@@ -70,7 +70,7 @@ const WineImageZoom = ({
         </>
       </Zoom>
       {enabled && (
-        <p className="text-slate-600 text-sm">
+        <p className="text-slate-600 dark:text-gray-400 text-sm">
           Trykk på bilde for å zoome inn.
         </p>
       )}
