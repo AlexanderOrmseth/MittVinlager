@@ -4,6 +4,7 @@ import DescriptionList from "../../../app/components/dl/DescriptionList";
 import Score from "../../../app/components/Score";
 import Stars from "../../../app/components/Stars";
 import TastePie, { list, text } from "../../../app/components/TastePie";
+import Time from "../../../app/components/Time";
 import { WineBaseModel } from "../../../app/models/wine";
 import {
   formatAlcoholContent,
@@ -90,10 +91,9 @@ const WineDetails = ({ wine }: Props) => {
 
       <DescriptionList delay={2} title="Brukerdetaljer">
         <DescriptionItem dt="Antall" dd={wine.userDetails.quantity} />
-        <DescriptionItem
-          dt="Dato kjøpt"
-          dd={wine.userDetails.purchaseDate?.toString()}
-        />
+        <DescriptionItem dt="Dato kjøpt">
+          <Time date={wine.userDetails.purchaseDate} />
+        </DescriptionItem>
         <DescriptionItem
           dt="Sted kjøpt"
           dd={wine.userDetails.purchaseLocation}

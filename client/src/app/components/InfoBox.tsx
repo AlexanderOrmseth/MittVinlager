@@ -8,7 +8,7 @@ export const InfoBox = ({ message }: { message: string }) => {
        font-medium text-blue-wine-500"
     >
       <Info size="1.5rem" className="mr-2" />
-      <p className="flex-1">{message}</p>
+      <em className="flex-1">{message}</em>
     </div>
   );
 };

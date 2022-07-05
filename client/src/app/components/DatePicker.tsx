@@ -8,7 +8,7 @@ import {
   X,
 } from "phosphor-react";
 import { Fragment, useEffect, useState } from "react";
-import { formatDate } from "../util/format";
+import Time from "./Time";
 
 const months = [
   "Januar",
@@ -177,7 +177,7 @@ const DatePicker = ({
               weight="duotone"
               className="text-slate-700 dark:text-gray-300"
             />
-            {value ? formatDate(value, true) : text}
+            <Time date={value} fallBackText={text} short />
           </Popover.Button>
           <Transition
             as={Fragment}

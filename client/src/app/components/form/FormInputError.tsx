@@ -9,18 +9,18 @@ const FormInputError = ({ error }: Props) => {
   return (
     <div className="flex flex-col gap-y-1">
       {error?.message && (
-        <p className="text-wine-500 dark:text-wine-300 text-sm italic">
+        <em className="text-wine-500 block dark:text-wine-300 text-sm italic">
           {error.message}
-        </p>
+        </em>
       )}
       {error?.types &&
         Object.values(error.types).map((error, i) => (
-          <p
+          <em
             key={i}
-            className="text-wine-500 dark:text-wine-300 text-sm italic"
+            className="text-wine-500 block dark:text-wine-300 text-sm italic"
           >
             {error}
-          </p>
+          </em>
         ))}
     </div>
   );

@@ -3,6 +3,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using API.Services;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,23 @@ public class AccountController : BaseApiController
         };
     }
 
+    [AllowAnonymous]
+    [HttpPost("google")]
+    [ValidateAntiForgeryToken]
+    public async Task<ActionResult> GoogleSignIn(string token)
+    {
+        try
+        {
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return Ok();
+    }
+
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
@@ -73,8 +91,8 @@ public class AccountController : BaseApiController
         var urlString = uriBuilder.ToString();
 
         // also gotta limit number of emails sent...
-        await _emailSender.SendEmailAsync(userFromDb.Email, userFromDb.UserName, urlString,
-            "Confirm your email address");
+        /*await _emailSender.SendEmailAsync(userFromDb.Email, userFromDb.UserName, urlString,
+            "Confirm your email address");*/
 
         // add role
         await _userManager.AddToRoleAsync(user, "Member");

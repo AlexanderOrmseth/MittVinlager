@@ -1,7 +1,7 @@
-import { formatDate } from "../../app/util/format";
 import { useAppSelector } from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
 import { InfoBox } from "../../app/components/InfoBox";
+import Time from "../../app/components/Time";
 
 const History = () => {
   const { lastPurchased } = useAppSelector((state) => state.statistics);
@@ -20,9 +20,9 @@ const History = () => {
           name={wine.name}
           to={`/inventory/${wine.wineId}`}
         >
-          <div className="text-sm text-gray-800">
-            <span className="font-medium">Dato kjøpt:</span>{" "}
-            {formatDate(new Date(wine.date))}
+          <div className="text-sm text-gray-800 space-x-1 dark:text-gray-200">
+            <span className="font-medium">Dato kjøpt:</span>
+            <Time date={wine.date} />
           </div>
         </WineListItem>
       ))}

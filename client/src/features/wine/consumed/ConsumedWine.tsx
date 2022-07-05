@@ -1,5 +1,5 @@
 import { Trash } from "phosphor-react";
-import { formatDate } from "../../../app/util/format";
+import Time from "../../../app/components/Time";
 
 interface Props {
   id: number;
@@ -11,7 +11,7 @@ const ConsumedWine = ({ id, date, deleteConsumed }: Props) => {
   return (
     <li className="flex even:bg-slate-50 dark:even:bg-gray-800/40 p-2 rounded flex-row gap-x-2 items-center">
       <div className="flex-1 text-gray-900 dark:text-gray-200 font-medium">
-        {formatDate(new Date(date))}
+        <Time date={date} />
       </div>
       <button
         className="btn-white p-1 px-1.5 w-auto shadow-none"

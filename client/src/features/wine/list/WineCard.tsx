@@ -12,13 +12,13 @@ import { Wine } from "../../../app/models/wine";
 import DropDownMenu from "../../../app/components/DropDownMenu";
 import {
   formatAlcoholContent,
-  formatDate,
   formatPrice,
   formatVolume,
 } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
 import { placeholder } from "../../../app/util/vinmonopolet";
+import Time from "../../../app/components/Time";
 
 interface Props {
   wine: Wine;
@@ -147,7 +147,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 weight="duotone"
                 className="text-slate-500 dark:text-gray-400"
               />
-              {formatDate(new Date(wine.createdAt))}
+              <Time date={wine.createdAt} />
             </div>
           )}
         </div>

@@ -1,10 +1,11 @@
 import { HeartStraight, Pen, Trash } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
-import { formatDate, formatPrice } from "../../../app/util/format";
+import { formatPrice } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
 import { placeholder } from "../../../app/util/vinmonopolet";
+import Time from "../../../app/components/Time";
 
 interface Props {
   wine: Wine;
@@ -40,7 +41,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
 
           <div>{formatPrice(wine.price)}</div>
-          <div>{formatDate(new Date(wine.createdAt))}</div>
+          <Time date={wine.createdAt} />
           <div>antall: {wine.userDetails.quantity}</div>
         </div>
         <div className="flex items-center flex-row flex-wrap gap-x-3 gap-y-1">

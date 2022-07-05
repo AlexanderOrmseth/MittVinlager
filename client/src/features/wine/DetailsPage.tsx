@@ -10,11 +10,11 @@ import {
 } from "phosphor-react";
 import WineDetails from "./details/WineDetails";
 import WineImageZoom from "./details/WineImageZoom";
-import { formatDate } from "../../app/util/format";
 import Spinner from "../../app/components/loading/Spinner";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
 import ConsumedModal from "../../app/components/modals/ConsumedModal";
 import { InfoBox } from "../../app/components/InfoBox";
+import Time from "../../app/components/Time";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,12 +85,12 @@ const DetailsPage = () => {
             </button>
           </div>
           <div className="text-sm text-gray-700 dark:text-gray-400">
-            <p>Dato opprettet: {formatDate(new Date(wine.createdAt))}</p>
+            <p>
+              Dato opprettet: <Time date={wine.createdAt} />
+            </p>
             <p>
               Sist endret:{" "}
-              {wine.updatedAt
-                ? formatDate(new Date(wine.updatedAt))
-                : "Ingen endring"}
+              <Time date={wine.updatedAt} fallBackText="Ingen endring" />
             </p>
           </div>
         </div>

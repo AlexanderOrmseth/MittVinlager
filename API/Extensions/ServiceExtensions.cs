@@ -40,6 +40,11 @@ public static class ServiceExtensions
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
                         .GetBytes(configuration["JWTSettings:TokenKey"]))
                 };
+            }).AddGoogle(options =>
+            {
+                var googleAuthNSection = configuration.GetSection("Authentication:Google");
+                options.ClientId = googleAuthNSection["ClientId"];
+                options.ClientSecret = googleAuthNSection["ClientSecret"];
             });
     }
 
