@@ -3,8 +3,9 @@ import toast from "react-hot-toast";
 import { serialize } from "object-to-formdata";
 import { PaginatedResponse } from "../models/pagination";
 import { FormModel } from "../models/wine";
-import { WishItem } from "./../models/wishItem";
+import { WishItem } from "../models/wishItem";
 import { store } from "../store/configureStore";
+import {ExternalLogin} from "../models/externalLogin";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
 
@@ -14,7 +15,7 @@ axios.defaults.withCredentials = true;
 const res = (response: AxiosResponse) => response.data;
 
 axios.interceptors.request.use((config) => {
-  const token = store.getState().account.user?.token;
+  const token = store.getState().account.token;
   if (token) config.headers!.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -61,7 +62,6 @@ const requests = {
   get: (url: string, params?: URLSearchParams, config?: AxiosRequestConfig) =>
     axios.get(url, { params, ...config }).then(res),
   post: (url: string, body: {}) => axios.post(url, body).then(res),
-  put: (url: string, body: {}) => axios.put(url, body).then(res),
   delete: (url: string) => axios.delete(url).then(res),
   postForm: (url: string, data: FormData) =>
     axios
@@ -78,10 +78,9 @@ const requests = {
 };
 
 const Account = {
-  login: (values: any) => requests.post("account/login", values),
-  register: (values: any) => requests.post("account/register", values),
   currentUser: () => requests.get("account/currentUser"),
   deleteUser: () => requests.delete("account/delete"),
+  externalLogin: (data: ExternalLogin) => requests.post("account/externalLogin", data)
 };
 
 const Vinmonopolet = {

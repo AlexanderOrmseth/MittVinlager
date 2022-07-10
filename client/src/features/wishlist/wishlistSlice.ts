@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import { WishItem } from "../../app/models/wishItem";
 
 const namespace = "wishlist";

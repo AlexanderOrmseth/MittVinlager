@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import ConsumedWine from "../../../features/wine/consumed/ConsumedWine";
 import { decrementQuantity } from "../../../features/wine/slices/wineSlice";
-import api from "../../api";
+import api from "../../api/api";
 import { Consumed } from "../../models/consumed";
 import { useAppDispatch } from "../../store/configureStore";
 import AsideDisclosure from "../AsideDisclosure";

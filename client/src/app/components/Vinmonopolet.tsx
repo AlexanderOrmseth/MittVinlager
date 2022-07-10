@@ -6,7 +6,7 @@ import {
   UseFormReset,
   UseFormSetValue,
 } from "react-hook-form";
-import api from "../api";
+import api from "../api/api";
 import LoadingButton from "./LoadingButton";
 import { FormModel } from "../models/wine";
 

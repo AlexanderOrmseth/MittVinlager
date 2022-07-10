@@ -3,11 +3,11 @@ export interface WineParams {
   searchTerm: string | null;
   types: string[];
   countries: string[];
-
   pageNumber: number;
 }
 
 export const getAxiosParams = (wineParams: WineParams) => {
+  console.log(wineParams);
   const params = new URLSearchParams();
   params.append("pageNumber", wineParams.pageNumber.toString());
   params.append("orderBy", wineParams.orderBy);

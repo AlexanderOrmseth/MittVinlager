@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import api from "../../../app/api";
+import api from "../../../app/api/api";
 import { getAxiosParams } from "../../../app/api/params";
 import { Wine } from "../../../app/models/wine";
 import { RootState } from "../../../app/store/configureStore";

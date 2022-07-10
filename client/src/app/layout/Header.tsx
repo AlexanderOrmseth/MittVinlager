@@ -9,6 +9,7 @@ import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
 import { toggleTheme } from "../../features/themeSlice";
 import { resetStatistics } from "../../features/statistics/statisticsSlice";
+import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -44,7 +45,6 @@ const Header = () => {
           isOpen ? "md:block block" : "md:block hidden"
         }`}
       >
-        <NavLink setOpen={setOpen} text="hjem" to="/" />
         {user ? (
           <>
             <NavLink end setOpen={setOpen} text="Vinsamling" to="/inventory" />
@@ -52,10 +52,7 @@ const Header = () => {
             <NavLink setOpen={setOpen} text="Ønskeliste" to="/wishlist" />
           </>
         ) : (
-          <>
-            <NavLink setOpen={setOpen} text="Logg inn" to="/login" />
-            <NavLink setOpen={setOpen} text="Ny bruker" to="/register" />
-          </>
+         <GoogleButton />
         )}
       </nav>
       <div className="flex flex-row gap-x-2 items-center">

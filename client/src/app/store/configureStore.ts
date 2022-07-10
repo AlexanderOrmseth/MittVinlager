@@ -1,3 +1,4 @@
+import { apiSlice } from "./../../features/api/apiSlice";
 import { themeSlice } from "./../../features/themeSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -15,7 +16,10 @@ export const store = configureStore({
     statistics: statisticsSlice.reducer,
     wishlist: wishlistSlice.reducer,
     theme: themeSlice.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

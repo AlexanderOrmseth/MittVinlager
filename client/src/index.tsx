@@ -1,9 +1,12 @@
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
+// RTK
 import { Provider } from "react-redux";
 import { store } from "./app/store/configureStore";
+
+import App from "./App";
+import "./index.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

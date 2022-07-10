@@ -1,44 +1,34 @@
-import { FieldValues } from "react-hook-form";
-import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import agent from "../../app/api/";
+import {createAsyncThunk, createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+
 import toast from "react-hot-toast";
-import { User } from "../../app/models/user";
+import {User, UserResponse} from "../../app/models/user";
+import api from "../../app/api/api";
+import {ExternalLogin} from "../../app/models/externalLogin";
 
 interface AccountState {
   status: "idle" | "loading";
   user: User | null;
+  token: string | null | undefined;
 }
 
 const initialState: AccountState = {
   status: "idle",
   user: null,
+  token: null,
 };
 
 const namespace = "account";
 
-/* Register
- */
-export const register = createAsyncThunk<User, FieldValues>(
-  `${namespace}/register`,
-  async (data, thunkAPI) => {
-    try {
-      const user = await agent.Account.register(data);
-      localStorage.setItem("user", JSON.stringify(user));
-      return user;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
+const addLocalStorageToken = (user: any) => localStorage.setItem("token", user.token);
 
-/* Sign In
+/* Sign In / Register
  */
-export const signIn = createAsyncThunk<User, FieldValues>(
+export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
   `${namespace}/signIn`,
   async (data, thunkAPI) => {
     try {
-      const user = await agent.Account.login(data);
-      localStorage.setItem("user", JSON.stringify(user));
+      const user = await api.Account.externalLogin(data);
+      addLocalStorageToken(user);
       return user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
@@ -46,15 +36,18 @@ export const signIn = createAsyncThunk<User, FieldValues>(
   }
 );
 
+
 /* Fetch current user
  */
-export const fetchCurrentUser = createAsyncThunk<User>(
+export const fetchCurrentUser = createAsyncThunk<UserResponse>(
   `${namespace}/fetchCurrentUser`,
   async (_, thunkAPI) => {
-    thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem("user")!)));
+    // set token to state
+    thunkAPI.dispatch(setToken(localStorage.getItem("token")));
     try {
-      const user = await agent.Account.currentUser();
-      localStorage.setItem("user", JSON.stringify(user));
+      const user = await api.Account.currentUser();
+      // set new generated token
+      addLocalStorageToken(user);
       return user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
@@ -63,7 +56,7 @@ export const fetchCurrentUser = createAsyncThunk<User>(
   {
     condition: () => {
       // not gonna make a request at all
-      if (!localStorage.getItem("user")) {
+      if (!localStorage.getItem("token")) {
         return false;
       }
     },
@@ -76,7 +69,7 @@ export const deleteUser = createAsyncThunk<void>(
   `${namespace}/deleteUser`,
   async (_, thunkAPI) => {
     try {
-      await agent.Account.deleteUser();
+      await api.Account.deleteUser();
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -84,7 +77,7 @@ export const deleteUser = createAsyncThunk<void>(
   {
     condition: () => {
       // not gonna make a request at all
-      if (!localStorage.getItem("user")) {
+      if (!localStorage.getItem("token")) {
         return false;
       }
     },
@@ -97,7 +90,10 @@ export const accountSlice = createSlice({
   reducers: {
     signOut: (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    },
+    setToken: (state, action: PayloadAction<string | null | undefined>) => {
+      state.token = action.payload;
     },
     setUser: (state, action) => {
       let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
@@ -114,7 +110,7 @@ export const accountSlice = createSlice({
      */
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       toast.error("Sessionen er utgått, venligst logg inn igjen.");
       state.status = "idle";
     });
@@ -123,7 +119,7 @@ export const accountSlice = createSlice({
      */
     builder.addCase(deleteUser.fulfilled, (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       toast.success("Brukeren er slettet.");
       state.status = "idle";
     });
@@ -131,16 +127,19 @@ export const accountSlice = createSlice({
     /* Matchers
      */
     builder.addMatcher(
-      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled, register.fulfilled),
+      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled),
       (state, action) => {
+        const token = action.payload.token;
         state.status = "idle";
-        let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
+        let claims = JSON.parse(atob(token.split(".")[1]));
         let roles =
           claims[
             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
           ];
+        state.token = token;
         state.user = {
-          ...action.payload,
+          userName: action.payload.userName,
+          email: action.payload.email,
           roles: typeof roles === "string" ? [roles] : roles,
         };
       }
@@ -153,7 +152,6 @@ export const accountSlice = createSlice({
         signIn.pending,
         fetchCurrentUser.pending,
         deleteUser.pending,
-        register.pending
       ),
       (state) => {
         state.status = "loading";
@@ -163,7 +161,7 @@ export const accountSlice = createSlice({
     /* Rejected
      */
     builder.addMatcher(
-      isAnyOf(signIn.rejected, register.rejected, deleteUser.rejected),
+      isAnyOf(signIn.rejected,  deleteUser.rejected),
       (state, action) => {
         state.status = "idle";
         console.error(action.payload);
@@ -173,4 +171,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setUser } = accountSlice.actions;
+export const { signOut, setUser, setToken } = accountSlice.actions;

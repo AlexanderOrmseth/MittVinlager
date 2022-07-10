@@ -1,7 +1,7 @@
 import { PencilSimpleLine } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import Spinner from "../../app/components/loading/Spinner";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import Title from "../../app/layout/Title";

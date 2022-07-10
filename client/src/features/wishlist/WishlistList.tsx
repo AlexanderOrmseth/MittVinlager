@@ -1,6 +1,6 @@
 import { Trash } from "phosphor-react";
 import { useState } from "react";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import WineListItem from "../../app/components/wine/WineListItem";
 import { WishItem } from "../../app/models/wishItem";
 import { useAppDispatch } from "../../app/store/configureStore";

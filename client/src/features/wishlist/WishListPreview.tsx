@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import LoadingButton from "../../app/components/LoadingButton";
 import { FormModel } from "../../app/models/wine";
 import { WishItem } from "../../app/models/wishItem";

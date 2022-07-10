@@ -1,7 +1,7 @@
 import { PlusCircle } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import { useAppDispatch } from "../../app/store/configureStore";

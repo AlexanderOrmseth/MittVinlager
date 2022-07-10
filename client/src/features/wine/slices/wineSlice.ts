@@ -7,12 +7,13 @@ import {
 } from "./wineAsyncThunks";
 import {
   createEntityAdapter,
+  createSelector,
   createSlice,
   isAnyOf,
   PayloadAction,
   Update,
 } from "@reduxjs/toolkit";
-import { WineParams } from "../../../app/api/params";
+import { getAxiosParams, WineParams } from "../../../app/api/params";
 import { MetaData } from "../../../app/models/pagination";
 import { Wine } from "../../../app/models/wine";
 import { RootState } from "../../../app/store/configureStore";
@@ -181,6 +182,11 @@ export const wineSlice = createSlice({
 
 export const wineSelectors = wineAdapter.getSelectors(
   (state: RootState) => state.wine
+);
+
+export const getParams = createSelector(
+  (state: RootState) => state.wine.wineParams,
+  (state) => getAxiosParams(state).toString()
 );
 
 export const {

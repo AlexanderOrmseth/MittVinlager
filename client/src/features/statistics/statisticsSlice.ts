@@ -2,7 +2,7 @@ import { LastConsumed } from "./../../app/models/consumed";
 import { LastPurchased } from "./../../app/models/statistics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import api from "../../app/api";
+import api from "../../app/api/api";
 import { Statistics } from "../../app/models/statistics";
 
 const namespace = "statistics";
