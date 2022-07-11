@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import AsideDisclosure from "../../../app/components/AsideDisclosure";
 import WineCheckboxFilter from "../../../app/components/filter/WineCheckboxFilter";
 import WineSearch from "../../../app/components/filter/WineSearch";
@@ -7,11 +7,11 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { getFilters } from "../slices/wineAsyncThunks";
-import { resetParams, setParams } from "../slices/wineSlice";
+import {getFilters} from "../slices/wineAsyncThunks";
+import {resetParams, setParams} from "../slices/wineSlice";
 
 const WineFilter = () => {
-  const { filtersFetched, filterOptions, wineParams, status, metaData } =
+  const {filtersFetched, filterOptions, wineParams, status, metaData} =
     useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
@@ -58,7 +58,7 @@ const WineFilter = () => {
         ]}
         disabled={disabled}
         selected={wineParams.orderBy}
-        onChange={(item: string) => dispatch(setParams({ orderBy: item }))}
+        onChange={(item: string) => dispatch(setParams({orderBy: item}))}
       />
       <button
         disabled={disabled}
@@ -73,7 +73,7 @@ const WineFilter = () => {
         <WineCheckboxFilter
           disabled={disabled}
           onChange={(items: string[]) =>
-            dispatch(setParams({ countries: items }))
+            dispatch(setParams({countries: items}))
           }
           items={filterOptions.countries}
           checked={wineParams.countries}
@@ -83,7 +83,7 @@ const WineFilter = () => {
       <AsideDisclosure text="Typer">
         <WineCheckboxFilter
           disabled={disabled}
-          onChange={(items: string[]) => dispatch(setParams({ types: items }))}
+          onChange={(items: string[]) => dispatch(setParams({types: items}))}
           items={filterOptions.types}
           checked={wineParams.types}
         />

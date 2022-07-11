@@ -1,7 +1,7 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PaginatedResponse } from "../../app/models/pagination";
-import { Wine } from "../../app/models/wine";
-import { RootState } from "../../app/store/configureStore";
+import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
+import {PaginatedResponse} from "../../app/models/pagination";
+import {Wine} from "../../app/models/wine";
+import {RootState} from "../../app/store/configureStore";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -10,7 +10,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
 
-    prepareHeaders: (headers, { getState }) => {
+    prepareHeaders: (headers, {getState}) => {
       const token = (getState() as RootState).account.token;
 
       // Pass token if exists
@@ -39,10 +39,10 @@ export const apiSlice = createApi({
           };
         }
 
-        return { items: response, metaData: null };
+        return {items: response, metaData: null};
       },
     }),
   }),
 });
 
-export const { useGetAllWineQuery } = apiSlice;
+export const {useGetAllWineQuery} = apiSlice;

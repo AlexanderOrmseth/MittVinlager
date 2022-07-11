@@ -1,4 +1,4 @@
-import { FormModel } from "../../../app/models/wine";
+import {FormModel} from "../../../app/models/wine";
 
 export const defaultValues: FormModel = {
   name: "",

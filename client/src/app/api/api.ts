@@ -1,10 +1,10 @@
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
 import toast from "react-hot-toast";
-import { serialize } from "object-to-formdata";
-import { PaginatedResponse } from "../models/pagination";
-import { FormModel } from "../models/wine";
-import { WishItem } from "../models/wishItem";
-import { store } from "../store/configureStore";
+import {serialize} from "object-to-formdata";
+import {PaginatedResponse} from "../models/pagination";
+import {FormModel} from "../models/wine";
+import {WishItem} from "../models/wishItem";
+import {store} from "../store/configureStore";
 import {ExternalLogin} from "../models/externalLogin";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
@@ -34,7 +34,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    const { data, status }: any = error.response;
+    const {data, status}: any = error.response;
     switch (status) {
       case 400:
         if (data.errors) {
@@ -60,19 +60,19 @@ axios.interceptors.response.use(
 
 const requests = {
   get: (url: string, params?: URLSearchParams, config?: AxiosRequestConfig) =>
-    axios.get(url, { params, ...config }).then(res),
+    axios.get(url, {params, ...config}).then(res),
   post: (url: string, body: {}) => axios.post(url, body).then(res),
   delete: (url: string) => axios.delete(url).then(res),
   postForm: (url: string, data: FormData) =>
     axios
       .post(url, data, {
-        headers: { "Content-type": "multipart/form-data" },
+        headers: {"Content-type": "multipart/form-data"},
       })
       .then(res),
   putForm: (url: string, data: FormData) =>
     axios
       .put(url, data, {
-        headers: { "Content-type": "multipart/form-data" },
+        headers: {"Content-type": "multipart/form-data"},
       })
       .then(res),
 };
@@ -80,7 +80,8 @@ const requests = {
 const Account = {
   currentUser: () => requests.get("account/currentUser"),
   deleteUser: () => requests.delete("account/delete"),
-  externalLogin: (data: ExternalLogin) => requests.post("account/externalLogin", data)
+  externalLogin: (data: ExternalLogin) =>
+    requests.post("account/externalLogin", data),
 };
 
 const Vinmonopolet = {

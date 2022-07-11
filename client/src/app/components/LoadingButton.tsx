@@ -1,4 +1,4 @@
-import { Puff } from "react-loading-icons";
+import {Puff} from "react-loading-icons";
 
 interface Props {
   loading: boolean;

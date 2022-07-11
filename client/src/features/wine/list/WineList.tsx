@@ -1,6 +1,6 @@
-import { Ghost, Robot } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Ghost, Robot} from "phosphor-react";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 import Spinner from "../../../app/components/loading/Spinner";
 //import WineCardSkeleton from "../../../app/components/loading/WineCardSkeleton";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
@@ -8,8 +8,8 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { allWine } from "../slices/wineAsyncThunks";
-import { resetParams, wineSelectors } from "../slices/wineSlice";
+import {allWine} from "../slices/wineAsyncThunks";
+import {resetParams, wineSelectors} from "../slices/wineSlice";
 import Paginator from "./Paginator";
 import WineCard from "./WineCard";
 import WineRowItem from "./WineRowItem";
@@ -19,10 +19,10 @@ const WineList = () => {
   const [wineToDelete, setWineToDelete] = useState<{
     id: null | number;
     name: null | string;
-  }>({ id: null, name: null });
+  }>({id: null, name: null});
 
   const wine = useAppSelector(wineSelectors.selectAll);
-  const { allFetched, status, metaData, gridView } = useAppSelector(
+  const {allFetched, status, metaData, gridView} = useAppSelector(
     (state) => state.wine
   );
 
@@ -39,7 +39,7 @@ const WineList = () => {
   }, [dispatch, allFetched]);
 
   const handleDeleteWine = (id: number, name: string) => {
-    setWineToDelete({ id, name });
+    setWineToDelete({id, name});
     setIsOpen(true);
   };
 

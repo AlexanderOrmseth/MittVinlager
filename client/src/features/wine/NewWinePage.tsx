@@ -1,12 +1,12 @@
-import { PlusCircle } from "phosphor-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {PlusCircle} from "phosphor-react";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import api from "../../app/api/api";
 import Title from "../../app/layout/Title";
-import { FormModel } from "../../app/models/wine";
-import { useAppDispatch } from "../../app/store/configureStore";
+import {FormModel} from "../../app/models/wine";
+import {useAppDispatch} from "../../app/store/configureStore";
 import WineForm from "./form/WineForm";
-import { triggerFetch } from "./slices/wineSlice";
+import {triggerFetch} from "./slices/wineSlice";
 
 const NewWinePage = () => {
   const navigate = useNavigate();

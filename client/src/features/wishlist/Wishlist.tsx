@@ -1,21 +1,21 @@
-import { Sparkle } from "phosphor-react";
-import { useEffect, useState } from "react";
-import { InfoBox } from "../../app/components/InfoBox";
+import {Sparkle} from "phosphor-react";
+import {useEffect, useState} from "react";
+import {InfoBox} from "../../app/components/InfoBox";
 import Spinner from "../../app/components/loading/Spinner";
 import VinmonopoletModal from "../../app/components/modals/VinmonopoletModal";
 import Title from "../../app/layout/Title";
-import { FormModel } from "../../app/models/wine";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import {FormModel} from "../../app/models/wine";
+import {useAppDispatch, useAppSelector} from "../../app/store/configureStore";
 import WishlistList from "./WishlistList";
 import WishListPreview from "./WishListPreview";
-import { getWishlist } from "./wishlistSlice";
+import {getWishlist} from "./wishlistSlice";
 
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [wine, setWine] = useState<FormModel | null>(null);
   const dispatch = useAppDispatch();
 
-  const { isFetched, status, wishItems } = useAppSelector(
+  const {isFetched, status, wishItems} = useAppSelector(
     (state) => state.wishlist
   );
 

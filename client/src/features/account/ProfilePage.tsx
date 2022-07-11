@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 import {
   CalendarBlank,
   ChartPieSlice,
@@ -6,22 +6,22 @@ import {
   IdentificationBadge,
   User,
 } from "phosphor-react";
-import { useState } from "react";
+import {useState} from "react";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import Title from "../../app/layout/Title";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import {useAppDispatch, useAppSelector} from "../../app/store/configureStore";
 import History from "../statistics/History";
 import Statistics from "../statistics/Statistics";
-import { getStatistics } from "../statistics/statisticsSlice";
+import {getStatistics} from "../statistics/statisticsSlice";
 import Consumed from "../statistics/Consumed";
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.account);
+  const {user} = useAppSelector((state) => state.account);
 
-  const { statisticsFetched, status } = useAppSelector(
+  const {statisticsFetched, status} = useAppSelector(
     (state) => state.statistics
   );
   const [isOpen, setIsOpen] = useState(false);

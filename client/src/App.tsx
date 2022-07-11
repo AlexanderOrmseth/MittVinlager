@@ -15,30 +15,10 @@ import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";
 import UpdateWinePage from "./features/wine/UpdateWinePage";
 import Wishlist from "./features/wishlist/Wishlist";
-import api from "./app/api/api";
 
 function App() {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
-
-  const login = useCallback(async (response: any) => {
-    try {
-      console.log(response)
-      await dispatch(signIn({accessToken: response.credential, provider: "GOOGLE"}));
-    } catch (error) {
-      console.error(error);
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    google.accounts.id.initialize({
-      client_id: "659626000000-3nop262532vn4m7fdgd61cvclr9mafdh.apps.googleusercontent.com",
-      callback: login
-    });
-  }, [login]);
-
-
-
 
   const initApp = useCallback(async () => {
     try {
@@ -58,24 +38,24 @@ function App() {
   if (loading)
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        <Puff height="6rem" width="6rem" stroke="#888"/>
+        <Puff height="6rem" width="6rem" stroke="#888" />
       </div>
     );
 
   return (
     <>
       <div id="google-button"></div>
-      <Toaster position="top-center" reverseOrder={false}/>
+      <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout/>}>
-            <Route index element={<HomePage/>}/>
-            <Route path="login" element={<GoogleButton/>}/>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<GoogleButton />} />
             <Route
               path="profile"
               element={
                 <AuthRedirect>
-                  <ProfilePage/>
+                  <ProfilePage />
                 </AuthRedirect>
               }
             />
@@ -83,7 +63,7 @@ function App() {
               path="inventory"
               element={
                 <AuthRedirect>
-                  <InventoryPage/>
+                  <InventoryPage />
                 </AuthRedirect>
               }
             />
@@ -91,7 +71,7 @@ function App() {
               path="inventory/new"
               element={
                 <AuthRedirect>
-                  <NewWinePage/>
+                  <NewWinePage />
                 </AuthRedirect>
               }
             />
@@ -99,7 +79,7 @@ function App() {
               path="inventory/:id"
               element={
                 <AuthRedirect>
-                  <DetailsPage/>
+                  <DetailsPage />
                 </AuthRedirect>
               }
             />
@@ -107,7 +87,7 @@ function App() {
               path="inventory/:id/update"
               element={
                 <AuthRedirect>
-                  <UpdateWinePage/>
+                  <UpdateWinePage />
                 </AuthRedirect>
               }
             />
@@ -115,11 +95,11 @@ function App() {
               path="wishlist"
               element={
                 <AuthRedirect>
-                  <Wishlist/>
+                  <Wishlist />
                 </AuthRedirect>
               }
             />
-            <Route path="*" element={<div>Not Found!</div>}/>
+            <Route path="*" element={<div>Not Found!</div>} />
           </Route>
         </Routes>
       </BrowserRouter>

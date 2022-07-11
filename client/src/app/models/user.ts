@@ -10,4 +10,3 @@ interface UserModel {
 export interface User extends UserModel {
   roles?: string[];
 }
-

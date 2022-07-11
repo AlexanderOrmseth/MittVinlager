@@ -1,8 +1,8 @@
-import { UserMinus } from "phosphor-react";
-import { useState } from "react";
-import { deleteUser } from "../../../features/account/accountSlice";
-import { resetAll } from "../../../features/wine/slices/wineSlice";
-import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import {UserMinus} from "phosphor-react";
+import {useState} from "react";
+import {deleteUser} from "../../../features/account/accountSlice";
+import {resetAll} from "../../../features/wine/slices/wineSlice";
+import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
 
@@ -11,10 +11,10 @@ interface Props {
   setIsOpen: (val: boolean) => void;
 }
 
-const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
+const DeleteUserModal = ({isOpen, setIsOpen}: Props) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("");
-  const { status } = useAppSelector((state) => state.account);
+  const {status} = useAppSelector((state) => state.account);
 
   const handleDeleteUser = async () => {
     await dispatch(deleteUser());

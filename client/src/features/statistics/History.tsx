@@ -1,10 +1,10 @@
-import { useAppSelector } from "../../app/store/configureStore";
+import {useAppSelector} from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
-import { InfoBox } from "../../app/components/InfoBox";
+import {InfoBox} from "../../app/components/InfoBox";
 import Time from "../../app/components/Time";
 
 const History = () => {
-  const { lastPurchased } = useAppSelector((state) => state.statistics);
+  const {lastPurchased} = useAppSelector((state) => state.statistics);
 
   if (!lastPurchased || lastPurchased.length === 0)
     return (

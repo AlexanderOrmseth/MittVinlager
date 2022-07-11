@@ -1,12 +1,12 @@
-import { Listbox, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import {Listbox, Transition} from "@headlessui/react";
+import {Fragment} from "react";
 import {
   Controller,
   FieldValues,
   useController,
   UseControllerProps,
 } from "react-hook-form";
-import TastePie, { list, text } from "../TastePie";
+import TastePie, {list, text} from "../TastePie";
 import FormInputError from "./FormInputError";
 
 interface Props<T> extends UseControllerProps<T> {
@@ -16,7 +16,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
-  const { fieldState } = useController({
+  const {fieldState} = useController({
     ...props,
   });
 
@@ -24,12 +24,12 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
     <div>
       <Controller
         {...props}
-        render={({ field }) => (
+        render={({field}) => (
           <Listbox {...field}>
             <div className="relative">
               <Listbox.Label className="label">{props.label}</Listbox.Label>
               <Listbox.Button
-                className={({ open }) =>
+                className={({open}) =>
                   `w-full btn-white rounded-full min-w-min flex flex-row gap-3 items-center h-12 focus-primary ${
                     open
                       ? "bg-white ring-4 ring-wine-300 border-white ring-opacity-50"
@@ -58,7 +58,7 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
                   {list.map((item, i) => (
                     <Listbox.Option
                       key={i}
-                      className={({ active, selected }) =>
+                      className={({active, selected}) =>
                         `relative cursor-default flex items-center leading-4 rounded text-sm gap-2 select-none py-2 px-4 ${
                           active && !selected
                             ? "bg-slate-200 dark:bg-gray-700/40 text-black dark:text-gray-300"

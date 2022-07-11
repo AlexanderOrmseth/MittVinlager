@@ -1,4 +1,9 @@
-import {createAsyncThunk, createSlice, isAnyOf, PayloadAction} from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  isAnyOf,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 
 import toast from "react-hot-toast";
 import {User, UserResponse} from "../../app/models/user";
@@ -19,7 +24,8 @@ const initialState: AccountState = {
 
 const namespace = "account";
 
-const addLocalStorageToken = (user: any) => localStorage.setItem("token", user.token);
+const addLocalStorageToken = (user: any) =>
+  localStorage.setItem("token", user.token);
 
 /* Sign In / Register
  */
@@ -31,11 +37,10 @@ export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({ error: error.data });
+      return thunkAPI.rejectWithValue({error: error.data});
     }
   }
 );
-
 
 /* Fetch current user
  */
@@ -50,7 +55,7 @@ export const fetchCurrentUser = createAsyncThunk<UserResponse>(
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({ error: error.data });
+      return thunkAPI.rejectWithValue({error: error.data});
     }
   },
   {
@@ -71,7 +76,7 @@ export const deleteUser = createAsyncThunk<void>(
     try {
       await api.Account.deleteUser();
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({ error: error.data });
+      return thunkAPI.rejectWithValue({error: error.data});
     }
   },
   {
@@ -148,11 +153,7 @@ export const accountSlice = createSlice({
     /* Loading
      */
     builder.addMatcher(
-      isAnyOf(
-        signIn.pending,
-        fetchCurrentUser.pending,
-        deleteUser.pending,
-      ),
+      isAnyOf(signIn.pending, fetchCurrentUser.pending, deleteUser.pending),
       (state) => {
         state.status = "loading";
       }
@@ -161,7 +162,7 @@ export const accountSlice = createSlice({
     /* Rejected
      */
     builder.addMatcher(
-      isAnyOf(signIn.rejected,  deleteUser.rejected),
+      isAnyOf(signIn.rejected, deleteUser.rejected),
       (state, action) => {
         state.status = "idle";
         console.error(action.payload);
@@ -171,4 +172,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setUser, setToken } = accountSlice.actions;
+export const {signOut, setUser, setToken} = accountSlice.actions;

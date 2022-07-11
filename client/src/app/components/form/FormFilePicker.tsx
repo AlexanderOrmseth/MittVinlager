@@ -13,7 +13,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormFilePicker = <T extends FieldValues>(props: Props<T>) => {
-  const { fieldState } = useController({
+  const {fieldState} = useController({
     ...props,
   });
 
@@ -24,7 +24,7 @@ const FormFilePicker = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { ref, value, ...rest } }) => (
+        render={({field: {ref, value, ...rest}}) => (
           <Dropzone value={value} {...rest} />
         )}
       />

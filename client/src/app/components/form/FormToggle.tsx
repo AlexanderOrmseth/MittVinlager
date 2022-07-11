@@ -1,5 +1,5 @@
-import { Switch } from "@headlessui/react";
-import { HeartStraight } from "phosphor-react";
+import {Switch} from "@headlessui/react";
+import {HeartStraight} from "phosphor-react";
 import {
   Controller,
   UseControllerProps,
@@ -14,7 +14,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormToggle = <T extends FieldValues>(props: Props<T>) => {
-  const { fieldState } = useController({
+  const {fieldState} = useController({
     ...props,
   });
 
@@ -25,7 +25,7 @@ const FormToggle = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { value, onChange, ...rest } }) => (
+        render={({field: {value, onChange, ...rest}}) => (
           <div className="">
             <Switch
               {...rest}

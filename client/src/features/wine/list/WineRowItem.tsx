@@ -1,17 +1,17 @@
-import { HeartStraight, Pen, Trash } from "phosphor-react";
-import { Link } from "react-router-dom";
-import { Wine } from "../../../app/models/wine";
-import { formatPrice } from "../../../app/util/format";
+import {HeartStraight, Pen, Trash} from "phosphor-react";
+import {Link} from "react-router-dom";
+import {Wine} from "../../../app/models/wine";
+import {formatPrice} from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
-import { placeholder } from "../../../app/util/vinmonopolet";
+import {placeholder} from "../../../app/util/vinmonopolet";
 import Time from "../../../app/components/Time";
 
 interface Props {
   wine: Wine;
   handleDeleteWine: (id: number, name: string) => void;
 }
-const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
+const WineRowItem = ({wine, handleDeleteWine}: Props) => {
   return (
     <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white dark:bg-gray-700/30 dark:hover:bg-gray-700/20 hover:bg-slate-25 flex gap-x-1">
       <div>

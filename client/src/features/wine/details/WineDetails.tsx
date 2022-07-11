@@ -1,11 +1,11 @@
-import { Heart } from "phosphor-react";
+import {Heart} from "phosphor-react";
 import DescriptionItem from "../../../app/components/dl/DescriptionItem";
 import DescriptionList from "../../../app/components/dl/DescriptionList";
 import Score from "../../../app/components/Score";
 import Stars from "../../../app/components/Stars";
-import TastePie, { list, text } from "../../../app/components/TastePie";
+import TastePie, {list, text} from "../../../app/components/TastePie";
 import Time from "../../../app/components/Time";
-import { WineBaseModel } from "../../../app/models/wine";
+import {WineBaseModel} from "../../../app/models/wine";
 import {
   formatAlcoholContent,
   formatPrice,
@@ -22,13 +22,13 @@ interface TasteValue {
   displayText: "Fylde" | "Ferskhet" | "Sødme" | "Tanninsk" | "Bitterhet";
 }
 
-const WineDetails = ({ wine }: Props) => {
+const WineDetails = ({wine}: Props) => {
   const tasteValues = [
-    { value: wine.tannins, type: "tannins", displayText: "Tanninsk" },
-    { value: wine.bitterness, type: "bitterness", displayText: "Bitterhet" },
-    { value: wine.sweetness, type: "sweetness", displayText: "Sødme" },
-    { value: wine.freshness, type: "freshness", displayText: "Ferskhet" },
-    { value: wine.fullness, type: "fullness", displayText: "Fylde" },
+    {value: wine.tannins, type: "tannins", displayText: "Tanninsk"},
+    {value: wine.bitterness, type: "bitterness", displayText: "Bitterhet"},
+    {value: wine.sweetness, type: "sweetness", displayText: "Sødme"},
+    {value: wine.freshness, type: "freshness", displayText: "Ferskhet"},
+    {value: wine.fullness, type: "fullness", displayText: "Fylde"},
   ] as TasteValue[];
 
   return (
@@ -71,7 +71,7 @@ const WineDetails = ({ wine }: Props) => {
           <div className="flex flex-wrap items-center gap-4">
             {tasteValues
               .filter((pie) => pie.value)
-              .map(({ value, type, displayText }, i) => {
+              .map(({value, type, displayText}, i) => {
                 return (
                   <div
                     key={i}

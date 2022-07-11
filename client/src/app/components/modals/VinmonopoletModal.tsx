@@ -1,10 +1,6 @@
-import {
-  UseFormGetValues,
-  UseFormReset,
-  UseFormSetValue,
-} from "react-hook-form";
+import {UseFormGetValues, UseFormReset, UseFormSetValue} from "react-hook-form";
 import Vinmonopolet from "../Vinmonopolet";
-import { FormModel } from "../../models/wine";
+import {FormModel} from "../../models/wine";
 import Modal from "./Modal";
 
 interface Props {

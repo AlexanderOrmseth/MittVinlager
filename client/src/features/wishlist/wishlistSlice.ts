@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../app/api/api";
-import { WishItem } from "../../app/models/wishItem";
+import {WishItem} from "../../app/models/wishItem";
 
 const namespace = "wishlist";
 
@@ -35,7 +35,7 @@ export const getWishlist = createAsyncThunk<WishItem[], void>(
       console.log(response);
       return response;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({ error: error.data });
+      return thunkAPI.rejectWithValue({error: error.data});
     }
   }
 );
@@ -68,4 +68,4 @@ export const wishlistSlice = createSlice({
   },
 });
 
-export const { triggerFetch, removeWishlistItem } = wishlistSlice.actions;
+export const {triggerFetch, removeWishlistItem} = wishlistSlice.actions;

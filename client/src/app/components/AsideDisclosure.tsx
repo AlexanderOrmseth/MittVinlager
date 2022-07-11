@@ -1,15 +1,15 @@
-import { Disclosure, Transition } from "@headlessui/react";
-import { CaretUp } from "phosphor-react";
+import {Disclosure, Transition} from "@headlessui/react";
+import {CaretUp} from "phosphor-react";
 interface Props {
   text: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
 }
 
-const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
+const AsideDisclosure = ({text, children, defaultOpen = true}: Props) => {
   return (
     <Disclosure as={"div"} defaultOpen={defaultOpen}>
-      {({ open }) => (
+      {({open}) => (
         <>
           <Disclosure.Button
             className="flex w-full justify-between rounded-full

@@ -12,7 +12,7 @@ interface Props<T> extends UseControllerProps<T> {
   errors?: string[];
 }
 const FormStarRating = <T extends FieldValues>(props: Props<T>) => {
-  const { fieldState } = useController({
+  const {fieldState} = useController({
     ...props,
   });
   return (
@@ -22,7 +22,7 @@ const FormStarRating = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { ref, ...rest } }) => <StarPicker {...rest} />}
+        render={({field: {ref, ...rest}}) => <StarPicker {...rest} />}
       />
       <FormInputError error={fieldState.error} />
     </div>

@@ -7,8 +7,8 @@ import {
   Pen,
   Trash,
 } from "phosphor-react";
-import { Link, useNavigate } from "react-router-dom";
-import { Wine } from "../../../app/models/wine";
+import {Link, useNavigate} from "react-router-dom";
+import {Wine} from "../../../app/models/wine";
 import DropDownMenu from "../../../app/components/DropDownMenu";
 import {
   formatAlcoholContent,
@@ -17,14 +17,14 @@ import {
 } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
-import { placeholder } from "../../../app/util/vinmonopolet";
+import {placeholder} from "../../../app/util/vinmonopolet";
 import Time from "../../../app/components/Time";
 
 interface Props {
   wine: Wine;
   handleDeleteWine: (id: number, name: string) => void;
 }
-const WineCard = ({ wine, handleDeleteWine }: Props) => {
+const WineCard = ({wine, handleDeleteWine}: Props) => {
   const navigate = useNavigate();
   return (
     <Link

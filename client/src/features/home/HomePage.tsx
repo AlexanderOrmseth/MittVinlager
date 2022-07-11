@@ -1,12 +1,12 @@
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
-import { useAppSelector } from "../../app/store/configureStore";
-import { useGetAllWineQuery } from "../api/apiSlice";
-import { getParams } from "../wine/slices/wineSlice";
+import {useAppSelector} from "../../app/store/configureStore";
+import {useGetAllWineQuery} from "../api/apiSlice";
+import {getParams} from "../wine/slices/wineSlice";
 
 const HomePage = () => {
   const params = useAppSelector(getParams);
-  const { data, isLoading, isSuccess, isError } = useGetAllWineQuery(params);
+  const {data, isLoading, isSuccess, isError} = useGetAllWineQuery(params);
 
   let content;
   if (isLoading) content = <Spinner text="Laster..." />;

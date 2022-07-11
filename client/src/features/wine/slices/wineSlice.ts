@@ -1,4 +1,4 @@
-import { Country } from "./../../../app/models/country";
+import {Country} from "./../../../app/models/country";
 import {
   allWine,
   getCountries,
@@ -13,10 +13,10 @@ import {
   PayloadAction,
   Update,
 } from "@reduxjs/toolkit";
-import { getAxiosParams, WineParams } from "../../../app/api/params";
-import { MetaData } from "../../../app/models/pagination";
-import { Wine } from "../../../app/models/wine";
-import { RootState } from "../../../app/store/configureStore";
+import {getAxiosParams, WineParams} from "../../../app/api/params";
+import {MetaData} from "../../../app/models/pagination";
+import {Wine} from "../../../app/models/wine";
+import {RootState} from "../../../app/store/configureStore";
 
 // wine state
 interface WineState {
@@ -94,11 +94,11 @@ export const wineSlice = createSlice({
     },
     decrementQuantity: (
       state,
-      action: PayloadAction<{ id: number; quantity: number }>
+      action: PayloadAction<{id: number; quantity: number}>
     ) => {
       const update: Update<Wine> = {
         id: action.payload.id,
-        changes: { userDetails: { quantity: action.payload.quantity - 1 } },
+        changes: {userDetails: {quantity: action.payload.quantity - 1}},
       };
 
       // update quantity

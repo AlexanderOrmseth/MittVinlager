@@ -1,17 +1,17 @@
 export const list = [
-  { percent: 0, value: 0 },
-  { percent: 8.33, value: 1 },
-  { percent: 16.33, value: 2 },
-  { percent: 25, value: 3 },
-  { percent: 33.32, value: 4 },
-  { percent: 41.65, value: 5 },
-  { percent: 50, value: 6 },
-  { percent: 58.31, value: 7 },
-  { percent: 66.64, value: 8 },
-  { percent: 75, value: 9 },
-  { percent: 83.3, value: 10 },
-  { percent: 91.63, value: 11 },
-  { percent: 100, value: 12 },
+  {percent: 0, value: 0},
+  {percent: 8.33, value: 1},
+  {percent: 16.33, value: 2},
+  {percent: 25, value: 3},
+  {percent: 33.32, value: 4},
+  {percent: 41.65, value: 5},
+  {percent: 50, value: 6},
+  {percent: 58.31, value: 7},
+  {percent: 66.64, value: 8},
+  {percent: 75, value: 9},
+  {percent: 83.3, value: 10},
+  {percent: 91.63, value: 11},
+  {percent: 100, value: 12},
 ];
 
 export const text = {
@@ -92,7 +92,7 @@ export const text = {
   ],
 };
 
-const TastePie = ({ percent, size }: { percent: number; size: string }) => {
+const TastePie = ({percent, size}: {percent: number; size: string}) => {
   return (
     <div
       className={`aspect-square border-2 border-slate-25 dark:border-gray-900 ring-2 ring-[#1a3363] rounded-full`}

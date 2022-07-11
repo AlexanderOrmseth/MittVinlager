@@ -1,22 +1,22 @@
-import { Link, useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
-import { useAppDispatch, useAppSelector } from "../store/configureStore";
-import { List, Moon, SignOut, Sun, User, Wine, X } from "phosphor-react";
-import { signOut } from "../../features/account/accountSlice";
-import { resetAll } from "../../features/wine/slices/wineSlice";
-import { useRef, useState } from "react";
+import {useAppDispatch, useAppSelector} from "../store/configureStore";
+import {List, Moon, SignOut, Sun, User, Wine, X} from "phosphor-react";
+import {signOut} from "../../features/account/accountSlice";
+import {resetAll} from "../../features/wine/slices/wineSlice";
+import {useRef, useState} from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
-import { toggleTheme } from "../../features/themeSlice";
-import { resetStatistics } from "../../features/statistics/statisticsSlice";
+import {toggleTheme} from "../../features/themeSlice";
+import {resetStatistics} from "../../features/statistics/statisticsSlice";
 import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
-  const { darkMode } = useAppSelector((state) => state.theme);
+  const {darkMode} = useAppSelector((state) => state.theme);
   const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.account);
+  const {user} = useAppSelector((state) => state.account);
   const navigate = useNavigate();
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
@@ -52,7 +52,7 @@ const Header = () => {
             <NavLink setOpen={setOpen} text="Ønskeliste" to="/wishlist" />
           </>
         ) : (
-         <GoogleButton />
+          <GoogleButton />
         )}
       </nav>
       <div className="flex flex-row gap-x-2 items-center">

@@ -1,19 +1,19 @@
-import { PencilSimpleLine } from "phosphor-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {PencilSimpleLine} from "phosphor-react";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import api from "../../app/api/api";
 import Spinner from "../../app/components/loading/Spinner";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import Title from "../../app/layout/Title";
-import { FormModel } from "../../app/models/wine";
-import { useAppDispatch } from "../../app/store/configureStore";
+import {FormModel} from "../../app/models/wine";
+import {useAppDispatch} from "../../app/store/configureStore";
 import WineForm from "./form/WineForm";
-import { triggerFetch } from "./slices/wineSlice";
+import {triggerFetch} from "./slices/wineSlice";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { wine, id, status } = useFetchSingleWine();
+  const {wine, id, status} = useFetchSingleWine();
   const [serverErrors, setServerErrors] = useState<Record<
     string,
     string[]

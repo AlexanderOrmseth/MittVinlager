@@ -1,4 +1,4 @@
-import { Check } from "phosphor-react";
+import {Check} from "phosphor-react";
 
 interface Props {
   items: string[];
@@ -6,7 +6,7 @@ interface Props {
   onChange: (items: string[]) => void;
   disabled: boolean;
 }
-const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
+const WineCheckboxFilter = ({items, checked, onChange, disabled}: Props) => {
   const handleChecked = (item: string) => {
     if (disabled) return;
 

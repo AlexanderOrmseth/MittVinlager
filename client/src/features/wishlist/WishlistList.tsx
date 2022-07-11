@@ -1,17 +1,17 @@
-import { Trash } from "phosphor-react";
-import { useState } from "react";
+import {Trash} from "phosphor-react";
+import {useState} from "react";
 import api from "../../app/api/api";
 import WineListItem from "../../app/components/wine/WineListItem";
-import { WishItem } from "../../app/models/wishItem";
-import { useAppDispatch } from "../../app/store/configureStore";
-import { formatAlcoholContent, formatPrice } from "../../app/util/format";
-import { vinmonopoletLink } from "../../app/util/vinmonopolet";
-import { removeWishlistItem } from "./wishlistSlice";
+import {WishItem} from "../../app/models/wishItem";
+import {useAppDispatch} from "../../app/store/configureStore";
+import {formatAlcoholContent, formatPrice} from "../../app/util/format";
+import {vinmonopoletLink} from "../../app/util/vinmonopolet";
+import {removeWishlistItem} from "./wishlistSlice";
 
 interface Props {
   items: WishItem[];
 }
-const WishlistList = ({ items }: Props) => {
+const WishlistList = ({items}: Props) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 

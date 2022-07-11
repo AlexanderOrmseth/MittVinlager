@@ -1,4 +1,4 @@
-import { formatDate } from "./../../../app/util/format";
+import {formatDate} from "./../../../app/util/format";
 import * as yup from "yup";
 
 const emptyStringToNull = (value: string, originalValue: string) => {

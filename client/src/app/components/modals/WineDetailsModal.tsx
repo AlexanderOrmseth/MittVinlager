@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { UseFormGetValues } from "react-hook-form";
+import {useEffect, useState} from "react";
+import {UseFormGetValues} from "react-hook-form";
 import WineDetails from "../../../features/wine/details/WineDetails";
-import { FormModel, WineBaseModel } from "../../models/wine";
+import {FormModel, WineBaseModel} from "../../models/wine";
 import Modal from "./Modal";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
   getValues: UseFormGetValues<FormModel>;
 }
 
-const WineDetailsModal = ({ isOpen, setIsOpen, getValues }: Props) => {
+const WineDetailsModal = ({isOpen, setIsOpen, getValues}: Props) => {
   const [values, setValues] = useState<WineBaseModel>(getValues);
 
   useEffect(() => {

@@ -1,11 +1,11 @@
-import { Tab } from "@headlessui/react";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import {Tab} from "@headlessui/react";
+import {useEffect, useState} from "react";
+import {useForm} from "react-hook-form";
 import FormCombobox from "../../../app/components/form/FormCombobox";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
-import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
-import { defaultValues } from "./defaultValues";
+import {FormModel, UserDetails, Wine} from "../../../app/models/wine";
+import {defaultValues} from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
 import {
@@ -20,17 +20,17 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { getCountries } from "../slices/wineAsyncThunks";
-import { ThreeDots } from "react-loading-icons";
-import { schema } from "./validationSchema";
-import { yupResolver } from "@hookform/resolvers/yup";
+import {getCountries} from "../slices/wineAsyncThunks";
+import {ThreeDots} from "react-loading-icons";
+import {schema} from "./validationSchema";
+import {yupResolver} from "@hookform/resolvers/yup";
 import FormFilePicker from "../../../app/components/form/FormFilePicker";
 import FormStarRating from "../../../app/components/form/FormStarRating";
 import WineDetailsModal from "../../../app/components/modals/WineDetailsModal";
 import FormImage from "./FormImage";
 import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal";
 import FormToggle from "../../../app/components/form/FormToggle";
-import { AnimatePresence, motion } from "framer-motion";
+import {AnimatePresence, motion} from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
 interface Props {
   onSubmit: (data: FormModel) => void;
@@ -96,9 +96,9 @@ const tabAnim = {
   },
 };
 
-const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
+const WineForm = ({onSubmit, serverErrors, wine}: Props) => {
   const dispatch = useAppDispatch();
-  const { countries, countryStatus } = useAppSelector((state) => state.wine);
+  const {countries, countryStatus} = useAppSelector((state) => state.wine);
   const [isOpen, setIsOpen] = useState(false);
   const [vinmonopoletModalIsOpen, setVinmonopoletModalIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
@@ -112,7 +112,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
     getValues,
     setValue,
     trigger,
-    formState: { isSubmitting, errors, isValid },
+    formState: {isSubmitting, errors, isValid},
   } = useForm<FormModel>({
     mode: "all",
     defaultValues,
@@ -134,7 +134,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
         }
         //@ts-expect-error
         setError(_key, {
-          types: { ...value },
+          types: {...value},
         });
       }
     }
@@ -193,7 +193,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
         ?.countryId?.toLowerCase() || null;
 
     // add country id to form values
-    const data = { ...d, ...{ countryId } };
+    const data = {...d, ...{countryId}};
     // submit
     await onSubmit(data);
   };
@@ -221,7 +221,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
               {tabs.map((tab, i) => (
                 <Tab
                   key={i}
-                  className={({ selected }) =>
+                  className={({selected}) =>
                     `relative flex-1 last:border-r-0 border-r dark:border-r-gray-700 focus:outline-none focus:ring-0 first:rounded-tl last:rounded-tr h-12 md:px-8 px-4 text-sm select-none font-medium border-b-2 ${
                       selected
                         ? " text-wine-500 rounded-b-none border-b-wine-500 dark:text-white dark:bg-gray-700/80 dark:border-b-wine-400"

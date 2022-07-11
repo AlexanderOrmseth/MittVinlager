@@ -1,9 +1,9 @@
-import { Star, StarHalf } from "phosphor-react";
+import {Star, StarHalf} from "phosphor-react";
 interface Props {
   stars: number;
   size?: string;
 }
-const Stars = ({ stars, size }: Props) => {
+const Stars = ({stars, size}: Props) => {
   const fullStars = Math.floor(stars / 2); // remove decimal
   const halfStar = !Number.isInteger(stars / 2); // true => half star should be rendered
   const fadedStars = 5 - fullStars - (halfStar ? 1 : 0);

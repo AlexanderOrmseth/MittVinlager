@@ -1,16 +1,16 @@
-import { Trash } from "phosphor-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { triggerFetch } from "../../../features/wine/slices/wineSlice";
+import {Trash} from "phosphor-react";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {triggerFetch} from "../../../features/wine/slices/wineSlice";
 import api from "../../api/api";
-import { useAppDispatch } from "../../store/configureStore";
+import {useAppDispatch} from "../../store/configureStore";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
-  wineToDelete: { id: number | null; name: string | null };
+  wineToDelete: {id: number | null; name: string | null};
   shouldNavigate?: boolean;
 }
 

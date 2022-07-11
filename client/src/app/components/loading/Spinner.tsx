@@ -1,10 +1,10 @@
-import { TailSpin } from "react-loading-icons";
+import {TailSpin} from "react-loading-icons";
 
 interface Props {
   text: string;
 }
 
-const Spinner = ({ text }: Props) => {
+const Spinner = ({text}: Props) => {
   return (
     <div className="p-2">
       <TailSpin

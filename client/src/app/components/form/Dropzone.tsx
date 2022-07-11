@@ -1,6 +1,6 @@
-import { CheckCircle, FileImage } from "phosphor-react";
-import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import {CheckCircle, FileImage} from "phosphor-react";
+import {useCallback} from "react";
+import {useDropzone} from "react-dropzone";
 const maxSize = 1048576;
 
 const Dropzone = ({

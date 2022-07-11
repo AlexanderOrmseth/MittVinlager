@@ -1,4 +1,4 @@
-import { IconProps } from "phosphor-react";
+import {IconProps} from "phosphor-react";
 
 interface Props {
   title: string;
@@ -9,7 +9,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const Title = ({ title, Icon, border, children }: Props) => {
+const Title = ({title, Icon, border, children}: Props) => {
   return (
     <>
       <h2

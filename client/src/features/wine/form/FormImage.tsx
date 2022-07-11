@@ -1,12 +1,12 @@
-import { Switch } from "@headlessui/react";
-import { useEffect, useState } from "react";
+import {Switch} from "@headlessui/react";
+import {useEffect, useState} from "react";
 import {
   Controller,
   FieldValues,
   useController,
   UseControllerProps,
 } from "react-hook-form";
-import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
+import {placeholder, vinmonopoletImage} from "../../../app/util/vinmonopolet";
 
 interface Props<T> extends UseControllerProps<T> {
   file?: File | null;
@@ -24,7 +24,7 @@ const FormImage = <T extends FieldValues>({
   ...rest
 }: Props<T>) => {
   const [imageSrc, setImageSrc] = useState<string | null | undefined>(null);
-  const { field } = useController({
+  const {field} = useController({
     ...rest,
   });
 
@@ -62,7 +62,7 @@ const FormImage = <T extends FieldValues>({
       {wine.imageByUser && productId && !file && (
         <Controller
           {...rest}
-          render={({ field: { value, onChange, ...rest } }) => (
+          render={({field: {value, onChange, ...rest}}) => (
             <div className="flex flex-row gap-2 items-center mt-2">
               <Switch
                 {...rest}

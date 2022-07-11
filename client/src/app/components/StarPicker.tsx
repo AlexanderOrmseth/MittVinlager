@@ -3,7 +3,7 @@ interface Props {
   value: number | null;
   onChange: (val: number | null) => void;
 }
-const StarPicker = ({ value, onChange }: Props) => {
+const StarPicker = ({value, onChange}: Props) => {
   const handleIncrement = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

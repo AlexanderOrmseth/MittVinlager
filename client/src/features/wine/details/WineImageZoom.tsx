@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Controlled as Zoom } from "react-medium-image-zoom";
+import {useState} from "react";
+import {Controlled as Zoom} from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { motion } from "framer-motion";
-import { vinmonopoletImage, placeholder } from "../../../app/util/vinmonopolet";
+import {motion} from "framer-motion";
+import {vinmonopoletImage, placeholder} from "../../../app/util/vinmonopolet";
 
 const WineImageZoom = ({
   pictureUrl,
@@ -37,12 +37,12 @@ const WineImageZoom = ({
 
   return (
     <motion.div
-      initial={{ x: 10, opacity: 0 }}
+      initial={{x: 10, opacity: 0}}
       animate={{
         x: 0,
         opacity: 1,
       }}
-      transition={{ type: "spring", stiffness: 60, delay: 0 }}
+      transition={{type: "spring", stiffness: 60, delay: 0}}
       className="flex flex-col items-center md:sticky md:top-0 overflow-auto"
     >
       <Zoom

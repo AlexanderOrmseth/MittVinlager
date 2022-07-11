@@ -2,9 +2,9 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { setPageNumber } from "../slices/wineSlice";
-import { CaretLeft, CaretRight } from "phosphor-react";
-import { ThreeDots } from "react-loading-icons";
+import {setPageNumber} from "../slices/wineSlice";
+import {CaretLeft, CaretRight} from "phosphor-react";
+import {ThreeDots} from "react-loading-icons";
 import ViewModeToggle from "../../../app/components/filter/ViewModeToggle";
 
 interface Props {
@@ -12,9 +12,9 @@ interface Props {
   top: boolean;
 }
 
-const Paginator = ({ status, top }: Props) => {
+const Paginator = ({status, top}: Props) => {
   const dispatch = useAppDispatch();
-  const { metaData } = useAppSelector((state) => state.wine);
+  const {metaData} = useAppSelector((state) => state.wine);
 
   const leftDisabled = metaData == null ? true : metaData.currentPage < 2;
   const rightDisabled =

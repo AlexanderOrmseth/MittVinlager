@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using API.DTOs;
 using API.Entities;
 using API.Services;
@@ -37,7 +38,17 @@ public class AccountController : BaseApiController
         }
 
         var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
+        Console.WriteLine("-------------");
+        Console.WriteLine("-------------");
+        Console.WriteLine(payload.Subject); //provider key
+        Console.WriteLine("-------------");
+        Console.WriteLine("-------------");
+        
+        // finds user based on Google ID
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        
+        
+        
         if (user == null)
         {
             // check if user already exists
@@ -62,13 +73,25 @@ public class AccountController : BaseApiController
                 await _userManager.AddLoginAsync(user, info);
             }
         }
+        
+        // if user has changed email upsert here
+        if (user.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase))
+        {
+            //user has changed email
+            
+        }
 
         return Ok(new UserDto
         {
             Email = user.Email,
-            UserName = user.Email,
+            UserName = MaskedEmail(user.Email),
             Token = await _tokenService.GenerateToken(user),
         });
+    }
+
+    private static string MaskedEmail(string email)
+    {
+        return Regex.Replace(email, @"(?<=[\w]{3})[\w-\._\+%]*(?=[\w]{0}@)", m => new string('*', m.Length));
     }
 
     /// <summary>
@@ -89,7 +112,7 @@ public class AccountController : BaseApiController
         return new UserDto
         {
             Email = user.Email,
-            UserName = user.UserName,
+            UserName = MaskedEmail(user.Email),
             Token = await _tokenService.GenerateToken(user),
         };
     }

@@ -1,6 +1,6 @@
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import {Link} from "react-router-dom";
+import {useState} from "react";
 import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
 import {
   PencilLine,
@@ -11,15 +11,15 @@ import {
 import WineDetails from "./details/WineDetails";
 import WineImageZoom from "./details/WineImageZoom";
 import Spinner from "../../app/components/loading/Spinner";
-import { vinmonopoletLink } from "../../app/util/vinmonopolet";
+import {vinmonopoletLink} from "../../app/util/vinmonopolet";
 import ConsumedModal from "../../app/components/modals/ConsumedModal";
-import { InfoBox } from "../../app/components/InfoBox";
+import {InfoBox} from "../../app/components/InfoBox";
 import Time from "../../app/components/Time";
 
 const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConsumedModalOpen, setIsConsumedModalOpen] = useState(false);
-  const { wine, id, status } = useFetchSingleWine();
+  const {wine, id, status} = useFetchSingleWine();
 
   if (status === "loading") return <Spinner text="Laster vin..." />;
   if (!wine) return <div>vinen eksisterer ikke!</div>;
@@ -122,7 +122,7 @@ const DetailsPage = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         shouldNavigate
-        wineToDelete={{ id: id ? parseInt(id) : null, name: wine.name }}
+        wineToDelete={{id: id ? parseInt(id) : null, name: wine.name}}
       />
     </>
   );

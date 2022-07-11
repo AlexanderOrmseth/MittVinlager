@@ -1,4 +1,4 @@
-import { formatDate } from "../util/format";
+import {formatDate} from "../util/format";
 
 // date can be a string/Date
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   short?: boolean;
 }
 
-const Time = ({ date, fallBackText, short = false }: Props) => {
+const Time = ({date, fallBackText, short = false}: Props) => {
   // returns empty span or given fallback-text
   if (!date) {
     return <span>{fallBackText && fallBackText}</span>;

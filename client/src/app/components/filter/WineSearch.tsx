@@ -1,11 +1,11 @@
-import { MagnifyingGlass } from "phosphor-react";
-import { useEffect, useRef, useState } from "react";
-import { setParams } from "../../../features/wine/slices/wineSlice";
+import {MagnifyingGlass} from "phosphor-react";
+import {useEffect, useRef, useState} from "react";
+import {setParams} from "../../../features/wine/slices/wineSlice";
 import useDebounce from "../../hooks/useDebounce";
-import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import {useAppDispatch, useAppSelector} from "../../store/configureStore";
 
-const WineSearch = ({ disabled }: { disabled: boolean }) => {
-  const { wineParams } = useAppSelector((state) => state.wine);
+const WineSearch = ({disabled}: {disabled: boolean}) => {
+  const {wineParams} = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
   const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
@@ -19,7 +19,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
       return;
     }
 
-    dispatch(setParams({ searchTerm: debouncedValue }));
+    dispatch(setParams({searchTerm: debouncedValue}));
   }, [debouncedValue, dispatch]);
 
   const handleOnChange = (val: HTMLInputElement["value"]) => {

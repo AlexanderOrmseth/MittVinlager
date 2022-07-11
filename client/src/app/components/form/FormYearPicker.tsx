@@ -19,7 +19,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
-  const { fieldState } = useController({
+  const {fieldState} = useController({
     ...props,
   });
 
@@ -30,7 +30,7 @@ const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { ref, ...rest } }) => (
+        render={({field: {ref, ...rest}}) => (
           <YearPicker
             {...rest}
             hasError={!!fieldState.error}
