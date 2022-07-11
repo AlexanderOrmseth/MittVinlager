@@ -1,11 +1,9 @@
-import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
-import {serialize} from "object-to-formdata";
-import {PaginatedResponse} from "../models/pagination";
-import {FormModel} from "../models/wine";
-import {WishItem} from "../models/wishItem";
-import {store} from "../store/configureStore";
-import {ExternalLogin} from "../models/externalLogin";
+import { PaginatedResponse } from "../models/pagination";
+import { WishItem } from "../models/wishItem";
+import { store } from "../store/configureStore";
+import { ExternalLogin } from "../models/externalLogin";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
 
@@ -34,7 +32,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    const {data, status}: any = error.response;
+    const { data, status }: any = error.response;
     switch (status) {
       case 400:
         if (data.errors) {
@@ -60,21 +58,9 @@ axios.interceptors.response.use(
 
 const requests = {
   get: (url: string, params?: URLSearchParams, config?: AxiosRequestConfig) =>
-    axios.get(url, {params, ...config}).then(res),
+    axios.get(url, { params, ...config }).then(res),
   post: (url: string, body: {}) => axios.post(url, body).then(res),
   delete: (url: string) => axios.delete(url).then(res),
-  postForm: (url: string, data: FormData) =>
-    axios
-      .post(url, data, {
-        headers: {"Content-type": "multipart/form-data"},
-      })
-      .then(res),
-  putForm: (url: string, data: FormData) =>
-    axios
-      .put(url, data, {
-        headers: {"Content-type": "multipart/form-data"},
-      })
-      .then(res),
 };
 
 const Account = {
@@ -91,15 +77,7 @@ const Vinmonopolet = {
 };
 
 const Wine = {
-  allWine: (params: URLSearchParams, config?: AxiosRequestConfig) =>
-    requests.get("wine", params, config),
-  getWineById: (id: number) => requests.get(`wine/${id}`),
   getFilters: () => requests.get("wine/filters"),
-  addWine: (newWine: FormModel) =>
-    requests.postForm("wine", serialize(newWine)),
-  updateWine: (updatedWine: FormModel, id: number) =>
-    requests.putForm(`wine/${id}`, serialize(updatedWine)),
-  deleteWine: (id: number) => requests.delete(`wine/${id}`),
   getStatistics: (config?: AxiosRequestConfig) =>
     requests.get("wine/statistics", undefined, config),
 };

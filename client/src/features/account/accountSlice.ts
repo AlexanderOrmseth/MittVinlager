@@ -6,9 +6,9 @@ import {
 } from "@reduxjs/toolkit";
 
 import toast from "react-hot-toast";
-import {User, UserResponse} from "../../app/models/user";
+import { User, UserResponse } from "../../app/models/user";
 import api from "../../app/api/api";
-import {ExternalLogin} from "../../app/models/externalLogin";
+import { ExternalLogin } from "../../app/models/externalLogin";
 
 interface AccountState {
   status: "idle" | "loading";
@@ -37,7 +37,7 @@ export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({error: error.data});
+      return thunkAPI.rejectWithValue({ error: error.data });
     }
   }
 );
@@ -55,7 +55,7 @@ export const fetchCurrentUser = createAsyncThunk<UserResponse>(
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({error: error.data});
+      return thunkAPI.rejectWithValue({ error: error.data });
     }
   },
   {
@@ -76,7 +76,7 @@ export const deleteUser = createAsyncThunk<void>(
     try {
       await api.Account.deleteUser();
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({error: error.data});
+      return thunkAPI.rejectWithValue({ error: error.data });
     }
   },
   {
@@ -172,4 +172,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const {signOut, setUser, setToken} = accountSlice.actions;
+export const { signOut, setUser, setToken } = accountSlice.actions;

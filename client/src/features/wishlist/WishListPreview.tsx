@@ -1,17 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import api from "../../app/api/api";
 import LoadingButton from "../../app/components/LoadingButton";
-import {FormModel} from "../../app/models/wine";
-import {WishItem} from "../../app/models/wishItem";
-import {useAppDispatch} from "../../app/store/configureStore";
-import {formatAlcoholContent, formatPrice} from "../../app/util/format";
-import {vinmonopoletImage} from "../../app/util/vinmonopolet";
-import {triggerFetch} from "./wishlistSlice";
+import { FormModel } from "../../app/models/wine";
+import { WishItem } from "../../app/models/wishItem";
+import { useAppDispatch } from "../../app/store/configureStore";
+import { formatAlcoholContent, formatPrice } from "../../app/util/format";
+import { vinmonopoletImage } from "../../app/util/vinmonopolet";
+import { triggerFetch } from "./wishlistSlice";
 interface Props {
   wine: FormModel | null;
   setWine: React.Dispatch<React.SetStateAction<FormModel | null>>;
 }
-const WishListPreview = ({wine, setWine}: Props) => {
+const WishListPreview = ({ wine, setWine }: Props) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 

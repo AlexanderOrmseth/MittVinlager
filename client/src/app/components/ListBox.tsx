@@ -1,6 +1,6 @@
-import {Listbox, Transition} from "@headlessui/react";
-import {CaretDown, Check} from "phosphor-react";
-import {Fragment} from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CaretDown, Check } from "phosphor-react";
+import { Fragment } from "react";
 
 interface Item {
   value: string;
@@ -14,7 +14,7 @@ interface Props {
   label: string;
   disabled: boolean;
 }
-const ListBox = ({items, selected, onChange, label, disabled}: Props) => {
+const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
   return (
     <div>
       <Listbox value={selected} onChange={onChange}>
@@ -42,7 +42,7 @@ const ListBox = ({items, selected, onChange, label, disabled}: Props) => {
                 <Listbox.Option
                   disabled={disabled}
                   key={i}
-                  className={({active, selected, disabled}) =>
+                  className={({ active, selected, disabled }) =>
                     `cursor-default flex items-center leading-4 rounded text-sm select-none py-2.5 px-4 ${
                       disabled ? "opacity-50 cursor-not-allowed" : ""
                     } ${active && !selected ? "bg-slate-200 text-black" : ""} ${
@@ -51,7 +51,7 @@ const ListBox = ({items, selected, onChange, label, disabled}: Props) => {
                   }
                   value={item.value}
                 >
-                  {({selected}) => (
+                  {({ selected }) => (
                     <>
                       <div className="w-5">
                         {selected && (

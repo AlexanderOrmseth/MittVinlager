@@ -1,22 +1,15 @@
-import {Country} from "./../../../app/models/country";
+import { Country } from "./../../../app/models/country";
+import { getCountries, getFilters } from "./wineAsyncThunks";
 import {
-  allWine,
-  getCountries,
-  getFilters,
-  getWineById,
-} from "./wineAsyncThunks";
-import {
-  createEntityAdapter,
   createSelector,
   createSlice,
-  isAnyOf,
   PayloadAction,
   Update,
 } from "@reduxjs/toolkit";
-import {getAxiosParams, WineParams} from "../../../app/api/params";
-import {MetaData} from "../../../app/models/pagination";
-import {Wine} from "../../../app/models/wine";
-import {RootState} from "../../../app/store/configureStore";
+import { WineParams } from "../../../app/api/params";
+import { MetaData } from "../../../app/models/pagination";
+import { Wine } from "../../../app/models/wine";
+import { RootState } from "../../../app/store/configureStore";
 
 // wine state
 interface WineState {
@@ -41,7 +34,7 @@ export const initialParams = {
   orderBy: "name",
   countries: [],
   types: [],
-  searchTerm: null,
+  searchTerm: "",
 };
 
 // initial state
@@ -61,20 +54,12 @@ const initialState: WineState = {
   metaData: null,
 };
 
-// adapter
-const wineAdapter = createEntityAdapter<Wine>({
-  selectId: (wine) => wine.wineId,
-});
-
 export const wineSlice = createSlice({
   name: "wine",
-  initialState: wineAdapter.getInitialState<WineState>(initialState),
+  initialState: initialState,
   reducers: {
-    resetAll: () => wineAdapter.getInitialState<WineState>(initialState),
-    triggerFetch: (state) => {
-      state.allFetched = false;
-      state.filtersFetched = false;
-    },
+    resetAll: () => initialState,
+
     resetSearchParam: (state) => {
       state.wineParams.searchTerm = null;
     },
@@ -88,57 +73,29 @@ export const wineSlice = createSlice({
         ...action.payload,
         pageNumber: 1,
       };
-
-      // trigger fetch
-      state.allFetched = false;
     },
     decrementQuantity: (
       state,
-      action: PayloadAction<{id: number; quantity: number}>
+      action: PayloadAction<{ id: number; quantity: number }>
     ) => {
       const update: Update<Wine> = {
         id: action.payload.id,
-        changes: {userDetails: {quantity: action.payload.quantity - 1}},
+        changes: { userDetails: { quantity: action.payload.quantity - 1 } },
       };
 
       // update quantity
-      wineAdapter.updateOne(state, update);
+      //wineAdapter.updateOne(state, update);
     },
     setGridView: (state, action) => {
       state.gridView = action.payload;
     },
-    setMetaData: (state, action) => {
-      state.metaData = action.payload;
-    },
+
     setPageNumber: (state, action) => {
       state.wineParams.pageNumber = action.payload;
       state.allFetched = false;
     },
   },
   extraReducers: (builder) => {
-    /* All wine
-     */
-    builder.addCase(allWine.fulfilled, (state, action) => {
-      wineAdapter.setAll(state, action.payload);
-      state.status = "idle";
-      state.allFetched = true;
-    });
-    builder.addCase(allWine.rejected, (state, action) => {
-      state.status = "idle";
-      console.log(action.payload);
-    });
-
-    /* Wine by id
-     */
-    builder.addCase(getWineById.fulfilled, (state, action) => {
-      wineAdapter.upsertOne(state, action.payload);
-      state.status = "idle";
-    });
-    builder.addCase(getWineById.rejected, (state, action) => {
-      state.status = "idle";
-      console.log(action);
-    });
-
     /* Filters
      */
     builder.addCase(getFilters.pending, (state) => {
@@ -169,34 +126,20 @@ export const wineSlice = createSlice({
       state.countryStatus = "failed";
       console.error("getCountries error", action.payload);
     });
-
-    /* Wine Loading */
-    builder.addMatcher(
-      isAnyOf(allWine.pending, getWineById.pending),
-      (state) => {
-        state.status = "loading";
-      }
-    );
   },
 });
 
-export const wineSelectors = wineAdapter.getSelectors(
-  (state: RootState) => state.wine
-);
-
 export const getParams = createSelector(
   (state: RootState) => state.wine.wineParams,
-  (state) => getAxiosParams(state).toString()
+  (state) => state
 );
 
 export const {
-  setMetaData,
   setPageNumber,
   resetSearchParam,
   setParams,
   resetParams,
   resetAll,
   setGridView,
-  triggerFetch,
   decrementQuantity,
 } = wineSlice.actions;

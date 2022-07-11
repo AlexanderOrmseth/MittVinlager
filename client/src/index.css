@@ -1,8 +1,8 @@
+@import url("./app/css/flags.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url("./app/css/flags.css");
 
 #root {
   display: flex;
@@ -27,7 +27,7 @@
     @apply flex-1 rounded border
     transition-all placeholder:text-slate-400 dark:placeholder:text-gray-600
     placeholder:lowercase bg-white
-    focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none 
+    focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none
     w-full h-8 px-2 text-gray-800
     dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50;
   }
@@ -38,7 +38,7 @@
 
   .nav-link {
     @apply select-none md:px-4 md:py-3 px-2 py-4 hover:text-wine-400 dark:hover:text-wine-300 rounded font-medium transition-colors
-     md:text-left text-center md:bg-transparent dark:md:bg-transparent bg-slate-50 dark:bg-gray-800/50 dark:text-gray-200
+    md:text-left text-center md:bg-transparent dark:md:bg-transparent bg-slate-50 dark:bg-gray-800/50 dark:text-gray-200
     appearance-none focus:bg-transparent focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
@@ -51,9 +51,9 @@
   }
 
   .btn-white {
-    @apply select-none w-full shadow-xxs rounded-md 
-           bg-white dark:bg-gray-800/50 dark:border-gray-700 px-4 py-2 border transition-all cursor-pointer font-medium
-            text-sm hover:bg-slate-50 dark:hover:border-gray-600 dark:hover:bg-gray-800/30 active:bg-slate-100 active:text-gray-700 dark:active:text-gray-100;
+    @apply select-none w-full shadow-xxs rounded-md
+    bg-white dark:bg-gray-800/50 dark:border-gray-700 px-4 py-2 border transition-all cursor-pointer font-medium
+    text-sm hover:bg-slate-50 dark:hover:border-gray-600 dark:hover:bg-gray-800/30 active:bg-slate-100 active:text-gray-700 dark:active:text-gray-100;
   }
 
   .disabled-btn {

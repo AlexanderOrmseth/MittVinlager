@@ -1,20 +1,23 @@
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../app/store/configureStore";
-import {setPageNumber} from "../slices/wineSlice";
-import {CaretLeft, CaretRight} from "phosphor-react";
-import {ThreeDots} from "react-loading-icons";
+import { useAppDispatch } from "../../../app/store/configureStore";
+import { setPageNumber } from "../slices/wineSlice";
+import { CaretLeft, CaretRight } from "phosphor-react";
+import { ThreeDots } from "react-loading-icons";
 import ViewModeToggle from "../../../app/components/filter/ViewModeToggle";
+import { MetaData } from "../../../app/models/pagination";
 
 interface Props {
-  status: string;
+  isLoading: boolean;
   top: boolean;
+  metaData: MetaData | null;
 }
 
-const Paginator = ({status, top}: Props) => {
+const Paginator = ({ isLoading, top, metaData }: Props) => {
   const dispatch = useAppDispatch();
-  const {metaData} = useAppSelector((state) => state.wine);
+
+  // hide bottom navigation if only one page
+  if (metaData && metaData.totalPages === 1 && !top) {
+    return null;
+  }
 
   const leftDisabled = metaData == null ? true : metaData.currentPage < 2;
   const rightDisabled =
@@ -52,7 +55,7 @@ const Paginator = ({status, top}: Props) => {
             Side {metaData?.currentPage} av {metaData?.totalPages}
           </div>
 
-          {status === "loading" && metaData ? (
+          {isLoading && metaData ? (
             <ThreeDots
               height={"2rem"}
               width={"2.5rem"}

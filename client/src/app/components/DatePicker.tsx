@@ -1,4 +1,4 @@
-import {Popover, Transition} from "@headlessui/react";
+import { Popover, Transition } from "@headlessui/react";
 import {
   CalendarBlank,
   CaretDoubleLeft,
@@ -7,7 +7,7 @@ import {
   CaretRight,
   X,
 } from "phosphor-react";
-import {Fragment, useEffect, useState} from "react";
+import { Fragment, useEffect, useState } from "react";
 import Time from "./Time";
 
 const months = [
@@ -165,7 +165,7 @@ const DatePicker = ({
 
   return (
     <Popover className="relative">
-      {({open}) => (
+      {({ open }) => (
         <>
           <Popover.Button
             type="button"
@@ -193,7 +193,7 @@ const DatePicker = ({
                 absolute ? "absolute z-10 shadow-lg" : "block shadow-sm"
               } bg-white dark:bg-gray-900 dark:border-gray-700 border w-full rounded-lg mt-1 `}
             >
-              {({close}) => (
+              {({ close }) => (
                 <>
                   <div className="flex flex-col gap-y-1 p-1">
                     <div className="flex flex-row gap-x-1 items-center">

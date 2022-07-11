@@ -1,42 +1,46 @@
-import {PencilSimpleLine} from "phosphor-react";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import api from "../../app/api/api";
+import { PencilSimpleLine } from "phosphor-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Spinner from "../../app/components/loading/Spinner";
-import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import Title from "../../app/layout/Title";
-import {FormModel} from "../../app/models/wine";
-import {useAppDispatch} from "../../app/store/configureStore";
+import { FormModel } from "../../app/models/wine";
 import WineForm from "./form/WineForm";
-import {triggerFetch} from "./slices/wineSlice";
+import { useUpdateWineMutation } from "../api/apiSlice";
+import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const {wine, id, status} = useFetchSingleWine();
+  const { wine, id, status: wineStatus } = useFetchSingleWine();
+
+  // update wine
+  const [updateWine, updateWineStatus] = useUpdateWineMutation();
+
   const [serverErrors, setServerErrors] = useState<Record<
     string,
     string[]
   > | null>(null);
 
-  if (status === "loading") return <Spinner text="Laster vin..." />;
-
-  if (!wine) return <div>vinen eksisterer ikke!</div>;
+  if (wineStatus.isLoading) return <Spinner text="Laster vin..." />;
+  else if (!wine) return <div>vinen eksisterer ikke!</div>;
 
   const onSubmit = async (data: FormModel) => {
     if (!id) {
       console.log("Id was undefined or null");
       return;
     }
-
-    try {
-      await api.Wine.updateWine(data, parseInt(id));
-      dispatch(triggerFetch());
-      navigate("/inventory");
-    } catch (error: any) {
-      console.error("Update wine error", error);
-      if (error) setServerErrors(error);
-    }
+    console.log(data);
+    updateWine({ id, data })
+      .unwrap()
+      .then((res) => {
+        console.log("adding wine response", res);
+        navigate("/inventory");
+      })
+      .catch((err) => {
+        console.error("Adding wine error", err);
+        if (err) {
+          setServerErrors(err);
+        }
+      });
   };
 
   return (

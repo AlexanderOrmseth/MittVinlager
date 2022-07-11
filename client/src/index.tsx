@@ -3,8 +3,8 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 
 // RTK
-import {Provider} from "react-redux";
-import {store} from "./app/store/configureStore";
+import { Provider } from "react-redux";
+import { store } from "./app/store/configureStore";
 
 import App from "./App";
 import "./index.css";

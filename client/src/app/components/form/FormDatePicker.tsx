@@ -15,7 +15,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormDatePicker = <T extends FieldValues>(props: Props<T>) => {
-  const {fieldState} = useController({
+  const { fieldState } = useController({
     ...props,
   });
 
@@ -27,7 +27,7 @@ const FormDatePicker = <T extends FieldValues>(props: Props<T>) => {
       {
         <Controller
           {...props}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <DatePicker
               hereafter={props.hereafter}
               onChange={onChange}

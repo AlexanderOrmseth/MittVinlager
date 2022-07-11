@@ -1,13 +1,13 @@
-import {apiSlice} from "./../../features/api/apiSlice";
-import {themeSlice} from "./../../features/themeSlice";
-import {configureStore} from "@reduxjs/toolkit";
-import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
+import { apiSlice } from "./../../features/api/apiSlice";
+import { themeSlice } from "./../../features/themeSlice";
+import { configureStore } from "@reduxjs/toolkit";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 // import slices
-import {accountSlice} from "../../features/account/accountSlice";
-import {statisticsSlice} from "../../features/statistics/statisticsSlice";
-import {wineSlice} from "../../features/wine/slices/wineSlice";
-import {wishlistSlice} from "../../features/wishlist/wishlistSlice";
+import { accountSlice } from "../../features/account/accountSlice";
+import { statisticsSlice } from "../../features/statistics/statisticsSlice";
+import { wineSlice } from "../../features/wine/slices/wineSlice";
+import { wishlistSlice } from "../../features/wishlist/wishlistSlice";
 
 export const store = configureStore({
   reducer: {

@@ -1,15 +1,15 @@
-import {useCallback, useEffect, useState} from "react";
-import {Toaster} from "react-hot-toast";
-import {Puff} from "react-loading-icons";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
+import { Puff } from "react-loading-icons";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
-import {useAppDispatch} from "./app/store/configureStore";
-import {fetchCurrentUser, signIn} from "./features/account/accountSlice";
+import { useAppDispatch } from "./app/store/configureStore";
+import { fetchCurrentUser } from "./features/account/accountSlice";
 import GoogleButton from "./features/account/GoogleButton";
 import ProfilePage from "./features/account/ProfilePage";
 import HomePage from "./features/home/HomePage";
-import {initTheme} from "./features/themeSlice";
+import { initTheme } from "./features/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";
@@ -24,7 +24,6 @@ function App() {
     try {
       console.log("Fetching current user");
       dispatch(initTheme());
-
       await dispatch(fetchCurrentUser());
     } catch (error) {
       console.error(error);

@@ -1,5 +1,5 @@
-import {Link} from "react-router-dom";
-import {placeholder} from "../../util/vinmonopolet";
+import { Link } from "react-router-dom";
+import { placeholder } from "../../util/vinmonopolet";
 interface Props {
   name: string;
   pictureUrl?: string | undefined | null;

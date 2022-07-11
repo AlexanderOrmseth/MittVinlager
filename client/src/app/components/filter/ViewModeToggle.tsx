@@ -1,10 +1,10 @@
-import {Switch} from "@headlessui/react";
-import {SquaresFour, Rows} from "phosphor-react";
-import {setGridView} from "../../../features/wine/slices/wineSlice";
-import {useAppDispatch, useAppSelector} from "../../store/configureStore";
+import { Switch } from "@headlessui/react";
+import { SquaresFour, Rows } from "phosphor-react";
+import { setGridView } from "../../../features/wine/slices/wineSlice";
+import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 
 const ViewModeToggle = () => {
-  const {gridView, status} = useAppSelector((state) => state.wine);
+  const { gridView, status } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
   return (

@@ -1,10 +1,14 @@
-import {RadioGroup} from "@headlessui/react";
-import {Link as LinkIcon, DownloadSimple, Check} from "phosphor-react";
-import {useState} from "react";
-import {UseFormGetValues, UseFormReset, UseFormSetValue} from "react-hook-form";
+import { RadioGroup } from "@headlessui/react";
+import { Link as LinkIcon, DownloadSimple, Check } from "phosphor-react";
+import { useState } from "react";
+import {
+  UseFormGetValues,
+  UseFormReset,
+  UseFormSetValue,
+} from "react-hook-form";
 import api from "../api/api";
 import LoadingButton from "./LoadingButton";
-import {FormModel} from "../models/wine";
+import { FormModel } from "../models/wine";
 
 interface Props {
   setIsOpen: (value: boolean) => void;
@@ -87,8 +91,8 @@ const Vinmonopolet = ({
             break;
           case 3:
             // reset everything but except userDetails
-            const {userDetails, ...rest} = res;
-            setValues({...rest, userDetails: getValues("userDetails")});
+            const { userDetails, ...rest } = res;
+            setValues({ ...rest, userDetails: getValues("userDetails") });
             break;
           default:
             // reset entire form
@@ -155,7 +159,7 @@ const Vinmonopolet = ({
             <RadioGroup.Label className="label">Velg verdier</RadioGroup.Label>
             {radioValues.map((radio) => (
               <RadioGroup.Option key={radio.value} value={radio.value}>
-                {({checked, active}) => (
+                {({ checked, active }) => (
                   <div
                     className={`p-3 rounded 
                 ${

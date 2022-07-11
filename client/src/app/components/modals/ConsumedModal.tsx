@@ -1,13 +1,13 @@
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import ConsumedWine from "../../../features/wine/consumed/ConsumedWine";
-import {decrementQuantity} from "../../../features/wine/slices/wineSlice";
+import { decrementQuantity } from "../../../features/wine/slices/wineSlice";
 import api from "../../api/api";
-import {Consumed} from "../../models/consumed";
-import {useAppDispatch} from "../../store/configureStore";
+import { Consumed } from "../../models/consumed";
+import { useAppDispatch } from "../../store/configureStore";
 import AsideDisclosure from "../AsideDisclosure";
 import DatePicker from "../DatePicker";
 import ErrorBox from "../ErrorBox";
-import {InfoBox} from "../InfoBox";
+import { InfoBox } from "../InfoBox";
 import Spinner from "../loading/Spinner";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
@@ -19,7 +19,7 @@ interface Props {
   quantity: number;
 }
 
-const ConsumedModal = ({isOpen, setIsOpen, wineId, quantity}: Props) => {
+const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<Consumed[] | null>(null);
@@ -58,7 +58,7 @@ const ConsumedModal = ({isOpen, setIsOpen, wineId, quantity}: Props) => {
       await fetchConsumed();
 
       // remove 1 from quantity
-      dispatch(decrementQuantity({id: wineId, quantity}));
+      dispatch(decrementQuantity({ id: wineId, quantity }));
 
       setDate(null);
       setIsOpen(false);

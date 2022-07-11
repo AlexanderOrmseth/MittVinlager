@@ -3,7 +3,7 @@ interface Props {
   hideDefinition?: boolean;
   size?: number;
 }
-const Score = ({value, hideDefinition, size}: Props) => {
+const Score = ({ value, hideDefinition, size }: Props) => {
   if (!value) return null;
 
   const getScoreDefinition = () => {
@@ -37,7 +37,7 @@ const Score = ({value, hideDefinition, size}: Props) => {
         } relative flex items-center justify-center rounded-full select-none`}
       >
         <div
-          style={{backgroundImage: style}}
+          style={{ backgroundImage: style }}
           className={`rounded-full w-full h-full bg-slate-100 flex items-center justify-center `}
         >
           <div

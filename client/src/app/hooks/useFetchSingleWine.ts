@@ -1,20 +1,12 @@
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
-import {getWineById} from "../../features/wine/slices/wineAsyncThunks";
-import {wineSelectors} from "../../features/wine/slices/wineSlice";
-import {useAppDispatch, useAppSelector} from "../store/configureStore";
+import { useParams } from "react-router-dom";
+import { useGetWineByIdQuery } from "../../features/api/apiSlice";
 
 const useFetchSingleWine = () => {
-  const {id} = useParams<{id: string | undefined}>();
-  const dispatch = useAppDispatch();
-  const wine = useAppSelector((state) => wineSelectors.selectById(state, id!));
-  const {status} = useAppSelector((state) => state.wine);
+  const { id } = useParams<{ id: string | undefined }>();
+  // fetch wine
+  const { data: wine, ...status } = useGetWineByIdQuery(id);
 
-  useEffect(() => {
-    if (!wine) dispatch(getWineById(parseInt(id!)));
-  }, [dispatch, id, wine]);
-
-  return {wine, status, id};
+  return { id, wine, status };
 };
 
 export default useFetchSingleWine;

@@ -1,9 +1,9 @@
-import {LastConsumed} from "./../../app/models/consumed";
-import {LastPurchased} from "./../../app/models/statistics";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { LastConsumed } from "./../../app/models/consumed";
+import { LastPurchased } from "./../../app/models/statistics";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import api from "../../app/api/api";
-import {Statistics} from "../../app/models/statistics";
+import { Statistics } from "../../app/models/statistics";
 
 const namespace = "statistics";
 
@@ -40,7 +40,7 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
       console.log(response);
       return response;
     } catch (error: any) {
-      return thunkAPI.rejectWithValue({error: error.data});
+      return thunkAPI.rejectWithValue({ error: error.data });
     }
   }
 );
@@ -48,7 +48,7 @@ export const getStatistics = createAsyncThunk<Statistics[], void>(
 export const statisticsSlice = createSlice({
   name: namespace,
   initialState,
-  reducers: {resetStatistics: () => initialState},
+  reducers: { resetStatistics: () => initialState },
   extraReducers: (builder) => {
     builder.addCase(getStatistics.pending, (state) => {
       state.status = "loading";
@@ -70,4 +70,4 @@ export const statisticsSlice = createSlice({
   },
 });
 
-export const {resetStatistics} = statisticsSlice.actions;
+export const { resetStatistics } = statisticsSlice.actions;

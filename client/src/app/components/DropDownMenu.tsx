@@ -1,7 +1,7 @@
-import {Menu, Transition} from "@headlessui/react";
-import {CaretDown} from "phosphor-react";
-import {Fragment} from "react";
-import {MenuButton} from "../models/menuButton";
+import { Menu, Transition } from "@headlessui/react";
+import { CaretDown } from "phosphor-react";
+import { Fragment } from "react";
+import { MenuButton } from "../models/menuButton";
 
 interface Props {
   buttons: MenuButton[];
@@ -10,10 +10,16 @@ interface Props {
   className?: string;
   fullHeight?: boolean;
 }
-const DropDownMenu = ({buttons, text, icon, className, fullHeight}: Props) => {
+const DropDownMenu = ({
+  buttons,
+  text,
+  icon,
+  className,
+  fullHeight,
+}: Props) => {
   return (
     <Menu as={Fragment}>
-      {({open}) => (
+      {({ open }) => (
         <div
           className={`relative inline-block ${open ? "z-10" : ""} ${
             fullHeight ? "h-full self-stretch" : ""
@@ -48,7 +54,7 @@ const DropDownMenu = ({buttons, text, icon, className, fullHeight}: Props) => {
                       <div className="my-2 border-t dark:border-gray-800"></div>
                     )}
                     <Menu.Item>
-                      {({active}) => (
+                      {({ active }) => (
                         <button
                           onClick={button.fnc}
                           className={`${

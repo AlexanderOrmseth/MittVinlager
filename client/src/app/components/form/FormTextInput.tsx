@@ -25,7 +25,7 @@ const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 };
 
 const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
-  const {fieldState} = useController({
+  const { fieldState } = useController({
     ...props,
   });
 
@@ -37,7 +37,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({field: {value, ...rest}}) => (
+        render={({ field: { value, ...rest } }) => (
           <div className="relative">
             {!props.textarea ? (
               <input

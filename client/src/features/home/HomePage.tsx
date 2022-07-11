@@ -1,22 +1,23 @@
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
-import {useAppSelector} from "../../app/store/configureStore";
-import {useGetAllWineQuery} from "../api/apiSlice";
-import {getParams} from "../wine/slices/wineSlice";
+import { useAppSelector } from "../../app/store/configureStore";
+import { useGetAllWineQuery } from "../api/apiSlice";
+import { getParams } from "../wine/slices/wineSlice";
 
 const HomePage = () => {
   const params = useAppSelector(getParams);
-  const {data, isLoading, isSuccess, isError} = useGetAllWineQuery(params);
+  const { data, isLoading, isSuccess, isError } = useGetAllWineQuery(params);
 
   let content;
   if (isLoading) content = <Spinner text="Laster..." />;
   else if (isError) content = <ErrorBox message="Error" />;
-  else
+  else if (data) {
     content = (
       <pre className="text-xs leading-3">
         {JSON.stringify(data?.items, null, 2)}
       </pre>
     );
+  }
 
   return (
     <div>

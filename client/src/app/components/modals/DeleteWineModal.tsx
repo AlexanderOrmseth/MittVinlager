@@ -1,16 +1,13 @@
-import {Trash} from "phosphor-react";
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {triggerFetch} from "../../../features/wine/slices/wineSlice";
-import api from "../../api/api";
-import {useAppDispatch} from "../../store/configureStore";
+import { Trash } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
+import { useDeleteWineMutation } from "../../../features/api/apiSlice";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
-  wineToDelete: {id: number | null; name: string | null};
+  wineToDelete: { id: number | null; name: string | null };
   shouldNavigate?: boolean;
 }
 
@@ -20,27 +17,18 @@ const DeleteWineModal = ({
   wineToDelete,
   shouldNavigate,
 }: Props) => {
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const [deleteWine, { isLoading, error, isSuccess, isError }] =
+    useDeleteWineMutation();
 
   const handleDeleteWine = async () => {
     if (wineToDelete.id) {
-      try {
-        setLoading(true);
-        await api.Wine.deleteWine(wineToDelete.id);
-        dispatch(triggerFetch());
+      // delete wine
+      await deleteWine(wineToDelete.id);
 
-        // close modal
-        setIsOpen(false);
-
-        // navigate
-        if (shouldNavigate) navigate("/inventory");
-      } catch (error: any) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
+      // close modal and navigate if needed
+      setIsOpen(false);
+      if (shouldNavigate) navigate("/inventory");
     }
   };
 
@@ -54,8 +42,8 @@ const DeleteWineModal = ({
       <div className="grid grid-cols-1 gap-2">
         <LoadingButton
           onClick={handleDeleteWine}
-          loading={loading}
-          disabled={!wineToDelete.id}
+          loading={isLoading}
+          disabled={!wineToDelete.id || isLoading}
           loadingText="Sletter vin..."
           className="justify-center h-10 rounded-full"
         >

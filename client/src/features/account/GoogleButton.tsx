@@ -1,24 +1,27 @@
-import {useCallback, useEffect, useRef} from "react";
-import {useAppDispatch} from "../../app/store/configureStore";
-import {signIn} from "./accountSlice";
-import {CredentialResponse} from "google-one-tap";
+import { useCallback, useEffect, useRef } from "react";
+import { useAppDispatch } from "../../app/store/configureStore";
+import { signIn } from "./accountSlice";
+import { CredentialResponse } from "google-one-tap";
+import { useNavigate } from "react-router-dom";
 
 const GoogleButton = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const googleButton = useRef<HTMLDivElement | null>(null);
 
   const login = useCallback(
     async (response: CredentialResponse) => {
       try {
-        console.log(response);
         await dispatch(
-          signIn({accessToken: response.credential, provider: "GOOGLE"})
+          signIn({ accessToken: response.credential, provider: "GOOGLE" })
         );
+
+        navigate("/inventory");
       } catch (error) {
         console.error(error);
       }
     },
-    [dispatch]
+    [dispatch, navigate]
   );
 
   useEffect(() => {

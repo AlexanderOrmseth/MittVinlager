@@ -1,10 +1,10 @@
-import {useAppSelector} from "../../app/store/configureStore";
+import { useAppSelector } from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
-import {InfoBox} from "../../app/components/InfoBox";
+import { InfoBox } from "../../app/components/InfoBox";
 import Time from "../../app/components/Time";
 
 const Consumed = () => {
-  const {lastConsumed} = useAppSelector((state) => state.statistics);
+  const { lastConsumed } = useAppSelector((state) => state.statistics);
   if (!lastConsumed || lastConsumed.length === 0)
     return (
       <InfoBox message="Ingen data å vise, du kan registrere en drukket-dato på infosiden til en vin." />

@@ -1,5 +1,5 @@
-import {Dialog} from "@headlessui/react";
-import {AnimatePresence, motion} from "framer-motion";
+import { Dialog } from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
 import React from "react";
 
 interface Props {
@@ -30,14 +30,14 @@ const Modal = ({
         >
           <Dialog.Overlay
             as={motion.div}
-            initial={{opacity: 0}}
+            initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              transition: {duration: 0.15, ease: "easeInOut"},
+              transition: { duration: 0.15, ease: "easeInOut" },
             }}
             exit={{
               opacity: 0,
-              transition: {duration: 0.15, ease: "easeIn"},
+              transition: { duration: 0.15, ease: "easeIn" },
             }}
             className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur"
             aria-hidden="true"

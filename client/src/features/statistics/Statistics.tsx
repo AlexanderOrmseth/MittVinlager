@@ -1,8 +1,8 @@
-import {useAppSelector} from "../../app/store/configureStore";
-import {PieChart} from "react-minimal-pie-chart";
-import {formatPrice} from "../../app/util/format";
-import {Link} from "react-router-dom";
-import {InfoBox} from "../../app/components/InfoBox";
+import { useAppSelector } from "../../app/store/configureStore";
+import { PieChart } from "react-minimal-pie-chart";
+import { formatPrice } from "../../app/util/format";
+import { Link } from "react-router-dom";
+import { InfoBox } from "../../app/components/InfoBox";
 
 // chart colors
 const pieColors = [
@@ -23,11 +23,11 @@ const pieOptions = {
   labelPosition: 90,
   lineWidth: 50,
   paddingAngle: 2,
-  labelStyle: {fontSize: "4px"},
+  labelStyle: { fontSize: "4px" },
 };
 
 const Statistics = () => {
-  const {wineStatistics} = useAppSelector((state) => state.statistics);
+  const { wineStatistics } = useAppSelector((state) => state.statistics);
 
   if (!wineStatistics || wineStatistics.length === 0)
     return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
@@ -52,7 +52,7 @@ const Statistics = () => {
   return (
     <div className="my-4">
       <div className="grid my-4 lg:grid-cols-[1fr_1fr_2.2fr] sm:grid-cols-2 gap-4 text-center">
-        {total.map(({title, data}) => (
+        {total.map(({ title, data }) => (
           <div
             key={title}
             className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 rounded-lg bg-slate-50 dark:bg-gray-800/40"
@@ -74,7 +74,9 @@ const Statistics = () => {
             </h3>
             <PieChart
               {...pieOptions}
-              label={({dataEntry}) => dataEntry.title + ": " + dataEntry.value}
+              label={({ dataEntry }) =>
+                dataEntry.title + ": " + dataEntry.value
+              }
               data={wineStatistics.map((data, i) => {
                 return {
                   title: data.type,
@@ -91,7 +93,7 @@ const Statistics = () => {
               </h3>
               <PieChart
                 {...pieOptions}
-                label={({dataEntry}) =>
+                label={({ dataEntry }) =>
                   dataEntry.title + ": " + formatPrice(dataEntry.value)
                 }
                 data={wineStatistics

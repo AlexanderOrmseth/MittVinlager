@@ -1,4 +1,4 @@
-import {Trash} from "phosphor-react";
+import { Trash } from "phosphor-react";
 import Time from "../../../app/components/Time";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
   deleteConsumed: (id: number) => void;
 }
 
-const ConsumedWine = ({id, date, deleteConsumed}: Props) => {
+const ConsumedWine = ({ id, date, deleteConsumed }: Props) => {
   return (
     <li className="flex even:bg-slate-50 dark:even:bg-gray-800/40 p-2 rounded flex-row gap-x-2 items-center">
       <div className="flex-1 text-gray-900 dark:text-gray-200 font-medium">

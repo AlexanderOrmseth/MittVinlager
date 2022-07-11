@@ -1,12 +1,12 @@
-import {Combobox, Transition} from "@headlessui/react";
-import {Fragment, useState} from "react";
+import { Combobox, Transition } from "@headlessui/react";
+import { Fragment, useState } from "react";
 import {
   UseControllerProps,
   useController,
   Controller,
   FieldValues,
 } from "react-hook-form";
-import {Country} from "../../models/country";
+import { Country } from "../../models/country";
 import FormInputError from "./FormInputError";
 
 interface Props<T> extends UseControllerProps<T> {
@@ -16,7 +16,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 
 const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
-  const {fieldState, field} = useController({
+  const { fieldState, field } = useController({
     ...props,
   });
 
@@ -46,7 +46,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
     <div>
       <Controller
         {...props}
-        render={({field}) => (
+        render={({ field }) => (
           <Combobox nullable {...field}>
             <div className="relative z-10">
               <Combobox.Label className="label">
@@ -83,7 +83,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                   <Combobox.Options className="dropdown">
                     {filteredList.map((country) => (
                       <Combobox.Option
-                        className={({active, selected}) =>
+                        className={({ active, selected }) =>
                           `cursor-default flex items-center leading-4 rounded text-sm gap-2 select-none py-2 px-4 ${
                             active && !selected ? "bg-slate-200 text-black" : ""
                           } ${selected ? "bg-wine-500 text-white" : ""}`
