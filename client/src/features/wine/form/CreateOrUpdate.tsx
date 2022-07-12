@@ -567,7 +567,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
                 {wine ? "Rediger vin" : "Legg til"}
               </LoadingButton>
               <button
-                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled-btn font-medium w-auto h-auto py-2"
+                className="btn-white px-5 flex rounded-full flex-row gap-x-2 items-center disabled-btn w-auto"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setPreviewIsOpen(true)}

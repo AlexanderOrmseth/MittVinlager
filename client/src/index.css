@@ -58,11 +58,12 @@
     dark:border-gray-700
     hover:border-gray-300 dark:hover:border-gray-600
     dark:hover:bg-gray-800/30 active:bg-slate-100
-    active:text-gray-700 dark:active:text-gray-100 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    disabled:border-0 dark:active:text-gray-100 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
+  /* WCAG AA: Pass */
   .disabled-btn {
-    @apply disabled:bg-gray-300 dark:disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500 disabled:shadow-none;
+    @apply disabled:bg-gray-300 dark:disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-700 disabled:shadow-none;
   }
 
   .focus-primary {
