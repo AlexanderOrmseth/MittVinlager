@@ -4,14 +4,14 @@ import { InfoBox } from "../../app/components/InfoBox";
 import Spinner from "../../app/components/loading/Spinner";
 import VinmonopoletModal from "../../app/components/modals/VinmonopoletModal";
 import Title from "../../app/layout/Title";
-import { FormModel } from "../../app/models/wine";
+import { WineBaseModel } from "../../app/models/wine";
 import WishlistList from "./WishlistList";
 import WishListPreview from "./WishListPreview";
 import { useGetWishlistQuery } from "./wishlistApi";
 
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [wine, setWine] = useState<FormModel | null>(null);
+  const [wine, setWine] = useState<WineBaseModel | null>(null);
   const { data: wishlist, isLoading, isSuccess } = useGetWishlistQuery();
   const hasItems = !!wishlist?.length;
 

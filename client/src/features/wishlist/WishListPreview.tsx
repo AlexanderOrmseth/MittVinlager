@@ -1,13 +1,13 @@
 import React from "react";
 import LoadingButton from "../../app/components/LoadingButton";
-import { FormModel } from "../../app/models/wine";
+import { WineBaseModel } from "../../app/models/wine";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletImage } from "../../app/util/vinmonopolet";
 import { useAddWishlistItemMutation } from "./wishlistApi";
 
 interface Props {
-  wine: FormModel | null;
-  setWine: React.Dispatch<React.SetStateAction<FormModel | null>>;
+  wine: WineBaseModel | null;
+  setWine: React.Dispatch<React.SetStateAction<WineBaseModel | null>>;
 }
 
 const WishListPreview = ({ wine, setWine }: Props) => {

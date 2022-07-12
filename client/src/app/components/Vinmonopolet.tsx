@@ -1,20 +1,20 @@
 import { RadioGroup } from "@headlessui/react";
 import { Check, DownloadSimple, Link as LinkIcon } from "phosphor-react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   UseFormGetValues,
   UseFormReset,
   UseFormSetValue,
 } from "react-hook-form";
-import api from "../api/api";
 import LoadingButton from "./LoadingButton";
-import { FormModel } from "../models/wine";
+import { FormModel, WineBaseModel } from "../models/wine";
+import { useGetVinmonopoletWineQuery } from "../../features/api/apiSlice";
 
 interface Props {
   setIsOpen: (value: boolean) => void;
   productId?: string | null;
 
-  setValues: UseFormReset<FormModel> | ((values: FormModel) => void);
+  setValues: UseFormReset<WineBaseModel> | ((values: WineBaseModel) => void);
   isWishlist: boolean;
 
   setValue?: UseFormSetValue<FormModel>;
@@ -47,72 +47,79 @@ const Vinmonopolet = ({
   getValues,
   isWishlist,
 }: Props) => {
-  /*  const [id, setId] = useState(skipToken);
-    const { data, ...status } = useGetVinmonopoletWineQuery(id);*/
+  const [skip, setSkip] = useState(true);
+  const [id, setId] = useState("");
+  const { data, ...status } = useGetVinmonopoletWineQuery(id, { skip });
+
   const [inputValue, setInputValue] = useState<string>(productId || "");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resetAction, setResetAction] = useState(1);
+
+  const handleSetValues = useCallback(
+    (data: WineBaseModel) => {
+      if (isWishlist) {
+        setValues(data);
+      } else if (setValue && getValues) {
+        switch (resetAction) {
+          case 1:
+            // reset entire form
+            setValues(data);
+            break;
+          case 2:
+            // replace price
+            setValue("price", data.price);
+            break;
+          case 3:
+            // reset everything but except userDetails
+            const { userDetails, ...rest } = data;
+            setValues({ ...rest, userDetails: getValues("userDetails") });
+            break;
+          default:
+            // reset entire form
+            setValues(data);
+            break;
+        }
+      }
+    },
+    [getValues, isWishlist, resetAction, setValue, setValues]
+  );
+
+  useEffect(() => {
+    if (data) {
+      handleSetValues(data);
+      setSkip(true);
+      setIsOpen(false);
+    }
+  }, [data, handleSetValues, setIsOpen]);
 
   const isValidProductId = (val?: string): boolean =>
     val ? /^\d+$/.test(val) : false;
 
   const handleFetchWine = async () => {
-    try {
-      let productId = inputValue.trim();
-      if (
-        productId.includes("https://www.vinmonopolet.no/") &&
-        productId.includes("/p/")
-      ) {
-        productId = productId.split("/p/")[1];
-      }
+    let productId = inputValue.trim();
 
-      // validate product id
-      if (!isValidProductId(productId)) {
-        setError("Error, kunne ikke hente vin med denne produktId'en.");
-        return;
-      }
-
-      setLoading(true);
-
-      const res = (await api.Vinmonopolet.getWineByProductId(
-        productId
-      )) as FormModel;
-
-      if (isWishlist) {
-        setValues(res);
-      } else if (setValue && getValues) {
-        switch (resetAction) {
-          case 1:
-            // reset entire form
-            setValues(res);
-            break;
-          case 2:
-            // replace price
-            setValue("price", res.price);
-            break;
-          case 3:
-            // reset everything but except userDetails
-            const { userDetails, ...rest } = res;
-            setValues({ ...rest, userDetails: getValues("userDetails") });
-            break;
-          default:
-            // reset entire form
-            setValues(res);
-            break;
-        }
-      }
-
-      setIsOpen(false);
-    } catch (error: any) {
-      console.error(error);
-      setError(
-        error?.data?.title ||
-          "Error, kunne ikke hente vin med denne produktId'en"
-      );
-    } finally {
-      setLoading(false);
+    // if its a link
+    if (
+      productId.includes("https://www.vinmonopolet.no/") &&
+      productId.includes("/p/")
+    ) {
+      productId = productId.split("/p/")[1];
     }
+
+    // validate product id
+    if (!isValidProductId(productId)) {
+      setError("Error, kunne ikke hente vin med denne produktId'en.");
+      return;
+    }
+
+    // trigger fetch
+    setId(productId);
+    setSkip(false);
+
+    /*setError(
+      error?.data?.title ||
+        "Error, kunne ikke hente vin med denne produktId'en"
+    );*/
   };
 
   return (
@@ -189,7 +196,7 @@ const Vinmonopolet = ({
         <LoadingButton
           loadingText="Henter vin..."
           disabled={inputValue.length < 1}
-          loading={loading}
+          loading={status.isLoading}
           onClick={handleFetchWine}
           className="h-12 w-full rounded-full justify-center"
         >

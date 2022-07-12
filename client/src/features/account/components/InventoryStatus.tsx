@@ -57,7 +57,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
         {total.map(({ title, data }) => (
           <div
             key={title}
-            className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 rounded-lg bg-slate-50 dark:bg-gray-800/40"
+            className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 rounded-lg bg-slate-50 dark:bg-gray-950"
           >
             <h3 className="font-medium md:mb-4 mb-2  text-gray-700 dark:text-gray-500 uppercase text-sm">
               {title}
@@ -68,7 +68,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           </div>
         ))}
       </div>
-      <div className="bg-slate-50 dark:bg-gray-800/40 rounded-lg p-8">
+      <div className="bg-slate-50 dark:bg-gray-950 rounded-lg p-8">
         <div className="flex items-center mb-4 md:flex-row flex-col gap-x-2 gap-y-4">
           <div className="flex-1">
             <h3 className="font-medium mb-4 text-center text-gray-700 dark:text-gray-500 uppercase text-sm">
@@ -111,7 +111,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
             </div>
           )}
         </div>
-        <div className="bg-slate-50 dark:bg-gray-800/40 col-span-2 rounded-lg dark:shadow-md p-4">
+        <div className="bg-slate-50 dark:bg-gray-800/40 col-span-2 rounded-lg p-4">
           <div className="grid grid-cols-3 gap-2 mb-1 border-b dark:border-gray-700 font-medium">
             <div>Type</div>
             <div className="text-right">Antall</div>

@@ -39,9 +39,13 @@ module.exports = {
         "green-wine-25": "#f4f7f7",
         "green-wine-50": "#e8efef",
         "green-wine-100": "#dae5e6",
+        "green-wine-200": "#6D989B",
         "green-wine-300": "#487e82",
         "green-wine-500": "#1A5E63",
         "green-wine-600": "#154b4f",
+
+        "gray-925": "#101623",
+        "gray-950": "#080b12",
       },
     },
   },

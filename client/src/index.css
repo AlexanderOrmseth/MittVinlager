@@ -8,6 +8,13 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+
+
+}
+
+/* dark scrollbars if darkMode */
+.dark {
+  color-scheme: dark;
 }
 
 @layer components {
@@ -71,7 +78,7 @@
   }
 
   .link {
-    @apply text-green-wine-500 dark:text-green-wine-300 dark:hover:text-green-wine-500 hover:text-green-wine-600 hover:underline font-medium;
+    @apply text-green-wine-500 dark:text-[#59d1d9] hover:text-green-wine-600 hover:underline font-medium;
   }
 
   .text-muted {

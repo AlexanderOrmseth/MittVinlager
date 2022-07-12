@@ -7,8 +7,9 @@ import {
 
 import toast from "react-hot-toast";
 import { User, UserResponse } from "../../app/models/user";
-import api from "../../app/api/api";
+import accountApi from "./accountApi";
 import { ExternalLogin } from "../../app/models/externalLogin";
+import { RootState } from "../../app/store/configureStore";
 
 interface AccountState {
   status: "idle" | "loading";
@@ -33,7 +34,7 @@ export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
   `${namespace}/signIn`,
   async (data, thunkAPI) => {
     try {
-      const user = await api.Account.externalLogin(data);
+      const user = await accountApi.externalLogin(data);
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
@@ -47,10 +48,9 @@ export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
 export const fetchCurrentUser = createAsyncThunk<UserResponse>(
   `${namespace}/fetchCurrentUser`,
   async (_, thunkAPI) => {
-    // set token to state
-    thunkAPI.dispatch(setToken(localStorage.getItem("token")));
     try {
-      const user = await api.Account.currentUser();
+      const token = localStorage.getItem("token")!;
+      const user = await accountApi.currentUser(token);
       // set new generated token
       addLocalStorageToken(user);
       return user;
@@ -70,11 +70,12 @@ export const fetchCurrentUser = createAsyncThunk<UserResponse>(
 
 /* Delete user
  */
-export const deleteUser = createAsyncThunk<void>(
+export const deleteUser = createAsyncThunk<void, void, { state: RootState }>(
   `${namespace}/deleteUser`,
   async (_, thunkAPI) => {
     try {
-      await api.Account.deleteUser();
+      const token = thunkAPI.getState().account.token!;
+      await accountApi.deleteUser(token);
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
@@ -172,4 +173,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setToken } = accountSlice.actions;
+export const { signOut } = accountSlice.actions;

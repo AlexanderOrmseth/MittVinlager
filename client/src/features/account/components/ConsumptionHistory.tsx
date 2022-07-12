@@ -14,7 +14,7 @@ const ConsumptionHistory = ({ lastConsumed }: Props) => {
     );
 
   return (
-    <ul className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
+    <ul className="p-4 mt-4 bg-slate-50 dark:bg-gray-950 space-y-2 rounded-lg">
       {lastConsumed.map((item) => (
         <WineListItem
           key={item.id}
