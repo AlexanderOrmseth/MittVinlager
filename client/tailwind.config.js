@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -24,6 +24,7 @@ module.exports = {
         "success-500": "#04A777",
         "another-green-wine-500": "#04A777",
 
+        "blue-wine-light": "#7296DA",
         "blue-wine-25": "#dee6f5",
         "blue-wine-100": "#7685a1",
         "blue-wine-200": "#5f7092",

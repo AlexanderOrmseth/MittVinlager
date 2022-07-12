@@ -1,8 +1,8 @@
 import { useAppDispatch } from "../../../app/store/configureStore";
 import { setPageNumber } from "../wineSlice";
-import { CaretLeft, CaretRight } from "phosphor-react";
-import { ThreeDots } from "react-loading-icons";
 import ViewModeToggle from "../../../app/components/filter/ViewModeToggle";
+import { ThreeDots } from "react-loading-icons";
+import { CaretLeft, CaretRight } from "phosphor-react";
 import { MetaData } from "../../../app/models/pagination";
 
 interface Props {
@@ -38,7 +38,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
   };
 
   return (
-    <div className="flex items-center border rounded bg-white dark:bg-gray-800/40 dark:border-gray-700 shadow-xxs">
+    <div className="flex items-center border rounded bg-white dark:bg-gray-800/40 dark:border-gray-700">
       {top && (
         <ViewModeToggle disabled={!metaData || metaData.totalCount === 0} />
       )}

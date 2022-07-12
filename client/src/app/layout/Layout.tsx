@@ -17,7 +17,7 @@ const Layout = () => {
             <a
               href="https://github.com/AlexanderOrmseth/MittVinlager"
               target="_blank"
-              className="bg-gray-900 dark:bg-black/60 dark:hover:bg-black hover:bg-black text-white rounded-full px-3 flex items-center gap-x-1 border-white py-1"
+              className="bg-gray-900 dark:bg-black/60 dark:hover:bg-black hover:bg-black text-white rounded px-2 flex items-center gap-x-1 border-white py-1"
               rel="noreferrer"
             >
               <GithubLogo size="1.5rem" />
@@ -26,7 +26,7 @@ const Layout = () => {
             <a
               href="https://www.linkedin.com/in/alexander-ormseth-731b11239/"
               target="_blank"
-              className="bg-[#0a66c2] hover:bg-[#004182] text-white rounded-full px-3 flex items-center gap-x-1  border-white py-1"
+              className="bg-[#0a66c2] hover:bg-[#004182] text-white rounded px-2 flex items-center gap-x-1  border-white py-1"
               rel="noreferrer"
             >
               <LinkedinLogo size="1.5rem" />

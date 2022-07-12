@@ -12,13 +12,14 @@ import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
-  const { darkMode } = useAppSelector((state) => state.theme);
-  const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
+  const { darkMode } = useAppSelector((state) => state.theme);
+  const { user } = useAppSelector((state) => state.account);
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <div
       ref={divRef}
@@ -29,14 +30,14 @@ const Header = () => {
       <Link
         onClick={() => setOpen(false)}
         to="/"
-        className="text-xl font-medium flex flex-row gap-2 dark:text-gray-200 items-center"
+        className="text-xl font-medium flex flex-wrap flex-row gap-2 dark:text-gray-200 items-center"
       >
         <Wine
           size="1.75rem"
           weight="duotone"
           className="text-gray-500 dark:text-gray-400"
         />
-        Mitt Vinlager
+        <h1 className="flex-1 leading-5">Mitt Vinlager</h1>
       </Link>
 
       <nav

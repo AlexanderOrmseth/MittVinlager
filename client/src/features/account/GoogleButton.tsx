@@ -39,7 +39,6 @@ const GoogleButton = () => {
       google.accounts.id.renderButton(googleButton.current, {
         theme: "outline",
         size: "large",
-        shape: "circle",
       });
     } catch (error) {
       console.error(error);

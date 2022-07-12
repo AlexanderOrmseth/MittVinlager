@@ -24,6 +24,7 @@ interface Props {
   wine: Wine;
   handleDeleteWine: (id: number, name: string) => void;
 }
+
 const WineCard = ({ wine, handleDeleteWine }: Props) => {
   const navigate = useNavigate();
   return (
@@ -64,7 +65,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           {wine.name}
         </h4>
 
-        <div className="flex text-sm justify-center flex-wrap items-center text-gray-500 dark:text-gray-300 flex-row gap-2 comma">
+        <div className="flex text-sm justify-center flex-wrap items-center text-muted flex-row gap-2 comma">
           <div>{wine.type}</div>
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
           {wine.volume && wine.volume > 0 && (
@@ -84,7 +85,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           {(!!wine.userDetails.userRating ||
             wine.userDetails.favorite ||
             wine.userDetails.score) && (
-            <div className="flex flex-row text-sm items-center gap-4">
+            <div className="flex flex-row flex-wrap text-sm items-center gap-4">
               {!!wine.userDetails.userRating && (
                 <Stars stars={wine.userDetails.userRating} size="1.25rem" />
               )}
@@ -93,7 +94,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 <HeartStraight
                   size="1.25rem"
                   weight="duotone"
-                  className="text-wine-500 dark:text-wine-300"
+                  className="text-muted"
                 />
               )}
 
@@ -104,14 +105,14 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           )}
         </div>
 
-        <div className="flex flex-row justify-center items-center gap-2">
-          <div className="comma flex flex-row gap-x-2 text-sm text-gray-500 dark:text-gray-300 flex-wrap items-center">
+        <div className="i-flex-row justify-center">
+          <div className="comma i-flex-row text-sm text-muted flex-wrap">
             {wine.country && (
               <>
                 <span
                   className={`f16 flag ${wine.countryId && wine.countryId}`}
                 />
-                <span className="font-medium text-gray-700 dark:text-gray-200">
+                <span className="font-medium text-less-muted">
                   {wine.country}
                 </span>
               </>
@@ -120,33 +121,21 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             {wine.subRegion && <span>{wine.subRegion}</span>}
           </div>
         </div>
-        <div className="flex text-sm items-center text-gray-700 dark:text-gray-400 justify-around flex-wrap flex-row gap-x-4 gap-y-2">
-          <div className="flex items-center flex-row gap-2">
-            <BeerBottle
-              size="1.25rem"
-              weight="duotone"
-              className="text-slate-500 dark:text-gray-400"
-            />
+        <div className="flex text-sm items-center text-less-muted justify-around flex-wrap flex-row gap-x-4 gap-y-2">
+          <div className="i-flex-row">
+            <BeerBottle size="1.25rem" weight="duotone" />
             {wine.userDetails.quantity}
           </div>
           {!!wine.price && (
-            <div className="flex items-center flex-row gap-2">
-              <Coins
-                size="1.25rem"
-                weight="duotone"
-                className="text-slate-500 dark:text-gray-400"
-              />
+            <div className="i-flex-row">
+              <Coins size="1.25rem" weight="duotone" />
               {formatPrice(wine.price)}
             </div>
           )}
 
           {wine.createdAt && (
-            <div className="flex text-sm items-center flex-row gap-2">
-              <CalendarBlank
-                size="1.25rem"
-                weight="duotone"
-                className="text-slate-500 dark:text-gray-400"
-              />
+            <div className="i-flex-row">
+              <CalendarBlank size="1.25rem" weight="duotone" />
               <Time date={wine.createdAt} />
             </div>
           )}
