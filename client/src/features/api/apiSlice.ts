@@ -1,15 +1,30 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PaginatedResponse } from "../../app/models/pagination";
-import { FormModel, Wine } from "../../app/models/wine";
+import { FormModel, Wine, WineFilters } from "../../app/models/wine";
 import { RootState } from "../../app/store/configureStore";
 import { WineParams } from "../../app/api/params";
 import { serialize } from "object-to-formdata";
+import { Country } from "../../app/models/country";
+import { StatisticsResponse } from "../../app/models/statistics";
+import { BaseWishlistItem, WishlistResponse } from "../../app/models/wishlist";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
+/*
+ *   TODO:
+ *
+ *   // find out if i should send void/undefined/null without parameters
+ *   queryCacheKey: 'getStatistics(undefined)',
+ *
+ *   //PARSING_ERROR on some rejected -> they still work tho?? wut
+ *
+ *
+ *
+ * */
+
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["Wines"],
+  tagTypes: ["Wines", "Statistics", "Wishlist"],
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
@@ -75,7 +90,10 @@ export const apiSlice = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: [{ type: "Wines", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Wines", id: "LIST" },
+        { type: "Statistics", id: "LIST" },
+      ],
     }),
     /* Add wine
      * */
@@ -87,7 +105,10 @@ export const apiSlice = createApi({
           body: serialize(data),
         };
       },
-      invalidatesTags: [{ type: "Wines", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Wines", id: "LIST" },
+        { type: "Statistics", id: "LIST" },
+      ],
     }),
     /* Update wine
      * */
@@ -99,7 +120,90 @@ export const apiSlice = createApi({
           body: serialize(data),
         };
       },
-      invalidatesTags: [{ type: "Wines", id: "LIST" }],
+      invalidatesTags: [
+        { type: "Wines", id: "LIST" },
+        { type: "Statistics", id: "LIST" },
+      ],
+    }),
+    /*
+     *  Get wine statistics
+     * */
+    getStatistics: builder.query<StatisticsResponse, void>({
+      query() {
+        return {
+          url: "wine/statistics",
+          method: "GET",
+        };
+      },
+      providesTags: [{ type: "Statistics", id: "LIST" }],
+    }),
+    /*
+     *  Get wine filters
+     * */
+    getWineFilters: builder.query<WineFilters, void>({
+      query() {
+        return {
+          url: "wine/filters",
+          method: "GET",
+        };
+      },
+    }),
+    /*
+     *  Get Countries from vinmonopolet
+     * */
+    getVinmonopoletCountries: builder.query<Country[], void>({
+      query() {
+        return {
+          url: "vinmonopolet/countries",
+          method: "GET",
+        };
+      },
+    }),
+
+    /*
+     *  **********************************************
+     * */
+
+    /* Get wishlist
+     * */
+    getWishlist: builder.query<WishlistResponse, void>({
+      query: () => ({
+        url: "wishlist",
+        method: "GET",
+      }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "Wishlist" as const,
+                id,
+              })),
+              { type: "Wishlist", id: "LIST" },
+            ]
+          : [{ type: "Wishlist", id: "LIST" }],
+    }),
+    /* Delete wishlist item
+     * */
+    deleteWishlistItem: builder.mutation<void, number>({
+      query(id) {
+        return {
+          url: `/wishlist/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
+    }),
+    /* Add wishlist item
+     * */
+    addWishlistItem: builder.mutation<WishlistResponse, BaseWishlistItem>({
+      query(data) {
+        return {
+          url: "/wishlist",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
     }),
   }),
 });
@@ -110,4 +214,12 @@ export const {
   useDeleteWineMutation,
   useAddWineMutation,
   useUpdateWineMutation,
+  useGetStatisticsQuery,
+  useGetVinmonopoletCountriesQuery,
+  useGetWineFiltersQuery,
+
+  // wishlist
+  useGetWishlistQuery,
+  useAddWishlistItemMutation,
+  useDeleteWishlistItemMutation,
 } = apiSlice;

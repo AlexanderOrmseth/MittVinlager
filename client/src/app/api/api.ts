@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import toast from "react-hot-toast";
 import { PaginatedResponse } from "../models/pagination";
-import { WishItem } from "../models/wishItem";
 import { store } from "../store/configureStore";
 import { ExternalLogin } from "../models/externalLogin";
 
@@ -73,13 +72,6 @@ const Account = {
 const Vinmonopolet = {
   getWineByProductId: (productId: string) =>
     requests.get(`vinmonopolet/${productId}`),
-  getCountries: () => requests.get("vinmonopolet/countries"),
-};
-
-const Wine = {
-  getFilters: () => requests.get("wine/filters"),
-  getStatistics: (config?: AxiosRequestConfig) =>
-    requests.get("wine/statistics", undefined, config),
 };
 
 const Consumed = {
@@ -90,20 +82,10 @@ const Consumed = {
     requests.delete(`wine/consumed/${consumedId}`),
 };
 
-const Wishlist = {
-  getWishlist: (config?: AxiosRequestConfig) =>
-    requests.get("wishlist", undefined, config),
-  deleteWishItem: (id: number) => requests.delete(`wishlist/${id}`),
-  addWishItem: (newWishItem: WishItem) =>
-    requests.post("wishlist", newWishItem),
-};
-
 const api = {
   Account,
   Vinmonopolet,
-  Wine,
   Consumed,
-  Wishlist,
 };
 
 export default api;

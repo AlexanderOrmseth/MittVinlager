@@ -1,32 +1,24 @@
 import { Trash } from "phosphor-react";
-import { useState } from "react";
-import api from "../../app/api/api";
 import WineListItem from "../../app/components/wine/WineListItem";
-import { WishItem } from "../../app/models/wishItem";
-import { useAppDispatch } from "../../app/store/configureStore";
+import { WishlistItem } from "../../app/models/wishlist";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
-import { removeWishlistItem } from "./wishlistSlice";
+import { useDeleteWishlistItemMutation } from "../api/apiSlice";
 
 interface Props {
-  items: WishItem[];
+  items: WishlistItem[];
 }
+
 const WishlistList = ({ items }: Props) => {
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
+  const [deleteWishlistItem, { isLoading, isSuccess, isError }] =
+    useDeleteWishlistItemMutation();
 
   // delete item
   const handleDeleteWishItem = async (id: number) => {
-    setLoading(true);
-    try {
-      const response = await api.Wishlist.deleteWishItem(id);
-      dispatch(removeWishlistItem(id));
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    await deleteWishlistItem(id)
+      .unwrap()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -49,7 +41,7 @@ const WishlistList = ({ items }: Props) => {
               )}
             </div>
             <button
-              disabled={loading}
+              disabled={isLoading}
               onClick={() => handleDeleteWishItem(wishItem.id)}
               className="btn-white flex flex-row items-center gap-x-2 py-1.5 w-auto disabled:opacity-50 disabled:cursor-not-allowed"
             >

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import AsideDisclosure from "../../../app/components/AsideDisclosure";
 import WineCheckboxFilter from "../../../app/components/filter/WineCheckboxFilter";
 import WineSearch from "../../../app/components/filter/WineSearch";
@@ -7,20 +6,23 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { getFilters } from "../slices/wineAsyncThunks";
 import { resetParams, setParams } from "../slices/wineSlice";
+import { useGetWineFiltersQuery } from "../../api/apiSlice";
+import { MetaData } from "../../../app/models/pagination";
 
-const WineFilter = () => {
-  const { filtersFetched, filterOptions, wineParams, status, metaData } =
-    useAppSelector((state) => state.wine);
+interface Props {
+  metaData: MetaData | null;
+}
+
+const WineFilter = ({ metaData }: Props) => {
+  const { wineParams } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
-  // Fetch filters
-  useEffect(() => {
-    if (!filtersFetched) dispatch(getFilters());
-  }, [filtersFetched, dispatch]);
+  const { data: filters, ...filterStatus } = useGetWineFiltersQuery();
 
-  const disabled = status === "loading" || !metaData?.totalCount;
+  if (!filters) return null;
+
+  const disabled = filterStatus.isLoading || !metaData?.totalCount;
 
   return (
     <aside className="basis-60 relative">
@@ -76,7 +78,7 @@ const WineFilter = () => {
             onChange={(items: string[]) =>
               dispatch(setParams({ countries: items }))
             }
-            items={filterOptions.countries}
+            items={filters.countries}
             checked={wineParams.countries}
           />
         </AsideDisclosure>
@@ -87,7 +89,7 @@ const WineFilter = () => {
             onChange={(items: string[]) =>
               dispatch(setParams({ types: items }))
             }
-            items={filterOptions.types}
+            items={filters.types}
             checked={wineParams.types}
           />
         </AsideDisclosure>

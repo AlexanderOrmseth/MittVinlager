@@ -1,11 +1,13 @@
-import { useAppSelector } from "../../app/store/configureStore";
 import WineListItem from "../../app/components/wine/WineListItem";
 import { InfoBox } from "../../app/components/InfoBox";
 import Time from "../../app/components/Time";
+import { LastPurchased } from "../../app/models/statistics";
 
-const History = () => {
-  const { lastPurchased } = useAppSelector((state) => state.statistics);
+interface Props {
+  lastPurchased: LastPurchased[];
+}
 
+const History = ({ lastPurchased }: Props) => {
   if (!lastPurchased || lastPurchased.length === 0)
     return (
       <InfoBox message="Ingen data å vise, du kan registrere en kjøpsdato når du legger til en vin." />

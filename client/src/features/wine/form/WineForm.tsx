@@ -15,12 +15,6 @@ import {
   PencilSimpleLine,
   PlusCircle,
 } from "phosphor-react";
-
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../app/store/configureStore";
-import { getCountries } from "../slices/wineAsyncThunks";
 import { ThreeDots } from "react-loading-icons";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -32,6 +26,7 @@ import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal"
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
+import { useGetVinmonopoletCountriesQuery } from "../../api/apiSlice";
 
 interface Props {
   onSubmit: (data: FormModel) => void;
@@ -98,8 +93,9 @@ const tabAnim = {
 };
 
 const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
-  const dispatch = useAppDispatch();
-  const { countries, countryStatus } = useAppSelector((state) => state.wine);
+  const { data: countries, ...countryStatus } =
+    useGetVinmonopoletCountriesQuery();
+
   const [isOpen, setIsOpen] = useState(false);
   const [vinmonopoletModalIsOpen, setVinmonopoletModalIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
@@ -164,10 +160,10 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
     trigger("userDetails.drinkingWindowMax");
   }, [watchDrinkingWindowMin, trigger]);
 
-  // fetch countries
+  /*// fetch countries
   useEffect(() => {
     if (!countries) dispatch(getCountries());
-  }, [dispatch, countries]);
+  }, [dispatch, countries]);*/
 
   // Count errors in tabs
   const getErrorCount = (keyNames: Keys[], userDetails = false) => {
@@ -345,7 +341,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                         label="Produsent"
                         placeholder="produsent"
                       />
-                      {countryStatus === "loading" ? (
+                      {countryStatus.isLoading ? (
                         <div className="flex items-center flex-col justify-center space-x-4">
                           <ThreeDots
                             height={"2rem"}

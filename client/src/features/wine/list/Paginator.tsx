@@ -39,7 +39,9 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
 
   return (
     <div className="flex items-center border rounded bg-white dark:bg-gray-800/40 dark:border-gray-700 shadow-xxs">
-      {top && <ViewModeToggle />}
+      {top && (
+        <ViewModeToggle disabled={!metaData || metaData.totalCount === 0} />
+      )}
       <div
         className={` ${
           top ? "" : ""

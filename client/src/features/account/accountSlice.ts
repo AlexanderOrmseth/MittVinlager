@@ -172,4 +172,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setUser, setToken } = accountSlice.actions;
+export const { signOut, setToken } = accountSlice.actions;

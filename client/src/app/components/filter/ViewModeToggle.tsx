@@ -1,15 +1,19 @@
 import { Switch } from "@headlessui/react";
-import { SquaresFour, Rows } from "phosphor-react";
+import { Rows, SquaresFour } from "phosphor-react";
 import { setGridView } from "../../../features/wine/slices/wineSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 
-const ViewModeToggle = () => {
-  const { gridView, status } = useAppSelector((state) => state.wine);
+interface Props {
+  disabled?: boolean;
+}
+
+const ViewModeToggle = ({ disabled }: Props) => {
+  const { gridView } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
 
   return (
     <Switch
-      disabled={status === "loading"}
+      disabled={disabled}
       checked={gridView}
       onChange={() => dispatch(setGridView(!gridView))}
       className={`relative flex bg-slate-50 hover:bg-slate-100 transition-colors duration-100 w-24 h-full rounded-l-sm border-r`}

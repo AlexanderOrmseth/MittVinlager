@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import {
   CalendarBlank,
   ChartPieSlice,
@@ -6,52 +6,43 @@ import {
   IdentificationBadge,
   User,
 } from "phosphor-react";
-import { useState } from "react";
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import Title from "../../app/layout/Title";
-import { useAppDispatch, useAppSelector } from "../../app/store/configureStore";
+import { useAppSelector } from "../../app/store/configureStore";
 import History from "../statistics/History";
 import Statistics from "../statistics/Statistics";
-import { getStatistics } from "../statistics/statisticsSlice";
 import Consumed from "../statistics/Consumed";
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
+import { useGetStatisticsQuery } from "../api/apiSlice";
 
 const ProfilePage = () => {
-  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.account);
-
-  const { statisticsFetched, status } = useAppSelector(
-    (state) => state.statistics
-  );
+  const { data, isLoading, isSuccess, isError } = useGetStatisticsQuery();
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (!statisticsFetched) dispatch(getStatistics());
-  }, [dispatch, statisticsFetched]);
-
   let content;
-  if (status === "loading") {
+  if (isLoading) {
     content = <Spinner text="Laster statistikk..." />;
-  } else if (status === "rejected") {
-    content = <ErrorBox message="Error, kunne ikke hente statistikk" />;
-  } else {
+  } else if (isSuccess) {
     content = (
       <>
         <section>
           <Title title="Lagerstatus" border Icon={ChartPieSlice} />
-          <Statistics />
+          <Statistics inventoryStatus={data.inventoryStatus} />
         </section>
         <section>
           <Title title="Sist kjøpt" border Icon={CalendarBlank} />
-          <History />
+          <History lastPurchased={data.lastPurchased} />
         </section>
         <section>
           <Title title="Sist drukket" border Icon={CalendarBlank} />
-          <Consumed />
+          <Consumed lastConsumed={data.lastConsumed} />
         </section>
       </>
     );
+  } else if (isError) {
+    content = <ErrorBox message="Error, kunne ikke hente statistikk" />;
   }
 
   return (
@@ -79,7 +70,6 @@ const ProfilePage = () => {
             </div>
           )}
         </section>
-
         {content}
       </div>
     </>

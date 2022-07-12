@@ -8,7 +8,6 @@ import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
 import { toggleTheme } from "../../features/themeSlice";
-import { resetStatistics } from "../../features/statistics/statisticsSlice";
 import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {
@@ -81,7 +80,6 @@ const Header = () => {
                   fnc: () => {
                     dispatch(signOut());
                     dispatch(resetAll());
-                    dispatch(resetStatistics());
                   },
                 },
               ]}

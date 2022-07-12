@@ -73,10 +73,10 @@ public class WineController : BaseApiController
     public async Task<ActionResult<object>> GetStatistics(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-        var data = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
+        var inventoryStatus = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
         var lastPurchased = await _wineRepository.GetLastPurchases(userId, cancellationToken);
         var lastConsumed = await _wineRepository.GetLastConsumed(userId, cancellationToken);
-        return Ok(new {data, lastPurchased, lastConsumed});
+        return Ok(new {inventoryStatus, lastPurchased, lastConsumed});
     }
 
     /// <summary>
