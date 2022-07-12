@@ -8,27 +8,23 @@ import { useAddWineMutation } from "../api/apiSlice";
 
 const NewWinePage = () => {
   const navigate = useNavigate();
+  const [addWine] = useAddWineMutation();
   const [serverErrors, setServerErrors] = useState<Record<
     string,
     string[]
   > | null>(null);
 
-  const [addWine, { isLoading, error, isSuccess, isError }] =
-    useAddWineMutation();
-
   const onSubmit = async (data: FormModel) => {
-    console.log(data);
     await addWine(data)
       .unwrap()
-      .then((res) => {
-        console.log("adding wine response", res);
-        navigate("/inventory");
-      })
+      .then(() => navigate("/inventory"))
       .catch((err) => {
-        console.error("Adding wine error", err);
-        if (err) {
-          setServerErrors(err);
+        // show server validation errors
+        if (err?.data?.errors) {
+          setServerErrors(err.data.errors);
+          return;
         }
+        console.error("Adding wine error", err);
       });
   };
 

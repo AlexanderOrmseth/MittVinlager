@@ -122,6 +122,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
   const watchFile = watch("file", null);
   const watchDrinkingWindowMin = watch("userDetails.drinkingWindowMin");
 
+  // Convert .Net Validation Errors to RHF
   useEffect(() => {
     if (!serverErrors) return;
     for (const [key, value] of Object.entries(serverErrors)) {

@@ -12,8 +12,7 @@ const UpdateWinePage = () => {
   const navigate = useNavigate();
   const { wine, id, status: wineStatus } = useFetchSingleWine();
 
-  // update wine
-  const [updateWine, updateWineStatus] = useUpdateWineMutation();
+  const [updateWine] = useUpdateWineMutation();
 
   const [serverErrors, setServerErrors] = useState<Record<
     string,
@@ -21,25 +20,23 @@ const UpdateWinePage = () => {
   > | null>(null);
 
   if (wineStatus.isLoading) return <Spinner text="Laster vin..." />;
-  else if (!wine) return <div>vinen eksisterer ikke!</div>;
+  else if (wineStatus.isError) return <div>vinen eksisterer ikke!</div>;
 
   const onSubmit = async (data: FormModel) => {
     if (!id) {
       console.log("Id was undefined or null");
       return;
     }
-    console.log(data);
     await updateWine({ id, data })
       .unwrap()
-      .then((res) => {
-        console.log("adding wine response", res);
-        navigate("/inventory");
-      })
+      .then(() => navigate("/inventory"))
       .catch((err) => {
-        console.error("Adding wine error", err);
-        if (err) {
-          setServerErrors(err);
+        // show server validation errors
+        if (err?.data?.errors) {
+          setServerErrors(err.data.errors);
+          return;
         }
+        console.error("Update wine error", err);
       });
   };
 
@@ -51,11 +48,13 @@ const UpdateWinePage = () => {
           å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
-      <CreateOrUpdate
-        onSubmit={onSubmit}
-        wine={wine}
-        serverErrors={serverErrors}
-      />
+      {wineStatus.isSuccess && (
+        <CreateOrUpdate
+          onSubmit={onSubmit}
+          wine={wine}
+          serverErrors={serverErrors}
+        />
+      )}
     </div>
   );
 };

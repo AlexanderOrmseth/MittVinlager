@@ -21,32 +21,41 @@ interface Props {
 }
 
 const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
-  const { data, isLoading, isFetching, isError, error } =
-    useGetConsumedDatesByWineIdQuery(wineId);
+  const { data, isLoading } = useGetConsumedDatesByWineIdQuery(wineId);
   const [addDate, addDateStatus] = useAddConsumedDateMutation();
-  const [deleteDate, deleteDateStatus] = useDeleteConsumedDateByIdMutation();
+  const [deleteDate] = useDeleteConsumedDateByIdMutation();
+  const [error, setError] = useState<string | null | undefined>(null);
   const [date, setDate] = useState<Date | null>(null);
 
-  // add consumed date
-  const handleAddConsumed = async () => {
+  const handleAddDate = async () => {
     if (!date || !wineId || !quantity) return;
-    try {
-      await addDate({ id: wineId, data: date }).unwrap();
-      setDate(null);
-      setIsOpen(false);
-    } catch (error: any) {
-      console.error(error);
-    }
+
+    await addDate({ id: wineId, data: date })
+      .unwrap()
+      .then(() => {
+        setDate(null);
+        setIsOpen(false);
+      })
+      .catch((error) => {
+        if ("data" in error) {
+          setError(error.data.title || "Error! Kunne ikke legge til dato.");
+        }
+        console.error("rejected", error);
+      });
   };
 
-  // delete consumed date
-  const handleDeleteConsumed = async (id: number) => {
+  const handleDeleteDate = async (id: number) => {
     if (!wineId || !id || !data) return;
-    try {
-      await deleteDate(id);
-    } catch (error: any) {
-      console.error(error);
-    }
+
+    await deleteDate(id)
+      .unwrap()
+      .then(() => setDate(null))
+      .catch((error) => {
+        if ("data" in error) {
+          setError(error.data.title || "Error! Kunne ikke legge til dato.");
+        }
+        console.error("rejected", error);
+      });
   };
 
   return (
@@ -79,7 +88,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
               </div>
             </AsideDisclosure>
 
-            {error && <ErrorBox message={"error"} />}
+            {error && <ErrorBox message={error} />}
 
             {data && data.length > 0 ? (
               <div className="my-4 p-2 border rounded-lg dark:border-gray-700">
@@ -89,7 +98,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
                 <ul className="space-y-1">
                   {data.map((item) => (
                     <ConsumedWine
-                      deleteConsumed={handleDeleteConsumed}
+                      deleteDate={handleDeleteDate}
                       date={item.date}
                       id={item.id}
                       key={item.id}
@@ -116,8 +125,8 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
               </div>
               <div className="grid mt-4 grid-cols-1 gap-2">
                 <LoadingButton
-                  onClick={handleAddConsumed}
-                  loading={isLoading}
+                  onClick={handleAddDate}
+                  loading={isLoading || addDateStatus.isLoading}
                   disabled={!date || !quantity}
                   loadingText="Legger til dato..."
                   className="justify-center h-12 rounded-full"
