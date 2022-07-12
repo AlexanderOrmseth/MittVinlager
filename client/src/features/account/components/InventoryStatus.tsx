@@ -2,7 +2,7 @@ import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../../app/util/format";
 import { Link } from "react-router-dom";
 import { InfoBox } from "../../../app/components/InfoBox";
-import { InventoryStatus } from "../../../app/models/statistics";
+import { InventoryStatus as IventoryStatusInterface } from "../../../app/models/statistics";
 
 // chart colors
 const chartColors = [
@@ -27,10 +27,10 @@ const chartOptions = {
 };
 
 interface Props {
-  inventoryStatus: InventoryStatus[];
+  inventoryStatus: IventoryStatusInterface[];
 }
 
-const Statistics = ({ inventoryStatus }: Props) => {
+const InventoryStatus = ({ inventoryStatus }: Props) => {
   if (!inventoryStatus || inventoryStatus.length === 0)
     return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
 
@@ -138,4 +138,4 @@ const Statistics = ({ inventoryStatus }: Props) => {
   );
 };
 
-export default Statistics;
+export default InventoryStatus;

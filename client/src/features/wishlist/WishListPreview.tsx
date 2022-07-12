@@ -3,7 +3,7 @@ import LoadingButton from "../../app/components/LoadingButton";
 import { FormModel } from "../../app/models/wine";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletImage } from "../../app/util/vinmonopolet";
-import { useAddWishlistItemMutation } from "./wishlistSlice";
+import { useAddWishlistItemMutation } from "./wishlistApi";
 
 interface Props {
   wine: FormModel | null;

@@ -51,9 +51,14 @@
   }
 
   .btn-white {
-    @apply select-none w-full shadow-xxs rounded-md
-    bg-white dark:bg-gray-800/50 dark:border-gray-700 px-4 py-2 border transition-all cursor-pointer font-medium
-    text-sm hover:bg-slate-50 dark:hover:border-gray-600 dark:hover:bg-gray-800/30 active:bg-slate-100 active:text-gray-700 dark:active:text-gray-100;
+    @apply select-none w-full rounded appearance-none
+    px-4 py-2 border cursor-pointer font-medium text-sm
+    bg-white
+    dark:bg-gray-800/50
+    dark:border-gray-700
+    hover:border-gray-300 dark:hover:border-gray-600
+    dark:hover:bg-gray-800/30 active:bg-slate-100
+    active:text-gray-700 dark:active:text-gray-100 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   .disabled-btn {

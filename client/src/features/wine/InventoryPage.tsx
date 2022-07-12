@@ -7,12 +7,15 @@ import Paginator from "./list/Paginator";
 
 const InventoryPage = () => {
   const params = useAppSelector(getParams);
-  const { data, isLoading, isSuccess } = useGetAllWineQuery(params);
+  const { data, isLoading, isSuccess, isFetching } = useGetAllWineQuery(params);
 
   return (
     <>
       <div className="flex flex-grow flex-1 min-h-full gap-4 sm:flex-row flex-col">
-        <WineFilter metaData={data?.metaData || null} />
+        <WineFilter
+          metaData={data?.metaData || null}
+          isFetchingWine={isFetching}
+        />
 
         <div className="flex flex-1 flex-col">
           <Paginator

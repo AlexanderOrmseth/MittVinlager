@@ -6,27 +6,57 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { resetParams, setParams } from "../wineSlice";
+import { getParams, resetParams, setParams } from "../wineSlice";
 import { useGetWineFiltersQuery } from "../../api/apiSlice";
 import { MetaData } from "../../../app/models/pagination";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { Info } from "phosphor-react";
 
 interface Props {
   metaData: MetaData | null;
+  isFetchingWine: boolean;
 }
 
-const WineFilter = ({ metaData }: Props) => {
-  const { wineParams } = useAppSelector((state) => state.wine);
+const checkMismatch = (paramsArr: string[], filterArr: string[]): boolean => {
+  return paramsArr.some((s) => !filterArr.includes(s));
+};
+
+const WineFilter = ({ metaData, isFetchingWine }: Props) => {
+  const params = useAppSelector(getParams);
   const dispatch = useAppDispatch();
 
   const { data: filters, ...filterStatus } = useGetWineFiltersQuery();
 
+  // check for mismatch and reset params
+  useEffect(() => {
+    if (filters && !filterStatus.isLoading) {
+      if (
+        checkMismatch(params.types, filters.types) ||
+        checkMismatch(params.countries, filters.countries)
+      ) {
+        dispatch(resetParams());
+        toast("Filter ble tilbakestilt", {
+          icon: <Info size={28} className="text-orange-600" />,
+        });
+      }
+    }
+  }, [
+    dispatch,
+    filterStatus.isLoading,
+    filters,
+    params.countries,
+    params.types,
+  ]);
+
   if (!filters) return null;
 
-  const disabled = filterStatus.isLoading || !metaData?.totalCount;
+  const disabled =
+    filterStatus.isLoading || !metaData?.totalCount || isFetchingWine;
 
   return (
     <aside className="basis-60 relative">
-      <div className="space-y-4 sm:pb-0 sm:sticky sm:top-4 sm:overflow-y-auto sm:pr-2 sm:max-h-[calc(100vh-4rem)]">
+      <div className="space-y-4 sm:pb-0 sm:sticky sm:top-4 sm:overflow-y-auto sm:pl-2 sm:pr-2 sm:max-h-[calc(100vh-4rem)]">
         <ListBox
           label="Sorter"
           items={[
@@ -60,7 +90,7 @@ const WineFilter = ({ metaData }: Props) => {
             },
           ]}
           disabled={disabled}
-          selected={wineParams.orderBy}
+          selected={params.orderBy}
           onChange={(item: string) => dispatch(setParams({ orderBy: item }))}
         />
         <button
@@ -79,7 +109,7 @@ const WineFilter = ({ metaData }: Props) => {
               dispatch(setParams({ countries: items }))
             }
             items={filters.countries}
-            checked={wineParams.countries}
+            checked={params.countries}
           />
         </AsideDisclosure>
 
@@ -90,7 +120,7 @@ const WineFilter = ({ metaData }: Props) => {
               dispatch(setParams({ types: items }))
             }
             items={filters.types}
-            checked={wineParams.types}
+            checked={params.types}
           />
         </AsideDisclosure>
       </div>

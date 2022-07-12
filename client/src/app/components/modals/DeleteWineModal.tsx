@@ -7,7 +7,7 @@ import { useDeleteWineMutation } from "../../../features/api/apiSlice";
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
-  wineToDelete: { id: number | null; name: string | null };
+  wineToDelete: { id: number | null | undefined; name: string | null };
   shouldNavigate?: boolean;
 }
 

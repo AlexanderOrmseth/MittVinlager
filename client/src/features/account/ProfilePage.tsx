@@ -9,9 +9,9 @@ import {
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import Title from "../../app/layout/Title";
 import { useAppSelector } from "../../app/store/configureStore";
-import History from "./components/History";
-import Statistics from "./components/Statistics";
-import Consumed from "./components/Consumed";
+import PurchaseHistory from "./components/PurchaseHistory";
+import InventoryStatus from "./components/InventoryStatus";
+import ConsumptionHistory from "./components/ConsumptionHistory";
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
 import { useGetStatisticsQuery } from "../api/apiSlice";
@@ -29,15 +29,15 @@ const ProfilePage = () => {
       <>
         <section>
           <Title title="Lagerstatus" border Icon={ChartPieSlice} />
-          <Statistics inventoryStatus={data.inventoryStatus} />
+          <InventoryStatus inventoryStatus={data.inventoryStatus} />
         </section>
         <section>
           <Title title="Sist kjøpt" border Icon={CalendarBlank} />
-          <History lastPurchased={data.lastPurchased} />
+          <PurchaseHistory lastPurchased={data.lastPurchased} />
         </section>
         <section>
           <Title title="Sist drukket" border Icon={CalendarBlank} />
-          <Consumed lastConsumed={data.lastConsumed} />
+          <ConsumptionHistory lastConsumed={data.lastConsumed} />
         </section>
       </>
     );

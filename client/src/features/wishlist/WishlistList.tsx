@@ -3,7 +3,7 @@ import WineListItem from "../../app/components/wine/WineListItem";
 import { WishlistItem } from "../../app/models/wishlist";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
-import { useDeleteWishlistItemMutation } from "./wishlistSlice";
+import { useDeleteWishlistItemMutation } from "./wishlistApi";
 
 interface Props {
   items: WishlistItem[];
@@ -22,7 +22,7 @@ const WishlistList = ({ items }: Props) => {
   };
 
   return (
-    <div className="flex-1 p-4 bg-slate-50 dark:bg-gray-800/40 rounded-lg space-y-2">
+    <ul className="flex-1 p-4 bg-slate-50 dark:bg-gray-800/40 rounded-lg space-y-2">
       {items.map((wishItem) => (
         <WineListItem
           key={wishItem.id}
@@ -55,7 +55,7 @@ const WishlistList = ({ items }: Props) => {
           </>
         </WineListItem>
       ))}
-    </div>
+    </ul>
   );
 };
 

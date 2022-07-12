@@ -125,7 +125,7 @@ const DetailsPage = () => {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
           shouldNavigate
-          wineToDelete={{ id: id ? parseInt(id) : null, name: wine.name }}
+          wineToDelete={{ id, name: wine.name }}
         />
       </>
     );

@@ -47,6 +47,9 @@ public class WineController : BaseApiController
         var count = await _wineRepository.CountAll(userId, cancellationToken);
         var query = _wineRepository.GetAll(userId, wineParams, MapWineToDto);
 
+        // TODO: REMOVE THIS
+        await Task.Delay(800, cancellationToken);
+
         // query with filers
         var wines =
             await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, count, cancellationToken);
@@ -366,7 +369,7 @@ public class WineController : BaseApiController
     /// <param name="date"></param>
     /// <param name="wineId"></param>
     [HttpPost("consumed/{wineId:int}")]
-    public async Task<ActionResult> Consumed([FromBody] DateTime date, int wineId)
+    public async Task<ActionResult> Consumed([FromBody] DateTime date, [FromRoute] int wineId)
     {
         Console.WriteLine(date);
 

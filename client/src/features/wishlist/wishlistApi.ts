@@ -15,7 +15,7 @@ const wishlistApi = apiSlice.injectEndpoints({
           ? [
               ...result.map(({ id }) => ({
                 type: "Wishlist" as const,
-                id,
+                id: id,
               })),
               { type: "Wishlist", id: "LIST" },
             ]
@@ -30,7 +30,7 @@ const wishlistApi = apiSlice.injectEndpoints({
           method: "DELETE",
         };
       },
-      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
+      invalidatesTags: (result, error, arg) => [{ type: "Wishlist", id: arg }],
     }),
     /* Add wishlist item
      * */
@@ -48,7 +48,6 @@ const wishlistApi = apiSlice.injectEndpoints({
 });
 
 export const {
-  // wishlist
   useGetWishlistQuery,
   useAddWishlistItemMutation,
   useDeleteWishlistItemMutation,

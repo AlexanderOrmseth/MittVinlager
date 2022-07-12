@@ -47,6 +47,8 @@ const Vinmonopolet = ({
   getValues,
   isWishlist,
 }: Props) => {
+  /*  const [id, setId] = useState(skipToken);
+    const { data, ...status } = useGetVinmonopoletWineQuery(id);*/
   const [inputValue, setInputValue] = useState<string>(productId || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -126,9 +128,9 @@ const Vinmonopolet = ({
           Gå til Vinmonopolet.no
         </a>
         <div className="flex flex-row gap-2 my-4 text-slate-600 font-mono">
-          <span>9574701</span>
-          <span>9524805</span>
-          <span>9680901</span>
+          <span>112301</span>
+          <span>89101</span>
+          <span>132801</span>
         </div>
       </div>
       <div className="p-4 bg-slate-50 space-y-6 dark:bg-gray-800/30 dark:border dark:border-gray-700 rounded-lg">

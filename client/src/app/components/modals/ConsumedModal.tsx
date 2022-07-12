@@ -1,9 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import ConsumedWine from "../../../features/wine/consumed/ConsumedWine";
-import { decrementQuantity } from "../../../features/wine/wineSlice";
-import api from "../../api/api";
-import { Consumed } from "../../models/consumed";
-import { useAppDispatch } from "../../store/configureStore";
+import { useState } from "react";
+import ConsumedWine from "../../../features/wine/details/ConsumedWine";
 import AsideDisclosure from "../AsideDisclosure";
 import DatePicker from "../DatePicker";
 import ErrorBox from "../ErrorBox";
@@ -11,6 +7,11 @@ import { InfoBox } from "../InfoBox";
 import Spinner from "../loading/Spinner";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
+import {
+  useAddConsumedDateMutation,
+  useDeleteConsumedDateByIdMutation,
+  useGetConsumedDatesByWineIdQuery,
+} from "../../../features/wine/details/detailsApi";
 
 interface Props {
   isOpen: boolean;
@@ -20,70 +21,31 @@ interface Props {
 }
 
 const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<Consumed[] | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const { data, isLoading, isFetching, isError, error } =
+    useGetConsumedDatesByWineIdQuery(wineId);
+  const [addDate, addDateStatus] = useAddConsumedDateMutation();
+  const [deleteDate, deleteDateStatus] = useDeleteConsumedDateByIdMutation();
   const [date, setDate] = useState<Date | null>(null);
-
-  // fetch all dates to this wine
-  const fetchConsumed = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await api.Consumed.getConsumed(wineId);
-      setData(response);
-    } catch (error: any) {
-      console.error(error);
-      setError(error?.data?.title || "Error, kunne ikke laste drukket-datoer.");
-    } finally {
-      setLoading(false);
-    }
-  }, [wineId]);
-
-  // fetch on load
-  useEffect(() => {
-    if (wineId && isOpen && !data) fetchConsumed();
-  }, [wineId, isOpen, data, fetchConsumed]);
 
   // add consumed date
   const handleAddConsumed = async () => {
     if (!date || !wineId || !quantity) return;
-    setError(null);
-    setLoading(true);
     try {
-      (await api.Consumed.addConsumed(wineId, date)) as Consumed[];
-
-      // re-fetch dates
-      await fetchConsumed();
-
-      // remove 1 from quantity
-      dispatch(decrementQuantity({ id: wineId, quantity }));
-
+      await addDate({ id: wineId, data: date }).unwrap();
       setDate(null);
       setIsOpen(false);
     } catch (error: any) {
       console.error(error);
-      setError(error?.data?.title || "Error, kunne ikke legge til dato.");
-    } finally {
-      setLoading(false);
     }
   };
 
   // delete consumed date
   const handleDeleteConsumed = async (id: number) => {
     if (!wineId || !id || !data) return;
-    setError(null);
-    setLoading(true);
     try {
-      await api.Consumed.deleteConsumed(id);
-      // remove deleted date from state
-      setData(data.filter((item) => item.id !== id));
+      await deleteDate(id);
     } catch (error: any) {
       console.error(error);
-      setError(error?.data?.title || "Error, kunne ikke slette dato.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -95,7 +57,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
       setIsOpen={setIsOpen}
     >
       <div>
-        {loading ? (
+        {isLoading ? (
           <Spinner text="Laster datoer..." />
         ) : (
           <>
@@ -117,7 +79,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
               </div>
             </AsideDisclosure>
 
-            {error && <ErrorBox message={error} />}
+            {error && <ErrorBox message={"error"} />}
 
             {data && data.length > 0 ? (
               <div className="my-4 p-2 border rounded-lg dark:border-gray-700">
@@ -155,7 +117,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
               <div className="grid mt-4 grid-cols-1 gap-2">
                 <LoadingButton
                   onClick={handleAddConsumed}
-                  loading={loading}
+                  loading={isLoading}
                   disabled={!date || !quantity}
                   loadingText="Legger til dato..."
                   className="justify-center h-12 rounded-full"

@@ -1,11 +1,17 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PaginatedResponse } from "../../app/models/pagination";
-import { FormModel, Wine, WineFilters } from "../../app/models/wine";
+import {
+  FormModel,
+  Wine,
+  WineBaseModel,
+  WineFilters,
+} from "../../app/models/wine";
 import { RootState } from "../../app/store/configureStore";
 import { WineParams } from "../../app/models/params";
 import { serialize } from "object-to-formdata";
 import { Country } from "../../app/models/country";
 import { StatisticsResponse } from "../../app/models/statistics";
+import { Consumed } from "../../app/models/consumed";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -23,7 +29,7 @@ const BASE_URL = process.env.REACT_APP_API_URL;
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  tagTypes: ["Wines", "Statistics", "Wishlist"],
+  tagTypes: ["Wines", "Statistics", "Wishlist", "Filter", "Consumed"],
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
@@ -50,7 +56,7 @@ export const apiSlice = createApi({
           ? [
               ...result.items.map(({ wineId }) => ({
                 type: "Wines" as const,
-                wineId,
+                id: wineId,
               })),
               { type: "Wines", id: "LIST" },
             ]
@@ -71,7 +77,7 @@ export const apiSlice = createApi({
     }),
     /* Get wine by id
      * */
-    getWineById: builder.query<Wine, string | undefined>({
+    getWineById: builder.query<Wine, number | undefined>({
       query(id) {
         return {
           url: `/wine/${id}`,
@@ -89,9 +95,10 @@ export const apiSlice = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: [
-        { type: "Wines", id: "LIST" },
+      invalidatesTags: (result, error, arg) => [
+        { type: "Wines", id: arg },
         { type: "Statistics", id: "LIST" },
+        { type: "Filter", id: "LIST" },
       ],
     }),
     /* Add wine
@@ -107,11 +114,12 @@ export const apiSlice = createApi({
       invalidatesTags: [
         { type: "Wines", id: "LIST" },
         { type: "Statistics", id: "LIST" },
+        { type: "Filter", id: "LIST" },
       ],
     }),
     /* Update wine
      * */
-    updateWine: builder.mutation<Wine, { id: string; data: FormModel }>({
+    updateWine: builder.mutation<Wine, { id: number; data: FormModel }>({
       query({ id, data }) {
         return {
           url: `/wine/${id}`,
@@ -119,9 +127,10 @@ export const apiSlice = createApi({
           body: serialize(data),
         };
       },
-      invalidatesTags: [
-        { type: "Wines", id: "LIST" },
+      invalidatesTags: (result, error, arg) => [
+        { type: "Wines", id: arg.id },
         { type: "Statistics", id: "LIST" },
+        { type: "Filter", id: "LIST" },
       ],
     }),
     /*
@@ -146,6 +155,7 @@ export const apiSlice = createApi({
           method: "GET",
         };
       },
+      providesTags: [{ type: "Filter", id: "LIST" }],
     }),
     /*
      *  Get Countries from vinmonopolet
@@ -158,10 +168,14 @@ export const apiSlice = createApi({
         };
       },
     }),
-
-    /*
-     *  **********************************************
-     * */
+    getVinmonopoletWine: builder.query<WineBaseModel, string>({
+      query(productId) {
+        return {
+          url: `vinmonopolet/${productId}`,
+          method: "GET",
+        };
+      },
+    }),
   }),
 });
 
@@ -174,4 +188,5 @@ export const {
   useGetStatisticsQuery,
   useGetVinmonopoletCountriesQuery,
   useGetWineFiltersQuery,
+  useGetVinmonopoletWineQuery,
 } = apiSlice;

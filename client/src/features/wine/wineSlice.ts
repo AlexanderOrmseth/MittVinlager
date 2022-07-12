@@ -1,6 +1,5 @@
-import { createSelector, createSlice, PayloadAction, Update } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { WineParams } from "../../app/models/params";
-import { Wine } from "../../app/models/wine";
 import { RootState } from "../../app/store/configureStore";
 
 // wine state
@@ -28,7 +27,6 @@ export const wineSlice = createSlice({
   initialState: initialState,
   reducers: {
     resetAll: () => initialState,
-
     resetSearchParam: (state) => {
       state.wineParams.searchTerm = "";
     },
@@ -41,18 +39,6 @@ export const wineSlice = createSlice({
         ...action.payload,
         pageNumber: 1,
       };
-    },
-    decrementQuantity: (
-      state,
-      action: PayloadAction<{ id: number; quantity: number }>
-    ) => {
-      const update: Update<Wine> = {
-        id: action.payload.id,
-        changes: { userDetails: { quantity: action.payload.quantity - 1 } },
-      };
-
-      // update quantity
-      //wineAdapter.updateOne(state, update);
     },
     setGridView: (state, action) => {
       state.gridView = action.payload;
@@ -75,5 +61,4 @@ export const {
   resetParams,
   resetAll,
   setGridView,
-  decrementQuantity,
 } = wineSlice.actions;

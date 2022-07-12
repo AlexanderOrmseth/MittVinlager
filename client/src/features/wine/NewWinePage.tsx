@@ -18,7 +18,7 @@ const NewWinePage = () => {
 
   const onSubmit = async (data: FormModel) => {
     console.log(data);
-    addWine(data)
+    await addWine(data)
       .unwrap()
       .then((res) => {
         console.log("adding wine response", res);

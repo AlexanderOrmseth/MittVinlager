@@ -29,7 +29,7 @@ const UpdateWinePage = () => {
       return;
     }
     console.log(data);
-    updateWine({ id, data })
+    await updateWine({ id, data })
       .unwrap()
       .then((res) => {
         console.log("adding wine response", res);

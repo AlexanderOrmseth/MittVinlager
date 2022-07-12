@@ -57,7 +57,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
             Side {metaData?.currentPage} av {metaData?.totalPages}
           </div>
 
-          {isLoading && metaData ? (
+          {isLoading ? (
             <ThreeDots
               height={"2rem"}
               width={"2.5rem"}

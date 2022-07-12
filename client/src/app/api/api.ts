@@ -88,18 +88,9 @@ const Vinmonopolet = {
     requests.get(`vinmonopolet/${productId}`),
 };
 
-const Consumed = {
-  getConsumed: (wineId: number) => requests.get(`wine/consumed/${wineId}`),
-  addConsumed: (wineId: number, date: Date) =>
-    requests.post(`wine/consumed/${wineId}`, date),
-  deleteConsumed: (consumedId: number) =>
-    requests.delete(`wine/consumed/${consumedId}`),
-};
-
 const api = {
   Account,
   Vinmonopolet,
-  Consumed,
 };
 
 export default api;

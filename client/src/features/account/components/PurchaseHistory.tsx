@@ -7,14 +7,14 @@ interface Props {
   lastPurchased: LastPurchased[];
 }
 
-const History = ({ lastPurchased }: Props) => {
+const PurchaseHistory = ({ lastPurchased }: Props) => {
   if (!lastPurchased || lastPurchased.length === 0)
     return (
       <InfoBox message="Ingen data å vise, du kan registrere en kjøpsdato når du legger til en vin." />
     );
 
   return (
-    <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
+    <ul className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
       {lastPurchased.map((wine) => (
         <WineListItem
           key={wine.wineId}
@@ -28,8 +28,8 @@ const History = ({ lastPurchased }: Props) => {
           </div>
         </WineListItem>
       ))}
-    </div>
+    </ul>
   );
 };
 
-export default History;
+export default PurchaseHistory;

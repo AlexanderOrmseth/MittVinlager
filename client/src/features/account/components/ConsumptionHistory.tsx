@@ -7,14 +7,14 @@ interface Props {
   lastConsumed: LastConsumed[];
 }
 
-const Consumed = ({ lastConsumed }: Props) => {
+const ConsumptionHistory = ({ lastConsumed }: Props) => {
   if (!lastConsumed || lastConsumed.length === 0)
     return (
       <InfoBox message="Ingen data å vise, du kan registrere en drukket-dato på infosiden til en vin." />
     );
 
   return (
-    <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
+    <ul className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
       {lastConsumed.map((item) => (
         <WineListItem
           key={item.id}
@@ -28,8 +28,8 @@ const Consumed = ({ lastConsumed }: Props) => {
           </div>
         </WineListItem>
       ))}
-    </div>
+    </ul>
   );
 };
 
-export default Consumed;
+export default ConsumptionHistory;
