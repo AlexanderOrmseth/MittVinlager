@@ -25,8 +25,11 @@ const initialState: AccountState = {
 
 const namespace = "account";
 
-const addLocalStorageToken = (user: any) =>
-  localStorage.setItem("token", user.token);
+const addLocalStorageToken = (user: any) => {
+  try {
+    localStorage.setItem("token", user.token);
+  } catch (err: any) {}
+};
 
 /* Sign In / Register
  */
@@ -49,9 +52,9 @@ export const fetchCurrentUser = createAsyncThunk<UserResponse>(
   `${namespace}/fetchCurrentUser`,
   async (_, thunkAPI) => {
     try {
-      const token = localStorage.getItem("token")!;
+      const token = localStorage.getItem("token");
       const user = await accountApi.currentUser(token);
-      // set new generated token
+      // Set new generated token if user allows it
       addLocalStorageToken(user);
       return user;
     } catch (error: any) {
@@ -60,8 +63,8 @@ export const fetchCurrentUser = createAsyncThunk<UserResponse>(
   },
   {
     condition: () => {
-      // not gonna make a request at all
-      if (!localStorage.getItem("token")) {
+      // Prevent request if cookies are disabled or if token doesnt exist
+      if (!navigator.cookieEnabled || !localStorage?.getItem("token")) {
         return false;
       }
     },
@@ -74,19 +77,11 @@ export const deleteUser = createAsyncThunk<void, void, { state: RootState }>(
   `${namespace}/deleteUser`,
   async (_, thunkAPI) => {
     try {
-      const token = thunkAPI.getState().account.token!;
+      const token = thunkAPI.getState().account.token;
       await accountApi.deleteUser(token);
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
-  },
-  {
-    condition: () => {
-      // not gonna make a request at all
-      if (!localStorage.getItem("token")) {
-        return false;
-      }
-    },
   }
 );
 
@@ -96,7 +91,9 @@ export const accountSlice = createSlice({
   reducers: {
     signOut: (state) => {
       state.user = null;
-      localStorage.removeItem("token");
+      if (navigator.cookieEnabled) {
+        localStorage.removeItem("token");
+      }
     },
     setToken: (state, action: PayloadAction<string | null | undefined>) => {
       state.token = action.payload;
@@ -116,6 +113,7 @@ export const accountSlice = createSlice({
      */
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
+      state.token = null;
       localStorage.removeItem("token");
       toast.error("Sessionen er utgått, venligst logg inn igjen.");
       state.status = "idle";
@@ -125,7 +123,11 @@ export const accountSlice = createSlice({
      */
     builder.addCase(deleteUser.fulfilled, (state) => {
       state.user = null;
-      localStorage.removeItem("token");
+
+      if (navigator.cookieEnabled) {
+        localStorage.removeItem("token");
+      }
+
       toast.success("Brukeren er slettet.");
       state.status = "idle";
     });
