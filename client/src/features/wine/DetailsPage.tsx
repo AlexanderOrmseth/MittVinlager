@@ -16,6 +16,7 @@ import { InfoBox } from "../../app/components/InfoBox";
 import Time from "../../app/components/Time";
 import ErrorBox from "../../app/components/ErrorBox";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
+import Title from "../../app/layout/Title";
 
 const DetailsPage = () => {
   const { wine, id, status } = useFetchSingleWine();
@@ -30,12 +31,12 @@ const DetailsPage = () => {
     return (
       <>
         <div>
-          <div className="flex flex-row mb-4 gap-x-2 items-center">
-            <div className={`flag f32 ${wine.countryId}`}></div>
-            <h2 className="md:text-4xl text-3xl font-bold text-wine-500 dark:text-wine-400">
-              {wine.name}
-            </h2>
-          </div>
+          <Title
+            title={wine.name}
+            border={false}
+            node={<div className={`flag f32 ${wine.countryId}`} />}
+            highlighted
+          />
           <div className="my-4 pb-4 gap-y-4 border-b dark:border-gray-700 flex sm:flex-row flex-col sm:items-center sm:justify-between">
             <div className="flex flex-row gap-y-2">
               <Link
