@@ -5,6 +5,7 @@ import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useAddWineMutation } from "../api/apiSlice";
+import toast from "react-hot-toast";
 
 const NewWinePage = () => {
   const navigate = useNavigate();
@@ -17,7 +18,12 @@ const NewWinePage = () => {
   const onSubmit = async (data: FormModel) => {
     await addWine(data)
       .unwrap()
-      .then(() => navigate("/inventory"))
+      .then(() => {
+        toast.success(`Opprettet ny vin!`, {
+          position: "bottom-right",
+        });
+        navigate("/inventory");
+      })
       .catch((err) => {
         // show server validation errors
         if (err?.data?.errors) {

@@ -7,6 +7,7 @@ import { FormModel } from "../../app/models/wine";
 import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useUpdateWineMutation } from "../api/apiSlice";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
+import toast from "react-hot-toast";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
@@ -29,7 +30,12 @@ const UpdateWinePage = () => {
     }
     await updateWine({ id, data })
       .unwrap()
-      .then(() => navigate("/inventory"))
+      .then(() => {
+        toast.success(`Oppdaterte vin!`, {
+          position: "bottom-right",
+        });
+        navigate("/inventory");
+      })
       .catch((err) => {
         // show server validation errors
         if (err?.data?.errors) {

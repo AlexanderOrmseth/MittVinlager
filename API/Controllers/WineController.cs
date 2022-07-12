@@ -47,9 +47,6 @@ public class WineController : BaseApiController
         var count = await _wineRepository.CountAll(userId, cancellationToken);
         var query = _wineRepository.GetAll(userId, wineParams, MapWineToDto);
 
-        // TODO: REMOVE THIS
-        await Task.Delay(800, cancellationToken);
-
         // query with filers
         var wines =
             await PagedList<WineDto>.ToPagedList(query, wineParams.PageNumber, count, cancellationToken);

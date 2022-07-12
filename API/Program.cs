@@ -1,6 +1,7 @@
 using API.Context;
 using API.Entities;
 using API.Extensions;
+using API.Filters;
 using API.Interfaces;
 using API.Middleware;
 using API.Repositories;
@@ -19,6 +20,12 @@ var configuration = builder.Configuration;
 // controller
 builder.Services.AddControllers()
     .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<Program>(); })
+    .AddMvcOptions(opt =>
+    {
+        // Delay filter for all endpoints
+        // Todo: ONLY FOR TESTING!
+        opt.Filters.Add(typeof(DelayFilter));
+    })
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
