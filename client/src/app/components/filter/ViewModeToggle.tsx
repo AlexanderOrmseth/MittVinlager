@@ -1,6 +1,6 @@
 import { Switch } from "@headlessui/react";
 import { Rows, SquaresFour } from "phosphor-react";
-import { setGridView } from "../../../features/wine/slices/wineSlice";
+import { setGridView } from "../../../features/wine/wineSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 
 interface Props {

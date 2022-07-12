@@ -6,7 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { resetParams, setParams } from "../slices/wineSlice";
+import { resetParams, setParams } from "../wineSlice";
 import { useGetWineFiltersQuery } from "../../api/apiSlice";
 import { MetaData } from "../../../app/models/pagination";
 

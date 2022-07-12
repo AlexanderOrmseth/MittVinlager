@@ -1,5 +1,5 @@
 import { RadioGroup } from "@headlessui/react";
-import { Link as LinkIcon, DownloadSimple, Check } from "phosphor-react";
+import { Check, DownloadSimple, Link as LinkIcon } from "phosphor-react";
 import { useState } from "react";
 import {
   UseFormGetValues,

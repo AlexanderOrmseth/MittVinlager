@@ -9,7 +9,7 @@ import { fetchCurrentUser } from "./features/account/accountSlice";
 import GoogleButton from "./features/account/GoogleButton";
 import ProfilePage from "./features/account/ProfilePage";
 import HomePage from "./features/home/HomePage";
-import { initTheme } from "./features/themeSlice";
+import { initTheme } from "./features/ui/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";

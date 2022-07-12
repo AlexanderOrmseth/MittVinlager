@@ -9,9 +9,9 @@ import {
 import DeleteUserModal from "../../app/components/modals/DeleteUserModal";
 import Title from "../../app/layout/Title";
 import { useAppSelector } from "../../app/store/configureStore";
-import History from "../statistics/History";
-import Statistics from "../statistics/Statistics";
-import Consumed from "../statistics/Consumed";
+import History from "./components/History";
+import Statistics from "./components/Statistics";
+import Consumed from "./components/Consumed";
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
 import { useGetStatisticsQuery } from "../api/apiSlice";

@@ -1,7 +1,7 @@
-import WineListItem from "../../app/components/wine/WineListItem";
-import { InfoBox } from "../../app/components/InfoBox";
-import Time from "../../app/components/Time";
-import { LastConsumed } from "../../app/models/consumed";
+import WineListItem from "../../../app/components/wine/WineListItem";
+import { InfoBox } from "../../../app/components/InfoBox";
+import Time from "../../../app/components/Time";
+import { LastConsumed } from "../../../app/models/consumed";
 
 interface Props {
   lastConsumed: LastConsumed[];

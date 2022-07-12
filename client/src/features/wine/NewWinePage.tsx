@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
-import WineForm from "./form/WineForm";
+import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useAddWineMutation } from "../api/apiSlice";
 
 const NewWinePage = () => {
@@ -40,7 +40,7 @@ const NewWinePage = () => {
           å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
-      <WineForm onSubmit={onSubmit} serverErrors={serverErrors} />
+      <CreateOrUpdate onSubmit={onSubmit} serverErrors={serverErrors} />
     </div>
   );
 };

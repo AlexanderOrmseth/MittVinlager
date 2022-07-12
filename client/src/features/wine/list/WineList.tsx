@@ -6,7 +6,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { resetParams } from "../slices/wineSlice";
+import { resetParams } from "../wineSlice";
 import WineCard from "./WineCard";
 import WineRowItem from "./WineRowItem";
 import { Wine } from "../../../app/models/wine";

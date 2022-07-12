@@ -1,11 +1,12 @@
 using API.DTOs;
 using API.Extensions;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
-//[Authorize]
+[Authorize]
 public class VinmonopoletController : BaseApiController
 {
     private readonly IHttpClientFactory _clientFactory;

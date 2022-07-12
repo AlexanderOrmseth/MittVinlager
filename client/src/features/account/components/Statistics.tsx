@@ -1,8 +1,8 @@
 import { PieChart } from "react-minimal-pie-chart";
-import { formatPrice } from "../../app/util/format";
+import { formatPrice } from "../../../app/util/format";
 import { Link } from "react-router-dom";
-import { InfoBox } from "../../app/components/InfoBox";
-import { InventoryStatus } from "../../app/models/statistics";
+import { InfoBox } from "../../../app/components/InfoBox";
+import { InventoryStatus } from "../../../app/models/statistics";
 
 // chart colors
 const chartColors = [

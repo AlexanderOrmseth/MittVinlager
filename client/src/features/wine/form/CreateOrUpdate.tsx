@@ -92,12 +92,15 @@ const tabAnim = {
   },
 };
 
-const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
+const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
   const { data: countries, ...countryStatus } =
     useGetVinmonopoletCountriesQuery();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [vinmonopoletModalIsOpen, setVinmonopoletModalIsOpen] = useState(false);
+  // modals
+  const [previewIsOpen, setPreviewIsOpen] = useState(false);
+  const [fetchWineIsOpen, setFetchWineIsOpen] = useState(false);
+
+  // tab
   const [tabIndex, setTabIndex] = useState(0);
 
   const {
@@ -160,11 +163,6 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
     trigger("userDetails.drinkingWindowMax");
   }, [watchDrinkingWindowMin, trigger]);
 
-  /*// fetch countries
-  useEffect(() => {
-    if (!countries) dispatch(getCountries());
-  }, [dispatch, countries]);*/
-
   // Count errors in tabs
   const getErrorCount = (keyNames: Keys[], userDetails = false) => {
     const err = userDetails ? errors.userDetails : errors;
@@ -182,13 +180,11 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
       await onSubmit(d);
       return;
     }
-
     // find country id
     const countryId =
       countries
         ?.find((c) => c.country?.toLowerCase() === d.country?.toLowerCase())
         ?.countryId?.toLowerCase() || null;
-
     // add country id to form values
     const data = { ...d, ...{ countryId } };
     // submit
@@ -198,14 +194,14 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   return (
     <>
       <WineDetailsModal
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
+        setIsOpen={setPreviewIsOpen}
+        isOpen={previewIsOpen}
         getValues={getValues}
       />
       <VinmonopoletModal
-        setIsOpen={setVinmonopoletModalIsOpen}
+        setIsOpen={setFetchWineIsOpen}
         productId={wine?.productId}
-        isOpen={vinmonopoletModalIsOpen}
+        isOpen={fetchWineIsOpen}
         setValues={reset}
         getValues={getValues}
         setValue={setValue}
@@ -239,7 +235,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
               ))}
             </Tab.List>
             <button
-              onClick={() => setVinmonopoletModalIsOpen(true)}
+              onClick={() => setFetchWineIsOpen(true)}
               className="btn-secondary flex rounded-full flex-row gap-x-2 items-center h-12"
             >
               <ArrowRight size="1.5rem" />
@@ -573,7 +569,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                 className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled-btn font-medium w-auto h-auto py-2"
                 disabled={!isValid}
                 type="button"
-                onClick={() => setIsOpen(true)}
+                onClick={() => setPreviewIsOpen(true)}
               >
                 <Eye size="1.5rem" />
                 Forhåndsvis
@@ -586,4 +582,4 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   );
 };
 
-export default WineForm;
+export default CreateOrUpdate;

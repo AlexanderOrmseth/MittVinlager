@@ -3,7 +3,7 @@ import WineListItem from "../../app/components/wine/WineListItem";
 import { WishlistItem } from "../../app/models/wishlist";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
-import { useDeleteWishlistItemMutation } from "../api/apiSlice";
+import { useDeleteWishlistItemMutation } from "./wishlistSlice";
 
 interface Props {
   items: WishlistItem[];

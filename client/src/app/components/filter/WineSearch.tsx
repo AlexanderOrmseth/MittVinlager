@@ -1,6 +1,6 @@
 import { MagnifyingGlass } from "phosphor-react";
 import { useEffect, useRef, useState } from "react";
-import { setParams } from "../../../features/wine/slices/wineSlice";
+import { setParams } from "../../../features/wine/wineSlice";
 import useDebounce from "../../hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 

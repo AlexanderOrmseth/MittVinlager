@@ -7,7 +7,7 @@ import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import WishlistList from "./WishlistList";
 import WishListPreview from "./WishListPreview";
-import { useGetWishlistQuery } from "../api/apiSlice";
+import { useGetWishlistQuery } from "./wishlistSlice";
 
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);

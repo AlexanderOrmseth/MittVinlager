@@ -2,11 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { PaginatedResponse } from "../../app/models/pagination";
 import { FormModel, Wine, WineFilters } from "../../app/models/wine";
 import { RootState } from "../../app/store/configureStore";
-import { WineParams } from "../../app/api/params";
+import { WineParams } from "../../app/models/params";
 import { serialize } from "object-to-formdata";
 import { Country } from "../../app/models/country";
 import { StatisticsResponse } from "../../app/models/statistics";
-import { BaseWishlistItem, WishlistResponse } from "../../app/models/wishlist";
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
@@ -163,48 +162,6 @@ export const apiSlice = createApi({
     /*
      *  **********************************************
      * */
-
-    /* Get wishlist
-     * */
-    getWishlist: builder.query<WishlistResponse, void>({
-      query: () => ({
-        url: "wishlist",
-        method: "GET",
-      }),
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }) => ({
-                type: "Wishlist" as const,
-                id,
-              })),
-              { type: "Wishlist", id: "LIST" },
-            ]
-          : [{ type: "Wishlist", id: "LIST" }],
-    }),
-    /* Delete wishlist item
-     * */
-    deleteWishlistItem: builder.mutation<void, number>({
-      query(id) {
-        return {
-          url: `/wishlist/${id}`,
-          method: "DELETE",
-        };
-      },
-      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
-    }),
-    /* Add wishlist item
-     * */
-    addWishlistItem: builder.mutation<WishlistResponse, BaseWishlistItem>({
-      query(data) {
-        return {
-          url: "/wishlist",
-          method: "POST",
-          body: data,
-        };
-      },
-      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
-    }),
   }),
 });
 
@@ -217,9 +174,4 @@ export const {
   useGetStatisticsQuery,
   useGetVinmonopoletCountriesQuery,
   useGetWineFiltersQuery,
-
-  // wishlist
-  useGetWishlistQuery,
-  useAddWishlistItemMutation,
-  useDeleteWishlistItemMutation,
 } = apiSlice;

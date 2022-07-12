@@ -3,11 +3,11 @@ import DropDownMenu from "../components/DropDownMenu";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { List, Moon, SignOut, Sun, User, Wine, X } from "phosphor-react";
 import { signOut } from "../../features/account/accountSlice";
-import { resetAll } from "../../features/wine/slices/wineSlice";
+import { resetAll } from "../../features/wine/wineSlice";
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
-import { toggleTheme } from "../../features/themeSlice";
+import { toggleTheme } from "../../features/ui/themeSlice";
 import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {

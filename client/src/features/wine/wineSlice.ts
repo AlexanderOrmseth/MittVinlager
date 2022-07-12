@@ -1,12 +1,7 @@
-import {
-  createSelector,
-  createSlice,
-  PayloadAction,
-  Update,
-} from "@reduxjs/toolkit";
-import { WineParams } from "../../../app/api/params";
-import { Wine } from "../../../app/models/wine";
-import { RootState } from "../../../app/store/configureStore";
+import { createSelector, createSlice, PayloadAction, Update } from "@reduxjs/toolkit";
+import { WineParams } from "../../app/models/params";
+import { Wine } from "../../app/models/wine";
+import { RootState } from "../../app/store/configureStore";
 
 // wine state
 interface WineState {

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../../app/store/configureStore";
-import { setPageNumber } from "../slices/wineSlice";
+import { setPageNumber } from "../wineSlice";
 import { CaretLeft, CaretRight } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import ViewModeToggle from "../../../app/components/filter/ViewModeToggle";

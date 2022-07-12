@@ -1,7 +1,7 @@
 import { UserMinus } from "phosphor-react";
 import { useState } from "react";
 import { deleteUser } from "../../../features/account/accountSlice";
-import { resetAll } from "../../../features/wine/slices/wineSlice";
+import { resetAll } from "../../../features/wine/wineSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";

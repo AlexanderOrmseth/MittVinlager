@@ -7,7 +7,21 @@ import { ExternalLogin } from "../models/externalLogin";
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 250));
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-axios.defaults.withCredentials = true;
+
+export const fetchFromVinmonopolet = async (productId: string) => {
+  const token = store.getState().account.token;
+  const BASE_URL = process.env.REACT_APP_API_URL;
+
+  try {
+    let response = await fetch(`${BASE_URL}vinmonopolet/${productId}2`, {
+      method: "GET",
+      headers: new Headers({ authorization: `Bearer ${token}` }),
+    });
+    return await response.json();
+  } catch (err: any) {
+    return Promise.reject(err);
+  }
+};
 
 const res = (response: AxiosResponse) => response.data;
 

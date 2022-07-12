@@ -1,7 +1,7 @@
 import WineFilter from "./list/WineFilter";
 import WineList from "./list/WineList";
 import { useAppSelector } from "../../app/store/configureStore";
-import { getParams } from "./slices/wineSlice";
+import { getParams } from "./wineSlice";
 import { useGetAllWineQuery } from "../api/apiSlice";
 import Paginator from "./list/Paginator";
 

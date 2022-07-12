@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Spinner from "../../app/components/loading/Spinner";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
-import WineForm from "./form/WineForm";
+import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useUpdateWineMutation } from "../api/apiSlice";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 
@@ -51,7 +51,11 @@ const UpdateWinePage = () => {
           å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
-      <WineForm onSubmit={onSubmit} wine={wine} serverErrors={serverErrors} />
+      <CreateOrUpdate
+        onSubmit={onSubmit}
+        wine={wine}
+        serverErrors={serverErrors}
+      />
     </div>
   );
 };
