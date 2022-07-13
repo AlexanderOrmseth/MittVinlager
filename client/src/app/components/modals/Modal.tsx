@@ -1,5 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
+
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
@@ -8,6 +10,7 @@ interface Props {
   children: React.ReactNode;
   xl?: boolean;
 }
+
 const Modal = ({
   isOpen,
   setIsOpen,

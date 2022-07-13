@@ -3,22 +3,23 @@ import DropDownMenu from "../components/DropDownMenu";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { List, Moon, SignOut, Sun, User, Wine, X } from "phosphor-react";
 import { signOut } from "../../features/account/accountSlice";
-import { resetAll } from "../../features/wine/slices/wineSlice";
+import { resetAll } from "../../features/wine/wineSlice";
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
-import { toggleTheme } from "../../features/themeSlice";
-import { resetStatistics } from "../../features/statistics/statisticsSlice";
+import { toggleTheme } from "../../features/ui/themeSlice";
+import GoogleButton from "../../features/account/GoogleButton";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
-  const { darkMode } = useAppSelector((state) => state.theme);
-  const [isOpen, setOpen] = useState(false);
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.account);
   const navigate = useNavigate();
+  const { darkMode } = useAppSelector((state) => state.theme);
+  const { user } = useAppSelector((state) => state.account);
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <div
       ref={divRef}
@@ -29,14 +30,14 @@ const Header = () => {
       <Link
         onClick={() => setOpen(false)}
         to="/"
-        className="text-xl font-medium flex flex-row gap-2 dark:text-gray-200 items-center"
+        className="text-xl font-medium flex flex-wrap flex-row gap-2 dark:text-gray-200 items-center"
       >
         <Wine
           size="1.75rem"
           weight="duotone"
           className="text-gray-500 dark:text-gray-400"
         />
-        Mitt Vinlager
+        <h1 className="flex-1 leading-5">Mitt Vinlager</h1>
       </Link>
 
       <nav
@@ -44,7 +45,6 @@ const Header = () => {
           isOpen ? "md:block block" : "md:block hidden"
         }`}
       >
-        <NavLink setOpen={setOpen} text="hjem" to="/" />
         {user ? (
           <>
             <NavLink end setOpen={setOpen} text="Vinsamling" to="/inventory" />
@@ -52,10 +52,7 @@ const Header = () => {
             <NavLink setOpen={setOpen} text="Ønskeliste" to="/wishlist" />
           </>
         ) : (
-          <>
-            <NavLink setOpen={setOpen} text="Logg inn" to="/login" />
-            <NavLink setOpen={setOpen} text="Ny bruker" to="/register" />
-          </>
+          <GoogleButton />
         )}
       </nav>
       <div className="flex flex-row gap-x-2 items-center">
@@ -84,7 +81,6 @@ const Header = () => {
                   fnc: () => {
                     dispatch(signOut());
                     dispatch(resetAll());
-                    dispatch(resetStatistics());
                   },
                 },
               ]}

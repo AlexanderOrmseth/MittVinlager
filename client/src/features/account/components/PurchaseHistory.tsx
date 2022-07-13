@@ -1,18 +1,20 @@
-import { useAppSelector } from "../../app/store/configureStore";
-import WineListItem from "../../app/components/wine/WineListItem";
-import { InfoBox } from "../../app/components/InfoBox";
-import Time from "../../app/components/Time";
+import WineListItem from "../../../app/components/wine/WineListItem";
+import { InfoBox } from "../../../app/components/InfoBox";
+import Time from "../../../app/components/Time";
+import { LastPurchased } from "../../../app/models/statistics";
 
-const History = () => {
-  const { lastPurchased } = useAppSelector((state) => state.statistics);
+interface Props {
+  lastPurchased: LastPurchased[];
+}
 
+const PurchaseHistory = ({ lastPurchased }: Props) => {
   if (!lastPurchased || lastPurchased.length === 0)
     return (
       <InfoBox message="Ingen data å vise, du kan registrere en kjøpsdato når du legger til en vin." />
     );
 
   return (
-    <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/40 space-y-2 rounded-lg">
+    <ul className="p-4 mt-4 bg-slate-50 dark:bg-gray-950 space-y-2 rounded-lg">
       {lastPurchased.map((wine) => (
         <WineListItem
           key={wine.wineId}
@@ -26,8 +28,8 @@ const History = () => {
           </div>
         </WineListItem>
       ))}
-    </div>
+    </ul>
   );
 };
 
-export default History;
+export default PurchaseHistory;

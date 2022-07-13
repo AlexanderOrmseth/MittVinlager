@@ -73,10 +73,10 @@ public class WineController : BaseApiController
     public async Task<ActionResult<object>> GetStatistics(CancellationToken cancellationToken)
     {
         var userId = await GetUserId(User);
-        var data = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
+        var inventoryStatus = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
         var lastPurchased = await _wineRepository.GetLastPurchases(userId, cancellationToken);
         var lastConsumed = await _wineRepository.GetLastConsumed(userId, cancellationToken);
-        return Ok(new {data, lastPurchased, lastConsumed});
+        return Ok(new {inventoryStatus, lastPurchased, lastConsumed});
     }
 
     /// <summary>
@@ -323,7 +323,7 @@ public class WineController : BaseApiController
     /// </summary>
     /// <param name="consumedId"></param>
     [HttpDelete("consumed/{consumedId:int}")]
-    public async Task<ActionResult> DeleteConsumed(int consumedId)
+    public async Task<IActionResult> DeleteConsumed(int consumedId)
     {
         // get wine
         var wine = await _wineRepository.GetWineByConsumedId(consumedId);
@@ -356,7 +356,7 @@ public class WineController : BaseApiController
         }
 
         // else bad request
-        return BadRequest(new ProblemDetails {Title = "Error, kunne ikke legge til drukket-dato til vinen."});
+        return BadRequest(new ProblemDetails {Title = "Error, kunne ikke slette drukket-datoen til vinen."});
     }
 
     /// <summary>
@@ -366,10 +366,8 @@ public class WineController : BaseApiController
     /// <param name="date"></param>
     /// <param name="wineId"></param>
     [HttpPost("consumed/{wineId:int}")]
-    public async Task<ActionResult> Consumed([FromBody] DateTime date, int wineId)
+    public async Task<IActionResult> Consumed([FromBody] DateTime date, [FromRoute] int wineId)
     {
-        Console.WriteLine(date);
-
         // get wine
         var wine = await _wineRepository.GetWineWithConsumedAndUserDetails(wineId);
 

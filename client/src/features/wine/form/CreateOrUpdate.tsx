@@ -15,12 +15,6 @@ import {
   PencilSimpleLine,
   PlusCircle,
 } from "phosphor-react";
-
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../app/store/configureStore";
-import { getCountries } from "../slices/wineAsyncThunks";
 import { ThreeDots } from "react-loading-icons";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -32,6 +26,8 @@ import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal"
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
+import { useGetVinmonopoletCountriesQuery } from "../../api/apiSlice";
+
 interface Props {
   onSubmit: (data: FormModel) => void;
   serverErrors: Record<string, string[]> | null;
@@ -96,11 +92,15 @@ const tabAnim = {
   },
 };
 
-const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
-  const dispatch = useAppDispatch();
-  const { countries, countryStatus } = useAppSelector((state) => state.wine);
-  const [isOpen, setIsOpen] = useState(false);
-  const [vinmonopoletModalIsOpen, setVinmonopoletModalIsOpen] = useState(false);
+const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
+  const { data: countries, ...countryStatus } =
+    useGetVinmonopoletCountriesQuery();
+
+  // modals
+  const [previewIsOpen, setPreviewIsOpen] = useState(false);
+  const [fetchWineIsOpen, setFetchWineIsOpen] = useState(false);
+
+  // tab
   const [tabIndex, setTabIndex] = useState(0);
 
   const {
@@ -122,6 +122,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   const watchFile = watch("file", null);
   const watchDrinkingWindowMin = watch("userDetails.drinkingWindowMin");
 
+  // Convert .Net Validation Errors to RHF
   useEffect(() => {
     if (!serverErrors) return;
     for (const [key, value] of Object.entries(serverErrors)) {
@@ -163,11 +164,6 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
     trigger("userDetails.drinkingWindowMax");
   }, [watchDrinkingWindowMin, trigger]);
 
-  // fetch countries
-  useEffect(() => {
-    if (!countries) dispatch(getCountries());
-  }, [dispatch, countries]);
-
   // Count errors in tabs
   const getErrorCount = (keyNames: Keys[], userDetails = false) => {
     const err = userDetails ? errors.userDetails : errors;
@@ -185,13 +181,11 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
       await onSubmit(d);
       return;
     }
-
     // find country id
     const countryId =
       countries
         ?.find((c) => c.country?.toLowerCase() === d.country?.toLowerCase())
         ?.countryId?.toLowerCase() || null;
-
     // add country id to form values
     const data = { ...d, ...{ countryId } };
     // submit
@@ -201,20 +195,20 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   return (
     <>
       <WineDetailsModal
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
+        setIsOpen={setPreviewIsOpen}
+        isOpen={previewIsOpen}
         getValues={getValues}
       />
       <VinmonopoletModal
-        setIsOpen={setVinmonopoletModalIsOpen}
+        setIsOpen={setFetchWineIsOpen}
         productId={wine?.productId}
-        isOpen={vinmonopoletModalIsOpen}
+        isOpen={fetchWineIsOpen}
         setValues={reset}
         getValues={getValues}
         setValue={setValue}
       />
 
-      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-800/30 rounded-lg md:p-8 p-4 ">
+      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-950 rounded-lg md:p-8 p-4 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex w-full max-w-lg bg-white dark:bg-gray-800 rounded shadow flex-row">
@@ -242,7 +236,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
               ))}
             </Tab.List>
             <button
-              onClick={() => setVinmonopoletModalIsOpen(true)}
+              onClick={() => setFetchWineIsOpen(true)}
               className="btn-secondary flex rounded-full flex-row gap-x-2 items-center h-12"
             >
               <ArrowRight size="1.5rem" />
@@ -251,7 +245,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
           </div>
           <div className="mt-6 border-t relative border-slate-200 dark:border-gray-700 mb-6">
             {getValues("productId") && (
-              <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-25">
+              <span className="absolute right-4 px-1 text-sm -top-3 dark:bg-gray-950 text-slate-400 bg-slate-25">
                 <span className="select-none">produktId: </span>
                 {getValues("productId")}
               </span>
@@ -344,7 +338,7 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                         label="Produsent"
                         placeholder="produsent"
                       />
-                      {countryStatus === "loading" ? (
+                      {countryStatus.isLoading ? (
                         <div className="flex items-center flex-col justify-center space-x-4">
                           <ThreeDots
                             height={"2rem"}
@@ -573,10 +567,10 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
                 {wine ? "Rediger vin" : "Legg til"}
               </LoadingButton>
               <button
-                className="px-5 btn-white shadow-none focus-primary flex rounded-full flex-row gap-x-2 items-center text-sm disabled-btn font-medium w-auto h-auto py-2"
+                className="btn-white px-5 flex rounded-full flex-row gap-x-2 items-center disabled-btn w-auto"
                 disabled={!isValid}
                 type="button"
-                onClick={() => setIsOpen(true)}
+                onClick={() => setPreviewIsOpen(true)}
               >
                 <Eye size="1.5rem" />
                 Forhåndsvis
@@ -589,4 +583,4 @@ const WineForm = ({ onSubmit, serverErrors, wine }: Props) => {
   );
 };
 
-export default WineForm;
+export default CreateOrUpdate;

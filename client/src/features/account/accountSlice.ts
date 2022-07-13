@@ -1,44 +1,44 @@
-import { FieldValues } from "react-hook-form";
-import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import agent from "../../app/api/";
+import {
+  createAsyncThunk,
+  createSlice,
+  isAnyOf,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+
 import toast from "react-hot-toast";
-import { User } from "../../app/models/user";
+import { User, UserResponse } from "../../app/models/user";
+import accountApi from "./accountApi";
+import { ExternalLogin } from "../../app/models/externalLogin";
+import { RootState } from "../../app/store/configureStore";
 
 interface AccountState {
   status: "idle" | "loading";
   user: User | null;
+  token: string | null | undefined;
 }
 
 const initialState: AccountState = {
   status: "idle",
   user: null,
+  token: null,
 };
 
 const namespace = "account";
 
-/* Register
- */
-export const register = createAsyncThunk<User, FieldValues>(
-  `${namespace}/register`,
-  async (data, thunkAPI) => {
-    try {
-      const user = await agent.Account.register(data);
-      localStorage.setItem("user", JSON.stringify(user));
-      return user;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error);
-    }
-  }
-);
+const addLocalStorageToken = (user: any) => {
+  try {
+    localStorage.setItem("token", user.token);
+  } catch (err: any) {}
+};
 
-/* Sign In
+/* Sign In / Register
  */
-export const signIn = createAsyncThunk<User, FieldValues>(
+export const signIn = createAsyncThunk<UserResponse, ExternalLogin>(
   `${namespace}/signIn`,
   async (data, thunkAPI) => {
     try {
-      const user = await agent.Account.login(data);
-      localStorage.setItem("user", JSON.stringify(user));
+      const user = await accountApi.externalLogin(data);
+      addLocalStorageToken(user);
       return user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
@@ -48,13 +48,14 @@ export const signIn = createAsyncThunk<User, FieldValues>(
 
 /* Fetch current user
  */
-export const fetchCurrentUser = createAsyncThunk<User>(
+export const fetchCurrentUser = createAsyncThunk<UserResponse>(
   `${namespace}/fetchCurrentUser`,
   async (_, thunkAPI) => {
-    thunkAPI.dispatch(setUser(JSON.parse(localStorage.getItem("user")!)));
     try {
-      const user = await agent.Account.currentUser();
-      localStorage.setItem("user", JSON.stringify(user));
+      const token = localStorage.getItem("token");
+      const user = await accountApi.currentUser(token);
+      // Set new generated token if user allows it
+      addLocalStorageToken(user);
       return user;
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
@@ -62,8 +63,8 @@ export const fetchCurrentUser = createAsyncThunk<User>(
   },
   {
     condition: () => {
-      // not gonna make a request at all
-      if (!localStorage.getItem("user")) {
+      // Prevent request if cookies are disabled or if token doesnt exist
+      if (!navigator.cookieEnabled || !localStorage?.getItem("token")) {
         return false;
       }
     },
@@ -72,22 +73,15 @@ export const fetchCurrentUser = createAsyncThunk<User>(
 
 /* Delete user
  */
-export const deleteUser = createAsyncThunk<void>(
+export const deleteUser = createAsyncThunk<void, void, { state: RootState }>(
   `${namespace}/deleteUser`,
   async (_, thunkAPI) => {
     try {
-      await agent.Account.deleteUser();
+      const token = thunkAPI.getState().account.token;
+      await accountApi.deleteUser(token);
     } catch (error: any) {
       return thunkAPI.rejectWithValue({ error: error.data });
     }
-  },
-  {
-    condition: () => {
-      // not gonna make a request at all
-      if (!localStorage.getItem("user")) {
-        return false;
-      }
-    },
   }
 );
 
@@ -97,7 +91,12 @@ export const accountSlice = createSlice({
   reducers: {
     signOut: (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      if (navigator.cookieEnabled) {
+        localStorage.removeItem("token");
+      }
+    },
+    setToken: (state, action: PayloadAction<string | null | undefined>) => {
+      state.token = action.payload;
     },
     setUser: (state, action) => {
       let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
@@ -114,7 +113,8 @@ export const accountSlice = createSlice({
      */
     builder.addCase(fetchCurrentUser.rejected, (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+      state.token = null;
+      localStorage.removeItem("token");
       toast.error("Sessionen er utgått, venligst logg inn igjen.");
       state.status = "idle";
     });
@@ -123,7 +123,11 @@ export const accountSlice = createSlice({
      */
     builder.addCase(deleteUser.fulfilled, (state) => {
       state.user = null;
-      localStorage.removeItem("user");
+
+      if (navigator.cookieEnabled) {
+        localStorage.removeItem("token");
+      }
+
       toast.success("Brukeren er slettet.");
       state.status = "idle";
     });
@@ -131,16 +135,19 @@ export const accountSlice = createSlice({
     /* Matchers
      */
     builder.addMatcher(
-      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled, register.fulfilled),
+      isAnyOf(signIn.fulfilled, fetchCurrentUser.fulfilled),
       (state, action) => {
+        const token = action.payload.token;
         state.status = "idle";
-        let claims = JSON.parse(atob(action.payload.token.split(".")[1]));
+        let claims = JSON.parse(atob(token.split(".")[1]));
         let roles =
           claims[
             "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
           ];
+        state.token = token;
         state.user = {
-          ...action.payload,
+          userName: action.payload.userName,
+          email: action.payload.email,
           roles: typeof roles === "string" ? [roles] : roles,
         };
       }
@@ -149,12 +156,7 @@ export const accountSlice = createSlice({
     /* Loading
      */
     builder.addMatcher(
-      isAnyOf(
-        signIn.pending,
-        fetchCurrentUser.pending,
-        deleteUser.pending,
-        register.pending
-      ),
+      isAnyOf(signIn.pending, fetchCurrentUser.pending, deleteUser.pending),
       (state) => {
         state.status = "loading";
       }
@@ -163,7 +165,7 @@ export const accountSlice = createSlice({
     /* Rejected
      */
     builder.addMatcher(
-      isAnyOf(signIn.rejected, register.rejected, deleteUser.rejected),
+      isAnyOf(signIn.rejected, deleteUser.rejected),
       (state, action) => {
         state.status = "idle";
         console.error(action.payload);
@@ -173,4 +175,4 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { signOut, setUser } = accountSlice.actions;
+export const { signOut } = accountSlice.actions;

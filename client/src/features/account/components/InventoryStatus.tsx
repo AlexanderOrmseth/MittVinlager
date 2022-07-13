@@ -1,11 +1,11 @@
-import { useAppSelector } from "../../app/store/configureStore";
 import { PieChart } from "react-minimal-pie-chart";
-import { formatPrice } from "../../app/util/format";
+import { formatPrice } from "../../../app/util/format";
 import { Link } from "react-router-dom";
-import { InfoBox } from "../../app/components/InfoBox";
+import { InfoBox } from "../../../app/components/InfoBox";
+import { InventoryStatus as IventoryStatusInterface } from "../../../app/models/statistics";
 
 // chart colors
-const pieColors = [
+const chartColors = [
   "#a1b9e6",
   "#507cd1",
   "#3568ca",
@@ -17,7 +17,7 @@ const pieColors = [
 ];
 
 // chart options
-const pieOptions = {
+const chartOptions = {
   animate: true,
   className: "h-80",
   labelPosition: 90,
@@ -26,25 +26,27 @@ const pieOptions = {
   labelStyle: { fontSize: "4px" },
 };
 
-const Statistics = () => {
-  const { wineStatistics } = useAppSelector((state) => state.statistics);
+interface Props {
+  inventoryStatus: IventoryStatusInterface[];
+}
 
-  if (!wineStatistics || wineStatistics.length === 0)
+const InventoryStatus = ({ inventoryStatus }: Props) => {
+  if (!inventoryStatus || inventoryStatus.length === 0)
     return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
 
   const total = [
     {
       title: "Antall vin",
-      data: wineStatistics.reduce((prev, curr) => prev + curr.quantity, 0),
+      data: inventoryStatus.reduce((prev, curr) => prev + curr.quantity, 0),
     },
     {
       title: "Typer",
-      data: wineStatistics.length,
+      data: inventoryStatus.length,
     },
     {
       title: "Verdi av vinkjeller",
       data: formatPrice(
-        wineStatistics.reduce((prev, curr) => prev + curr.value, 0)
+        inventoryStatus.reduce((prev, curr) => prev + curr.value, 0)
       ),
     },
   ];
@@ -55,7 +57,7 @@ const Statistics = () => {
         {total.map(({ title, data }) => (
           <div
             key={title}
-            className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 rounded-lg bg-slate-50 dark:bg-gray-800/40"
+            className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 rounded-lg bg-slate-50 dark:bg-gray-950"
           >
             <h3 className="font-medium md:mb-4 mb-2  text-gray-700 dark:text-gray-500 uppercase text-sm">
               {title}
@@ -66,56 +68,56 @@ const Statistics = () => {
           </div>
         ))}
       </div>
-      <div className="bg-slate-50 dark:bg-gray-800/40 rounded-lg p-8">
+      <div className="bg-slate-50 dark:bg-gray-950 rounded-lg p-8">
         <div className="flex items-center mb-4 md:flex-row flex-col gap-x-2 gap-y-4">
           <div className="flex-1">
             <h3 className="font-medium mb-4 text-center text-gray-700 dark:text-gray-500 uppercase text-sm">
               Antall
             </h3>
             <PieChart
-              {...pieOptions}
+              {...chartOptions}
               label={({ dataEntry }) =>
                 dataEntry.title + ": " + dataEntry.value
               }
-              data={wineStatistics.map((data, i) => {
+              data={inventoryStatus.map((data, i) => {
                 return {
                   title: data.type,
                   value: data.quantity,
-                  color: pieColors[i],
+                  color: chartColors[i],
                 };
               })}
             />
           </div>
-          {wineStatistics.some((data) => data.value) && (
+          {inventoryStatus.some((data) => data.value) && (
             <div className="flex-1">
               <h3 className="font-medium mb-4 text-center text-gray-700 dark:text-gray-500 uppercase text-sm">
                 Verdi
               </h3>
               <PieChart
-                {...pieOptions}
+                {...chartOptions}
                 label={({ dataEntry }) =>
                   dataEntry.title + ": " + formatPrice(dataEntry.value)
                 }
-                data={wineStatistics
+                data={inventoryStatus
                   .filter((data) => data.value)
                   .map((data, i) => {
                     return {
                       title: data.type,
                       value: data.value,
-                      color: pieColors[i],
+                      color: chartColors[i],
                     };
                   })}
               />
             </div>
           )}
         </div>
-        <div className="bg-slate-50 dark:bg-gray-800/40 col-span-2 rounded-lg dark:shadow-md p-4">
+        <div className="bg-slate-50 dark:bg-gray-800/40 col-span-2 rounded-lg p-4">
           <div className="grid grid-cols-3 gap-2 mb-1 border-b dark:border-gray-700 font-medium">
             <div>Type</div>
             <div className="text-right">Antall</div>
             <div className="text-right">Verdi</div>
           </div>
-          {wineStatistics.map((data, i) => (
+          {inventoryStatus.map((data, i) => (
             <div
               key={i}
               className="grid grid-cols-3 py-2 odd:bg-slate-100 dark:odd:bg-gray-900/40 rounded gap-2 px-2"
@@ -136,4 +138,4 @@ const Statistics = () => {
   );
 };
 
-export default Statistics;
+export default InventoryStatus;

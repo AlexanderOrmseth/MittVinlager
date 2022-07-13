@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 export const themeSlice = createSlice({
   name: "theme",
   initialState: { darkMode: false },
   reducers: {
     initTheme: (state) => {
-      if (localStorage.theme === "dark") {
+      if (navigator.cookieEnabled && localStorage.theme === "dark") {
         document.documentElement.className = "dark";
         state.darkMode = true;
       } else {
@@ -16,7 +17,11 @@ export const themeSlice = createSlice({
       const mode = !state.darkMode;
       state.darkMode = mode;
       const className = mode ? "dark" : "light";
-      localStorage.theme = className;
+
+      if (navigator.cookieEnabled) {
+        localStorage.theme = className;
+      }
+
       document.documentElement.className = className;
     },
   },

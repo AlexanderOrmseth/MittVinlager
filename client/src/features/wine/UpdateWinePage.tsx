@@ -1,42 +1,49 @@
 import { PencilSimpleLine } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../app/api";
 import Spinner from "../../app/components/loading/Spinner";
-import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
-import { useAppDispatch } from "../../app/store/configureStore";
-import WineForm from "./form/WineForm";
-import { triggerFetch } from "./slices/wineSlice";
+import CreateOrUpdate from "./form/CreateOrUpdate";
+import { useUpdateWineMutation } from "../api/apiSlice";
+import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
+import toast from "react-hot-toast";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  const { wine, id, status } = useFetchSingleWine();
+  const { wine, id, status: wineStatus } = useFetchSingleWine();
+
+  const [updateWine] = useUpdateWineMutation();
+
   const [serverErrors, setServerErrors] = useState<Record<
     string,
     string[]
   > | null>(null);
 
-  if (status === "loading") return <Spinner text="Laster vin..." />;
-
-  if (!wine) return <div>vinen eksisterer ikke!</div>;
+  if (wineStatus.isLoading) return <Spinner text="Laster vin..." />;
+  else if (wineStatus.isError) return <div>vinen eksisterer ikke!</div>;
 
   const onSubmit = async (data: FormModel) => {
     if (!id) {
       console.log("Id was undefined or null");
       return;
     }
-
-    try {
-      await api.Wine.updateWine(data, parseInt(id));
-      dispatch(triggerFetch());
-      navigate("/inventory");
-    } catch (error: any) {
-      console.error("Update wine error", error);
-      if (error) setServerErrors(error);
-    }
+    await updateWine({ id, data })
+      .unwrap()
+      .then(() => {
+        toast.success(`Oppdaterte vin!`, {
+          position: "bottom-right",
+        });
+        navigate("/inventory");
+      })
+      .catch((err) => {
+        // show server validation errors
+        if (err?.data?.errors) {
+          setServerErrors(err.data.errors);
+          return;
+        }
+        console.error("Update wine error", err);
+      });
   };
 
   return (
@@ -47,7 +54,13 @@ const UpdateWinePage = () => {
           å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
-      <WineForm onSubmit={onSubmit} wine={wine} serverErrors={serverErrors} />
+      {wineStatus.isSuccess && (
+        <CreateOrUpdate
+          onSubmit={onSubmit}
+          wine={wine}
+          serverErrors={serverErrors}
+        />
+      )}
     </div>
   );
 };

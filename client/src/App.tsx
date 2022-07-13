@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Puff } from "react-loading-icons";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
 import { fetchCurrentUser } from "./features/account/accountSlice";
-import Login from "./features/account/Login";
+import GoogleButton from "./features/account/GoogleButton";
 import ProfilePage from "./features/account/ProfilePage";
-import Register from "./features/account/Register";
 import HomePage from "./features/home/HomePage";
-import { initTheme } from "./features/themeSlice";
+import { initTheme } from "./features/ui/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NewWinePage from "./features/wine/NewWinePage";
@@ -44,13 +43,13 @@ function App() {
 
   return (
     <>
+      <div id="google-button"></div>
       <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route path="login" element={<GoogleButton />} />
             <Route
               path="profile"
               element={

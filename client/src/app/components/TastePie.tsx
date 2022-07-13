@@ -1,3 +1,5 @@
+import { useAppSelector } from "../store/configureStore";
+
 export const list = [
   { percent: 0, value: 0 },
   { percent: 8.33, value: 1 },
@@ -93,13 +95,17 @@ export const text = {
 };
 
 const TastePie = ({ percent, size }: { percent: number; size: string }) => {
+  const { darkMode } = useAppSelector((state) => state.theme);
+
   return (
     <div
-      className={`aspect-square border-2 border-slate-25 dark:border-gray-900 ring-2 ring-[#1a3363] rounded-full`}
+      className={`aspect-square border-2 border-slate-25 dark:border-gray-900 ring-2 ring-blue-wine-500 dark:ring-blue-wine-light rounded-full`}
       style={{
         height: size,
         width: size,
-        background: `conic-gradient(#1a3363 0% ${percent}%, #fbfcfd ${percent}%)`,
+        background: `conic-gradient(${
+          darkMode ? "#7296DA" : "#1a3363"
+        } 0% ${percent}%, ${darkMode ? "#09152A" : "#FFF"} ${percent}%)`,
       }}
     />
   );

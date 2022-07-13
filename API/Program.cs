@@ -1,13 +1,12 @@
 using API.Context;
 using API.Entities;
 using API.Extensions;
+using API.Filters;
 using API.Interfaces;
 using API.Middleware;
-using API.Models;
 using API.Repositories;
 using API.Services;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 
@@ -21,6 +20,12 @@ var configuration = builder.Configuration;
 // controller
 builder.Services.AddControllers()
     .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<Program>(); })
+    .AddMvcOptions(opt =>
+    {
+        // Delay filter for all endpoints
+        // Todo: ONLY FOR TESTING!
+        opt.Filters.Add(typeof(DelayFilter));
+    })
     .AddNewtonsoftJson(options =>
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -35,17 +40,9 @@ builder.Services.AddDbContext<MyDbContext>(opt =>
 builder.Services.ConfigureCors(myAllowSpecificOrigins);
 
 // JWT, Auth, Identity
-builder.Services.AddIdentityCore<User>(opt =>
-    {
-        //opt.Password.RequireNonAlphanumeric = false;
-        opt.User.RequireUniqueEmail = true;
-
-        // TODO: not working
-        opt.SignIn.RequireConfirmedEmail = true;
-    })
+builder.Services.AddIdentityCore<User>(opt => { opt.User.RequireUniqueEmail = true; })
     .AddRoles<Role>()
-    .AddEntityFrameworkStores<MyDbContext>()
-    .AddDefaultTokenProviders(); // for email
+    .AddEntityFrameworkStores<MyDbContext>();
 
 builder.Services.AddAuthenticationOptions(configuration);
 builder.Services.AddAuthorization();
@@ -53,9 +50,6 @@ builder.Services.AddAuthorization();
 // Added services
 builder.Services.AddScoped<TokenService>();
 builder.Services.AddScoped<ImageService>();
-// Email
-builder.Services.Configure<SmtpSettings>(configuration.GetSection("SmtpSettings"));
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
 // repositories
 builder.Services.AddScoped<IWineRepository, WineRepository>();

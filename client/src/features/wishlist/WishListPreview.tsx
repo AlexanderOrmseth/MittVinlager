@@ -1,51 +1,41 @@
-import React, { useState } from "react";
-import api from "../../app/api";
+import React from "react";
 import LoadingButton from "../../app/components/LoadingButton";
-import { FormModel } from "../../app/models/wine";
-import { WishItem } from "../../app/models/wishItem";
-import { useAppDispatch } from "../../app/store/configureStore";
+import { WineBaseModel } from "../../app/models/wine";
 import { formatAlcoholContent, formatPrice } from "../../app/util/format";
 import { vinmonopoletImage } from "../../app/util/vinmonopolet";
-import { triggerFetch } from "./wishlistSlice";
+import { useAddWishlistItemMutation } from "./wishlistApi";
+
 interface Props {
-  wine: FormModel | null;
-  setWine: React.Dispatch<React.SetStateAction<FormModel | null>>;
+  wine: WineBaseModel | null;
+  setWine: React.Dispatch<React.SetStateAction<WineBaseModel | null>>;
 }
+
 const WishListPreview = ({ wine, setWine }: Props) => {
-  const dispatch = useAppDispatch();
-  const [loading, setLoading] = useState(false);
+  const [addWishlistItem, { isLoading, isSuccess, isError }] =
+    useAddWishlistItemMutation();
 
   if (!wine) return null;
 
-  const handleAddWishListItem = async () => {
+  const handleAddWishlistItem = async () => {
     if (!wine.productId) {
       return;
     }
 
-    try {
-      setLoading(true);
-      const newWishItem = {
-        name: wine.name,
-        productId: wine.productId,
-        type: wine.type,
-        alcoholContent: wine.alcoholContent,
-        country: wine.country,
-        price: wine.price,
-      } as WishItem;
+    const newWishItem = {
+      name: wine.name,
+      productId: wine.productId,
+      type: wine.type,
+      alcoholContent: wine.alcoholContent,
+      country: wine.country,
+      price: wine.price,
+    };
 
-      // add wish item
-      await api.Wishlist.addWishItem(newWishItem);
-
-      // reset selected wine
-      setWine(null);
-
-      // trigger fetch
-      dispatch(triggerFetch());
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    await addWishlistItem(newWishItem)
+      .unwrap()
+      .then((res) => console.log(res))
+      .catch((err) => console.error(err));
+    // reset selected wine
+    setWine(null);
   };
 
   return (
@@ -66,9 +56,9 @@ const WishListPreview = ({ wine, setWine }: Props) => {
       </div>
 
       <LoadingButton
-        loading={loading}
+        loading={isLoading}
         disabled={!wine}
-        onClick={handleAddWishListItem}
+        onClick={handleAddWishlistItem}
         loadingText="Legger til vin..."
         className="w-full justify-center"
       >

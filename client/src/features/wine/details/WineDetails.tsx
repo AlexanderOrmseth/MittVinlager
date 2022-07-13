@@ -23,13 +23,13 @@ interface TasteValue {
 }
 
 const WineDetails = ({ wine }: Props) => {
-  const tasteValues = [
+  const tasteValues: TasteValue[] = [
     { value: wine.tannins, type: "tannins", displayText: "Tanninsk" },
     { value: wine.bitterness, type: "bitterness", displayText: "Bitterhet" },
     { value: wine.sweetness, type: "sweetness", displayText: "Sødme" },
     { value: wine.freshness, type: "freshness", displayText: "Ferskhet" },
     { value: wine.fullness, type: "fullness", displayText: "Fylde" },
-  ] as TasteValue[];
+  ];
 
   return (
     <>

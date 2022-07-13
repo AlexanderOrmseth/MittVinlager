@@ -35,6 +35,11 @@ export interface WineBaseModel {
   userDetails: UserDetails;
 }
 
+export interface WineFilters {
+  countries: string[];
+  types: string[];
+}
+
 export interface FormModel extends WineBaseModel {
   file?: File | null;
   resetImage: boolean;

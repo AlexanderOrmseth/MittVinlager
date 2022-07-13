@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 module.exports = {
   darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -24,6 +24,7 @@ module.exports = {
         "success-500": "#04A777",
         "another-green-wine-500": "#04A777",
 
+        "blue-wine-light": "#7296DA",
         "blue-wine-25": "#dee6f5",
         "blue-wine-100": "#7685a1",
         "blue-wine-200": "#5f7092",
@@ -38,9 +39,13 @@ module.exports = {
         "green-wine-25": "#f4f7f7",
         "green-wine-50": "#e8efef",
         "green-wine-100": "#dae5e6",
+        "green-wine-200": "#6D989B",
         "green-wine-300": "#487e82",
         "green-wine-500": "#1A5E63",
         "green-wine-600": "#154b4f",
+
+        "gray-925": "#101623",
+        "gray-950": "#080b12",
       },
     },
   },

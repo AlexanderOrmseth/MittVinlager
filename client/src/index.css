@@ -1,13 +1,20 @@
+@import url("./app/css/flags.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url("./app/css/flags.css");
 
 #root {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+
+
+}
+
+/* dark scrollbars if darkMode */
+.dark {
+  color-scheme: dark;
 }
 
 @layer components {
@@ -27,9 +34,9 @@
     @apply flex-1 rounded border
     transition-all placeholder:text-slate-400 dark:placeholder:text-gray-600
     placeholder:lowercase bg-white
-    focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none 
+    focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none
     w-full h-8 px-2 text-gray-800
-    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50;
+    dark:bg-gray-900 dark:border-gray-700 dark:text-gray-50;
   }
 
   .label {
@@ -38,7 +45,7 @@
 
   .nav-link {
     @apply select-none md:px-4 md:py-3 px-2 py-4 hover:text-wine-400 dark:hover:text-wine-300 rounded font-medium transition-colors
-     md:text-left text-center md:bg-transparent dark:md:bg-transparent bg-slate-50 dark:bg-gray-800/50 dark:text-gray-200
+    md:text-left text-center md:bg-transparent dark:md:bg-transparent bg-slate-50 dark:bg-gray-800/50 dark:text-gray-200
     appearance-none focus:bg-transparent focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
@@ -50,14 +57,28 @@
     @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white dark:bg-gray-900 dark:border-gray-700 py-1 px-1 z-10 shadow-lg border;
   }
 
-  .btn-white {
-    @apply select-none w-full shadow-xxs rounded-md 
-           bg-white dark:bg-gray-800/50 dark:border-gray-700 px-4 py-2 border transition-all cursor-pointer font-medium
-            text-sm hover:bg-slate-50 dark:hover:border-gray-600 dark:hover:bg-gray-800/30 active:bg-slate-100 active:text-gray-700 dark:active:text-gray-100;
+  .block-muted {
+    @apply border rounded bg-white dark:bg-gray-925 dark:border-gray-700;
   }
 
+  .block-less-muted {
+
+  }
+
+  .btn-white {
+    @apply select-none w-full rounded appearance-none
+    px-4 py-2 border cursor-pointer font-medium text-sm
+    bg-white
+    dark:bg-gray-800/50
+    dark:border-gray-700
+    hover:border-gray-300 dark:hover:border-gray-600
+    dark:hover:bg-gray-800/30 active:bg-slate-100
+    disabled:border-0 dark:active:text-gray-100 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+  }
+
+  /* WCAG AA: Pass */
   .disabled-btn {
-    @apply disabled:bg-gray-300 dark:disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500 disabled:shadow-none;
+    @apply disabled:bg-gray-300 dark:disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-700 disabled:shadow-none;
   }
 
   .focus-primary {
@@ -65,7 +86,19 @@
   }
 
   .link {
-    @apply text-green-wine-500 dark:text-green-wine-300 dark:hover:text-green-wine-500 hover:text-green-wine-600 hover:underline font-medium;
+    @apply text-green-wine-500 dark:text-[#59d1d9] hover:text-green-wine-600 hover:underline font-medium;
+  }
+
+  .text-muted {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .i-flex-row {
+    @apply flex flex-row items-center gap-x-2;
+  }
+
+  .text-less-muted {
+    @apply text-gray-700 dark:text-gray-300/90;
   }
 }
 
