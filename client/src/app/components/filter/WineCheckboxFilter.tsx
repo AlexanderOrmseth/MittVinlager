@@ -1,6 +1,6 @@
 import { Check } from "phosphor-react";
 import { useDebouncedCallback } from "use-debounce";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   items: string[];
@@ -14,6 +14,13 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
   const [value, setValue] = useState<string[]>(checked);
   // Debounce callback
   const debounced = useDebouncedCallback(() => onChange(value), 900);
+
+  // reset local state
+  useEffect(() => {
+    if (!checked.length) {
+      setValue([]);
+    }
+  }, [checked]);
 
   const handleChecked = (item: string) => {
     if (disabled) return;

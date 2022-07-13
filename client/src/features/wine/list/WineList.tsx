@@ -38,12 +38,17 @@ const WineList = ({ wine, metaData }: Props) => {
     setIsOpen(true);
   };
 
+  // TODO: have a useCallBack UseDebounce here that is passed to components so they share the timout
+
   let content;
   // loading
 
   if (!metaData.totalCount) {
     content = (
-      <InventoryMessage Icon={Ghost} message={<>Du har ikke lagret noen vin</>}>
+      <InventoryMessage
+        Icon={Ghost}
+        message={<>Du har ikke lagret noen vin.</>}
+      >
         <Link
           to="new"
           className="btn-white w-full rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center"
