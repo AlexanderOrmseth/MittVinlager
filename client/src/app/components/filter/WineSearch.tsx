@@ -1,30 +1,31 @@
-import { MagnifyingGlass } from "phosphor-react";
-import { useEffect, useRef, useState } from "react";
+import { MagnifyingGlass, Record } from "phosphor-react";
+import { useEffect, useState } from "react";
 import { setParams } from "../../../features/wine/wineSlice";
-import useDebounce from "../../hooks/useDebounce";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import { useDebouncedCallback } from "use-debounce";
 
 const WineSearch = ({ disabled }: { disabled: boolean }) => {
-  const { wineParams } = useAppSelector((state) => state.wine);
+  const wineSearchTerm = useAppSelector(
+    (state) => state.wine.wineParams.searchTerm
+  );
   const dispatch = useAppDispatch();
+  const [searchTerm, setSearchTerm] = useState(wineSearchTerm || "");
 
-  const [searchTerm, setSearchTerm] = useState(wineParams.searchTerm || "");
-  const debouncedValue = useDebounce<string>(searchTerm, 1000);
+  // Debounce callback
+  const debounced = useDebouncedCallback(
+    (value) => dispatch(setParams({ searchTerm: value.trim() })),
+    1000
+  );
 
-  const firstUpdate = useRef(true);
-
+  // reset local state
   useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-
-    dispatch(setParams({ searchTerm: debouncedValue }));
-  }, [debouncedValue, dispatch]);
+    if (wineSearchTerm === "") setSearchTerm("");
+  }, [wineSearchTerm]);
 
   const handleOnChange = (val: HTMLInputElement["value"]) => {
     if (disabled) return;
     setSearchTerm(val);
+    debounced(val);
   };
   return (
     <div>
@@ -32,10 +33,18 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
       <div
         className={`flex flex-row items-center ${disabled ? "opacity-50" : ""}`}
       >
-        <MagnifyingGlass
-          className="absolute ml-2 text-slate-500"
-          size="1.25rem"
-        />
+        {searchTerm !== wineSearchTerm ? (
+          <Record
+            size="1.25rem"
+            className="absolute ml-2 text-slate-500"
+            weight="duotone"
+          />
+        ) : (
+          <MagnifyingGlass
+            className="absolute ml-2 text-slate-500"
+            size="1.25rem"
+          />
+        )}
         <input
           className="text-input pl-8 h-10"
           type="text"

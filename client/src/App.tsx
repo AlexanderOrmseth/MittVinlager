@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Puff } from "react-loading-icons";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -7,14 +7,18 @@ import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
 import { fetchCurrentUser } from "./features/account/accountSlice";
 import GoogleButton from "./features/account/GoogleButton";
-import ProfilePage from "./features/account/ProfilePage";
 import HomePage from "./features/home/HomePage";
 import { initTheme } from "./features/ui/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
-import NewWinePage from "./features/wine/NewWinePage";
-import UpdateWinePage from "./features/wine/UpdateWinePage";
-import Wishlist from "./features/wishlist/Wishlist";
+
+// lazy load
+const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
+const Wishlist = React.lazy(() => import("./features/wishlist/Wishlist"));
+const NewWinePage = React.lazy(() => import("./features/wine/NewWinePage"));
+const UpdateWinePage = React.lazy(
+  () => import("./features/wine/UpdateWinePage")
+);
 
 function App() {
   const dispatch = useAppDispatch();
@@ -22,7 +26,6 @@ function App() {
 
   const initApp = useCallback(async () => {
     try {
-      console.log("Fetching current user");
       dispatch(initTheme());
       await dispatch(fetchCurrentUser());
     } catch (error) {
@@ -34,16 +37,16 @@ function App() {
     initApp().finally(() => setLoading(false));
   }, [initApp]);
 
-  if (loading)
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <Puff height="6rem" width="6rem" stroke="#888" />
-      </div>
-    );
+  const pageLoad = (
+    <div className="w-screen h-screen flex justify-center items-center">
+      <Puff height="6rem" width="6rem" stroke="#888" />
+    </div>
+  );
+
+  if (loading) return pageLoad;
 
   return (
     <>
-      <div id="google-button"></div>
       <Toaster position="top-center" reverseOrder={false} />
       <BrowserRouter>
         <Routes>
@@ -54,7 +57,9 @@ function App() {
               path="profile"
               element={
                 <AuthRedirect>
-                  <ProfilePage />
+                  <React.Suspense fallback={pageLoad}>
+                    <ProfilePage />
+                  </React.Suspense>
                 </AuthRedirect>
               }
             />
@@ -70,7 +75,9 @@ function App() {
               path="inventory/new"
               element={
                 <AuthRedirect>
-                  <NewWinePage />
+                  <React.Suspense fallback={pageLoad}>
+                    <NewWinePage />
+                  </React.Suspense>
                 </AuthRedirect>
               }
             />
@@ -86,7 +93,9 @@ function App() {
               path="inventory/:id/update"
               element={
                 <AuthRedirect>
-                  <UpdateWinePage />
+                  <React.Suspense fallback={pageLoad}>
+                    <UpdateWinePage />
+                  </React.Suspense>
                 </AuthRedirect>
               }
             />
@@ -94,7 +103,9 @@ function App() {
               path="wishlist"
               element={
                 <AuthRedirect>
-                  <Wishlist />
+                  <React.Suspense fallback={pageLoad}>
+                    <Wishlist />
+                  </React.Suspense>
                 </AuthRedirect>
               }
             />

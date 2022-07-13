@@ -29,9 +29,6 @@ export const wineSlice = createSlice({
   initialState: initialState,
   reducers: {
     resetAll: () => initialState,
-    resetSearchParam: (state) => {
-      state.wineParams.searchTerm = "";
-    },
     resetParams: (state) => {
       state.wineParams = {
         ...state.wineParams,
@@ -57,10 +54,10 @@ export const wineSlice = createSlice({
         pageNumber: 1,
       };
     },
-    setGridView: (state, action) => {
+    setGridView: (state, action: PayloadAction<boolean>) => {
       state.gridView = action.payload;
     },
-    setPageNumber: (state, action) => {
+    setPageNumber: (state, action: PayloadAction<number>) => {
       state.wineParams.pageNumber = action.payload;
     },
   },
@@ -73,7 +70,6 @@ export const getParams = createSelector(
 
 export const {
   setPageNumber,
-  //resetSearchParam,
   setOrderByDescending,
   setOrderBy,
   setParams,
