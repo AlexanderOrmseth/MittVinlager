@@ -22,7 +22,7 @@ const NewWinePage = () => {
         toast.success(`Opprettet ny vin!`, {
           position: "bottom-right",
         });
-        navigate("/inventory");
+        //navigate("/inventory");
       })
       .catch((err) => {
         // show server validation errors

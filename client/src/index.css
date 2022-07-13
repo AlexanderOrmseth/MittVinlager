@@ -57,6 +57,14 @@
     @apply absolute mt-1.5 max-h-80 w-full space-y-0.5 overflow-auto rounded-md bg-white dark:bg-gray-900 dark:border-gray-700 py-1 px-1 z-10 shadow-lg border;
   }
 
+  .block-muted {
+    @apply border rounded bg-white dark:bg-gray-925 dark:border-gray-700;
+  }
+
+  .block-less-muted {
+
+  }
+
   .btn-white {
     @apply select-none w-full rounded appearance-none
     px-4 py-2 border cursor-pointer font-medium text-sm

@@ -37,7 +37,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           size="1.25rem"
         />
         <input
-          className="text-input pl-8 h-12 shadow-xxs"
+          className="text-input pl-8 h-10"
           type="text"
           placeholder="søk på vin"
           value={searchTerm}

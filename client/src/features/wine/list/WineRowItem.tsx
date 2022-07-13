@@ -11,9 +11,10 @@ interface Props {
   wine: Wine;
   handleDeleteWine: (id: number, name: string) => void;
 }
+
 const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
-    <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white dark:bg-gray-700/30 dark:hover:bg-gray-700/20 hover:bg-slate-25 flex gap-x-1">
+    <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white dark:bg-gray-925 dark:hover:bg-gray-925/70  hover:bg-slate-25 flex gap-x-1">
       <div>
         <img
           className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"

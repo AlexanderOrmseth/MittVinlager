@@ -1,7 +1,6 @@
 import AsideDisclosure from "../../../app/components/AsideDisclosure";
 import WineCheckboxFilter from "../../../app/components/filter/WineCheckboxFilter";
 import WineSearch from "../../../app/components/filter/WineSearch";
-import ListBox from "../../../app/components/ListBox";
 import {
   useAppDispatch,
   useAppSelector,
@@ -11,7 +10,8 @@ import { useGetWineFiltersQuery } from "../../api/apiSlice";
 import { MetaData } from "../../../app/models/pagination";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { Info } from "phosphor-react";
+import { ArrowCounterClockwise, Info } from "phosphor-react";
+import OrderBy from "./OrderBy";
 
 interface Props {
   metaData: MetaData | null | undefined;
@@ -56,48 +56,14 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
 
   return (
     <aside className="basis-60 relative">
-      <div className="space-y-4 sm:pb-0 sm:sticky sm:top-4 sm:overflow-y-auto sm:pl-2 sm:pr-2 sm:max-h-[calc(100vh-4rem)]">
-        <ListBox
-          label="Sorter"
-          items={[
-            {
-              value: "name",
-              displayText: "Navn",
-            },
-            {
-              value: "price",
-              displayText: "Pris",
-            },
-            {
-              value: "priceDesc",
-              displayText: "Pris (synkende)",
-            },
-            {
-              value: "country",
-              displayText: "Land",
-            },
-            {
-              value: "countryDesc",
-              displayText: "Land (synkende)",
-            },
-            {
-              value: "type",
-              displayText: "Type",
-            },
-            {
-              value: "typeDesc",
-              displayText: "Type (synkende)",
-            },
-          ]}
-          disabled={disabled}
-          selected={params.orderBy}
-          onChange={(item: string) => dispatch(setParams({ orderBy: item }))}
-        />
+      <div className="space-y-4 block-muted md:sticky md:top-4 sm:overflow-y-auto p-4 md:max-h-[calc(100vh-6rem)]">
+        <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
         <button
           disabled={disabled}
-          className="btn-secondary rounded-full w-full disabled-btn"
+          className="btn-white disabled-btn i-flex-row justify-center"
           onClick={() => dispatch(resetParams())}
         >
+          <ArrowCounterClockwise size="1.25rem" />
           Tilbakestill
         </button>
         <WineSearch disabled={disabled} />

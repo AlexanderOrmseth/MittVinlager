@@ -1,14 +1,15 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
-import { WineParams } from "../../app/models/params";
+import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { OrderBy, WineParams } from "../../app/models/params";
 import { RootState } from "../../app/store/configureStore";
 
 // wine state
 interface WineState {
   gridView: boolean;
+  orderByDescending: boolean;
   wineParams: WineParams;
 }
 
-export const initialParams = {
+export const initialParams: WineParams = {
   pageNumber: 1,
   orderBy: "name",
   countries: [],
@@ -19,6 +20,7 @@ export const initialParams = {
 // initial state
 const initialState: WineState = {
   gridView: true,
+  orderByDescending: false,
   wineParams: initialParams,
 };
 
@@ -31,7 +33,22 @@ export const wineSlice = createSlice({
       state.wineParams.searchTerm = "";
     },
     resetParams: (state) => {
-      state.wineParams = initialParams;
+      state.wineParams = {
+        ...state.wineParams,
+        pageNumber: 1,
+        countries: [],
+        types: [],
+        searchTerm: "",
+      };
+    },
+    setOrderBy: (state, action: PayloadAction<OrderBy>) => {
+      state.wineParams = {
+        ...state.wineParams,
+        orderBy: action.payload,
+      };
+    },
+    setOrderByDescending: (state, action: PayloadAction<boolean>) => {
+      state.orderByDescending = action.payload;
     },
     setParams: (state, action) => {
       state.wineParams = {
@@ -56,7 +73,9 @@ export const getParams = createSelector(
 
 export const {
   setPageNumber,
-  resetSearchParam,
+  //resetSearchParam,
+  setOrderByDescending,
+  setOrderBy,
   setParams,
   resetParams,
   resetAll,

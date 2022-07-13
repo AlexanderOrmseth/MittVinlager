@@ -19,7 +19,7 @@ const InventoryPage = () => {
   else if (isError) content = <ErrorBox message="Something went wrong.." />;
 
   return (
-    <div className="flex flex-grow flex-1 min-h-full gap-4 sm:flex-row flex-col">
+    <div className="flex flex-grow flex-1 min-h-full gap-4 md:flex-row flex-col">
       <WineFilter
         metaData={data?.metaData}
         isFetchingWine={isFetching || isLoading}
@@ -32,7 +32,7 @@ const InventoryPage = () => {
           top={true}
         />
 
-        <div className="flex flex-1 my-4 p-4 bg-slate-50 dark:bg-gray-950 rounded flex-col">
+        <div className="flex flex-1 p-4 bg-slate-50 border border-slate-100 dark:border-gray-800 dark:bg-gray-950 rounded flex-col">
           {content}
         </div>
 
