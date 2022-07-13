@@ -73,7 +73,7 @@
     dark:border-gray-700
     hover:border-gray-300 dark:hover:border-gray-600
     dark:hover:bg-gray-800/30 active:bg-slate-100
-    disabled:border-0 dark:active:text-gray-100 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    disabled:border-transparent focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   /* WCAG AA: Pass */

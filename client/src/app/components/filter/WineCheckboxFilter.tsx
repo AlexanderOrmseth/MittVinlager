@@ -1,4 +1,6 @@
 import { Check } from "phosphor-react";
+import { useDebouncedCallback } from "use-debounce";
+import { useState } from "react";
 
 interface Props {
   items: string[];
@@ -8,10 +10,14 @@ interface Props {
 }
 
 const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
+  // state copy
+  const [value, setValue] = useState<string[]>(checked);
+  // Debounce callback
+  const debounced = useDebouncedCallback(() => onChange(value), 900);
+
   const handleChecked = (item: string) => {
     if (disabled) return;
-
-    let newCheckedList = [...checked];
+    let newCheckedList = [...value];
 
     // check / uncheck
     if (newCheckedList.includes(item)) {
@@ -22,7 +28,8 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
       newCheckedList.push(item);
     }
 
-    onChange(newCheckedList);
+    setValue(newCheckedList);
+    debounced();
   };
 
   return (
@@ -38,16 +45,20 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
           key={i}
         >
           <div
-            className={`
+            className={` 
             text-white transition-all
-            rounded border-2 w-5 h-5
+            rounded border-2 w-5 h-5 
             ${
-              checked.includes(item)
-                ? "bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400"
-                : "bg-white dark:bg-gray-900/60 dark:text-transparent border-slate-300 dark:border-gray-700"
+              value.includes(item) && checked.includes(item)
+                ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
+                : value.includes(item) && !checked.includes(item)
+                ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
+                : " bg-white dark:bg-gray-900/60 border-slate-300 dark:border-gray-700 "
             }`}
           >
-            {checked.includes(item) && <Check weight="bold" />}
+            {(value.includes(item) || checked.includes(item)) && (
+              <Check weight="bold" />
+            )}
           </div>
           <div className="">{item}</div>
         </button>

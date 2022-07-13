@@ -26,6 +26,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
   const params = useAppSelector(getParams);
   const dispatch = useAppDispatch();
 
+
   const { data: filters, ...filterStatus } = useGetWineFiltersQuery();
 
   // check for mismatch and reset params
