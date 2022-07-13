@@ -80,14 +80,14 @@ const WineList = ({ wine, metaData }: Props) => {
   }
 
   return (
-    <div className="flex flex-1 flex-col">
+    <>
       {content}
       <DeleteWineModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         wineToDelete={wineToDelete}
       />
-    </div>
+    </>
   );
 };
 

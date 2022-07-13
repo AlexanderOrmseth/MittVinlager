@@ -30,7 +30,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
   return (
     <Link
       to={`${wine.wineId}`}
-      className="relative h-full p-4 block shadow hover:shadow-sm rounded bg-white hover:bg-slate-25 dark:bg-gray-700/30 dark:hover:bg-gray-700/20 focus-primary"
+      className="relative h-full p-4 block shadow hover:shadow-sm rounded bg-white hover:bg-slate-25 dark:bg-gray-925 dark:hover:bg-gray-925/70 focus-primary"
     >
       <div
         className="absolute top-0 right-0"

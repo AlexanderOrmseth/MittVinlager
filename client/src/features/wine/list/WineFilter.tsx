@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 import { Info } from "phosphor-react";
 
 interface Props {
-  metaData: MetaData | null;
+  metaData: MetaData | null | undefined;
   isFetchingWine: boolean;
 }
 

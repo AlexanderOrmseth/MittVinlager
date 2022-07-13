@@ -208,7 +208,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
         setValue={setValue}
       />
 
-      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-800/30 rounded-lg md:p-8 p-4 ">
+      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-950 rounded-lg md:p-8 p-4 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex w-full max-w-lg bg-white dark:bg-gray-800 rounded shadow flex-row">
@@ -245,7 +245,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
           </div>
           <div className="mt-6 border-t relative border-slate-200 dark:border-gray-700 mb-6">
             {getValues("productId") && (
-              <span className="absolute right-4 px-1 text-sm -top-3 text-slate-400 bg-slate-25">
+              <span className="absolute right-4 px-1 text-sm -top-3 dark:bg-gray-950 text-slate-400 bg-slate-25">
                 <span className="select-none">produktId: </span>
                 {getValues("productId")}
               </span>

@@ -8,7 +8,7 @@ import { MetaData } from "../../../app/models/pagination";
 interface Props {
   isLoading: boolean;
   top: boolean;
-  metaData: MetaData | null;
+  metaData: MetaData | null | undefined;
 }
 
 const Paginator = ({ isLoading, top, metaData }: Props) => {

@@ -36,7 +36,7 @@
     placeholder:lowercase bg-white
     focus:border-transparent appearance-none focus:bg-white focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none
     w-full h-8 px-2 text-gray-800
-    dark:bg-gray-800 dark:border-gray-700 dark:text-gray-50;
+    dark:bg-gray-900 dark:border-gray-700 dark:text-gray-50;
   }
 
   .label {

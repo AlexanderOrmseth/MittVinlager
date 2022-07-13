@@ -1,6 +1,7 @@
 import { CheckCircle, FileImage } from "phosphor-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+
 const maxSize = 1048576;
 
 const Dropzone = ({
@@ -56,12 +57,8 @@ const Dropzone = ({
             Fjern bilde
           </button>
           {value?.name && (
-            <div className="flex flex-row gap-x-2 items-center text-sm text-green-wine-500">
-              <CheckCircle
-                size="1.5rem"
-                weight="duotone"
-                className="text-green-wine-500"
-              />
+            <div className="flex flex-row gap-x-2 items-center text-sm text-green-wine-500 dark:text-green-wine-200">
+              <CheckCircle size="1.5rem" weight="duotone" />
               {value.name}
             </div>
           )}
@@ -90,7 +87,7 @@ const Dropzone = ({
             )}
           </p>
         ) : (
-          <div className="rounded border text-center bg-slate-50 dark:bg-gray-800 dark:border-gray-700 border-dashed border-slate-300 p-4 py-4 hover:bg-slate-100 hover:border-slate-500">
+          <div className="rounded border text-center bg-slate-50 dark:bg-gray-900 dark:border-gray-700 border-dashed border-slate-300 p-4 py-4 hover:bg-slate-100 hover:border-slate-500">
             <div className="flex flex-row gap-2 justify-center items-center">
               <FileImage size="1.75rem" weight="duotone" />
               Trykk her, eller dra et bilde hit
