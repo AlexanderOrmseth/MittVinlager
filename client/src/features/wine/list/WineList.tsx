@@ -1,4 +1,9 @@
-import { Ghost, Robot } from "phosphor-react";
+import {
+  ArrowCounterClockwise,
+  Ghost,
+  PlusCircle,
+  Robot,
+} from "phosphor-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
@@ -11,6 +16,7 @@ import WineCard from "./WineCard";
 import WineRowItem from "./WineRowItem";
 import { Wine } from "../../../app/models/wine";
 import { MetaData } from "../../../app/models/pagination";
+import InventoryMessage from "./InventoryMessage";
 
 interface Props {
   wine: Wine[] | [];
@@ -37,23 +43,35 @@ const WineList = ({ wine, metaData }: Props) => {
 
   if (!metaData.totalCount) {
     content = (
-      <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2 ">
-        <Ghost size="5rem" weight="light" />
-        <p>Du har ikke lagret noen vin</p>
-        <Link to="new" className="btn-primary">
+      <InventoryMessage Icon={Ghost} message={<>Du har ikke lagret noen vin</>}>
+        <Link
+          to="new"
+          className="btn-white w-full rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center"
+        >
+          <PlusCircle size="1.75em" />
           Legg til vin
         </Link>
-      </div>
+      </InventoryMessage>
     );
   } else if (wine.length === 0) {
     content = (
-      <div className="flex text-slate-500 items-center justify-center flex-col gap-y-2">
-        <Robot size="5rem" weight="light" />
-        <p>Beep boop! Du har ingen vin som treffer valgt filter.</p>
-        <button onClick={() => dispatch(resetParams())} className="btn-primary">
-          Tilbakestill filter
+      <InventoryMessage
+        Icon={Robot}
+        message={
+          <>
+            <i className="opacity-70">Beep boop!</i> Du har ingen vin som
+            treffer valgt filter.
+          </>
+        }
+      >
+        <button
+          className="btn-white w-full rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center"
+          onClick={() => dispatch(resetParams())}
+        >
+          <ArrowCounterClockwise size="1.75em" />
+          Tilbakestill
         </button>
-      </div>
+      </InventoryMessage>
     );
   } else {
     content = (
