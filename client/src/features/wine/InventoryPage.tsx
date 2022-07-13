@@ -32,7 +32,7 @@ const InventoryPage = () => {
           top={true}
         />
 
-        <div className="flex flex-1 p-4 bg-slate-50 border border-slate-100 dark:border-gray-800 dark:bg-gray-950 rounded flex-col">
+        <div className="flex flex-1 p-4 block-less-muted flex-col">
           {content}
         </div>
 

@@ -91,7 +91,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
             {error && <ErrorBox message={error} />}
 
             {data && data.length > 0 ? (
-              <div className="my-4 p-2 border rounded-lg dark:border-gray-700">
+              <div className="my-4 p-2 rounded-lg block-muted">
                 <h3 className="mb-2 text-center border-b dark:border-gray-700 pb-2 font-medium text-sm">
                   Drukket
                 </h3>
@@ -112,7 +112,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
 
             {!quantity && <InfoBox message="Du har ikke vinen på lager." />}
 
-            <div className="p-4 mt-4 bg-slate-50 dark:bg-gray-800/30 dark:border dark:border-gray-700 space-y-6 rounded-lg">
+            <div className="p-4 mt-4 block-less-muted space-y-6 rounded-lg">
               <div>
                 <label className="label">Velg dato</label>
                 <DatePicker

@@ -62,7 +62,7 @@
   }
 
   .block-less-muted {
-
+    @apply bg-slate-25 border border dark:border-gray-800 dark:bg-gray-950 rounded;
   }
 
   .btn-white {

@@ -208,7 +208,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
         setValue={setValue}
       />
 
-      <div className="bg-slate-25 mt-6 border dark:border-gray-700 dark:bg-gray-950 rounded-lg md:p-8 p-4 ">
+      <div className="mt-6 block-less-muted rounded-lg md:p-8 p-4 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
           <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 justify-between items-start">
             <Tab.List className="inline-flex w-full max-w-lg bg-white dark:bg-gray-800 rounded shadow flex-row">

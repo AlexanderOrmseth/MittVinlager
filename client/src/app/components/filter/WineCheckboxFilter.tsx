@@ -32,8 +32,12 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
     debounced();
   };
 
+  const isChecked = (str: string): boolean =>
+    (value.includes(str) && checked.includes(str)) ||
+    (value.includes(str) && !checked.includes(str));
+
   return (
-    <div className="select-none">
+    <div className="select-none overflow-auto max-h-80">
       {items.map((item, i) => (
         <button
           className={`flex w-full flex-row items-center gap-x-2 transition-all text-gray-700 dark:text-gray-400 rounded p-2 ${
@@ -49,16 +53,12 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
             text-white transition-all
             rounded border-2 w-5 h-5 
             ${
-              value.includes(item) && checked.includes(item)
-                ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
-                : value.includes(item) && !checked.includes(item)
+              isChecked(item)
                 ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
                 : " bg-white dark:bg-gray-900/60 border-slate-300 dark:border-gray-700 "
             }`}
           >
-            {(value.includes(item) || checked.includes(item)) && (
-              <Check weight="bold" />
-            )}
+            {isChecked(item) && <Check weight="bold" />}
           </div>
           <div className="">{item}</div>
         </button>

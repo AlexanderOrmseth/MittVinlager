@@ -84,7 +84,9 @@ export const apiSlice = createApi({
           method: "GET",
         };
       },
-      providesTags: (result, error, id) => [{ type: "Wines", id }],
+      providesTags: (result, error, id) => [
+        { type: "Wines", id: result?.wineId },
+      ],
     }),
     /* Delete wine by id
      * */

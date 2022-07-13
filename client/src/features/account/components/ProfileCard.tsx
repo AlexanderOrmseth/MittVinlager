@@ -12,7 +12,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="p-8 border dark:border-gray-800 dark:bg-gray-950 md:inline-flex flex md:max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
+      <div className="p-8 block-less-muted md:inline-flex flex md:max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
         <div className="text-4xl font-medium text-blue-wine-400 dark:text-wine-300">
           {user.userName}
         </div>

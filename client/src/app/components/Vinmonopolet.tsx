@@ -126,7 +126,7 @@ const Vinmonopolet = ({
     <>
       <div className="mb-4">
         <a
-          className="inline-flex flex-row gap-x-1.5 items-center text-green-wine-500 font-medium px-2 text-sm bg-green-wine-25 hover:bg-green-wine-100 py-2 rounded hover:underline"
+          className="inline-flex link flex-row gap-x-1.5 items-center px-2 text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-green-wine-25/10 py-2 rounded"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
@@ -140,7 +140,7 @@ const Vinmonopolet = ({
           <span>132801</span>
         </div>
       </div>
-      <div className="p-4 bg-slate-50 space-y-6 dark:bg-gray-800/30 dark:border dark:border-gray-700 rounded-lg">
+      <div className="p-4 space-y-6 block-less-muted rounded-lg">
         <div>
           <label htmlFor="vinmonopoletProductId" className="label">
             ProduktId/Link
@@ -170,16 +170,18 @@ const Vinmonopolet = ({
               <RadioGroup.Option key={radio.value} value={radio.value}>
                 {({ checked, active }) => (
                   <div
-                    className={`p-3 rounded 
+                    className={`p-3 btn-white rounded font-normal 
                 ${
                   checked
-                    ? "bg-blue-wine-500 text-slate-50"
-                    : "bg-slate-200 text-gray-900 hover:bg-slate-300"
+                    ? "bg-blue-wine-500 active:bg-blue-wine-500 dark:bg-blue-wine-500 dark:hover:bg-blue-wine-500 text-slate-50 border border-blue-wine-500 dark:border-blue-wine-200"
+                    : ""
                 } flex flex-row gap-x-2 items-center cursor-pointer select-none`}
                   >
                     <div className="flex-1">
                       <p className="font-medium">{radio.title}</p>
-                      <p className="opacity-80 text-sm">{radio.description}</p>
+                      <p className="opacity-60 font-normal text-sm">
+                        {radio.description}
+                      </p>
                     </div>
                     {checked && (
                       <div className="border-2 border-white rounded-full p-0.5">

@@ -22,7 +22,7 @@ const WishlistList = ({ items }: Props) => {
   };
 
   return (
-    <ul className="flex-1 p-4 bg-slate-50 dark:bg-gray-800/40 rounded-lg space-y-2">
+    <ul className="flex-1 p-4 block-less-muted space-y-2">
       {items.map((wishItem) => (
         <WineListItem
           key={wishItem.id}
