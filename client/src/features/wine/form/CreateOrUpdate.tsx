@@ -10,10 +10,10 @@ import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
 import {
   ArrowRight,
-  Bug,
   Eye,
   PencilSimpleLine,
   PlusCircle,
+  Warning,
 } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import { schema } from "./validationSchema";
@@ -103,6 +103,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
   // tab
   const [tabIndex, setTabIndex] = useState(0);
 
+  // RHF
   const {
     handleSubmit,
     control,
@@ -119,6 +120,7 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
     resolver: yupResolver(schema),
   });
 
+  // watch
   const watchFile = watch("file", null);
   const watchDrinkingWindowMin = watch("userDetails.drinkingWindowMin");
 
@@ -224,9 +226,9 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
                   }
                 >
                   {!!getErrorCount(tabFields[i], i === 2) && (
-                    <div className="text-wine-400 pointer-events-none absolute -top-2 left-0 w-full animate-bounce">
-                      <div className="flex flex-row items-center gap-x-1 justify-center">
-                        <Bug size="1.5rem" weight="duotone" />
+                    <div className="text-wine-400 dark:text-wine-300 pointer-events-none absolute -top-4 left-0 w-full animate-bounce">
+                      <div className="inline-flex bg-slate-200/40 dark:bg-gray-800/40 backdrop-blur-sm border-wine-400 rounded py-2 px-4 flex-row items-center gap-x-1 justify-center">
+                        <Warning size="1.5rem" weight="duotone" />
                         {getErrorCount(tabFields[i], i === 2)}
                       </div>
                     </div>
