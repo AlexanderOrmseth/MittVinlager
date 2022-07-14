@@ -3,10 +3,16 @@ import { useGetWineByIdQuery } from "../../features/api/apiSlice";
 
 const useFetchSingleWine = () => {
   const { id } = useParams<{ id: string | undefined }>();
-  // fetch wine
-  const { data: wine, ...status } = useGetWineByIdQuery(id ? +id : undefined);
 
-  return { id: id ? +id : undefined, wine, status };
+  // validate
+  const number = id ? +id : undefined;
+  const skip = number ? isNaN(number) : true;
+
+  // Do not fetch if id is not a number.
+  const { data: wine, ...status } = useGetWineByIdQuery(number, { skip });
+
+  // id can be undefined, handle this in caller component
+  return { id: number, wine, status };
 };
 
 export default useFetchSingleWine;

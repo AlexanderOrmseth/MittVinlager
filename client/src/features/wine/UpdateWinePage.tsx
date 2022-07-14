@@ -8,11 +8,12 @@ import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useUpdateWineMutation } from "../api/apiSlice";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import toast from "react-hot-toast";
+import NotFound from "../../app/layout/NotFound";
+import ErrorBox from "../../app/components/ErrorBox";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
   const { wine, id, status: wineStatus } = useFetchSingleWine();
-
   const [updateWine] = useUpdateWineMutation();
 
   const [serverErrors, setServerErrors] = useState<Record<
@@ -20,8 +21,12 @@ const UpdateWinePage = () => {
     string[]
   > | null>(null);
 
-  if (wineStatus.isLoading) return <Spinner text="Laster vin..." />;
-  else if (wineStatus.isError) return <div>vinen eksisterer ikke!</div>;
+  // handle id, loading, fetch error
+  if (!id) return <NotFound />;
+  else if (wineStatus.isLoading) return <Spinner text="Laster..." />;
+  else if (wineStatus.isError) {
+    return <ErrorBox message={`Kunne ikke finne vinen med id: ${id}`} />;
+  }
 
   const onSubmit = async (data: FormModel) => {
     if (!id) {

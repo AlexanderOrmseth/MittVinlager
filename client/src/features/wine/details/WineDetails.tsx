@@ -32,7 +32,7 @@ const WineDetails = ({ wine }: Props) => {
   ];
 
   return (
-    <>
+    <div className="block-muted space-y-4">
       <DescriptionList delay={0} title="Vindetaljer">
         <DescriptionItem dt="Navn" dd={wine.name} />
         <DescriptionItem dt="Type" dd={wine.type} />
@@ -77,9 +77,7 @@ const WineDetails = ({ wine }: Props) => {
                     key={i}
                     className="flex py-2 flex-col items-center gap-y-2"
                   >
-                    <p className="font-medium text-slate-500 dark:text-wine-200">
-                      {displayText}
-                    </p>
+                    <p className=" text-xs text-muted">{displayText}</p>
                     <TastePie percent={list[value].percent} size={"2rem"} />
                     <p>{text[type][value]}</p>
                   </div>
@@ -123,7 +121,7 @@ const WineDetails = ({ wine }: Props) => {
           <Stars stars={wine.userDetails.userRating || 0} />
         </DescriptionItem>
       </DescriptionList>
-    </>
+    </div>
   );
 };
 

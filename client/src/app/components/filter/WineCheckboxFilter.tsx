@@ -3,26 +3,32 @@ import { useDebouncedCallback } from "use-debounce";
 import { useEffect, useState } from "react";
 
 interface Props {
-  items: string[];
-  checked: string[];
+  options?: string[] | null;
+  checkedOptions: string[];
   onChange: (items: string[]) => void;
   disabled: boolean;
 }
 
-const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
+const WineCheckboxFilter = ({
+  options,
+  checkedOptions,
+  onChange,
+  disabled,
+}: Props) => {
   // state copy
-  const [value, setValue] = useState<string[]>(checked);
+  const [value, setValue] = useState<string[]>(checkedOptions || []);
+
   // Debounce callback
   const debounced = useDebouncedCallback(() => onChange(value), 900);
 
   // reset local state
   useEffect(() => {
-    if (!checked.length) {
+    if (!checkedOptions.length) {
       setValue([]);
     }
-  }, [checked]);
+  }, [checkedOptions]);
 
-  const handleChecked = (item: string) => {
+  const handleChecked = (item: string): void => {
     if (disabled) return;
     let newCheckedList = [...value];
 
@@ -40,23 +46,24 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
   };
 
   const isChecked = (str: string): boolean =>
-    (value.includes(str) && checked.includes(str)) ||
-    (value.includes(str) && !checked.includes(str));
+    (value.includes(str) && checkedOptions.includes(str)) ||
+    (value.includes(str) && !checkedOptions.includes(str));
 
   return (
     <div className="select-none overflow-auto max-h-80">
-      {items.map((item, i) => (
-        <button
-          className={`flex w-full flex-row items-center gap-x-2 transition-all text-gray-700 dark:text-gray-400 rounded p-2 ${
-            disabled
-              ? "opacity-50 cursor-progress"
-              : "cursor-pointer hover:text-gray-900 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800/50 hover:gap-x-3"
-          } `}
-          onClick={() => handleChecked(item)}
-          key={i}
-        >
-          <div
-            className={` 
+      {options &&
+        options.map((item, i) => (
+          <button
+            className={`flex w-full flex-row items-center gap-x-2 transition-all text-gray-700 dark:text-gray-400 rounded p-2 ${
+              disabled
+                ? "opacity-50 cursor-progress"
+                : "cursor-pointer hover:text-gray-900 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800/50 hover:gap-x-3"
+            } `}
+            onClick={() => handleChecked(item)}
+            key={i}
+          >
+            <div
+              className={` 
             text-white transition-all
             rounded border-2 w-5 h-5 
             ${
@@ -64,12 +71,12 @@ const WineCheckboxFilter = ({ items, checked, onChange, disabled }: Props) => {
                 ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
                 : " bg-white dark:bg-gray-900/60 border-slate-300 dark:border-gray-700 "
             }`}
-          >
-            {isChecked(item) && <Check weight="bold" />}
-          </div>
-          <div className="">{item}</div>
-        </button>
-      ))}
+            >
+              {isChecked(item) && <Check weight="bold" />}
+            </div>
+            <div className="">{item}</div>
+          </button>
+        ))}
     </div>
   );
 };

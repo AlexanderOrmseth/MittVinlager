@@ -1,8 +1,10 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import { CaretUp } from "phosphor-react";
+import { ReactNode } from "react";
+
 interface Props {
   text: string;
-  children: React.ReactNode;
+  children: ReactNode;
   defaultOpen?: boolean;
 }
 
@@ -12,9 +14,9 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
       {({ open }) => (
         <>
           <Disclosure.Button
-            className="flex w-full justify-between rounded-full
-            bg-green-wine-50 dark:bg-green-wine-300/40 dark:text-green-wine-25 px-5 py-3 text-left font-medium text-green-wine-500 
-            hover:bg-green-wine-100 text-sm"
+            className={`flex w-full justify-between rounded-full
+              bg-green-wine-50 dark:bg-green-wine-300/40 dark:text-green-wine-25 px-5 py-3 text-left font-medium text-green-wine-500
+              hover:bg-green-wine-100 text-sm ${open ? "" : "opacity-70"}`}
           >
             <span>{text}</span>
             <CaretUp

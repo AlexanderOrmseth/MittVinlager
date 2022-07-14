@@ -26,7 +26,6 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
   const params = useAppSelector(getParams);
   const dispatch = useAppDispatch();
 
-
   const { data: filters, ...filterStatus } = useGetWineFiltersQuery();
 
   // check for mismatch and reset params
@@ -50,14 +49,12 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
     params.types,
   ]);
 
-  if (!filters) return null;
-
   const disabled =
     filterStatus.isLoading || !metaData?.totalCount || isFetchingWine;
 
   return (
     <aside className="basis-60 relative">
-      <div className="space-y-4 block-muted md:sticky md:top-4 sm:overflow-y-auto p-4 md:max-h-[calc(100vh-6rem)]">
+      <div className="space-y-4 block-muted md:sticky md:top-4 sm:overflow-y-auto min-h-[300px] p-4 md:max-h-[calc(100vh-6rem)]">
         <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
         <button
           disabled={disabled}
@@ -68,15 +65,14 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
           Tilbakestill
         </button>
         <WineSearch disabled={disabled} />
-
         <AsideDisclosure text="Land">
           <WineCheckboxFilter
             disabled={disabled}
             onChange={(items: string[]) =>
               dispatch(setParams({ countries: items }))
             }
-            items={filters.countries}
-            checked={params.countries}
+            options={filters?.countries}
+            checkedOptions={params.countries}
           />
         </AsideDisclosure>
 
@@ -86,8 +82,8 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
             onChange={(items: string[]) =>
               dispatch(setParams({ types: items }))
             }
-            items={filters.types}
-            checked={params.types}
+            options={filters?.types}
+            checkedOptions={params.types}
           />
         </AsideDisclosure>
       </div>

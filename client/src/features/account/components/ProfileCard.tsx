@@ -12,12 +12,12 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="p-8 block-less-muted md:inline-flex flex md:max-w-md w-full flex-col justify-center items-center gap-y-5 rounded-lg">
-        <div className="text-4xl font-medium text-blue-wine-400 dark:text-wine-300">
+      <div className="p-6 md:p-8 block-less-muted md:inline-flex flex md:max-w-lg w-full flex-col justify-center items-center gap-y-5 rounded-lg">
+        <h3 className="md:text-4xl text-2xl break-all leading-7 font-medium text-blue-wine-400 dark:text-wine-300">
           {user.userName}
-        </div>
+        </h3>
         <User size="4rem" weight="regular" />
-        <div className="text-2xl text-gray-600 dark:text-gray-200 font-medium">
+        <div className="md:text-2xl text-xl text-gray-600 dark:text-gray-200 font-medium">
           {user.email}
         </div>
         <button

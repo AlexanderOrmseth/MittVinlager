@@ -11,6 +11,7 @@ import HomePage from "./features/home/HomePage";
 import { initTheme } from "./features/ui/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
+import NotFound from "./app/layout/NotFound";
 
 // lazy load
 const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
@@ -109,7 +110,7 @@ function App() {
                 </AuthRedirect>
               }
             />
-            <Route path="*" element={<div>Not Found!</div>} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </BrowserRouter>

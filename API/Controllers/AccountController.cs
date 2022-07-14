@@ -38,17 +38,10 @@ public class AccountController : BaseApiController
         }
 
         var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
-        Console.WriteLine("-------------");
-        Console.WriteLine("-------------");
-        Console.WriteLine(payload.Subject); //provider key
-        Console.WriteLine("-------------");
-        Console.WriteLine("-------------");
-        
+
         // finds user based on Google ID
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
-        
-        
-        
+
         if (user == null)
         {
             // check if user already exists
@@ -73,12 +66,11 @@ public class AccountController : BaseApiController
                 await _userManager.AddLoginAsync(user, info);
             }
         }
-        
+
         // if user has changed email upsert here
         if (user.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase))
         {
             //user has changed email
-            
         }
 
         return Ok(new UserDto

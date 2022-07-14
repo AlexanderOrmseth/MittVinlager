@@ -19,9 +19,9 @@ const InventoryMessage: FunctionComponent<Props> = ({
 }) => {
   return (
     <div className="flex py-12 text-muted items-center justify-center flex-col gap-y-2">
-      <Icon size="5rem" className="mb-2" weight="light" />
+      <Icon size="5rem" weight="light" className="mb-2" />
       <motion.div
-        className="mb-4 relative dark:text-gray-200 bg-slate-200 dark:bg-gray-700 p-2 rounded"
+        className="mb-4 relative dark:text-gray-200 min-w-[100px] bg-slate-200 dark:bg-gray-700 p-2 rounded"
         initial={{ x: -16, opacity: 0 }}
         animate={{
           x: 0,

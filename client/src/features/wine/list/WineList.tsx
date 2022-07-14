@@ -49,10 +49,7 @@ const WineList = ({ wine, metaData }: Props) => {
         Icon={Ghost}
         message={<>Du har ikke lagret noen vin.</>}
       >
-        <Link
-          to="new"
-          className="btn-white w-full rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center"
-        >
+        <Link to="new" className="btn-white-large">
           <PlusCircle size="1.75em" />
           Legg til vin
         </Link>
@@ -70,7 +67,7 @@ const WineList = ({ wine, metaData }: Props) => {
         }
       >
         <button
-          className="btn-white w-full rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center"
+          className="btn-white-large"
           onClick={() => dispatch(resetParams())}
         >
           <ArrowCounterClockwise size="1.75em" />

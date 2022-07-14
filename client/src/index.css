@@ -8,13 +8,17 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-
-
 }
 
 /* dark scrollbars if darkMode */
 .dark {
-  color-scheme: dark;
+  /* color-scheme: dark;*/
+  color-scheme: dark
+}
+
+
+iframe {
+  color-scheme: normal;
 }
 
 @layer components {
@@ -23,7 +27,8 @@
   }
 
   .btn-primary {
-    @apply text-white transition-all select-none bg-wine-500 hover:bg-wine-600 font-medium rounded-full text-sm px-5 py-2.5 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    @apply text-white transition-all select-none bg-wine-500 enabled:hover:bg-wine-600 font-medium rounded-full text-sm px-5
+    py-2.5 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   .btn-secondary {
@@ -71,14 +76,18 @@
     bg-white
     dark:bg-gray-800/50
     dark:border-gray-700
-    hover:border-gray-300 dark:hover:border-gray-600
+    enabled:hover:border-gray-300 enabled:dark:hover:border-gray-600
     dark:hover:bg-gray-800/30 active:bg-slate-100
     disabled:border-transparent focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
-  /* WCAG AA: Pass */
+  .btn-white-large {
+    @apply btn-white rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center
+  }
+
+  
   .disabled-btn {
-    @apply disabled:bg-gray-300 dark:disabled:bg-gray-400 disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-700 disabled:shadow-none;
+    @apply disabled:bg-gray-300 dark:disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-800 disabled:shadow-none;
   }
 
   .focus-primary {

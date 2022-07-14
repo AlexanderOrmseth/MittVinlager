@@ -17,6 +17,7 @@ import Time from "../../app/components/Time";
 import ErrorBox from "../../app/components/ErrorBox";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import Title from "../../app/layout/Title";
+import NotFound from "../../app/layout/NotFound";
 
 const DetailsPage = () => {
   const { wine, id, status } = useFetchSingleWine();
@@ -25,9 +26,11 @@ const DetailsPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConsumedModalOpen, setIsConsumedModalOpen] = useState(false);
 
-  if (status.isLoading) return <Spinner text="Laster..." />;
-  else if (status.isError) return <ErrorBox message="Error" />;
-  else if (status.isSuccess && wine)
+  if (!id) return <NotFound />;
+  else if (status.isLoading) return <Spinner text="Laster..." />;
+  else if (status.isError) {
+    return <ErrorBox message={`Kunne ikke finne vinen med id: ${id}`} />;
+  } else if (status.isSuccess && wine)
     return (
       <>
         <div>
@@ -37,6 +40,7 @@ const DetailsPage = () => {
             node={<div className={`flag f32 ${wine.countryId}`} />}
             highlighted
           />
+
           <div className="my-4 pb-4 gap-y-4 border-b dark:border-gray-700 flex sm:flex-row flex-col sm:items-center sm:justify-between">
             <div className="flex flex-row gap-y-2">
               <Link
@@ -88,7 +92,8 @@ const DetailsPage = () => {
                 Slett
               </button>
             </div>
-            <div className="text-sm text-gray-700 dark:text-gray-400">
+
+            <div className="text-sm text-muted">
               <p>
                 Dato opprettet: <Time date={wine.createdAt} />
               </p>
@@ -103,11 +108,11 @@ const DetailsPage = () => {
           )}
 
           <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
-            <div className="col-span-2 space-y-4">
+            <div className="col-span-2">
               <WineDetails wine={wine} />
             </div>
 
-            <div className="pl-0 md:pl-4 relative md:row-start-auto md:border-b-0 row-start-1 border-b pb-4">
+            <div className="pl-0 relative md:row-start-auto row-start-1">
               <WineImageZoom
                 productId={wine.productId}
                 pictureUrl={wine.pictureUrl}
@@ -116,6 +121,7 @@ const DetailsPage = () => {
             </div>
           </div>
         </div>
+
         <ConsumedModal
           wineId={wine.wineId}
           isOpen={isConsumedModalOpen}

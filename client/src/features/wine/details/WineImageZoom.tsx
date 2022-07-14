@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Controlled as Zoom } from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { motion } from "framer-motion";
-import { vinmonopoletImage, placeholder } from "../../../app/util/vinmonopolet";
+import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 
 const WineImageZoom = ({
   pictureUrl,
@@ -14,21 +14,18 @@ const WineImageZoom = ({
   imageByUser?: boolean;
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
-  const [zoomedImage, setZoomedImage] = useState<string | undefined>(undefined);
-
+  const [zoomImgSrc, setZoomImgSrc] = useState<string | undefined>(undefined);
   const enabled = productId || imageByUser;
 
-  const handleZoomChange = (shouldZoom: boolean) => {
+  const handleZoomChange = (shouldZoom: boolean): void => {
     if (enabled) {
-      // to prevent fetching vinmonopolet image before its needed
-
-      // TODO on scroll change....
-      if (!zoomedImage) {
-        setZoomedImage(
+      // this is to prevent unnecessary src fetching from external websites
+      if (shouldZoom && !zoomImgSrc) {
+        const src =
           imageByUser && pictureUrl
             ? pictureUrl
-            : vinmonopoletImage(productId, 900)
-        );
+            : vinmonopoletImage(productId, 900);
+        setZoomImgSrc(src);
       }
 
       setIsZoomed(shouldZoom);
@@ -43,7 +40,7 @@ const WineImageZoom = ({
         opacity: 1,
       }}
       transition={{ type: "spring", stiffness: 60, delay: 0 }}
-      className="flex flex-col items-center md:sticky md:top-0 overflow-auto"
+      className="flex p-2 flex-col items-center  block-muted md:sticky md:top-4  overflow-auto"
     >
       <Zoom
         isZoomed={isZoomed}
@@ -58,21 +55,19 @@ const WineImageZoom = ({
             alt="Bilde av vin"
             src={pictureUrl || placeholder}
           />
-          {enabled && (
+          {enabled && zoomImgSrc && (
             <img
               className={`object-scale-down h-80 w-80 ${
                 isZoomed ? "block" : "hidden"
               }`}
               alt="Bilde av vin"
-              src={zoomedImage}
+              src={zoomImgSrc}
             />
           )}
         </>
       </Zoom>
       {enabled && (
-        <p className="text-slate-600 dark:text-gray-400 text-sm">
-          Trykk på bilde for å zoome inn.
-        </p>
+        <p className="text-muted text-sm">Trykk på bilde for å zoome inn.</p>
       )}
     </motion.div>
   );
