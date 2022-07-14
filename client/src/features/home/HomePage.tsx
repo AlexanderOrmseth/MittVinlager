@@ -1,31 +1,6 @@
-import { useDebouncedCallback } from "use-debounce";
-import { useState } from "react";
-
 const HomePage = () => {
-  const [value, setValue] = useState("");
-  // Debounce callback
-  const debounced = useDebouncedCallback(
-    // function
-    (value) => {
-      setValue(value);
-    },
-    // delay in ms
-    1000
-  );
   return (
-    <div>
-      <div>
-        <input
-          defaultValue={value}
-          onChange={(e) => debounced(e.target.value)}
-        />
-        <p>Debounced value: {value}</p>
-        <input
-          defaultValue={value}
-          onChange={(e) => debounced(e.target.value)}
-        />
-        <p>Debounced value: {value}</p>
-      </div>
+    <div className="text-transparent">
       <h1 className="mb-4 text-3xl">Mitt Vinlager</h1>
       <div className="my-4 font-bold">website image gallery</div>
       <div className="space-y-3 max-w-screen-md">
