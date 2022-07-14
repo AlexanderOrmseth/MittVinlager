@@ -39,7 +39,7 @@ const UpdateWinePage = () => {
         toast.success(`Oppdaterte vin!`, {
           position: "bottom-right",
         });
-        navigate("/inventory");
+        navigate(-1);
       })
       .catch((err) => {
         // show server validation errors
