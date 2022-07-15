@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
+import React, { useCallback, useEffect, useState } from "react";
 import { Puff } from "react-loading-icons";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
-import GoogleButton from "./features/account/GoogleButton";
 import HomePage from "./features/home/HomePage";
 import { initTheme } from "./features/ui/themeSlice";
 import DetailsPage from "./features/wine/DetailsPage";
 import InventoryPage from "./features/wine/InventoryPage";
 import NotFound from "./app/layout/NotFound";
-import { useGetCurrentUserQuery } from "./app/services/authApi";
-import { setToken, setUser } from "./features/account/accountSlice";
+import { authApi } from "./app/services/authApi";
+import { setToken, setUser, signOut } from "./features/account/accountSlice";
 
 const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
 const Wishlist = React.lazy(() => import("./features/wishlist/Wishlist"));
@@ -24,42 +22,51 @@ const UpdateWinePage = React.lazy(
 function App() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [loading, setLoading] = useState(true);
 
-  // prevent fetch user
-  const [skipToken, setSkipToken] = useState(true);
+  const initializeApp = useCallback(async () => {
+    try {
+      if (navigator.cookieEnabled) {
+        dispatch(initTheme());
 
+        // get token
+        const token = localStorage.getItem("token");
+        if (token) {
 
-  const {
-    data: authResponse,
-    isLoading,
-    isUninitialized,
-    isSuccess
-  } = useGetCurrentUserQuery(undefined, { skip: skipToken });
+          // add token to account state
+          dispatch(setToken(token));
 
+          // get user with token from state
+          const res = await dispatch(
+            authApi.endpoints.getCurrentUser.initiate()
+          ).unwrap();
 
-  useEffect(() => {
-    if (isSuccess) return;
+          // set user
+          dispatch(setUser(res));
 
-    // get token
-    if (navigator.cookieEnabled) {
-      const token = localStorage.getItem("token");
-      if (token) {
-        console.log("setting token to state");
-        dispatch(setToken(token));
-        setSkipToken(false);
+          // navigate if user is on homePage
+          if (location.pathname === "/") {
+            navigate("/inventory");
+          }
+        }
       }
-      dispatch(initTheme());
+    } catch (error: any) {
+      // only log error if status-code is not 401
+      if (error?.status !== 401) {
+        console.error(error);
+      }
+      
+      dispatch(signOut());
+      navigate("/");
+
     }
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (isSuccess) {
-      console.log("Signed in user!");
-      setSkipToken(true);
-      dispatch(setUser(authResponse));
-      navigate("/inventory");
-    }
-  }, [isSuccess]);
+    initializeApp().finally(() => setLoading(false));
+  }, [initializeApp]);
 
   const pageLoad = (
     <div className="w-screen h-screen flex justify-center items-center">
@@ -67,76 +74,73 @@ function App() {
     </div>
   );
 
-  if (isLoading) return pageLoad;
+  if (loading) return pageLoad;
 
   return (
-    <>
-      <Toaster position="top-center" reverseOrder={false} />
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="login" element={<GoogleButton />} />
-          <Route
-            path="profile"
-            element={
-              <AuthRedirect>
-                <React.Suspense fallback={pageLoad}>
-                  <ProfilePage />
-                </React.Suspense>
-              </AuthRedirect>
-            }
-          />
-          <Route
-            path="inventory"
-            element={
-              <AuthRedirect>
-                <InventoryPage />
-              </AuthRedirect>
-            }
-          />
-          <Route
-            path="inventory/new"
-            element={
-              <AuthRedirect>
-                <React.Suspense fallback={pageLoad}>
-                  <NewWinePage />
-                </React.Suspense>
-              </AuthRedirect>
-            }
-          />
-          <Route
-            path="inventory/:id"
-            element={
-              <AuthRedirect>
-                <DetailsPage />
-              </AuthRedirect>
-            }
-          />
-          <Route
-            path="inventory/:id/update"
-            element={
-              <AuthRedirect>
-                <React.Suspense fallback={pageLoad}>
-                  <UpdateWinePage />
-                </React.Suspense>
-              </AuthRedirect>
-            }
-          />
-          <Route
-            path="wishlist"
-            element={
-              <AuthRedirect>
-                <React.Suspense fallback={pageLoad}>
-                  <Wishlist />
-                </React.Suspense>
-              </AuthRedirect>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
-    </>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="profile"
+          element={
+            <AuthRedirect>
+              <React.Suspense fallback={pageLoad}>
+                <ProfilePage />
+              </React.Suspense>
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="inventory"
+          element={
+            <AuthRedirect>
+              <InventoryPage />
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="inventory/new"
+          element={
+            <AuthRedirect>
+              <React.Suspense fallback={pageLoad}>
+                <NewWinePage />
+              </React.Suspense>
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="inventory/:id"
+          element={
+            <AuthRedirect>
+              <DetailsPage />
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="inventory/:id/update"
+          element={
+            <AuthRedirect>
+              <React.Suspense fallback={pageLoad}>
+                <UpdateWinePage />
+              </React.Suspense>
+            </AuthRedirect>
+          }
+        />
+        <Route
+          path="wishlist"
+          element={
+            <AuthRedirect>
+              <React.Suspense fallback={pageLoad}>
+                <Wishlist />
+              </React.Suspense>
+            </AuthRedirect>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
+
 }
 
 export default App;

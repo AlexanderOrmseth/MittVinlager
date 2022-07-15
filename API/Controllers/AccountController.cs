@@ -34,7 +34,7 @@ public class AccountController : BaseApiController
 
         if (payload is null)
         {
-            return BadRequest("Invalid External Authentication.");
+            return BadRequest(new ProblemDetails {Title = "Invalid External Authentication."});
         }
 
         var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
@@ -94,6 +94,7 @@ public class AccountController : BaseApiController
     [HttpGet("currentUser")]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
+
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
         if (user is null)

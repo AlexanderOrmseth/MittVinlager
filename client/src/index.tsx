@@ -6,6 +6,7 @@ import { store } from "./app/store/configureStore";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
+import ToastManager from "./app/layout/ToastManager";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,6 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
+      <ToastManager />
       <BrowserRouter>
         <App />
       </BrowserRouter>

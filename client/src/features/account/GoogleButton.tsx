@@ -5,6 +5,8 @@ import { CredentialResponse } from "google-one-tap";
 import { useNavigate } from "react-router-dom";
 import { ExternalAuth } from "../../app/models/externalAuth";
 import { useExternalLoginMutation } from "../../app/services/authApi";
+import { toast } from "react-hot-toast";
+
 
 const GoogleButton = () => {
   const navigate = useNavigate();
@@ -22,32 +24,40 @@ const GoogleButton = () => {
       await externalLogin(externalAuth)
         .unwrap()
         .then((res) => {
-          console.log(res);
           dispatch(setUser(res));
           navigate("/inventory");
         })
         .catch((err) => {
-          console.log(err);
+
+          if (err?.data?.title) {
+            toast.error(err.data.title);
+            return;
+          }
+
+          toast.error("Server Error!");
+          console.error(err);
+
         });
     },
     [dispatch, externalLogin, navigate]
   );
 
   useEffect(() => {
-    console.log("Render google button");
-    if (typeof window === "undefined" || !google || !googleButton.current) {
-      return;
-    }
-
     try {
+      if (typeof window === "undefined" || !google || !googleButton.current) {
+        return;
+      }
+
+      console.log("Render Google");
+
       google.accounts.id.initialize({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
-        callback: login,
+        callback: login
       });
 
       google.accounts.id.renderButton(googleButton.current, {
         theme: "outline",
-        size: "large",
+        size: "large"
       });
     } catch (error) {
       console.error(error);
@@ -55,12 +65,9 @@ const GoogleButton = () => {
   }, [login]);
 
   return (
-    <div>
-      {!isLoading ? (
-        <div ref={googleButton} id="google-button"></div>
-      ) : (
-        <div className="text-less-mutes">Vennligst vent...</div>
-      )}
+    <div className="i-flex-row">
+      <div ref={googleButton} className={`${isLoading ? "hidden" : "block"}`} id="google-button"></div>
+      {isLoading && <div className="text-less-mutes">Vennligst vent...</div>}
     </div>
   );
 };
