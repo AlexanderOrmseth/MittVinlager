@@ -1,47 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { PaginatedResponse } from "../../app/models/pagination";
-import {
-  FormModel,
-  Wine,
-  WineBaseModel,
-  WineFilters,
-} from "../../app/models/wine";
-import { RootState } from "../../app/store/configureStore";
-import { WineParams } from "../../app/models/params";
+import { PaginatedResponse } from "../models/pagination";
+import { FormModel, Wine, WineFilters } from "../models/wine";
+import { WineParams } from "../models/params";
 import { serialize } from "object-to-formdata";
-import { Country } from "../../app/models/country";
-import { StatisticsResponse } from "../../app/models/statistics";
-import { Consumed } from "../../app/models/consumed";
+import { StatisticsResponse } from "../models/statistics";
+import { api } from "./api";
 
-const BASE_URL = process.env.REACT_APP_API_URL;
-
-/*
- *   TODO:
- *
- *   // find out if i should send void/undefined/null without parameters
- *   queryCacheKey: 'getStatistics(undefined)',
- *
- *   //PARSING_ERROR on some rejected -> they still work tho?? wut
- *
- *
- *
- * */
-
-export const apiSlice = createApi({
-  reducerPath: "api",
-  tagTypes: ["Wines", "Statistics", "Wishlist", "Filter", "Consumed"],
-  baseQuery: fetchBaseQuery({
-    baseUrl: BASE_URL,
-    prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).account.token;
-      // Pass token if exists
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
-
+export const wineApi = api.injectEndpoints({
   endpoints: (builder) => ({
     /* Get all wine
      * */
@@ -62,7 +26,7 @@ export const apiSlice = createApi({
             ]
           : [{ type: "Wines", id: "LIST" }],
       // return a paginated response
-      transformResponse: (response: Wine[] | [], meta, arg) => {
+      transformResponse: (response: Wine[], meta, arg) => {
         const pagination = meta?.response?.headers.get("pagination");
         // response from api is just an array wine[]
         // convert the response to a paginated response
@@ -78,15 +42,8 @@ export const apiSlice = createApi({
     /* Get wine by id
      * */
     getWineById: builder.query<Wine, number | undefined>({
-      query(id) {
-        return {
-          url: `/wine/${id}`,
-          method: "GET",
-        };
-      },
-      providesTags: (result, error, id) => [
-        { type: "Wines", id: result?.wineId },
-      ],
+      query: (id) => `/wine/${id}`,
+      providesTags: (result, error, id) => [{ type: "Wines", id }],
     }),
     /* Delete wine by id
      * */
@@ -139,44 +96,15 @@ export const apiSlice = createApi({
      *  Get wine statistics
      * */
     getStatistics: builder.query<StatisticsResponse, void>({
-      query() {
-        return {
-          url: "wine/statistics",
-          method: "GET",
-        };
-      },
+      query: () => "wine/statistics",
       providesTags: [{ type: "Statistics", id: "LIST" }],
     }),
     /*
-     *  Get wine filters
+     *  Get wine filters (user options)
      * */
     getWineFilters: builder.query<WineFilters, void>({
-      query() {
-        return {
-          url: "wine/filters",
-          method: "GET",
-        };
-      },
+      query: () => "wine/filters",
       providesTags: [{ type: "Filter", id: "LIST" }],
-    }),
-    /*
-     *  Get Countries from vinmonopolet
-     * */
-    getVinmonopoletCountries: builder.query<Country[], void>({
-      query() {
-        return {
-          url: "vinmonopolet/countries",
-          method: "GET",
-        };
-      },
-    }),
-    getVinmonopoletWine: builder.query<WineBaseModel, string>({
-      query(productId) {
-        return {
-          url: `vinmonopolet/${productId}`,
-          method: "GET",
-        };
-      },
     }),
   }),
 });
@@ -188,7 +116,5 @@ export const {
   useAddWineMutation,
   useUpdateWineMutation,
   useGetStatisticsQuery,
-  useGetVinmonopoletCountriesQuery,
   useGetWineFiltersQuery,
-  useGetVinmonopoletWineQuery,
-} = apiSlice;
+} = wineApi;

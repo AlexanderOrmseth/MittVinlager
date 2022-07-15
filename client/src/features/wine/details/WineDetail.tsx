@@ -22,7 +22,7 @@ interface TasteValue {
   displayText: "Fylde" | "Ferskhet" | "Sødme" | "Tanninsk" | "Bitterhet";
 }
 
-const WineDetails = ({ wine }: Props) => {
+const WineDetail = ({ wine }: Props) => {
   const tasteValues: TasteValue[] = [
     { value: wine.tannins, type: "tannins", displayText: "Tanninsk" },
     { value: wine.bitterness, type: "bitterness", displayText: "Bitterhet" },
@@ -125,4 +125,4 @@ const WineDetails = ({ wine }: Props) => {
   );
 };
 
-export default WineDetails;
+export default WineDetail;

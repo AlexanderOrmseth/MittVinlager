@@ -7,7 +7,7 @@ import {
   PencilLine,
   Trash,
 } from "phosphor-react";
-import WineDetails from "./details/WineDetails";
+import WineDetail from "./details/WineDetail";
 import WineImageZoom from "./details/WineImageZoom";
 import Spinner from "../../app/components/loading/Spinner";
 import { vinmonopoletLink } from "../../app/util/vinmonopolet";
@@ -109,7 +109,7 @@ const DetailsPage = () => {
 
           <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
             <div className="col-span-2">
-              <WineDetails wine={wine} />
+              <WineDetail wine={wine} />
             </div>
 
             <div className="pl-0 relative md:row-start-auto row-start-1">

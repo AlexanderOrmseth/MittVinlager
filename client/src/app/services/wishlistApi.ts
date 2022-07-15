@@ -1,7 +1,7 @@
-import { apiSlice } from "../api/apiSlice";
-import { BaseWishlistItem, WishlistResponse } from "../../app/models/wishlist";
+import { BaseWishlistItem, WishlistResponse } from "../models/wishlist";
+import { api } from "./api";
 
-const wishlistApi = apiSlice.injectEndpoints({
+export const wishlistApi = api.injectEndpoints({
   endpoints: (builder) => ({
     /* Get wishlist
      * */

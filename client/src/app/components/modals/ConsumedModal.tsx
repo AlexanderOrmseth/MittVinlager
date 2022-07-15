@@ -11,7 +11,7 @@ import {
   useAddConsumedDateMutation,
   useDeleteConsumedDateByIdMutation,
   useGetConsumedDatesByWineIdQuery,
-} from "../../../features/wine/details/detailsApi";
+} from "../../services/wineConsumedApi";
 
 interface Props {
   isOpen: boolean;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { UseFormGetValues } from "react-hook-form";
-import WineDetails from "../../../features/wine/details/WineDetails";
+import WineDetail from "../../../features/wine/details/WineDetail";
 import { FormModel, WineBaseModel } from "../../models/wine";
 import Modal from "./Modal";
 
@@ -29,7 +29,7 @@ const WineDetailsModal = ({ isOpen, setIsOpen, getValues }: Props) => {
       setIsOpen={setIsOpen}
       xl
     >
-      <WineDetails wine={values} />
+      <WineDetail wine={values} />
     </Modal>
   );
 };

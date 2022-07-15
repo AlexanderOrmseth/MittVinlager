@@ -7,7 +7,7 @@ import Title from "../../app/layout/Title";
 import { WineBaseModel } from "../../app/models/wine";
 import WishlistList from "./WishlistList";
 import WishListPreview from "./WishListPreview";
-import { useGetWishlistQuery } from "./wishlistApi";
+import { useGetWishlistQuery } from "../../app/services/wishlistApi";
 
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);

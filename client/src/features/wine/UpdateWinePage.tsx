@@ -5,7 +5,7 @@ import Spinner from "../../app/components/loading/Spinner";
 import Title from "../../app/layout/Title";
 import { FormModel } from "../../app/models/wine";
 import CreateOrUpdate from "./form/CreateOrUpdate";
-import { useUpdateWineMutation } from "../api/apiSlice";
+import { useUpdateWineMutation } from "../../app/services/wineApi";
 import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import toast from "react-hot-toast";
 import NotFound from "../../app/layout/NotFound";

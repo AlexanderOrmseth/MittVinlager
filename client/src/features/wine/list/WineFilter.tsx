@@ -6,7 +6,7 @@ import {
   useAppSelector,
 } from "../../../app/store/configureStore";
 import { getParams, resetParams, setParams } from "../wineSlice";
-import { useGetWineFiltersQuery } from "../../api/apiSlice";
+import { useGetWineFiltersQuery } from "../../../app/services/wineApi";
 import { MetaData } from "../../../app/models/pagination";
 import { useEffect } from "react";
 import toast from "react-hot-toast";

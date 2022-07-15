@@ -1,5 +1,6 @@
 {
   "bracketSpacing": true,
   "singleQuote": false,
-  "semi": true
+  "semi": true,
+  "trailingComma": "es5"
 }

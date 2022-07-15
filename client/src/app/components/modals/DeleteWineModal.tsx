@@ -2,7 +2,7 @@ import { Trash } from "phosphor-react";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
-import { useDeleteWineMutation } from "../../../features/api/apiSlice";
+import { useDeleteWineMutation } from "../../services/wineApi";
 
 interface Props {
   isOpen: boolean;

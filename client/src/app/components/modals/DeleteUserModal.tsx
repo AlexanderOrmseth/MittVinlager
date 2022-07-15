@@ -1,10 +1,11 @@
 import { UserMinus } from "phosphor-react";
 import { useState } from "react";
-import { deleteUser } from "../../../features/account/accountSlice";
 import { resetAll } from "../../../features/wine/wineSlice";
-import { useAppDispatch, useAppSelector } from "../../store/configureStore";
+import { useAppDispatch } from "../../store/configureStore";
 import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
+import { useDeleteUserMutation } from "../../services/authApi";
+import { signOut } from "../../../features/account/accountSlice";
 
 interface Props {
   isOpen: boolean;
@@ -14,13 +15,21 @@ interface Props {
 const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("");
-  const { status } = useAppSelector((state) => state.account);
+  const [deleteUser, { isLoading }] = useDeleteUserMutation();
 
   const handleDeleteUser = async () => {
-    await dispatch(deleteUser());
-    dispatch(resetAll());
-    // close modal
-    setIsOpen(false);
+    await deleteUser()
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        dispatch(resetAll());
+        dispatch(signOut());
+        // close modal
+        setIsOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -53,8 +62,8 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
 
           <LoadingButton
             onClick={handleDeleteUser}
-            loading={status === "loading"}
-            disabled={value !== "SLETTMEG"}
+            loading={isLoading}
+            disabled={isLoading}
             loadingText="Sletter bruker..."
             className="justify-center h-12 w-full rounded-full"
           >

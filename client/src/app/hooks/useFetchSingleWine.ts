@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetWineByIdQuery } from "../../features/api/apiSlice";
+import { useGetWineByIdQuery } from "../services/wineApi";
 
 const useFetchSingleWine = () => {
   const { id } = useParams<{ id: string | undefined }>();

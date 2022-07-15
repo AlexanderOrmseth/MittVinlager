@@ -2,7 +2,7 @@ import WineFilter from "./list/WineFilter";
 import WineList from "./list/WineList";
 import { useAppSelector } from "../../app/store/configureStore";
 import { getParams } from "./wineSlice";
-import { useGetAllWineQuery } from "../api/apiSlice";
+import { useGetAllWineQuery } from "../../app/services/wineApi";
 import Paginator from "./list/Paginator";
 import Spinner from "../../app/components/loading/Spinner";
 import ErrorBox from "../../app/components/ErrorBox";

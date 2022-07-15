@@ -9,7 +9,7 @@ import InventoryStatus from "./components/InventoryStatus";
 import ConsumptionHistory from "./components/ConsumptionHistory";
 import ErrorBox from "../../app/components/ErrorBox";
 import Spinner from "../../app/components/loading/Spinner";
-import { useGetStatisticsQuery } from "../api/apiSlice";
+import { useGetStatisticsQuery } from "../../app/services/wineApi";
 import ProfileCard from "./components/ProfileCard";
 
 const ProfilePage = () => {

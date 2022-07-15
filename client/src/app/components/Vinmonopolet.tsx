@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import LoadingButton from "./LoadingButton";
 import { FormModel, WineBaseModel } from "../models/wine";
-import { useGetVinmonopoletWineQuery } from "../../features/api/apiSlice";
+import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
 
 interface Props {
   setIsOpen: (value: boolean) => void;

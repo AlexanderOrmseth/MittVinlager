@@ -26,7 +26,7 @@ import VinmonopoletModal from "../../../app/components/modals/VinmonopoletModal"
 import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
-import { useGetVinmonopoletCountriesQuery } from "../../api/apiSlice";
+import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonopoletApi";
 
 interface Props {
   onSubmit: (data: FormModel) => void;

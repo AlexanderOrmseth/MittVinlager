@@ -13,9 +13,8 @@
 /* dark scrollbars if darkMode */
 .dark {
   /* color-scheme: dark;*/
-  color-scheme: dark
+  color-scheme: dark;
 }
-
 
 iframe {
   color-scheme: normal;
@@ -82,10 +81,9 @@ iframe {
   }
 
   .btn-white-large {
-    @apply btn-white rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center
+    @apply btn-white rounded-md disabled-btn md:text-lg max-w-sm md:h-14 h-12 i-flex-row justify-center;
   }
 
-  
   .disabled-btn {
     @apply disabled:bg-gray-300 dark:disabled:bg-gray-500 disabled:cursor-not-allowed disabled:text-gray-500 dark:disabled:text-gray-800 disabled:shadow-none;
   }

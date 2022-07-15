@@ -1,21 +1,20 @@
-import { apiSlice } from "../../features/api/apiSlice";
+import { wineApi } from "../services/wineApi";
 import { themeSlice } from "../../features/ui/themeSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-
-// import slices
-import { accountSlice } from "../../features/account/accountSlice";
+import { api } from "../services/api";
 import { wineSlice } from "../../features/wine/wineSlice";
+import { accountSlice } from "../../features/account/accountSlice";
 
 export const store = configureStore({
   reducer: {
     account: accountSlice.reducer,
     wine: wineSlice.reducer,
     theme: themeSlice.reducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat(wineApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

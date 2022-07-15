@@ -1,27 +1,36 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useAppDispatch } from "../../app/store/configureStore";
-import { signIn } from "./accountSlice";
+import { setUser } from "./accountSlice";
 import { CredentialResponse } from "google-one-tap";
 import { useNavigate } from "react-router-dom";
+import { ExternalAuth } from "../../app/models/externalAuth";
+import { useExternalLoginMutation } from "../../app/services/authApi";
 
 const GoogleButton = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const googleButton = useRef<HTMLDivElement | null>(null);
 
+  const [externalLogin, { isLoading }] = useExternalLoginMutation();
+
   const login = useCallback(
     async (response: CredentialResponse) => {
-      try {
-        await dispatch(
-          signIn({ accessToken: response.credential, provider: "GOOGLE" })
-        );
-
-        navigate("/inventory");
-      } catch (error) {
-        console.error(error);
-      }
+      const externalAuth: ExternalAuth = {
+        accessToken: response.credential,
+        provider: "GOOGLE",
+      };
+      await externalLogin(externalAuth)
+        .unwrap()
+        .then((res) => {
+          console.log(res);
+          dispatch(setUser(res));
+          navigate("/inventory");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
-    [dispatch, navigate]
+    [dispatch, externalLogin, navigate]
   );
 
   useEffect(() => {
@@ -45,7 +54,15 @@ const GoogleButton = () => {
     }
   }, [login]);
 
-  return <div ref={googleButton} id="google-button"></div>;
+  return (
+    <div>
+      {!isLoading ? (
+        <div ref={googleButton} id="google-button"></div>
+      ) : (
+        <div className="text-less-mutes">Vennligst vent...</div>
+      )}
+    </div>
+  );
 };
 
 export default GoogleButton;

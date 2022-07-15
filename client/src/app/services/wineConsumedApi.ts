@@ -1,7 +1,7 @@
-import { apiSlice } from "../../api/apiSlice";
-import { Consumed } from "../../../app/models/consumed";
+import { wineApi } from "./wineApi";
+import { Consumed } from "../models/consumed";
 
-const detailsApi = apiSlice.injectEndpoints({
+export const wineConsumedApi = wineApi.injectEndpoints({
   endpoints: (builder) => ({
     /* Get all dates
      * */
@@ -65,4 +65,4 @@ export const {
   useGetConsumedDatesByWineIdQuery,
   useDeleteConsumedDateByIdMutation,
   useAddConsumedDateMutation,
-} = detailsApi;
+} = wineConsumedApi;
