@@ -17,6 +17,7 @@ import WineRowItem from "./WineRowItem";
 import { Wine } from "../../../app/models/wine";
 import { MetaData } from "../../../app/models/pagination";
 import InventoryMessage from "./InventoryMessage";
+import { motion } from "framer-motion";
 
 interface Props {
   wine: Wine[] | [];
@@ -80,21 +81,38 @@ const WineList = ({ wine, metaData }: Props) => {
       <div
         className={`${gridView ? "grid lg:grid-cols-2 gap-2" : "space-y-2"}`}
       >
-        {wine.map((item) =>
-          gridView ? (
-            <WineCard
-              key={item.wineId}
-              wine={item}
-              handleDeleteWine={handleDeleteWine}
-            />
-          ) : (
-            <WineRowItem
-              key={item.wineId}
-              wine={item}
-              handleDeleteWine={handleDeleteWine}
-            />
-          )
-        )}
+        {wine.map((item, i) => (
+          <motion.div
+            key={item.wineId}
+            initial={{ y: -10, opacity: 0 }}
+            layoutId={item.wineId.toString()}
+            animate={{
+              y: 0,
+              opacity: 1,
+            }}
+            transition={{
+              type: "spring",
+              duration: 0.1,
+              mass: 0.2,
+              stiffness: 200,
+              delay: 0.05 * i,
+            }}
+          >
+            {gridView ? (
+              <WineCard
+                key={item.wineId}
+                wine={item}
+                handleDeleteWine={handleDeleteWine}
+              />
+            ) : (
+              <WineRowItem
+                key={item.wineId}
+                wine={item}
+                handleDeleteWine={handleDeleteWine}
+              />
+            )}
+          </motion.div>
+        ))}
       </div>
     );
   }

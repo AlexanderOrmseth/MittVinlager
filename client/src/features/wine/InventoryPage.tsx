@@ -6,6 +6,7 @@ import { useGetAllWineQuery } from "../api/apiSlice";
 import Paginator from "./list/Paginator";
 import Spinner from "../../app/components/loading/Spinner";
 import ErrorBox from "../../app/components/ErrorBox";
+import { AnimatePresence } from "framer-motion";
 
 const InventoryPage = () => {
   const params = useAppSelector(getParams);
@@ -33,7 +34,7 @@ const InventoryPage = () => {
         />
 
         <div className="flex flex-1 p-4 block-less-muted flex-col">
-          {content}
+          <AnimatePresence initial={false}>{content}</AnimatePresence>
         </div>
 
         <Paginator
