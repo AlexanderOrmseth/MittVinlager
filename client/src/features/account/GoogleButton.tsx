@@ -25,6 +25,7 @@ const GoogleButton = () => {
         .unwrap()
         .then((res) => {
           dispatch(setUser(res));
+          toast.success("Velkommen!", { position: "bottom-right" });
           navigate("/inventory");
         })
         .catch((err) => {

@@ -1,19 +1,12 @@
 import React, { FunctionComponent } from "react";
 import { Toaster } from "react-hot-toast";
-import { useAppSelector } from "../store/configureStore";
-
 
 const ToastManager: FunctionComponent = () => {
-
-  const { darkMode } = useAppSelector(state => state.theme);
-  console.log("lol");
   return (
     <Toaster position="top-center" reverseOrder={false} toastOptions={{
-      style: {
-        borderRadius: "10px",
-        background: darkMode ? "#333" : "#fff",
-        color: darkMode ? "#fff" : "#222"
-      }
+      position: "bottom-right",
+      duration: 3000,
+      className: "px-4 py-3 block-muted text-less-muted dark:bg-gray-950"
     }} />);
 };
 

@@ -40,7 +40,13 @@ builder.Services.AddDbContext<MyDbContext>(opt =>
 builder.Services.ConfigureCors(myAllowSpecificOrigins);
 
 // JWT, Auth, Identity
-builder.Services.AddIdentityCore<User>(opt => { opt.User.RequireUniqueEmail = true; })
+builder.Services.AddIdentityCore<User>(opt =>
+    {
+        // identity options
+        opt.SignIn.RequireConfirmedAccount = false;
+        opt.SignIn.RequireConfirmedEmail = false;
+        opt.User.RequireUniqueEmail = false;
+    })
     .AddRoles<Role>()
     .AddEntityFrameworkStores<MyDbContext>();
 
@@ -56,7 +62,14 @@ builder.Services.AddScoped<IWineRepository, WineRepository>();
 builder.Services.AddScoped<IWishItemRepository, WishItemRepository>();
 
 // add an httpClient factory (in order fetch vinmonopolet API)
-builder.Services.AddHttpClient();
+builder.Services.AddHttpClient("Vinmonopolet", httpClient =>
+{
+    // Base URL
+    httpClient.BaseAddress = new Uri(configuration["VinmonopoletSettings:BaseURL"]);
+    // API Key
+    httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["VinmonopoletSettings:APIKey"]);
+});
+
 
 // Configure Swagger
 builder.Services.AddEndpointsApiExplorer();

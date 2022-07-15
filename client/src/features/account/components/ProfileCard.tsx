@@ -12,14 +12,14 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="p-6 md:p-8 block-less-muted md:inline-flex flex md:max-w-lg w-full flex-col justify-center items-center gap-y-5 rounded-lg">
-        <h3 className="md:text-4xl text-2xl break-all leading-7 font-medium text-blue-wine-400 dark:text-wine-300">
+      <div
+        className="p-6 md:p-8 block-less-muted md:inline-flex flex md:max-w-lg w-full flex-col justify-center items-center gap-y-5 rounded-lg">
+        <User size="4rem" weight="regular" />
+        <h3
+          className="md:text-4xl text-2xl break-all text-center leading-7 font-medium text-blue-wine-400 dark:text-wine-300">
+          <p className="text-muted text-base">Brukernavn</p>
           {user.userName}
         </h3>
-        <User size="4rem" weight="regular" />
-        <div className="md:text-2xl text-xl text-gray-600 dark:text-gray-200 font-medium">
-          {user.email}
-        </div>
         <button
           className="btn-primary h-12 rounded-full flex flex-row items-center justify-center gap-x-2 w-full"
           onClick={() => setIsOpen(true)}

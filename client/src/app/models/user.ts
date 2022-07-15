@@ -1,9 +1,6 @@
-export interface UserResponse extends UserModel {
-  token: string;
-}
+
 
 interface UserModel {
-  email: string;
   userName: string;
 }
 

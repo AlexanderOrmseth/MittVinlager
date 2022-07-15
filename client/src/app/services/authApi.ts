@@ -2,7 +2,6 @@ import { api } from "./api";
 import { ExternalAuth } from "../models/externalAuth";
 
 export interface AuthResponse {
-  email: string;
   userName: string;
   token: string;
 }
@@ -34,13 +33,6 @@ export const authApi = api.injectEndpoints({
         url: "account/delete",
         method: "DELETE"
       }),
-      invalidatesTags: [
-        "Wines",
-        "Filter",
-        "Consumed",
-        "Wishlist",
-        "Statistics"
-      ]
     })
   })
 });

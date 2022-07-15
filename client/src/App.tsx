@@ -56,7 +56,7 @@ function App() {
       if (error?.status !== 401) {
         console.error(error);
       }
-      
+
       dispatch(signOut());
       navigate("/");
 

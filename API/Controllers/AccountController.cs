@@ -42,48 +42,43 @@ public class AccountController : BaseApiController
         // finds user based on Google ID
         var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
-        if (user == null)
+        /*
+         *  User already exists
+         */
+        
+        if (user is not null)
         {
-            // check if user already exists
-            user = await _userManager.FindByEmailAsync(payload.Email);
-
-            // if user doesnt exist create user
-            if (user is null)
+            // return user by GOOGLE ID
+            return Ok(new UserDto
             {
-                user = new User {Email = payload.Email, UserName = payload.Email};
-
-                // Create new user
-                await _userManager.CreateAsync(user);
-
-                // Add role
-                await _userManager.AddToRoleAsync(user, "Member");
-
-                // Adds an external UserLoginInfo to the specified user.
-                await _userManager.AddLoginAsync(user, info);
-            }
-            else
-            {
-                await _userManager.AddLoginAsync(user, info);
-            }
+                UserName = user.UserName,
+                Token = await _tokenService.GenerateToken(user),
+            });
         }
+        
+        /*
+         *  Create new user 
+         */
 
-        // if user has changed email upsert here
-        if (user.Email.Equals(payload.Email, StringComparison.OrdinalIgnoreCase))
-        {
-            //user has changed email
-        }
+        var userName = Guid.NewGuid().ToString();
+        user = new User {UserName = userName};
 
+        // Create new user
+        await _userManager.CreateAsync(user);
+
+        // Add role
+        await _userManager.AddToRoleAsync(user, "Member");
+
+        // Adds an external UserLoginInfo to the specified user.
+        await _userManager.AddLoginAsync(user, info);
+        
+
+        // return created user
         return Ok(new UserDto
         {
-            Email = user.Email,
-            UserName = MaskedEmail(user.Email),
+            UserName = user.UserName,
             Token = await _tokenService.GenerateToken(user),
         });
-    }
-
-    private static string MaskedEmail(string email)
-    {
-        return Regex.Replace(email, @"(?<=[\w]{3})[\w-\._\+%]*(?=[\w]{0}@)", m => new string('*', m.Length));
     }
 
     /// <summary>
@@ -94,7 +89,6 @@ public class AccountController : BaseApiController
     [HttpGet("currentUser")]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
-
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
         if (user is null)
@@ -104,8 +98,7 @@ public class AccountController : BaseApiController
 
         return new UserDto
         {
-            Email = user.Email,
-            UserName = MaskedEmail(user.Email),
+            UserName = user.UserName,
             Token = await _tokenService.GenerateToken(user),
         };
     }
@@ -115,7 +108,7 @@ public class AccountController : BaseApiController
     /// </summary>
     [Authorize]
     [HttpDelete("delete")]
-    public async Task<ActionResult> DeleteUser()
+    public async Task<ActionResult> DeleteUser(CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 

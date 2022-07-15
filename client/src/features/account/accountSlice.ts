@@ -29,7 +29,7 @@ export const accountSlice = createSlice({
       state.token = action.payload;
     },
     setUser: (state, action: PayloadAction<AuthResponse>) => {
-      const { token, userName, email } = action.payload;
+      const { token, userName } = action.payload;
 
       // get roles
       let claims = JSON.parse(atob(token.split(".")[1]));
@@ -39,7 +39,6 @@ export const accountSlice = createSlice({
       // set user
       state.user = {
         userName,
-        email,
         roles: typeof roles === "string" ? [roles] : roles
       };
 

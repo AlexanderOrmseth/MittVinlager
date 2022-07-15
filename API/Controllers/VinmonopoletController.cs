@@ -10,39 +10,44 @@ namespace API.Controllers;
 public class VinmonopoletController : BaseApiController
 {
     private readonly IHttpClientFactory _clientFactory;
-    private readonly IConfiguration _config;
 
-    public VinmonopoletController(IHttpClientFactory clientFactory, IConfiguration config)
-    {
-        _clientFactory = clientFactory;
-        _config = config;
-    }
+
+    public VinmonopoletController(IHttpClientFactory httpClientFactory) =>
+        _clientFactory = httpClientFactory;
 
     /// <summary>
     /// Fetch a wine from Vinmonopolet API
     /// Note: Vinmonopolet sends the response as a list even though we specify we want a single product!
     /// </summary>
     /// <param name="productId"></param>
+    /// <param name="cancellationToken"></param>
     [HttpGet("{productId}")]
-    public async Task<ActionResult<WineBaseModel>> GetWineByProductNumber(string? productId)
+    public async Task<ActionResult<WineBaseModel>> GetWineByProductNumber(string? productId,
+        CancellationToken cancellationToken)
     {
         if (!productId.IsNumeric())
         {
             return BadRequest(new ProblemDetails {Title = "Dette produktnummeret er ikke gyldig!"});
         }
 
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient("Vinmonopolet");
         try
         {
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _config["VinmonopoletSettings:APIKey"]);
-            var response = await client
-                .GetFromJsonAsync<List<VinmonopoletResponseModel>>(
-                    _config["VinmonopoletSettings:BaseURL"] + productId);
+            var requestUri = $"v0/details-normal?maxResults=1&productId={productId}";
+            var httpResponseMessage = await client.GetAsync(requestUri, cancellationToken: cancellationToken);
 
-            // response successful
-            if (response.IsNotNull() && response!.Any())
+            // response was successful
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                return MapVinmonopoletResponseToDto(response!.First());
+                var response =
+                    await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletResponseModel>>(
+                        cancellationToken: cancellationToken);
+
+                // response successful
+                if (response.IsNotNull() && response!.Any())
+                {
+                    return MapVinmonopoletResponseToDto(response!.First());
+                }
             }
 
             return NotFound(new ProblemDetails {Title = "Fant ikke vinen på Vinmonopolet."});
@@ -54,22 +59,32 @@ public class VinmonopoletController : BaseApiController
         }
     }
 
-    /*https://apis.vinmonopolet.no/press-products/v1/regions*/
+    /// <summary>
+    /// Fetch list of countries from VinmonopoletAPI
+    /// Response is cached for 5 minutes
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns>List of countries</returns>
+    [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Any)]
     [HttpGet("countries")]
-    public async Task<ActionResult<List<VinmonopoletCountryModel>>> GetCountries()
+    public async Task<ActionResult<List<VinmonopoletCountryModel>>> GetCountries(CancellationToken cancellationToken)
     {
-        var client = _clientFactory.CreateClient();
+        var client = _clientFactory.CreateClient("Vinmonopolet");
         try
         {
-            client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _config["VinmonopoletSettings:APIKey"]);
-            var response = await client
-                .GetFromJsonAsync<List<VinmonopoletCountryModel>>(
-                    "https://apis.vinmonopolet.no/press-products/v1/regions");
+            var httpResponseMessage = await client.GetAsync("v1/regions", cancellationToken: cancellationToken);
 
-            // response successful
-            if (response.IsNotNull() && response!.Any())
+            // response was successful
+            if (httpResponseMessage.IsSuccessStatusCode)
             {
-                return Ok(response);
+                var response =
+                    await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletCountryModel>>(
+                        cancellationToken: cancellationToken);
+
+                if (response.IsNotNull() && response!.Any())
+                {
+                    return Ok(response);
+                }
             }
 
             return BadRequest();

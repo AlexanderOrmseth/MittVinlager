@@ -6,6 +6,8 @@ import LoadingButton from "../LoadingButton";
 import Modal from "./Modal";
 import { useDeleteUserMutation } from "../../services/authApi";
 import { signOut } from "../../../features/account/accountSlice";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   isOpen: boolean;
@@ -16,19 +18,25 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("");
   const [deleteUser, { isLoading }] = useDeleteUserMutation();
+  const navigate = useNavigate();
 
   const handleDeleteUser = async () => {
+
+    if (value !== "SLETTMEG") return;
+
     await deleteUser()
       .unwrap()
       .then((res) => {
-        console.log(res);
         dispatch(resetAll());
         dispatch(signOut());
         // close modal
         setIsOpen(false);
+        toast.success("Brukeren og all data ble slettet.");
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Error ved sletting av bruker.");
       });
   };
 
@@ -63,7 +71,7 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
           <LoadingButton
             onClick={handleDeleteUser}
             loading={isLoading}
-            disabled={isLoading}
+            disabled={value !== "SLETTMEG"}
             loadingText="Sletter bruker..."
             className="justify-center h-12 w-full rounded-full"
           >

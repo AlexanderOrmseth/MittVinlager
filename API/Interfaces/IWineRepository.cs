@@ -12,18 +12,18 @@ public interface IWineRepository
 
     Task<int> CountAll(int userId, CancellationToken cancellationToken);
 
-    Task<Wine?> GetOneById(int id);
-    Task<Wine?> FindOne(int id);
+    Task<Wine?> GetOneById(int id, CancellationToken cancellationToken);
+    Task<Wine?> FindOne(int id, CancellationToken cancellationToken);
 
-    Task<bool> AddWineThenSave(Wine wine);
+    Task<bool> AddWineThenSave(Wine wine, CancellationToken cancellationToken);
 
-    Task<bool> RemoveThenSave(Wine wine);
+    Task<bool> RemoveThenSave(Wine wine, CancellationToken cancellationToken);
 
-    Task<Wine?> GetWineWithConsumed(int id);
+    Task<Wine?> GetWineWithConsumed(int id, CancellationToken cancellationToken);
 
-    Task<Wine?> GetWineWithConsumedAndUserDetails(int id);
+    Task<Wine?> GetWineWithConsumedAndUserDetails(int id, CancellationToken cancellationToken);
 
-    Task<Wine?> GetWineByConsumedId(int consumedId);
+    Task<Wine?> GetWineByConsumedId(int consumedId, CancellationToken cancellationToken);
 
     Task<object> GetFilters(int userId, CancellationToken cancellationToken);
 
@@ -31,5 +31,5 @@ public interface IWineRepository
     Task<ICollection> GetLastPurchases(int userId, CancellationToken cancellationToken);
     Task<ICollection> GetInventoryStatus(int userId, CancellationToken cancellationToken);
 
-    Task<bool> Save();
+    Task<bool> Save(CancellationToken cancellationToken);
 }

@@ -84,9 +84,9 @@ public class WineController : BaseApiController
     /// </summary>
     /// <returns>A single wine</returns>
     [HttpGet("{id:int}", Name = "GetSingleWine")]
-    public async Task<ActionResult<WineDto>> GetSingleWine(int id)
+    public async Task<ActionResult<WineDto>> GetSingleWine(int id, CancellationToken cancellationToken)
     {
-        var wine = await _wineRepository.GetOneById(id);
+        var wine = await _wineRepository.GetOneById(id, cancellationToken);
 
         // check if wine exists
         if (wine is null)
@@ -151,7 +151,7 @@ public class WineController : BaseApiController
 
 
         // Add wine and save
-        var result = await _wineRepository.AddWineThenSave(newWine);
+        var result = await _wineRepository.AddWineThenSave(newWine, cancellationToken);
 
         // success
         if (result)
@@ -167,9 +167,10 @@ public class WineController : BaseApiController
     /// Update wine by id
     /// </summary>
     [HttpPut("{id:int}")]
-    public async Task<ActionResult<WineDto>> UpdateWine([FromForm] AddWineDto formBody, int id)
+    public async Task<ActionResult<WineDto>> UpdateWine([FromForm] AddWineDto formBody, int id,
+        CancellationToken cancellationToken)
     {
-        var wine = await _wineRepository.GetOneById(id);
+        var wine = await _wineRepository.GetOneById(id, cancellationToken);
 
         // check if wine exists and id parameter matches wine
         if (wine is null)
@@ -276,7 +277,7 @@ public class WineController : BaseApiController
         }
 
 
-        var result = await _wineRepository.Save();
+        var result = await _wineRepository.Save(cancellationToken);
 
         if (result)
         {
@@ -291,12 +292,13 @@ public class WineController : BaseApiController
     /// Gets consumed dates of wine with given Id
     /// </summary>
     /// <param name="wineId"></param>
+    /// <param name="cancellationToken"></param>
     /// <returns>10 dates</returns>
     [HttpGet("consumed/{wineId:int}")]
-    public async Task<ActionResult<object>> GetConsumedById(int wineId)
+    public async Task<ActionResult<object>> GetConsumedById(int wineId, CancellationToken cancellationToken)
     {
         // get wine
-        var wine = await _wineRepository.GetWineWithConsumed(wineId);
+        var wine = await _wineRepository.GetWineWithConsumed(wineId, cancellationToken);
 
         // check if wine exists
         if (wine is null)
@@ -322,11 +324,12 @@ public class WineController : BaseApiController
     /// Deletes consumed date by consumedId
     /// </summary>
     /// <param name="consumedId"></param>
+    /// <param name="cancellationToken"></param>
     [HttpDelete("consumed/{consumedId:int}")]
-    public async Task<IActionResult> DeleteConsumed(int consumedId)
+    public async Task<IActionResult> DeleteConsumed(int consumedId, CancellationToken cancellationToken)
     {
         // get wine
-        var wine = await _wineRepository.GetWineByConsumedId(consumedId);
+        var wine = await _wineRepository.GetWineByConsumedId(consumedId, cancellationToken);
 
         // check if wine exists
         var userId = await GetUserId(User);
@@ -347,7 +350,7 @@ public class WineController : BaseApiController
         wine.Consumed.Remove(consumed);
 
         // save changes
-        var result = await _wineRepository.Save();
+        var result = await _wineRepository.Save(cancellationToken);
 
         // success
         if (result)
@@ -365,11 +368,13 @@ public class WineController : BaseApiController
     /// </summary>
     /// <param name="date"></param>
     /// <param name="wineId"></param>
+    /// <param name="cancellationToken"></param>
     [HttpPost("consumed/{wineId:int}")]
-    public async Task<IActionResult> Consumed([FromBody] DateTime date, [FromRoute] int wineId)
+    public async Task<IActionResult> Consumed([FromBody] DateTime date, [FromRoute] int wineId,
+        CancellationToken cancellationToken)
     {
         // get wine
-        var wine = await _wineRepository.GetWineWithConsumedAndUserDetails(wineId);
+        var wine = await _wineRepository.GetWineWithConsumedAndUserDetails(wineId, cancellationToken);
 
         // check if wine exists
         if (wine is null)
@@ -409,7 +414,7 @@ public class WineController : BaseApiController
             wine.Consumed.Add(consumed);
         }
 
-        var result = await _wineRepository.Save();
+        var result = await _wineRepository.Save(cancellationToken);
 
         // success
         if (result)
@@ -425,10 +430,11 @@ public class WineController : BaseApiController
     /// Deletes wine by Id.
     /// </summary>
     /// <param name="id"></param>
+    /// <param name="cancellationToken"></param>
     [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteWine(int id)
+    public async Task<ActionResult> DeleteWine(int id, CancellationToken cancellationToken)
     {
-        var wine = await _wineRepository.FindOne(id);
+        var wine = await _wineRepository.FindOne(id, cancellationToken);
 
         // check if wine exists
         if (wine is null)
@@ -450,7 +456,7 @@ public class WineController : BaseApiController
             await _imageService.DeleteImageAsync(wine.PublicId);
         }
 
-        var result = await _wineRepository.RemoveThenSave(wine);
+        var result = await _wineRepository.RemoveThenSave(wine, cancellationToken);
 
         if (result)
         {

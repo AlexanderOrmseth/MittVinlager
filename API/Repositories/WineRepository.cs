@@ -51,42 +51,43 @@ public class WineRepository : IWineRepository
             .Where(wine => wine.UserId == userId).CountAsync(cancellationToken);
     }
 
-    public async Task<Wine?> GetOneById(int id)
+    public async Task<Wine?> GetOneById(int id, CancellationToken cancellationToken)
     {
         return await _context.Wines
             .Include(w => w.UserDetails)
-            .FirstOrDefaultAsync(w => w.WineId == id);
+            .FirstOrDefaultAsync(w => w.WineId == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<Wine?> FindOne(int id)
+    public async Task<Wine?> FindOne(int id, CancellationToken cancellationToken)
     {
-        return await _context.Wines.FindAsync(id);
+        return await _context.Wines.FindAsync(new object?[] {id}, cancellationToken: cancellationToken);
     }
 
-    public async Task<bool> AddWineThenSave(Wine wine)
+    public async Task<bool> AddWineThenSave(Wine wine, CancellationToken cancellationToken)
     {
         _context.Wines.Add(wine);
-        return await Save();
+        return await Save(cancellationToken);
     }
 
-    public async Task<Wine?> GetWineWithConsumed(int id)
+    public async Task<Wine?> GetWineWithConsumed(int id, CancellationToken cancellationToken)
     {
         // .Select(w => new {w.UserId, w.WineId, w.Consumed})
         return await _context.Wines.Include(w => w.Consumed)
-            .FirstOrDefaultAsync(w => w.WineId == id);
+            .FirstOrDefaultAsync(w => w.WineId == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<Wine?> GetWineWithConsumedAndUserDetails(int id)
+    public async Task<Wine?> GetWineWithConsumedAndUserDetails(int id, CancellationToken cancellationToken)
     {
         return await _context.Wines.Include(w => w.UserDetails).Include(w => w.Consumed.OrderBy(c => c.Date))
-            .FirstOrDefaultAsync(w => w.WineId == id);
+            .FirstOrDefaultAsync(w => w.WineId == id, cancellationToken: cancellationToken);
     }
 
-    public async Task<Wine?> GetWineByConsumedId(int consumedId)
+    public async Task<Wine?> GetWineByConsumedId(int consumedId, CancellationToken cancellationToken)
     {
         return await _context.Wines
             .Include(w => w.Consumed)
-            .Where(w => w.Consumed.Any(c => c.Id.Equals(consumedId))).FirstOrDefaultAsync();
+            .Where(w => w.Consumed.Any(c => c.Id.Equals(consumedId)))
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
     public async Task<object> GetFilters(int userId, CancellationToken cancellationToken)
@@ -150,14 +151,14 @@ public class WineRepository : IWineRepository
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<bool> RemoveThenSave(Wine wine)
+    public async Task<bool> RemoveThenSave(Wine wine, CancellationToken cancellationToken)
     {
         _context.Wines.Remove(wine);
-        return await Save();
+        return await Save(cancellationToken);
     }
 
-    public async Task<bool> Save()
+    public async Task<bool> Save(CancellationToken cancellationToken)
     {
-        return await _context.SaveChangesAsync() > 0;
+        return await _context.SaveChangesAsync(cancellationToken) > 0;
     }
 }
