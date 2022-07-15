@@ -40,44 +40,54 @@ public class AccountController : BaseApiController
         var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
 
         // finds user based on Google ID
-        var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        var existingUser = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
 
         /*
          *  User already exists
          */
-        
-        if (user is not null)
+
+        if (existingUser is not null)
         {
             // return user by GOOGLE ID
             return Ok(new UserDto
             {
-                UserName = user.UserName,
-                Token = await _tokenService.GenerateToken(user),
+                UserName = existingUser.UserName,
+                Token = await _tokenService.GenerateToken(existingUser),
             });
         }
-        
+
         /*
          *  Create new user 
          */
 
-        var userName = Guid.NewGuid().ToString();
-        user = new User {UserName = userName};
+
+        var newUserUserName = Guid.NewGuid().ToString();
+
+        // paranoid check
+        var paranoidCheck = await _userManager.FindByNameAsync(newUserUserName);
+        if (paranoidCheck is not null)
+        {
+            return BadRequest(new ProblemDetails {Title = "Username is taken, please try again"});
+        }
+
+
+        var newUser = new User {UserName = newUserUserName};
 
         // Create new user
-        await _userManager.CreateAsync(user);
+        await _userManager.CreateAsync(newUser);
 
         // Add role
-        await _userManager.AddToRoleAsync(user, "Member");
+        await _userManager.AddToRoleAsync(newUser, "Member");
 
         // Adds an external UserLoginInfo to the specified user.
-        await _userManager.AddLoginAsync(user, info);
-        
+        await _userManager.AddLoginAsync(newUser, info);
+
 
         // return created user
         return Ok(new UserDto
         {
-            UserName = user.UserName,
-            Token = await _tokenService.GenerateToken(user),
+            UserName = newUser.UserName,
+            Token = await _tokenService.GenerateToken(newUser),
         });
     }
 

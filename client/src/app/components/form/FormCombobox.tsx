@@ -1,11 +1,6 @@
 import { Combobox, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import {
-  UseControllerProps,
-  useController,
-  Controller,
-  FieldValues,
-} from "react-hook-form";
+import { Controller, FieldValues, useController, UseControllerProps } from "react-hook-form";
 import { Country } from "../../models/country";
 import FormInputError from "./FormInputError";
 
@@ -85,8 +80,14 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                       <Combobox.Option
                         className={({ active, selected }) =>
                           `cursor-default flex items-center leading-4 rounded text-sm gap-2 select-none py-2 px-4 ${
-                            active && !selected ? "bg-slate-200 text-black" : ""
-                          } ${selected ? "bg-wine-500 text-white" : ""}`
+                            active && !selected
+                              ? "bg-slate-200 dark:bg-gray-700/40 text-black dark:text-gray-300"
+                              : ""
+                          } ${
+                            selected
+                              ? "bg-wine-500 dark:bg-wine-400 text-white"
+                              : ""
+                          }`
                         }
                         key={country.countryId}
                         value={country.country}
