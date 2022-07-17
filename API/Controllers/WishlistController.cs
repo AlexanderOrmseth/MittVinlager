@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Security.Principal;
 using API.DTOs;
 using API.Entities;
@@ -30,9 +31,10 @@ public class WishlistController : BaseApiController
     /// </summary>
     /// <param name="user"></param>
     /// <returns>UserId (int)</returns>
-    private async Task<int> GetUserId(IPrincipal user)
+    private static int GetUserId(ClaimsPrincipal user)
     {
-        return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
+        //return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
+        return int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 
     /// <summary>
@@ -43,7 +45,7 @@ public class WishlistController : BaseApiController
     [HttpGet]
     public async Task<ActionResult<ICollection<WishItemDto>>> GetWishlist(CancellationToken cancellationToken)
     {
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         var wishlist = await _wishItemRepository.GetAll(userId, MapEntityToDto, cancellationToken);
         return Ok(wishlist);
     }
@@ -57,7 +59,7 @@ public class WishlistController : BaseApiController
     public async Task<ActionResult> DeleteWishItem(int id, CancellationToken cancellationToken)
     {
         var wishItem = await _wishItemRepository.FindOne(id, cancellationToken);
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
         // check if wine exists
         if (wishItem is null || wishItem.UserId != userId)
@@ -90,7 +92,7 @@ public class WishlistController : BaseApiController
     [HttpPost]
     public async Task<ActionResult> AddWishItem(AddWishItemDto wishItemDto, CancellationToken cancellationToken)
     {
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         var count = await _wishItemRepository.CountAll(userId, cancellationToken);
 
         // User can only have 10 items in their wishlist

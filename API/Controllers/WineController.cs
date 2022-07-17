@@ -16,7 +16,6 @@ public class WineController : BaseApiController
 {
     #region Fields
 
-  
     private readonly ImageService _imageService;
     private readonly IWineRepository _wineRepository;
 
@@ -27,7 +26,6 @@ public class WineController : BaseApiController
     public WineController(ImageService imageService,
         IWineRepository wineRepository)
     {
-  
         _imageService = imageService;
         _wineRepository = wineRepository;
     }
@@ -473,10 +471,10 @@ public class WineController : BaseApiController
     /// </summary>
     /// <param name="user"></param>
     /// <returns>UserId (int)</returns>
-    private int GetUserId(IPrincipal user)
+    private static int GetUserId(ClaimsPrincipal user)
     {
         //return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
-        return Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        return int.Parse(user.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 
 
