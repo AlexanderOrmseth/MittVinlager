@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Security.Principal;
 using API.DTOs;
 using API.Entities;
@@ -6,7 +7,6 @@ using API.Interfaces;
 using API.RequestHelpers;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,7 +16,7 @@ public class WineController : BaseApiController
 {
     #region Fields
 
-    private readonly UserManager<User> _userManager;
+  
     private readonly ImageService _imageService;
     private readonly IWineRepository _wineRepository;
 
@@ -24,10 +24,10 @@ public class WineController : BaseApiController
 
     #region Constructor
 
-    public WineController(UserManager<User> userManager, ImageService imageService,
+    public WineController(ImageService imageService,
         IWineRepository wineRepository)
     {
-        _userManager = userManager;
+  
         _imageService = imageService;
         _wineRepository = wineRepository;
     }
@@ -43,7 +43,7 @@ public class WineController : BaseApiController
     public async Task<ActionResult<PagedList<WineDto>>> AllWine([FromQuery] WineParams wineParams,
         CancellationToken cancellationToken)
     {
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         var count = await _wineRepository.CountAll(userId, cancellationToken);
         var query = _wineRepository.GetAll(userId, wineParams, MapWineToDto);
 
@@ -62,7 +62,7 @@ public class WineController : BaseApiController
     [HttpGet("filters")]
     public async Task<ActionResult<object>> GetFilters(CancellationToken cancellationToken)
     {
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         return Ok(await _wineRepository.GetFilters(userId, cancellationToken));
     }
 
@@ -72,7 +72,7 @@ public class WineController : BaseApiController
     [HttpGet("statistics")]
     public async Task<ActionResult<object>> GetStatistics(CancellationToken cancellationToken)
     {
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         var inventoryStatus = await _wineRepository.GetInventoryStatus(userId, cancellationToken);
         var lastPurchased = await _wineRepository.GetLastPurchases(userId, cancellationToken);
         var lastConsumed = await _wineRepository.GetLastConsumed(userId, cancellationToken);
@@ -94,7 +94,7 @@ public class WineController : BaseApiController
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
         // check if wine belongs to user
         if (wine.UserId != userId)
@@ -114,7 +114,7 @@ public class WineController : BaseApiController
         CancellationToken cancellationToken)
     {
         // get user id
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
         // User can only store 200 wines
         if (await _wineRepository.CountAll(userId, cancellationToken) > 200)
@@ -179,7 +179,7 @@ public class WineController : BaseApiController
         }
 
         // get user id
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
         // check if wine belongs to user
         if (wine.UserId != userId)
@@ -306,7 +306,7 @@ public class WineController : BaseApiController
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
         // check if wine belongs to user
         if (wine.UserId != userId)
@@ -332,7 +332,7 @@ public class WineController : BaseApiController
         var wine = await _wineRepository.GetWineByConsumedId(consumedId, cancellationToken);
 
         // check if wine exists
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
         if (wine is null || wine.UserId != userId)
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen/datoen eksisterer ikke."});
@@ -382,7 +382,7 @@ public class WineController : BaseApiController
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
 
 
         // check if wine belongs to user
@@ -442,7 +442,8 @@ public class WineController : BaseApiController
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
-        var userId = await GetUserId(User);
+        var userId = GetUserId(User);
+
 
         // check if wine belongs to user
         if (wine.UserId != userId)
@@ -472,9 +473,10 @@ public class WineController : BaseApiController
     /// </summary>
     /// <param name="user"></param>
     /// <returns>UserId (int)</returns>
-    private async Task<int> GetUserId(IPrincipal user)
+    private int GetUserId(IPrincipal user)
     {
-        return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
+        //return (await _userManager.FindByNameAsync(user.Identity?.Name)).Id;
+        return Int32.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
     }
 
 

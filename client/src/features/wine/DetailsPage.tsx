@@ -1,12 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
-import {
-  CalendarBlank,
-  Link as LinkIcon,
-  PencilLine,
-  Trash,
-} from "phosphor-react";
+import { CalendarBlank, Link as LinkIcon, PencilLine, Trash } from "phosphor-react";
 import WineDetail from "./details/WineDetail";
 import WineImageZoom from "./details/WineImageZoom";
 import Spinner from "../../app/components/loading/Spinner";
@@ -36,12 +31,12 @@ const DetailsPage = () => {
         <div>
           <Title
             title={wine.name}
-            border={false}
+            border
             node={<div className={`flag f32 ${wine.countryId}`} />}
             highlighted
           />
 
-          <div className="my-4 pb-4 gap-y-4 border-b dark:border-gray-700 flex sm:flex-row flex-col sm:items-center sm:justify-between">
+          <div className="my-4 gap-y-4 flex sm:flex-row flex-col sm:items-center sm:justify-between">
             <div className="flex flex-row gap-y-2">
               <Link
                 className="btn-white rounded-full rounded-r-none justify-center w-auto flex items-center gap-x-2"
@@ -103,9 +98,7 @@ const DetailsPage = () => {
               </p>
             </div>
           </div>
-          {!wine.userDetails.quantity && (
-            <InfoBox message="Du har ikke vinen på lager." />
-          )}
+
 
           <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
             <div className="col-span-2">
@@ -113,6 +106,9 @@ const DetailsPage = () => {
             </div>
 
             <div className="pl-0 relative md:row-start-auto row-start-1">
+              {!wine.userDetails.quantity && (
+                <InfoBox className="mt-0" message="Du har ikke vinen på lager." />
+              )}
               <WineImageZoom
                 productId={wine.productId}
                 pictureUrl={wine.pictureUrl}

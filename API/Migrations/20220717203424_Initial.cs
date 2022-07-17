@@ -31,6 +31,7 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -281,8 +282,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "7e71b623-0dae-44d5-ae5e-9b590db650a7", "Member", "MEMBER" },
-                    { 2, "f4b41e9a-f5e2-4173-a8b5-0751ecda1fc5", "Admin", "ADMIN" }
+                    { 1, "49b4b896-0309-4866-aa4e-3eaa51e19006", "Member", "MEMBER" },
+                    { 2, "443324b2-7140-4506-b205-3c179f8956e2", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

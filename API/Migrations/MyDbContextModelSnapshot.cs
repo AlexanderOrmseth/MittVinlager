@@ -17,7 +17,7 @@ namespace API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -75,14 +75,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "7e71b623-0dae-44d5-ae5e-9b590db650a7",
+                            ConcurrencyStamp = "49b4b896-0309-4866-aa4e-3eaa51e19006",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "f4b41e9a-f5e2-4173-a8b5-0751ecda1fc5",
+                            ConcurrencyStamp = "443324b2-7140-4506-b205-3c179f8956e2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -102,6 +102,9 @@ namespace API.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

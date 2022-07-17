@@ -116,6 +116,7 @@ public class AccountController : BaseApiController
         {
             UserName = user.UserName,
             Token = await _tokenService.GenerateToken(user),
+            CreatedAt = user.CreatedAt
         };
     }
 
@@ -126,7 +127,6 @@ public class AccountController : BaseApiController
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteUser(CancellationToken cancellationToken)
     {
-        
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
         if (user is null)
