@@ -8,13 +8,7 @@ import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import {
-  ArrowRight,
-  Eye,
-  PencilSimpleLine,
-  PlusCircle,
-  Warning,
-} from "phosphor-react";
+import { ArrowRight, Eye, FloppyDisk, PlusCircle, Trash, Warning } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,10 +21,12 @@ import FormToggle from "../../../app/components/form/FormToggle";
 import { AnimatePresence, motion } from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonopoletApi";
+import { Link } from "react-router-dom";
 
 interface Props {
   onSubmit: (data: FormModel) => void;
   serverErrors: Record<string, string[]> | null;
+  setDeleteModalIsOpen?: (isOpen: boolean) => void;
   wine?: Wine;
 }
 
@@ -92,7 +88,7 @@ const tabAnim = {
   },
 };
 
-const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
+const CreateOrUpdate = ({ onSubmit, serverErrors, wine, setDeleteModalIsOpen }: Props) => {
   const { data: countries, ...countryStatus } =
     useGetVinmonopoletCountriesQuery();
 
@@ -554,29 +550,40 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine }: Props) => {
               </AnimatePresence>
             </Tab.Panels>
             <div className="mt-6 border-t border-slate-200 dark:border-gray-700 mb-6"></div>
-            <div className="flex flex-row flex-wrap gap-2 items-center">
-              <LoadingButton
-                disabled={!isValid}
-                loading={isSubmitting}
-                loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}
-                type="submit"
-              >
-                {wine ? (
-                  <PencilSimpleLine size="1.5rem" />
-                ) : (
-                  <PlusCircle size="1.5rem" />
-                )}
-                {wine ? "Rediger vin" : "Legg til"}
-              </LoadingButton>
-              <button
-                className="btn-white px-5 flex rounded-full flex-row gap-x-2 items-center disabled-btn w-auto"
-                disabled={!isValid}
-                type="button"
-                onClick={() => setPreviewIsOpen(true)}
-              >
-                <Eye size="1.5rem" />
-                Forhåndsvis
-              </button>
+            <div className="flex flex-row flex-wrap gap-2 items-center justify-between">
+              <div className="i-flex-row">
+                <Link className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
+                      to={-1 as any}><ArrowRight size="1.5rem" className="rotate-180" /> Tilbake</Link>
+                {setDeleteModalIsOpen &&
+                  <LoadingButton loading={isSubmitting} disabled={isSubmitting} loadingText="Sletter vin..."
+                                 type="button" className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
+                                 onClick={() => setDeleteModalIsOpen(true)}><Trash
+                    size="1.5rem" />Slett</LoadingButton>}
+              </div>
+              <div className="i-flex-row">
+                <LoadingButton
+                  disabled={!isValid}
+                  loading={isSubmitting}
+                  loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}
+                  type="submit"
+                >
+                  {wine ? (
+                    <FloppyDisk size="1.5rem" />
+                  ) : (
+                    <PlusCircle size="1.5rem" />
+                  )}
+                  {wine ? "Lagre endringer" : "Legg til"}
+                </LoadingButton>
+                <button
+                  className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
+                  disabled={!isValid}
+                  type="button"
+                  onClick={() => setPreviewIsOpen(true)}
+                >
+                  <Eye size="1.5rem" />
+                  Forhåndsvis
+                </button>
+              </div>
             </div>
           </form>
         </Tab.Group>

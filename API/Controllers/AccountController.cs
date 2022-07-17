@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 using API.DTOs;
 using API.Entities;
@@ -70,6 +71,7 @@ public class AccountController : BaseApiController
             return BadRequest(new ProblemDetails {Title = "Username is taken, please try again"});
         }
 
+        // check out nameIdentifier CLAIM, add it to token?
 
         var newUser = new User {UserName = newUserUserName};
 
@@ -101,6 +103,10 @@ public class AccountController : BaseApiController
     {
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
+        // test this
+        //var s = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
         if (user is null)
         {
             return NotFound();
@@ -120,6 +126,7 @@ public class AccountController : BaseApiController
     [HttpDelete("delete")]
     public async Task<ActionResult> DeleteUser(CancellationToken cancellationToken)
     {
+        
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
         if (user is null)

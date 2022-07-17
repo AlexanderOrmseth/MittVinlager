@@ -10,10 +10,12 @@ import useFetchSingleWine from "../../app/hooks/useFetchSingleWine";
 import toast from "react-hot-toast";
 import NotFound from "../../app/layout/NotFound";
 import ErrorBox from "../../app/components/ErrorBox";
+import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
 
 const UpdateWinePage = () => {
   const navigate = useNavigate();
   const { wine, id, status: wineStatus } = useFetchSingleWine();
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [updateWine] = useUpdateWineMutation();
 
   const [serverErrors, setServerErrors] = useState<Record<
@@ -59,12 +61,18 @@ const UpdateWinePage = () => {
           å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
-      {wineStatus.isSuccess && (
-        <CreateOrUpdate
-          onSubmit={onSubmit}
-          wine={wine}
-          serverErrors={serverErrors}
-        />
+      {wineStatus.isSuccess && wine && (
+        <>
+          <CreateOrUpdate
+            setDeleteModalIsOpen={setDeleteModalIsOpen}
+            onSubmit={onSubmit}
+            wine={wine}
+            serverErrors={serverErrors}
+          />
+
+          <DeleteWineModal isOpen={deleteModalIsOpen} shouldNavigate={true} setIsOpen={setDeleteModalIsOpen}
+                           wineToDelete={{ id: wine.wineId, name: wine.name }} />
+        </>
       )}
     </div>
   );
