@@ -7,7 +7,6 @@ import { ExternalAuth } from "../../app/models/externalAuth";
 import { useExternalLoginMutation } from "../../app/services/authApi";
 import { toast } from "react-hot-toast";
 
-
 const GoogleButton = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -29,7 +28,6 @@ const GoogleButton = () => {
           navigate("/inventory");
         })
         .catch((err) => {
-
           if (err?.data?.title) {
             toast.error(err.data.title);
             return;
@@ -37,7 +35,6 @@ const GoogleButton = () => {
 
           toast.error("Server Error!");
           console.error(err);
-
         });
     },
     [dispatch, externalLogin, navigate]
@@ -53,12 +50,12 @@ const GoogleButton = () => {
 
       google.accounts.id.initialize({
         client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
-        callback: login
+        callback: login,
       });
 
       google.accounts.id.renderButton(googleButton.current, {
         theme: "outline",
-        size: "large"
+        size: "large",
       });
     } catch (error) {
       console.error(error);
@@ -67,7 +64,11 @@ const GoogleButton = () => {
 
   return (
     <div className="i-flex-row">
-      <div ref={googleButton} className={`${isLoading ? "hidden" : "block"}`} id="google-button"></div>
+      <div
+        ref={googleButton}
+        className={`${isLoading ? "hidden" : "block"}`}
+        id="google-button"
+      ></div>
       {isLoading && <div className="text-less-mutes">Vennligst vent...</div>}
     </div>
   );

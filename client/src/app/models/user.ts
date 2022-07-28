@@ -1,9 +1,5 @@
-
-
-interface UserModel {
-  userName: string;
-}
-
-export interface User extends UserModel {
+export interface User {
   roles?: string[];
+  displayName?: string | null;
+  createdAt?: string | null;
 }

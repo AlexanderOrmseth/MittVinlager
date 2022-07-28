@@ -3,13 +3,22 @@ import { toast } from "react-hot-toast";
 const HomePage = () => {
   return (
     <div className="text-transparent">
-
       <div className="i-flex-row flex-wrap">
-        <button onClick={() => toast.success("Hello World!")} className="btn-primary">Toast Success</button>
-        <button onClick={() => toast.error("Internal Server Error!")} className="btn-primary">Toast
-          Error
+        <button
+          onClick={() => toast.success("Hello World!")}
+          className="btn-primary"
+        >
+          Toast Success
         </button>
-        <button onClick={() => toast("Hello World!")} className="btn-primary">Toast Normal</button>
+        <button
+          onClick={() => toast.error("Internal Server Error!")}
+          className="btn-primary"
+        >
+          Toast Error
+        </button>
+        <button onClick={() => toast("Hello World!")} className="btn-primary">
+          Toast Normal
+        </button>
       </div>
 
       <h1 className="mb-4 text-3xl">Mitt Vinlager</h1>

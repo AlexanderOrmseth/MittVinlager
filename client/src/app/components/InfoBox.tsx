@@ -1,6 +1,12 @@
 import { Info } from "phosphor-react";
 
-export const InfoBox = ({ message, className }: { message: string, className?: string }) => {
+export const InfoBox = ({
+  message,
+  className,
+}: {
+  message: string;
+  className?: string;
+}) => {
   return (
     <div
       className={`my-4 flex items-center text-sm md:p-2.5 p-2 border-blue-wine-200 

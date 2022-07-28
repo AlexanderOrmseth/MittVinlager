@@ -20,7 +20,7 @@ const NewWinePage = () => {
       .unwrap()
       .then(() => {
         toast.success(`Opprettet ny vin!`, {
-          position: "bottom-right"
+          position: "bottom-right",
         });
         navigate("/inventory");
       })

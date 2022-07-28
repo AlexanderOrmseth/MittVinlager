@@ -1,13 +1,13 @@
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import { ReactNode, useEffect, useRef } from "react";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
   title: string;
   description: string;
-  children: React.ReactNode;
+  children: ReactNode;
   xl?: boolean;
 }
 
@@ -19,6 +19,12 @@ const Modal = ({
   children,
   xl,
 }: Props) => {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (containerRef.current) containerRef.current.focus();
+  }, [containerRef]);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -80,14 +86,15 @@ const Modal = ({
                 <Dialog.Description className="text-sm mb-4 border-b pb-2 dark:border-gray-700 text-slate-600 dark:text-gray-300">
                   {description}
                 </Dialog.Description>
-
-                {children}
-                <button
-                  className="btn-white mt-4 h-10 rounded-full"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Tilbake
-                </button>
+                <div tabIndex={0} ref={containerRef}>
+                  {children}
+                  <button
+                    className="btn-white mt-4 h-10 rounded-full"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Tilbake
+                  </button>
+                </div>
               </Dialog.Panel>
             </div>
           </div>

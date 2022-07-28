@@ -33,7 +33,6 @@ function App() {
         // get token
         const token = localStorage.getItem("token");
         if (token) {
-
           // add token to account state
           dispatch(setToken(token));
 
@@ -59,7 +58,6 @@ function App() {
 
       dispatch(signOut());
       navigate("/");
-
     }
     // eslint-disable-next-line
   }, []);
@@ -140,7 +138,6 @@ function App() {
       </Route>
     </Routes>
   );
-
 }
 
 export default App;

@@ -81,7 +81,6 @@ const YearPicker = ({
                     ? "bg-wine-500 dark:bg-wine-400 text-white"
                     : "hover:bg-slate-200 hover:dark:bg-gray-700/40 hover:text-black hover:dark:text-gray-300"
                 }`}
-
                 key={i}
               >
                 {num}

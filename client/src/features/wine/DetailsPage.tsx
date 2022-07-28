@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
-import { CalendarBlank, Link as LinkIcon, PencilLine, Trash } from "phosphor-react";
+import {
+  CalendarBlank,
+  Link as LinkIcon,
+  PencilLine,
+  Trash,
+} from "phosphor-react";
 import WineDetail from "./details/WineDetail";
 import WineImageZoom from "./details/WineImageZoom";
 import Spinner from "../../app/components/loading/Spinner";
@@ -99,7 +104,6 @@ const DetailsPage = () => {
             </div>
           </div>
 
-
           <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
             <div className="col-span-2">
               <WineDetail wine={wine} />
@@ -107,7 +111,10 @@ const DetailsPage = () => {
 
             <div className="pl-0 relative md:row-start-auto row-start-1">
               {!wine.userDetails.quantity && (
-                <InfoBox className="mt-0" message="Du har ikke vinen på lager." />
+                <InfoBox
+                  className="mt-0"
+                  message="Du har ikke vinen på lager."
+                />
               )}
               <WineImageZoom
                 productId={wine.productId}

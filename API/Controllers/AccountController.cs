@@ -2,6 +2,7 @@ using System.Security.Claims;
 using System.Text.RegularExpressions;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Services;
 using Google.Apis.Auth;
 using Microsoft.AspNetCore.Authorization;
@@ -16,14 +17,17 @@ public class AccountController : BaseApiController
     private readonly TokenService _tokenService;
     private readonly ImageService _imageService;
     private readonly IConfiguration _config;
+    private readonly ILogger<AccountController> _logger;
 
-    public AccountController(UserManager<User> userManager, TokenService tokenService, ImageService imageService,
-        IConfiguration config)
+    public AccountController(UserManager<User> userManager,
+        TokenService tokenService, ImageService imageService,
+        IConfiguration config, ILogger<AccountController> logger)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _imageService = imageService;
         _config = config;
+        _logger = logger;
     }
 
 
@@ -50,9 +54,10 @@ public class AccountController : BaseApiController
         if (existingUser is not null)
         {
             // return user by GOOGLE ID
+            _logger.LogInformation("User exists with Id: {Id}", existingUser.Id);
             return Ok(new UserDto
             {
-                UserName = existingUser.UserName,
+                DisplayName = existingUser.DisplayName,
                 Token = await _tokenService.GenerateToken(existingUser),
             });
         }
@@ -73,10 +78,11 @@ public class AccountController : BaseApiController
 
         // check out nameIdentifier CLAIM, add it to token?
 
-        var newUser = new User {UserName = newUserUserName};
+        var newUser = new User {UserName = newUserUserName, DisplayName = payload.GivenName};
 
         // Create new user
         await _userManager.CreateAsync(newUser);
+        _logger.LogInformation("Creating new user with Id: {Id}", newUser.Id);
 
         // Add role
         await _userManager.AddToRoleAsync(newUser, "Member");
@@ -88,9 +94,39 @@ public class AccountController : BaseApiController
         // return created user
         return Ok(new UserDto
         {
-            UserName = newUser.UserName,
+            DisplayName = payload.Name,
             Token = await _tokenService.GenerateToken(newUser),
         });
+    }
+
+    [Authorize]
+    [HttpPatch("displayName")]
+    public async Task<ActionResult<string>> ChangeDisplayName([FromBody] DisplayNameDto displayNameDto)
+    {
+        // validate
+        if (displayNameDto.DisplayName.IsNull() || displayNameDto.DisplayName.Length > 15 ||
+            !displayNameDto.DisplayName.IsLetterOnly())
+        {
+            return BadRequest(new ProblemDetails {Title = "Error! Visningsnavnet er ugyldig"});
+        }
+
+        var user = await _userManager.FindByNameAsync(User.Identity?.Name);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        user.DisplayName = displayNameDto.DisplayName;
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (result.Succeeded)
+        {
+            return StatusCode(201);
+        }
+
+        return BadRequest(new ProblemDetails {Title = "Error, visningsnavn ble ikke endret."});
     }
 
     /// <summary>
@@ -103,10 +139,6 @@ public class AccountController : BaseApiController
     {
         var user = await _userManager.FindByNameAsync(User.Identity?.Name);
 
-        // test this
-        //var s = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-
         if (user is null)
         {
             return NotFound();
@@ -114,7 +146,7 @@ public class AccountController : BaseApiController
 
         return new UserDto
         {
-            UserName = user.UserName,
+            DisplayName = user.DisplayName,
             Token = await _tokenService.GenerateToken(user),
             CreatedAt = user.CreatedAt
         };

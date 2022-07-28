@@ -85,9 +85,11 @@ const Header = () => {
                 },
               ]}
               text={
-                user.userName.length > 15
-                  ? user.userName.slice(0, 15) + "..."
-                  : user.userName
+                user.displayName
+                  ? user.displayName.length > 15
+                    ? user.displayName.slice(0, 15) + "..."
+                    : user.displayName
+                  : "Anonym"
               }
             />
           </div>

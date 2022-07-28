@@ -21,7 +21,6 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
   const navigate = useNavigate();
 
   const handleDeleteUser = async () => {
-
     if (value !== "SLETTMEG") return;
 
     await deleteUser()

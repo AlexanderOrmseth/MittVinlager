@@ -1,12 +1,10 @@
 using System.Security.Claims;
-using System.Security.Principal;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -14,14 +12,12 @@ namespace API.Controllers;
 [Authorize]
 public class WishlistController : BaseApiController
 {
-    private readonly UserManager<User> _userManager;
     private readonly ImageService _imageService;
     private readonly IWishItemRepository _wishItemRepository;
 
-    public WishlistController(UserManager<User> userManager, ImageService imageService,
+    public WishlistController(ImageService imageService,
         IWishItemRepository wishItemRepository)
     {
-        _userManager = userManager;
         _imageService = imageService;
         _wishItemRepository = wishItemRepository;
     }

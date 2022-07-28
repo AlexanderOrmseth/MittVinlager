@@ -8,7 +8,15 @@ import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
-import { ArrowRight, Eye, FloppyDisk, PlusCircle, Trash, Warning } from "phosphor-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Eye,
+  FloppyDisk,
+  PlusCircle,
+  Trash,
+  Warning,
+} from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import { schema } from "./validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -88,7 +96,12 @@ const tabAnim = {
   },
 };
 
-const CreateOrUpdate = ({ onSubmit, serverErrors, wine, setDeleteModalIsOpen }: Props) => {
+const CreateOrUpdate = ({
+  onSubmit,
+  serverErrors,
+  wine,
+  setDeleteModalIsOpen,
+}: Props) => {
   const { data: countries, ...countryStatus } =
     useGetVinmonopoletCountriesQuery();
 
@@ -552,15 +565,39 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine, setDeleteModalIsOpen }: 
             <div className="mt-6 border-t border-slate-200 dark:border-gray-700 mb-6"></div>
             <div className="flex flex-row flex-wrap gap-2 items-center justify-between">
               <div className="i-flex-row">
-                <Link className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
-                      to={-1 as any}><ArrowRight size="1.5rem" className="rotate-180" /> Tilbake</Link>
-                {setDeleteModalIsOpen &&
-                  <LoadingButton loading={isSubmitting} disabled={isSubmitting} loadingText="Sletter vin..."
-                                 type="button" className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
-                                 onClick={() => setDeleteModalIsOpen(true)}><Trash
-                    size="1.5rem" />Slett</LoadingButton>}
+                <Link
+                  className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
+                  to={-1 as any}
+                >
+                  <ArrowLeft size="1.5rem" />
+                  Avbryt
+                </Link>
+
+                <button
+                  className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
+                  disabled={!isValid}
+                  type="button"
+                  onClick={() => setPreviewIsOpen(true)}
+                >
+                  <Eye size="1.5rem" />
+                  Forhåndsvis
+                </button>
               </div>
               <div className="i-flex-row">
+                {setDeleteModalIsOpen && (
+                  <LoadingButton
+                    loading={isSubmitting}
+                    isPrimary={false}
+                    disabled={isSubmitting}
+                    loadingText="Sletter vin..."
+                    type="button"
+                    className="px-5 rounded-full i-flex-row disabled-btn w-auto"
+                    onClick={() => setDeleteModalIsOpen(true)}
+                  >
+                    <Trash size="1.5rem" />
+                    Slett
+                  </LoadingButton>
+                )}
                 <LoadingButton
                   disabled={!isValid}
                   loading={isSubmitting}
@@ -574,15 +611,6 @@ const CreateOrUpdate = ({ onSubmit, serverErrors, wine, setDeleteModalIsOpen }: 
                   )}
                   {wine ? "Lagre endringer" : "Legg til"}
                 </LoadingButton>
-                <button
-                  className="btn-white px-5 rounded-full i-flex-row disabled-btn w-auto"
-                  disabled={!isValid}
-                  type="button"
-                  onClick={() => setPreviewIsOpen(true)}
-                >
-                  <Eye size="1.5rem" />
-                  Forhåndsvis
-                </button>
               </div>
             </div>
           </form>

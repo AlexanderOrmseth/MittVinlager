@@ -70,8 +70,12 @@ const UpdateWinePage = () => {
             serverErrors={serverErrors}
           />
 
-          <DeleteWineModal isOpen={deleteModalIsOpen} shouldNavigate={true} setIsOpen={setDeleteModalIsOpen}
-                           wineToDelete={{ id: wine.wineId, name: wine.name }} />
+          <DeleteWineModal
+            isOpen={deleteModalIsOpen}
+            shouldNavigate={true}
+            setIsOpen={setDeleteModalIsOpen}
+            wineToDelete={{ id: wine.wineId, name: wine.name }}
+          />
         </>
       )}
     </div>

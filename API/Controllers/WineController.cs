@@ -32,7 +32,6 @@ public class WineController : BaseApiController
 
     #endregion
 
-
     /// <summary>
     /// Gets all wine that belongs to user
     /// </summary>
@@ -87,17 +86,10 @@ public class WineController : BaseApiController
         var wine = await _wineRepository.GetOneById(id, cancellationToken);
 
         // check if wine exists
-        if (wine is null)
+        var userId = GetUserId(User);
+        if (wine is null || wine.UserId != userId)
         {
             return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
-        }
-
-        var userId = GetUserId(User);
-
-        // check if wine belongs to user
-        if (wine.UserId != userId)
-        {
-            return Forbid();
         }
 
         // return mapped wine
@@ -169,20 +161,12 @@ public class WineController : BaseApiController
         CancellationToken cancellationToken)
     {
         var wine = await _wineRepository.GetOneById(id, cancellationToken);
-
-        // check if wine exists and id parameter matches wine
-        if (wine is null)
-        {
-            return NotFound();
-        }
-
-        // get user id
         var userId = GetUserId(User);
 
-        // check if wine belongs to user
-        if (wine.UserId != userId)
+        // check if wine exists and id parameter matches wine
+        if (wine is null || wine.UserId != userId)
         {
-            return Forbid();
+            return NotFound();
         }
 
         // productId
@@ -274,7 +258,6 @@ public class WineController : BaseApiController
             }
         }
 
-
         var result = await _wineRepository.Save(cancellationToken);
 
         if (result)
@@ -297,19 +280,12 @@ public class WineController : BaseApiController
     {
         // get wine
         var wine = await _wineRepository.GetWineWithConsumed(wineId, cancellationToken);
-
-        // check if wine exists
-        if (wine is null)
-        {
-            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
-        }
-
         var userId = GetUserId(User);
 
-        // check if wine belongs to user
-        if (wine.UserId != userId)
+        // check if wine exists
+        if (wine is null || wine.UserId != userId)
         {
-            return Forbid();
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
         // list of Id and Dates
@@ -373,20 +349,12 @@ public class WineController : BaseApiController
     {
         // get wine
         var wine = await _wineRepository.GetWineWithConsumedAndUserDetails(wineId, cancellationToken);
-
-        // check if wine exists
-        if (wine is null)
-        {
-            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
-        }
-
         var userId = GetUserId(User);
 
-
-        // check if wine belongs to user
-        if (wine.UserId != userId)
+        // check if wine exists
+        if (wine is null || wine.UserId != userId)
         {
-            return Forbid();
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
         if (wine.UserDetails.Quantity > 0)
@@ -433,20 +401,12 @@ public class WineController : BaseApiController
     public async Task<ActionResult> DeleteWine(int id, CancellationToken cancellationToken)
     {
         var wine = await _wineRepository.FindOne(id, cancellationToken);
-
-        // check if wine exists
-        if (wine is null)
-        {
-            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
-        }
-
         var userId = GetUserId(User);
 
-
-        // check if wine belongs to user
-        if (wine.UserId != userId)
+        // check if wine exists
+        if (wine is null || wine.UserId != userId)
         {
-            return Forbid();
+            return NotFound(new ProblemDetails {Title = "Denne vinen eksisterer ikke."});
         }
 
         // if cloudinary has image -> delete

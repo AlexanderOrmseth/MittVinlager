@@ -6,6 +6,7 @@ interface Props {
   type?: "button" | "submit";
   onClick?: () => void;
   disabled: boolean;
+  isPrimary?: boolean;
   className?: string;
   loadingText: string;
 }
@@ -17,6 +18,7 @@ const LoadingButton = ({
   className,
   disabled,
   loadingText,
+  isPrimary = true,
   type = "button",
 }: Props) => {
   return (
@@ -24,7 +26,9 @@ const LoadingButton = ({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`btn-primary inline-flex items-center gap-2 h-10 disabled-btn ${
+      className={`${
+        isPrimary ? "btn-primary" : "btn-white"
+      } inline-flex items-center gap-2 h-10 disabled-btn ${
         className ? className : ""
       }`}
     >

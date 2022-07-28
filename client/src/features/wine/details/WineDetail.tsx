@@ -6,7 +6,11 @@ import Stars from "../../../app/components/Stars";
 import TastePie, { list, text } from "../../../app/components/TastePie";
 import Time from "../../../app/components/Time";
 import { WineBaseModel } from "../../../app/models/wine";
-import { formatAlcoholContent, formatPrice, formatVolume } from "../../../app/util/format";
+import {
+  formatAlcoholContent,
+  formatPrice,
+  formatVolume,
+} from "../../../app/util/format";
 
 interface Props {
   wine: WineBaseModel;
