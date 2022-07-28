@@ -39,7 +39,8 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
 
         // taste notes
         RuleFor(x => x.Taste).MaximumLength(500).WithMessage("Smak kan max være 500 bokstaver.");
-        RuleFor(x => x.Grapes).MaximumLength(500).WithMessage("Råstoff kan max være 500 bokstaver.");
+        // TODO: VALIDATE GRAPES AND RECOMMENDED FOOD
+        //RuleFor(x => x.Grapes).MaximumLength(500).WithMessage("Råstoff kan max være 500 bokstaver.");
         RuleFor(x => x.Odour).MaximumLength(500).WithMessage("Duft kan max være 500 bokstaver.");
         RuleFor(x => x.Colour).MaximumLength(500).WithMessage("Farge kan max være 500 bokstaver.");
 

@@ -30,6 +30,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonopoletApi";
 import { Link } from "react-router-dom";
+import FormTagInput from "../../../app/components/form/FormTagInput";
 
 interface Props {
   onSubmit: (data: FormModel) => void;
@@ -442,14 +443,17 @@ const CreateOrUpdate = ({
                       control={control}
                     />
                   </div>
-                  <FormTextInput
-                    textarea
-                    rows={2}
-                    maxLength={500}
+                  <FormTagInput
+                    label="Passer til"
+                    name="recommendedFood"
                     control={control}
-                    name="grapes"
+                    placeholder="anbefalt mat"
+                  />
+                  <FormTagInput
                     label="Råstoff"
-                    placeholder=""
+                    name="grapes"
+                    control={control}
+                    placeholder="Råstoff"
                   />
                   <div className="grid grid-cols-2 gap-4">
                     <FormTextInput

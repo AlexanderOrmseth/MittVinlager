@@ -63,7 +63,11 @@ const WineDetail = ({ wine }: Props) => {
       </DescriptionList>
 
       <DescriptionList delay={1} title="Smaksdetaljer">
-        <DescriptionItem dt="Råstoff" dd={wine.grapes} />
+        <DescriptionItem dt="Råstoff" dd={wine.grapes?.join(", ")} />
+        <DescriptionItem
+          dt="Passer til"
+          dd={wine.recommendedFood?.join(", ")}
+        />
         <DescriptionItem dt="Farge" dd={wine.colour} />
         <DescriptionItem dt="Duft" dd={wine.odour} />
         <DescriptionItem dt="Smak" dd={wine.taste} />

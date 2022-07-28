@@ -184,7 +184,8 @@ public class WineController : BaseApiController
         wine.Region = formBody.Region;
         wine.SubRegion = formBody.SubRegion;
         wine.ProductId = formBody.ProductId;
-        wine.Grapes = formBody.Grapes;
+        wine.Grapes = string.Join<string>(", ", formBody.Grapes);
+        wine.RecommendedFood = string.Join<string>(", ", formBody.RecommendedFood);
         wine.ManufacturerName = formBody.ManufacturerName;
         wine.StoragePotential = formBody.StoragePotential;
         wine.Colour = formBody.Colour;
@@ -455,7 +456,8 @@ public class WineController : BaseApiController
             Region = wine.Region,
             SubRegion = wine.SubRegion,
             ProductId = wine.ProductId,
-            Grapes = wine.Grapes,
+            Grapes = wine.Grapes?.Split(", ").ToList(),
+            RecommendedFood = wine.RecommendedFood?.Split(", ").ToList(),
             ManufacturerName = wine.ManufacturerName,
             StoragePotential = wine.StoragePotential,
             Colour = wine.Colour,
@@ -484,7 +486,7 @@ public class WineController : BaseApiController
         };
     }
 
-    private static Wine MapDtoToWine(WineBaseModel formBody, int userId)
+    private static Wine MapDtoToWine(AddWineDto formBody, int userId)
     {
         return new Wine(userId)
         {
@@ -499,7 +501,8 @@ public class WineController : BaseApiController
             Region = formBody.Region,
             SubRegion = formBody.SubRegion,
             ProductId = formBody.ProductId,
-            Grapes = formBody.Grapes,
+            Grapes = string.Join<string>(", ", formBody.Grapes),
+            RecommendedFood = string.Join<string>(", ", formBody.RecommendedFood),
             ManufacturerName = formBody.ManufacturerName,
             StoragePotential = formBody.StoragePotential,
             Colour = formBody.Colour,

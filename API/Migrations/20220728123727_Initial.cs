@@ -32,6 +32,7 @@ namespace API.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DisplayName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -178,6 +179,7 @@ namespace API.Migrations
                     SubRegion = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     ProductId = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: true),
                     Grapes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    RecommendedFood = table.Column<string>(type: "text", nullable: true),
                     ManufacturerName = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     StoragePotential = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
@@ -282,8 +284,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "49b4b896-0309-4866-aa4e-3eaa51e19006", "Member", "MEMBER" },
-                    { 2, "443324b2-7140-4506-b205-3c179f8956e2", "Admin", "ADMIN" }
+                    { 1, "6c2bc84f-b26d-456a-a881-671e6138b334", "Member", "MEMBER" },
+                    { 2, "614009a8-3614-4eed-8bd2-272ee5a335fa", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

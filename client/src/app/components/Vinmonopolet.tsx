@@ -7,7 +7,7 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import LoadingButton from "./LoadingButton";
-import { FormModel, WineBaseModel } from "../models/wine";
+import { FormModel, VinmonopoletResponse, WineBaseModel } from "../models/wine";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
 
 interface Props {
@@ -56,7 +56,7 @@ const Vinmonopolet = ({
   const [resetAction, setResetAction] = useState(1);
 
   const handleSetValues = useCallback(
-    (data: WineBaseModel) => {
+    (data: VinmonopoletResponse) => {
       if (isWishlist) {
         setValues(data);
       } else if (setValue && getValues) {
@@ -87,6 +87,7 @@ const Vinmonopolet = ({
   useEffect(() => {
     if (data) {
       handleSetValues(data);
+      console.log(data);
       setSkip(true);
       setIsOpen(false);
     }
@@ -116,10 +117,6 @@ const Vinmonopolet = ({
     setId(productId);
     setSkip(false);
 
-    /*setError(
-      error?.data?.title ||
-        "Error, kunne ikke hente vin med denne produktId'en"
-    );*/
   };
 
   return (

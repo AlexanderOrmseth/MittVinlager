@@ -1,6 +1,6 @@
 namespace API.DTOs;
 
-public class AddWineDto : WineBaseModel
+public class AddWineDto : VinmonopoletDto
 {
     // image
     public IFormFile? File { get; set; }

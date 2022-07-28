@@ -21,7 +21,8 @@ export interface WineBaseModel {
   region?: string | null;
   subRegion?: string | null;
   productId?: string | null;
-  grapes?: string | null;
+  grapes?: string[] | null;
+  recommendedFood?: string[] | null;
   manufacturerName?: string | null;
   storagePotential?: string | null;
   colour?: string | null;
@@ -35,12 +36,14 @@ export interface WineBaseModel {
   userDetails: UserDetails;
 }
 
+export interface VinmonopoletResponse extends WineBaseModel {}
+
 export interface WineFilters {
   countries: string[];
   types: string[];
 }
 
-export interface FormModel extends WineBaseModel {
+export interface FormModel extends VinmonopoletResponse {
   file?: File | null;
   resetImage: boolean;
 }

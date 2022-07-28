@@ -19,7 +19,6 @@ public class WineBaseModel
     public string? Region { get; set; }
     public string? SubRegion { get; set; }
     public string? ProductId { get; set; }
-    public string? Grapes { get; set; }
 
     public string? ManufacturerName { get; set; }
     public string? StoragePotential { get; set; }

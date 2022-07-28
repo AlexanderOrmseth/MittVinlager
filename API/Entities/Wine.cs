@@ -24,6 +24,7 @@ public class Wine : IWineWithPicture
     // if image file uploaded by user
     public bool ImageByUser { get; set; }
 
+
     // optional
     [Range(0, 3000)] public int? Year { get; set; }
     public int? Price { get; set; }
@@ -35,6 +36,7 @@ public class Wine : IWineWithPicture
     public string? SubRegion { get; set; }
     public string? ProductId { get; set; }
     public string? Grapes { get; set; }
+    public string? RecommendedFood { get; set; }
 
     public string? ManufacturerName { get; set; }
     public string? StoragePotential { get; set; }

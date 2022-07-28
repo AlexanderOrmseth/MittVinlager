@@ -98,7 +98,7 @@ public class VinmonopoletController : BaseApiController
 
     private static WineBaseModel MapVinmonopoletResponseToDto(VinmonopoletResponseModel response)
     {
-        return new WineBaseModel
+        return new VinmonopoletDto
         {
             Name = response.Basic.ProductLongName.IsNotEmpty()
                 ? response.Basic.ProductLongName
@@ -123,6 +123,7 @@ public class VinmonopoletController : BaseApiController
             Bitterness = TasteToInt(response.Description.Bitterness),
             Sweetness = TasteToInt(response.Description.Sweetness),
             Tannins = TasteToInt(response.Description.Tannins),
+            RecommendedFood = RecommendedFoodToString(response.Description.RecommendedFood),
             UserDetails = new WineUserDetailsDto()
         };
     }
@@ -136,6 +137,14 @@ public class VinmonopoletController : BaseApiController
 
         var x = int.TryParse(tasteValue, out var number) ? number : 0;
         return x;
+    }
+
+    private static IEnumerable<string>? RecommendedFoodToString(IEnumerable<RecommendedFood>? food)
+    {
+        // % grape name || grape name
+        return food?.Where(x => !string.IsNullOrEmpty(x.FoodDesc))
+            .Select(x => x.FoodDesc)
+            .ToList();
     }
 
     /// <summary>
@@ -161,7 +170,7 @@ public class VinmonopoletController : BaseApiController
     /// </summary>
     /// <param name="grapes"></param>
     /// <returns>x% grapeName, x% grapeName</returns>
-    private static string? MapGrapesToString(IReadOnlyCollection<Grape> grapes)
+    private static IEnumerable<string>? MapGrapesToString(IReadOnlyCollection<Grape> grapes)
     {
         if (!grapes.Any())
         {
@@ -169,12 +178,12 @@ public class VinmonopoletController : BaseApiController
         }
 
         // % grape name || grape name
-        var mappedGrapes = grapes
+        return grapes
             .Where(grape => !string.IsNullOrEmpty(grape.GrapeDesc))
             .Select(grape => $"{(grape.GrapePct > 0 ? $"{grape.GrapePct}% " : "")}{grape.GrapeDesc}")
             .ToList();
 
         // return as a string and separate with ", "
-        return string.Join<string>(", ", mappedGrapes);
+        // return string.Join<string>(", ", mappedGrapes);
     }
 }
