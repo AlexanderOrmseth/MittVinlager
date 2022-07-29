@@ -1,16 +1,21 @@
 import React, { FunctionComponent, useState } from "react";
 import { X } from "phosphor-react";
+import { FieldError } from "react-hook-form";
 
 interface Props {
   value: string[] | null;
   onChange: (val: string[]) => void;
-  placeholder?: string;
+  min: number;
+  max: number;
+  error?: FieldError;
 }
 
 const TagInput: FunctionComponent<Props> = ({
   value,
   onChange,
-  placeholder,
+  min,
+  max,
+  error,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -22,15 +27,22 @@ const TagInput: FunctionComponent<Props> = ({
       const transformedValue = inputValue.trim().replace(/[^\w\s]/gi, "");
 
       // validate
-      if (transformedValue.length < 2) {
-        setErrorMessage("Verdien må minst være på 2 bokstaver.");
+      if (transformedValue.length < min) {
+        setErrorMessage(`Verdien må minst være på ${min} bokstaver.`);
+        return;
+      } else if (
+        value?.some(
+          (val) => val.toLowerCase() === transformedValue.toLowerCase()
+        )
+      ) {
+        setErrorMessage("Verdien må være unik.");
         return;
       }
 
       // add tag
       if (value) {
-        if (value.length >= 5) {
-          setErrorMessage("Listen kan max ha en lengde på 5.");
+        if (value.length >= max) {
+          setErrorMessage(`Listen kan max ha en lengde på ${max}.`);
           return;
         }
 
@@ -51,10 +63,24 @@ const TagInput: FunctionComponent<Props> = ({
   return (
     <div>
       {value && (
-        <ul className="i-flex-row flex-wrap gap-y-2 mb-2">
+        <ul className="i-flex-row flex-wrap gap-y-2 mb-1.5">
           {value.map((str, i) => (
             <li
-              className="py-1 font-medium text-sm cursor-pointer px-3 text-muted border hover:border-slate-300 hover:text-gray-900 bg-slate-50 rounded-full i-flex-row"
+              className={`py-1 font-medium text-sm cursor-pointer px-3 text-white
+                hover:opacity-70 bg-blue-wine-300 dark:bg-blue-wine-500 rounded-full i-flex-row ${
+                  error?.types &&
+                  Object.values(error.types).some((err) => {
+                    if (!err) return false;
+                    const errMessage = err.toString();
+                    const errValue = errMessage.slice(
+                      errMessage.indexOf("'") + 1,
+                      errMessage.lastIndexOf("'")
+                    );
+                    return errValue === str ? errValue : false;
+                  })
+                    ? "bg-wine-400 animate-pulse"
+                    : ""
+                }`}
               onClick={() => handleRemoveTag(str)}
               key={i}
             >
@@ -64,17 +90,19 @@ const TagInput: FunctionComponent<Props> = ({
           ))}
         </ul>
       )}
-
-      <div>
+      <div className="relative">
         <input
-          placeholder={placeholder}
+          placeholder="trykk enter eller komma for å legge til verdi til listen"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            setErrorMessage(null);
+          }}
           autoComplete="off"
           type="text"
           onKeyDown={(e) => handleKeyDown(e)}
           className={`text-input ${
-            errorMessage
+            errorMessage || error?.types
               ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
               : ""
           }`}
@@ -84,6 +112,9 @@ const TagInput: FunctionComponent<Props> = ({
             {errorMessage}
           </em>
         )}
+        <small className="text-muted text-xs absolute right-0 -bottom-2/4 z-0">{`${
+          value?.length ?? 0
+        }/${max}`}</small>
       </div>
     </div>
   );

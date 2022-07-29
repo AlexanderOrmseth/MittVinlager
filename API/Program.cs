@@ -1,3 +1,4 @@
+using System.Globalization;
 using API.Context;
 using API.Entities;
 using API.Extensions;
@@ -6,6 +7,7 @@ using API.Interfaces;
 using API.Middleware;
 using API.Repositories;
 using API.Services;
+using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;

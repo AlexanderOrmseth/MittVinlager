@@ -26,8 +26,10 @@ const NewWinePage = () => {
       })
       .catch((err) => {
         // show server validation errors
+        console.error("Adding wine error: ", err);
         if (err?.data?.errors) {
           setServerErrors(err.data.errors);
+          console.log(err.data.errors);
           return;
         }
         console.error("Adding wine error", err);

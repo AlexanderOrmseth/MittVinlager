@@ -1,9 +1,7 @@
 export interface Wine extends WineBaseModel {
   wineId: number;
-
   createdAt: string;
   updatedAt?: string | null;
-
   publicId?: string | null;
   pictureUrl?: string | null;
   imageByUser?: boolean;
@@ -36,14 +34,13 @@ export interface WineBaseModel {
   userDetails: UserDetails;
 }
 
-export interface VinmonopoletResponse extends WineBaseModel {}
-
 export interface WineFilters {
   countries: string[];
+  recommendedFood: string[];
   types: string[];
 }
 
-export interface FormModel extends VinmonopoletResponse {
+export interface FormModel extends WineBaseModel {
   file?: File | null;
   resetImage: boolean;
 }

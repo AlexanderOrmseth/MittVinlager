@@ -7,7 +7,7 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import LoadingButton from "./LoadingButton";
-import { FormModel, VinmonopoletResponse, WineBaseModel } from "../models/wine";
+import { FormModel, WineBaseModel } from "../models/wine";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
 
 interface Props {
@@ -56,7 +56,7 @@ const Vinmonopolet = ({
   const [resetAction, setResetAction] = useState(1);
 
   const handleSetValues = useCallback(
-    (data: VinmonopoletResponse) => {
+    (data: WineBaseModel) => {
       if (isWishlist) {
         setValues(data);
       } else if (setValue && getValues) {

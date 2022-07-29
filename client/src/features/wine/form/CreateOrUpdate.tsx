@@ -61,6 +61,7 @@ const tab2: Keys[] = [
   "tannins",
   "grapes",
   "colour",
+  "recommendedFood",
   "odour",
   "taste",
 ];
@@ -145,6 +146,7 @@ const CreateOrUpdate = ({
           const c = _key.charAt(_key.indexOf(".") + 1);
           _key = "userDetails." + c.toLowerCase() + _key.split(`.${c}`)[1];
         }
+
         //@ts-expect-error
         setError(_key, {
           types: { ...value },
@@ -445,15 +447,17 @@ const CreateOrUpdate = ({
                   </div>
                   <FormTagInput
                     label="Passer til"
+                    min={3}
+                    max={12}
                     name="recommendedFood"
                     control={control}
-                    placeholder="anbefalt mat"
                   />
                   <FormTagInput
                     label="Råstoff"
+                    min={5}
+                    max={12}
                     name="grapes"
                     control={control}
-                    placeholder="Råstoff"
                   />
                   <div className="grid grid-cols-2 gap-4">
                     <FormTextInput

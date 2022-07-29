@@ -1,19 +1,8 @@
 import { toast } from "react-hot-toast";
-import TagInput from "../../app/components/TagInput";
-import { useState } from "react";
 
 const HomePage = () => {
-  const [recommendedFood, setRecommendedFood] = useState<string[] | null>(null);
-
   return (
     <div className="">
-      <div className="p-8">
-        <TagInput
-          onChange={setRecommendedFood}
-          value={recommendedFood}
-          placeholder="anbefalt mat"
-        />
-      </div>
       <div className="i-flex-row flex-wrap">
         <button
           onClick={() => toast.success("Hello World!")}

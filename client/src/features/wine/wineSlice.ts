@@ -13,6 +13,7 @@ export const initialParams: WineParams = {
   pageNumber: 1,
   orderBy: "name",
   countries: [],
+  recommendedFood: [],
   types: [],
   searchTerm: "",
 };

@@ -86,6 +86,17 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
             checkedOptions={params.types}
           />
         </AsideDisclosure>
+
+        <AsideDisclosure text="Annbefalt mat">
+          <WineCheckboxFilter
+            disabled={disabled}
+            onChange={(items: string[]) =>
+              dispatch(setParams({ recommendedFood: items }))
+            }
+            options={filters?.recommendedFood}
+            checkedOptions={params.recommendedFood}
+          />
+        </AsideDisclosure>
       </div>
     </aside>
   );

@@ -1,4 +1,5 @@
 using API.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Extensions;
 
@@ -19,5 +20,17 @@ public static class WineExtension
         };
 
         return query;
+    }
+
+
+    public static IQueryable<Wine> RecommendedFood(this IQueryable<Wine> query, string? recommendedFood)
+    {
+        if (recommendedFood is null || recommendedFood.IsEmpty())
+        {
+            return query;
+        }
+
+        var foodList = recommendedFood.Split(",").ToList();
+        return foodList.Aggregate(query, (current, food) => current.Where(w => w.RecommendedFood.Contains(food)));
     }
 }

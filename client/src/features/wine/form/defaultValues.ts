@@ -12,6 +12,7 @@ export const defaultValues: FormModel = {
   subRegion: null,
   productId: null,
   grapes: null,
+  recommendedFood: null,
   manufacturerName: null,
   storagePotential: null,
   colour: null,

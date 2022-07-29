@@ -1,8 +1,8 @@
-export interface WineParams {
+import { WineFilters } from "./wine";
+
+export interface WineParams extends WineFilters {
   orderBy: OrderBy;
   searchTerm: string;
-  types: string[];
-  countries: string[];
   pageNumber: number;
 }
 

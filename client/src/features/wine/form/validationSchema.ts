@@ -135,12 +135,8 @@ export const schema = yup.object().shape({
     .nullable()
     .transform(emptyStringToNull)
     .max(500, "Smak kan max være 500 bokstaver."),
-  /*grapes: yup
-    .string()
-    .trim()
-    .nullable()
-    .transform(emptyStringToNull)
-    .max(500, "Råstoff kan max være 500 bokstaver."),*/
+  grapes: yup.array().nullable(),
+  recommendedFood: yup.array().nullable(),
   odour: yup
     .string()
     .trim()

@@ -6,5 +6,6 @@ public class WineParams : PaginationParams
     public string? SearchTerm { get; set; }
     public string? Types { get; set; }
     public string? Countries { get; set; }
+    public string? RecommendedFood { get; set; }
     public string? Grapes { get; set; }
 }

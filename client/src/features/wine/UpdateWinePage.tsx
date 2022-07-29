@@ -45,6 +45,7 @@ const UpdateWinePage = () => {
       })
       .catch((err) => {
         // show server validation errors
+        console.error("Update wine error", err);
         if (err?.data?.errors) {
           setServerErrors(err.data.errors);
           return;

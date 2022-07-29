@@ -36,6 +36,9 @@ public class WineRepository : IWineRepository
             .Where(wineParams.Types.IsNotEmpty(),
                 w => wineParams.Types!.ToLower().Contains(w.Type.ToLower()))
 
+            // RecommendedFood
+            .RecommendedFood(wineParams.RecommendedFood)
+
             // Sort
             .Sort(wineParams.OrderBy)
             .Include(w => w.UserDetails)
@@ -92,16 +95,32 @@ public class WineRepository : IWineRepository
 
     public async Task<object> GetFilters(int userId, CancellationToken cancellationToken)
     {
-        var types = await _context.Wines.Where(w => w.UserId == userId).Select(w => w.Type)
-            .Distinct()
+        // all user wine
+        var userWine = await _context.Wines
+            .Where(w => w.UserId == userId)
+            .Select(w => new {w.Type, w.Country, w.RecommendedFood})
             .ToListAsync(cancellationToken);
 
-        var countries = await _context.Wines.Where(w => w.UserId == userId && w.Country != null)
+        // types to list
+        var types = userWine
+            .Select(w => w.Type)
+            .Distinct()
+            .ToList();
+
+        // countries to list
+        var countries = userWine
+            .Where(w => w.Country is not null)
             .Select(w => w.Country)
             .Distinct()
-            .ToListAsync(cancellationToken);
+            .ToList();
 
-        return new {types, countries};
+        // recommended food to list
+        var recommendedFood = userWine
+            .Where(w => w.RecommendedFood is not null && w.RecommendedFood.IsNotEmpty())
+            .Select(w => w.RecommendedFood?.Split(", ")).SelectMany(x => x ?? Array.Empty<string>()).Distinct()
+            .ToList();
+
+        return new {types, countries, recommendedFood};
     }
 
     public async Task<ICollection> GetLastConsumed(int userId, CancellationToken cancellationToken)

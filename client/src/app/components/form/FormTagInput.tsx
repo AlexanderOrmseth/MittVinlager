@@ -11,6 +11,8 @@ interface Props<T> extends UseControllerProps<T> {
   label: string;
   placeholder?: string;
   errors?: string[];
+  min: number;
+  max: number;
 }
 
 const FormTagInput = <T extends FieldValues>(props: Props<T>) => {
@@ -26,7 +28,12 @@ const FormTagInput = <T extends FieldValues>(props: Props<T>) => {
       <Controller
         {...props}
         render={({ field: { ref, ...rest } }) => (
-          <TagInput {...rest} placeholder={props.placeholder} />
+          <TagInput
+            {...rest}
+            min={props.min}
+            max={props.max}
+            error={fieldState.error}
+          />
         )}
       />
       <FormInputError error={fieldState.error} />
