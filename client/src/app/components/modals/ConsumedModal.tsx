@@ -70,7 +70,10 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
           <Spinner text="Laster datoer..." />
         ) : (
           <>
-            <AsideDisclosure text="Hvordan fungerer dette?" defaultOpen={false}>
+            <AsideDisclosure
+              title="Hvordan fungerer dette?"
+              defaultOpen={false}
+            >
               <div className="space-y-2 text-gray-700 dark:text-gray-300">
                 <p>
                   En vin kan max ha 10 drukket-datoer, den eldste datoen vil bli

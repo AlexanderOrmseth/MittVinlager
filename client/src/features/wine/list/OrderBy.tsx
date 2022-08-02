@@ -36,6 +36,22 @@ const listBoxItems: ListBoxItems[] = [
     value: "type",
     displayText: "Type",
   },
+  {
+    value: "score",
+    displayText: "Karakter",
+  },
+  {
+    value: "purchaseDate",
+    displayText: "Kjøpsdato",
+  },
+  {
+    value: "createdAt",
+    displayText: "Dato opprettet",
+  },
+  {
+    value: "updateAt",
+    displayText: "Sist endret",
+  },
 ];
 
 const OrderBy: FunctionComponent<Props> = ({ disabled, selectedOrder }) => {
@@ -43,7 +59,6 @@ const OrderBy: FunctionComponent<Props> = ({ disabled, selectedOrder }) => {
   const { orderByDescending } = useAppSelector((state) => state.wine);
 
   const handleToggleDesc = () => {
-    if (selectedOrder === "name") return;
     const newOrderBy = orderByDescending
       ? selectedOrder.replace("Desc", "")
       : `${selectedOrder}Desc`;
@@ -62,18 +77,16 @@ const OrderBy: FunctionComponent<Props> = ({ disabled, selectedOrder }) => {
           onChange={(item: string) => {
             dispatch(
               setOrderBy(
-                (orderByDescending && item !== "name"
-                  ? `${item}Desc`
-                  : item) as OrderByType
+                (orderByDescending ? `${item}Desc` : item) as OrderByType
               )
             );
           }}
         />
       </div>
       <button
-        disabled={disabled || selectedOrder === "name"}
+        disabled={disabled}
         onClick={handleToggleDesc}
-        className={`btn-white disabled-btn w-auto`}
+        className={`btn-white disabled-btn w-auto px-2.5`}
       >
         {selectedOrder.includes("Desc") ? (
           <SortDescending size="1.25rem" />

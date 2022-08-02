@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Text.RegularExpressions;
+using API.Constants;
 using API.Context;
 using API.DTOs;
 using API.Entities;
@@ -21,12 +23,32 @@ public class WineRepository : IWineRepository
 
     public IQueryable<WineDto> GetAll(int userId, WineParams wineParams, Func<Wine, WineDto> mapWine)
     {
+        var searchTerm = wineParams.SearchTerm?.Trim().ToLower();
+
         var query = _context.Wines
             .Where(wine => wine.UserId == userId)
 
+            // Is Storage
+            .Where(wineParams.StorageOption.IsEqual(IsInStorage.No),
+                w => w.UserDetails.Quantity == 0)
+            .Where(wineParams.StorageOption.IsEqual(IsInStorage.Yes),
+                w => w.UserDetails.Quantity > 0)
+
+            // Is Favorite
+            .Where(wineParams.FavoriteOption.IsEqual(IsFavorite.Yes),
+                w => w.UserDetails.Favorite == true)
+            .Where(wineParams.FavoriteOption.IsEqual(IsFavorite.No),
+                w => w.UserDetails.Favorite == false)
+
             // Search
-            .Where(wineParams.SearchTerm.IsNotEmpty(),
-                w => w.Name.ToLower().Contains(wineParams.SearchTerm!.Trim().ToLower()))
+            .Where(searchTerm.IsNotEmpty(),
+                w => w.Name.ToLower().Contains(searchTerm!)
+                     || (w.Region != null && w.Region.ToLower().Contains(searchTerm!))
+                     || (w.SubRegion != null && w.SubRegion.ToLower().Contains(searchTerm!))
+                     || (w.ManufacturerName != null && w.ManufacturerName.ToLower().Contains(searchTerm!))
+                     || (w.ProductId != null && w.ProductId.ToLower().Contains(searchTerm!))
+                     || (w.UserDetails.PurchaseLocation != null &&
+                         w.UserDetails.PurchaseLocation.ToLower().Contains(searchTerm!)))
 
             // Country
             .Where(wineParams.Countries.IsNotEmpty(),
@@ -35,6 +57,9 @@ public class WineRepository : IWineRepository
             // Types
             .Where(wineParams.Types.IsNotEmpty(),
                 w => wineParams.Types!.ToLower().Contains(w.Type.ToLower()))
+
+            // Grapes
+            .Grapes(wineParams.Grapes)
 
             // RecommendedFood
             .RecommendedFood(wineParams.RecommendedFood)
@@ -98,7 +123,7 @@ public class WineRepository : IWineRepository
         // all user wine
         var userWine = await _context.Wines
             .Where(w => w.UserId == userId)
-            .Select(w => new {w.Type, w.Country, w.RecommendedFood})
+            .Select(w => new {w.Type, w.Country, w.RecommendedFood, w.Grapes})
             .ToListAsync(cancellationToken);
 
         // types to list
@@ -114,13 +139,22 @@ public class WineRepository : IWineRepository
             .Distinct()
             .ToList();
 
+
+        // Grapes
+        var grapes = userWine
+            .Where(w => w.Grapes is not null && w.Grapes.IsNotEmpty())
+            .Select(w => Regex.Replace(w.Grapes, @"[\d-]+%", string.Empty).Split(", "))
+            .SelectMany(x => x.Select(str => str.Trim())).Distinct()
+            .ToList();
+
+
         // recommended food to list
         var recommendedFood = userWine
             .Where(w => w.RecommendedFood is not null && w.RecommendedFood.IsNotEmpty())
             .Select(w => w.RecommendedFood?.Split(", ")).SelectMany(x => x ?? Array.Empty<string>()).Distinct()
             .ToList();
 
-        return new {types, countries, recommendedFood};
+        return new {types, countries, recommendedFood, grapes};
     }
 
     public async Task<ICollection> GetLastConsumed(int userId, CancellationToken cancellationToken)

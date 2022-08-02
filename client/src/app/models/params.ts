@@ -13,4 +13,12 @@ export type OrderBy =
   | "country"
   | "countryDesc"
   | "type"
-  | "typeDesc";
+  | "typeDesc"
+  | "score"
+  | "scoreDesc"
+  | "purchaseDate"
+  | "purchaseDateDesc"
+  | "createdAt"
+  | "createdAtDesc"
+  | "updateAt"
+  | "updateAtDesc";

@@ -24,7 +24,7 @@ const TagInput: FunctionComponent<Props> = ({
     if (e.code === "Enter" || e.code === "Comma") {
       e.preventDefault();
 
-      const transformedValue = inputValue.trim().replace(/[^\w\s]/gi, "");
+      const transformedValue = inputValue.trim();
 
       // validate
       if (transformedValue.length < min) {

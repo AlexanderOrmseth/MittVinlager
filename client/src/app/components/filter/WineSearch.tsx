@@ -1,4 +1,4 @@
-import { MagnifyingGlass, Record } from "phosphor-react";
+import { MagnifyingGlass, Record, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { setParams } from "../../../features/wine/wineSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
@@ -29,9 +29,11 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
   };
   return (
     <div>
-      <label className="label">Søk på vin</label>
+      <label className="label">Søk</label>
       <div
-        className={`flex flex-row items-center ${disabled ? "opacity-50" : ""}`}
+        className={`flex relative flex-row items-center ${
+          disabled ? "opacity-50" : ""
+        }`}
       >
         {searchTerm !== wineSearchTerm ? (
           <Record
@@ -46,12 +48,21 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           />
         )}
         <input
-          className="text-input pl-8 h-10"
+          className="text-input px-8 h-10"
           type="text"
-          placeholder="søk på vin"
+          placeholder="søk"
           value={searchTerm}
           onChange={(e) => handleOnChange(e.target.value)}
         />
+        {searchTerm && (
+          <button
+            onClick={() => handleOnChange("")}
+            disabled={disabled}
+            className="absolute text-less-muted dark:hover:bg-gray-800 dark:hover:text-white rounded p-1 right-1"
+          >
+            <X size="1.3rem" />
+          </button>
+        )}
       </div>
     </div>
   );

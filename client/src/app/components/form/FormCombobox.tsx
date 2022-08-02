@@ -1,5 +1,5 @@
-import { Combobox, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Combobox } from "@headlessui/react";
+import { useState } from "react";
 import {
   Controller,
   FieldValues,
@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 import { Country } from "../../models/country";
 import FormInputError from "./FormInputError";
+import DropDownTransition from "../DropDownTransition";
 
 interface Props<T> extends UseControllerProps<T> {
   list: Country[] | null;
@@ -71,15 +72,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                 />
               </div>
               {filteredList.length > 0 && (
-                <Transition
-                  as={Fragment}
-                  enter="transition duration-100 ease-out"
-                  enterFrom="transform scale-95 opacity-0"
-                  enterTo="transform scale-100 opacity-100"
-                  leave="transition duration-75 ease-out"
-                  leaveFrom="transform scale-100 opacity-100"
-                  leaveTo="transform scale-95 opacity-0"
-                >
+                <DropDownTransition>
                   <Combobox.Options className="dropdown">
                     {filteredList.map((country) => (
                       <Combobox.Option
@@ -104,7 +97,7 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                       </Combobox.Option>
                     ))}
                   </Combobox.Options>
-                </Transition>
+                </DropDownTransition>
               )}
             </div>
           </Combobox>

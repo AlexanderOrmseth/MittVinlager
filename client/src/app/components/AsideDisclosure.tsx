@@ -3,24 +3,26 @@ import { CaretUp } from "phosphor-react";
 import { ReactNode } from "react";
 
 interface Props {
-  text: string;
+  title: string;
   children: ReactNode;
   defaultOpen?: boolean;
 }
 
-const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
+const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
   return (
     <Disclosure as={"div"} defaultOpen={defaultOpen}>
       {({ open }) => (
         <>
           <Disclosure.Button
-            className={`flex w-full justify-between rounded-full
+            className={`flex select-none w-full relative justify-between rounded
               bg-green-wine-50 dark:bg-green-wine-300/40 dark:text-green-wine-25 px-5 py-3 text-left font-medium text-green-wine-500
-              hover:bg-green-wine-100 text-sm ${open ? "" : "opacity-70"}`}
+              hover:bg-green-wine-100 dark:hover:bg-green-wine-300/60 text-sm ${
+                open ? "" : "opacity-70"
+              }`}
           >
-            <span>{text}</span>
+            <span>{title}</span>
             <CaretUp
-              className={`transition-all ${
+              className={`transition-transform ${
                 open ? "rotate-180 transform" : ""
               } h-5 w-5 text-green-wine-500 dark:text-green-wine-25`}
             />
@@ -33,9 +35,7 @@ const AsideDisclosure = ({ text, children, defaultOpen = true }: Props) => {
             leaveFrom="transform scale-100 opacity-100"
             leaveTo="transform scale-95 opacity-0"
           >
-            <Disclosure.Panel className="px-4 pt-4 pb-2">
-              {children}
-            </Disclosure.Panel>
+            <Disclosure.Panel className="p-2">{children}</Disclosure.Panel>
           </Transition>
         </>
       )}

@@ -14,14 +14,12 @@ interface Props {
 
 const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
-    <div className="px-2 py-1 text-sm shadow hover:shadow-sm rounded items-center bg-white dark:bg-gray-925 dark:hover:bg-gray-925/70  hover:bg-slate-25 flex gap-x-1">
-      <div>
-        <img
-          className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"
-          src={wine.pictureUrl || placeholder}
-          alt="Bilde av en vin"
-        />
-      </div>
+    <div className="px-2 py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1">
+      <img
+        className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"
+        src={wine.pictureUrl || placeholder}
+        alt="Bilde av en vin"
+      />
       <div className="flex-1">
         <div className="font-medium leading-4 ">
           <Link className="link" to={`${wine.wineId}`}>
@@ -56,12 +54,12 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
             <HeartStraight
               size="1.25rem"
               weight="duotone"
-              className="text-wine-500"
+              className="dark:text-wine-300 text-wine-500"
             />
           )}
         </div>
       </div>
-      <div className="flex items-center gap-x-1">
+      <div className="flex group-hover:opacity-100 transition-opacity opacity-40 items-center gap-x-1">
         <Link
           to={`${wine.wineId}/update`}
           className="btn-white shadow-none p-2"

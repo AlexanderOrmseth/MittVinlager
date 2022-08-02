@@ -94,7 +94,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
                 <HeartStraight
                   size="1.25rem"
                   weight="duotone"
-                  className="text-muted"
+                  className="dark:text-wine-300 text-wine-500"
                 />
               )}
 

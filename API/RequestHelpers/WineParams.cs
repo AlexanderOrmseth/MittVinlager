@@ -8,4 +8,8 @@ public class WineParams : PaginationParams
     public string? Countries { get; set; }
     public string? RecommendedFood { get; set; }
     public string? Grapes { get; set; }
+
+    public string? StorageOption { get; set; }
+
+    public string? FavoriteOption { get; set; }
 }

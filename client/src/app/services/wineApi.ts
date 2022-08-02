@@ -1,9 +1,16 @@
 import { PaginatedResponse } from "../models/pagination";
-import { FormModel, Wine, WineFilters } from "../models/wine";
+import { FormModel, Wine } from "../models/wine";
 import { WineParams } from "../models/params";
 import { serialize } from "object-to-formdata";
 import { StatisticsResponse } from "../models/statistics";
 import { api } from "./api";
+
+export interface WineFilterOptionsResponse {
+  countries: string[];
+  recommendedFood: string[];
+  types: string[];
+  grapes: string[];
+}
 
 export const wineApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -102,7 +109,7 @@ export const wineApi = api.injectEndpoints({
     /*
      *  Get wine filters (user options)
      * */
-    getWineFilters: builder.query<WineFilters, void>({
+    getWineFilters: builder.query<WineFilterOptionsResponse, void>({
       query: () => "wine/filters",
       providesTags: [{ type: "Filter", id: "LIST" }],
     }),

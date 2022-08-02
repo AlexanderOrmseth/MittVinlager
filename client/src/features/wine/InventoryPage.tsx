@@ -33,7 +33,7 @@ const InventoryPage = () => {
           top={true}
         />
 
-        <div className="flex flex-1 p-4 block-less-muted flex-col">
+        <div className="flex flex-1 block-less-muted flex-col">
           <AnimatePresence initial={false}>{content}</AnimatePresence>
         </div>
 

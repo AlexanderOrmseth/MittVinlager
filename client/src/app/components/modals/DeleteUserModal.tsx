@@ -25,7 +25,7 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
 
     await deleteUser()
       .unwrap()
-      .then((res) => {
+      .then(() => {
         dispatch(resetAll());
         dispatch(signOut());
         // close modal

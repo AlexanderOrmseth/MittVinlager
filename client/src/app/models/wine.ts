@@ -38,6 +38,9 @@ export interface WineFilters {
   countries: string[];
   recommendedFood: string[];
   types: string[];
+  grapes: string;
+  storageOption: string;
+  favoriteOption: string;
 }
 
 export interface FormModel extends WineBaseModel {

@@ -1,6 +1,6 @@
-import { Check } from "phosphor-react";
 import { useDebouncedCallback } from "use-debounce";
 import { useEffect, useState } from "react";
+import RadioOrCheckboxItem from "../../../features/wine/list/RadioOrCheckboxItem";
 
 interface Props {
   options?: string[] | null;
@@ -54,27 +54,16 @@ const WineCheckboxFilter = ({
       {options &&
         options.map((item, i) => (
           <button
-            className={`flex w-full flex-row items-center gap-x-2 transition-all text-gray-700 dark:text-gray-400 rounded p-2 ${
-              disabled
-                ? "opacity-50 cursor-progress"
-                : "cursor-pointer hover:text-gray-900 dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800/50 hover:gap-x-3"
-            } `}
+            className="block w-full"
             onClick={() => handleChecked(item)}
             key={i}
           >
-            <div
-              className={` 
-            text-white transition-all
-            rounded border-2 w-5 h-5 
-            ${
-              isChecked(item)
-                ? " bg-wine-500 border-wine-500 dark:bg-wine-400 dark:border-wine-400 "
-                : " bg-white dark:bg-gray-900/60 border-slate-300 dark:border-gray-700 "
-            }`}
-            >
-              {isChecked(item) && <Check weight="bold" />}
-            </div>
-            <div className="">{item}</div>
+            <RadioOrCheckboxItem
+              type="checkbox"
+              disabled={disabled}
+              checked={isChecked(item)}
+              displayText={item}
+            />
           </button>
         ))}
     </div>

@@ -13,9 +13,12 @@ export const initialParams: WineParams = {
   pageNumber: 1,
   orderBy: "name",
   countries: [],
+  grapes: "",
   recommendedFood: [],
   types: [],
   searchTerm: "",
+  favoriteOption: "",
+  storageOption: "",
 };
 
 // initial state
@@ -37,6 +40,10 @@ export const wineSlice = createSlice({
         countries: [],
         types: [],
         searchTerm: "",
+        grapes: "",
+        favoriteOption: "",
+        storageOption: "",
+        recommendedFood: [],
       };
     },
     setOrderBy: (state, action: PayloadAction<OrderBy>) => {
