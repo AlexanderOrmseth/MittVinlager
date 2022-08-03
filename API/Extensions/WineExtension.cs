@@ -11,15 +11,21 @@ public static class WineExtension
 
         query = orderBy switch
         {
-            "name" => query.OrderBy(wine => wine.Name, orderBy.EndsWith("Desc")),
-            "type" => query.OrderBy(wine => wine.Type, orderBy.EndsWith("Desc")),
-            "createdAt" => query.OrderBy(wine => wine.CreatedAt, orderBy.EndsWith("Desc")),
+            "name" => query.OrderBy(wine => wine.Name),
+            "nameDesc" => query.OrderByDescending(wine => wine.Name),
+
+            "type" => query.OrderBy(wine => wine.Type),
+            "typeDesc" => query.OrderByDescending(wine => wine.Type),
+
+            "createdAt" => query.OrderBy(wine => wine.CreatedAt),
+            "createdAtDesc" => query.OrderByDescending(wine => wine.CreatedAt),
+
             "price" => query.OrderBy(w => w.Price.HasValue).ThenBy(w => w.Price),
             "priceDesc" => query.OrderByDescending(w => w.Price.HasValue).ThenByDescending(w => w.Price),
-            
+
             "country" => query.OrderBy(wine => wine.Country == null).ThenBy(w => w.Country),
             "countryDesc" => query.OrderByDescending(wine => wine.Country == null).ThenByDescending(w => w.Country),
-            
+
             "score" => query.OrderBy(w => w.UserDetails.Score.HasValue).ThenBy(w => w.UserDetails.Score),
             "scoreDesc" => query.OrderByDescending(w => w.UserDetails.Score.HasValue)
                 .ThenByDescending(w => w.UserDetails.Score),
@@ -44,7 +50,8 @@ public static class WineExtension
         }
 
         var foodList = recommendedFood.Split(",").ToList();
-        return foodList.Aggregate(query, (current, food) => current.Where(w => w.RecommendedFood.Contains(food)));
+        return foodList.Aggregate(query,
+            (current, food) => current.Where(w => w.RecommendedFood != null && w.RecommendedFood.Contains(food)));
     }
 
     public static IQueryable<Wine> Grapes(this IQueryable<Wine> query, string? grape)
