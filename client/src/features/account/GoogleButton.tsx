@@ -46,10 +46,8 @@ const GoogleButton = () => {
         return;
       }
 
-      console.log("Render Google");
-
       google.accounts.id.initialize({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
+        client_id: import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID,
         callback: login,
       });
 

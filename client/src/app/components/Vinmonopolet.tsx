@@ -116,7 +116,6 @@ const Vinmonopolet = ({
     // trigger fetch
     setId(productId);
     setSkip(false);
-
   };
 
   return (
