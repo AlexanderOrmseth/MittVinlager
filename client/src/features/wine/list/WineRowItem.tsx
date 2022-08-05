@@ -14,7 +14,14 @@ interface Props {
 
 const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
-    <div className="px-2 py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1">
+    <div className="px-2 relative py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1">
+      {wine.userDetails.quantity === 0 && (
+        <div className="absolute pointer-events-none flex items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">
+          <div className="backdrop-blur-sm transition-opacity group-hover:opacity-20 leading-tight bg-wine-500/70 p-0.5 text-xs rounded text-white font-medium border-wine-400">
+            Ikke på lager
+          </div>
+        </div>
+      )}
       <img
         className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"
         src={wine.pictureUrl || placeholder}
