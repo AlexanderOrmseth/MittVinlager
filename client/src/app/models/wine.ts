@@ -15,7 +15,7 @@ export interface WineBaseModel {
   volume: number | null;
   alcoholContent: number | null;
   country: string | null;
-  countryId: string | null;
+  countryId?: string | null;
   region: string | null;
   subRegion: string | null;
   productId: string | null;
