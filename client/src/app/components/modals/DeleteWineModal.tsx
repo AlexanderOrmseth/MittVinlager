@@ -18,8 +18,7 @@ const DeleteWineModal = ({
   shouldNavigate,
 }: Props) => {
   const navigate = useNavigate();
-  const [deleteWine, { isLoading}] =
-    useDeleteWineMutation();
+  const [deleteWine, { isLoading }] = useDeleteWineMutation();
 
   const handleDeleteWine = async () => {
     if (wineToDelete.id) {

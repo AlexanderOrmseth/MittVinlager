@@ -112,9 +112,11 @@ const DatePicker = ({
 
   const isSelectedDate = (i: number): boolean => {
     if (value) {
-      return value.getFullYear() === year &&
+      return (
+        value.getFullYear() === year &&
         value.getMonth() === month &&
-        value.getDate() - 1 === i;
+        value.getDate() - 1 === i
+      );
     }
     return false;
   };

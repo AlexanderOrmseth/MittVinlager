@@ -7,18 +7,18 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import LoadingButton from "./LoadingButton";
-import { FormModel, WineBaseModel } from "../models/wine";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
+import { WineFormData } from "../../features/wine/form/validationSchema";
 
 interface Props {
   setIsOpen: (value: boolean) => void;
   productId?: string | null;
 
-  setValues: UseFormReset<WineBaseModel> | ((values: WineBaseModel) => void);
+  setValues: UseFormReset<WineFormData> | ((values: WineFormData) => void);
   isWishlist: boolean;
 
-  setValue?: UseFormSetValue<FormModel>;
-  getValues?: UseFormGetValues<FormModel>;
+  setValue?: UseFormSetValue<WineFormData>;
+  getValues?: UseFormGetValues<WineFormData>;
 }
 
 const radioValues = [
@@ -56,7 +56,7 @@ const Vinmonopolet = ({
   const [resetAction, setResetAction] = useState(1);
 
   const handleSetValues = useCallback(
-    (data: WineBaseModel) => {
+    (data: WineFormData) => {
       if (isWishlist) {
         setValues(data);
       } else if (setValue && getValues) {
@@ -67,6 +67,7 @@ const Vinmonopolet = ({
             break;
           case 2:
             // replace price
+
             setValue("price", data.price);
             break;
           case 3:
@@ -86,7 +87,15 @@ const Vinmonopolet = ({
 
   useEffect(() => {
     if (data) {
-      handleSetValues(data);
+      // transform response to satisfy formData
+      const _data: WineFormData = {
+        ...data,
+        file: null,
+        resetImage: false,
+        userDetails: { ...data.userDetails, purchaseDate: null },
+      };
+
+      handleSetValues(_data);
       console.log(data);
       setSkip(true);
       setIsOpen(false);

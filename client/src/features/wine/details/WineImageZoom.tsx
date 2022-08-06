@@ -42,10 +42,7 @@ const WineImageZoom = ({
       transition={{ type: "spring", stiffness: 60, delay: 0 }}
       className="flex p-2 flex-col items-center  block-muted md:sticky md:top-4  overflow-auto"
     >
-      <Zoom
-        isZoomed={isZoomed}
-        onZoomChange={handleZoomChange}
-      >
+      <Zoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
         <>
           <img
             className={`mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64 ${

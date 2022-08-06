@@ -58,8 +58,8 @@ const UpdateWinePage = () => {
     <div>
       <Title title="Rediger Vin" border Icon={PencilSimpleLine}>
         <p>
-          Her kan du legge til vin. Trykk på &quot;Hent fra Vinmonopolet&quot; knappen for
-          å hente vin fra Vinmonopolet.no.
+          Her kan du legge til vin. Trykk på &quot;Hent fra Vinmonopolet&quot;
+          knappen for å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
       {wineStatus.isSuccess && wine && (

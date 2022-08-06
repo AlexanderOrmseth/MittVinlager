@@ -1,8 +1,25 @@
 import { toast } from "react-hot-toast";
+import TextInput from "../../app/components/TextInput";
+import { useState } from "react";
 
 const HomePage = () => {
+  const [val, setVal] = useState<number | null>(null);
+  const [val2, setVal2] = useState<string | null>(null);
+
   return (
     <div className="">
+      <div className="p-4">
+        <TextInput onChange={setVal} value={val} numeric={true} maxLength={5} />
+        <TextInput
+          onChange={setVal2}
+          value={val2}
+          numeric={false}
+          maxLength={20}
+        />
+
+        <pre>{JSON.stringify({ val, val2 }, null, 4)}</pre>
+      </div>
+
       <div className="i-flex-row flex-wrap">
         <button
           onClick={() => toast.success("Hello World!")}

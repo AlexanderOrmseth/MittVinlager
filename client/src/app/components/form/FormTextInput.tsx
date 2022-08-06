@@ -5,10 +5,13 @@ import {
   FieldValues,
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
+import TextInput from "../TextInput";
 
 interface Props<T> extends UseControllerProps<T> {
   label: string;
   type?: string;
+  numeric?: boolean;
+  allowEnter?: boolean;
   placeholder?: string;
   definition?: string;
   errors?: string[];
@@ -18,11 +21,6 @@ interface Props<T> extends UseControllerProps<T> {
   required?: boolean;
   focus?: boolean;
 }
-
-// prevent from submitting by pressing enter inside input
-const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.code === "Enter") e.preventDefault();
-};
 
 const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
@@ -37,22 +35,18 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
       </label>
       <Controller
         {...props}
-        render={({ field: { value, ...rest } }) => (
+        render={({ field: { value, ref, ...rest } }) => (
           <div className="relative">
             {!props.textarea ? (
-              <input
-                onKeyDown={(e) => checkKeyDown(e)}
-                autoComplete="off"
-                className={`text-input ${
-                  !!fieldState.error
-                    ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
-                    : ""
-                }`}
-                {...rest}
-                autoFocus={props.focus}
-                value={value || ""}
+              <TextInput
+                allowEnter={props.allowEnter}
+                maxLength={props.maxLength}
                 placeholder={props.placeholder}
-                type={props.type ?? "text"}
+                focus={props.focus}
+                hasError={!!fieldState.error}
+                numeric={props.numeric ?? false}
+                value={value}
+                {...rest}
               />
             ) : (
               <textarea

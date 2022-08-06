@@ -2,10 +2,10 @@ import { PlusCircle } from "phosphor-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Title from "../../app/layout/Title";
-import { FormModel } from "../../app/models/wine";
 import CreateOrUpdate from "./form/CreateOrUpdate";
 import { useAddWineMutation } from "../../app/services/wineApi";
 import toast from "react-hot-toast";
+import { WineFormData } from "./form/validationSchema";
 
 const NewWinePage = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const NewWinePage = () => {
     string[]
   > | null>(null);
 
-  const onSubmit = async (data: FormModel) => {
+  const onSubmit = async (data: WineFormData) => {
     await addWine(data)
       .unwrap()
       .then(() => {
@@ -40,8 +40,8 @@ const NewWinePage = () => {
     <div>
       <Title title="Ny Vin" border Icon={PlusCircle}>
         <p>
-          Her kan du legge til vin. Trykk på &quot;Hent fra Vinmonopolet&quot; knappen for
-          å hente vin fra Vinmonopolet.no.
+          Her kan du legge til vin. Trykk på &quot;Hent fra Vinmonopolet&quot;
+          knappen for å hente vin fra Vinmonopolet.no.
         </p>
       </Title>
       <CreateOrUpdate onSubmit={onSubmit} serverErrors={serverErrors} />
