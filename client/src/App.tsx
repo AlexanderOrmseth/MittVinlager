@@ -1,23 +1,22 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Puff } from "react-loading-icons";
+import { lazy, useCallback, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
 import { useAppDispatch } from "./app/store/configureStore";
 import HomePage from "./features/home/HomePage";
 import { initTheme } from "./features/ui/themeSlice";
-import DetailsPage from "./features/wine/DetailsPage";
-import InventoryPage from "./features/wine/InventoryPage";
 import NotFound from "./app/layout/NotFound";
 import { authApi } from "./app/services/authApi";
 import { setToken, setUser, signOut } from "./features/account/accountSlice";
+import PageLoad from "./app/layout/PageLoad";
+import Suspense from "./app/layout/Suspense";
 
-const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
-const Wishlist = React.lazy(() => import("./features/wishlist/Wishlist"));
-const NewWinePage = React.lazy(() => import("./features/wine/NewWinePage"));
-const UpdateWinePage = React.lazy(
-  () => import("./features/wine/UpdateWinePage")
-);
+const InventoryPage = lazy(() => import("./features/wine/InventoryPage"));
+const DetailsPage = lazy(() => import("./features/wine/DetailsPage"));
+const ProfilePage = lazy(() => import("./features/account/ProfilePage"));
+const Wishlist = lazy(() => import("./features/wishlist/Wishlist"));
+const NewWinePage = lazy(() => import("./features/wine/NewWinePage"));
+const UpdateWinePage = lazy(() => import("./features/wine/UpdateWinePage"));
 
 function App() {
   const dispatch = useAppDispatch();
@@ -66,13 +65,7 @@ function App() {
     initializeApp().finally(() => setLoading(false));
   }, [initializeApp]);
 
-  const pageLoad = (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <Puff height="6rem" width="6rem" stroke="#888" />
-    </div>
-  );
-
-  if (loading) return pageLoad;
+  if (loading) return <PageLoad />;
 
   return (
     <Routes>
@@ -82,9 +75,9 @@ function App() {
           path="profile"
           element={
             <AuthRedirect>
-              <React.Suspense fallback={pageLoad}>
+              <Suspense>
                 <ProfilePage />
-              </React.Suspense>
+              </Suspense>
             </AuthRedirect>
           }
         />
@@ -92,7 +85,9 @@ function App() {
           path="inventory"
           element={
             <AuthRedirect>
-              <InventoryPage />
+              <Suspense>
+                <InventoryPage />
+              </Suspense>
             </AuthRedirect>
           }
         />
@@ -100,9 +95,9 @@ function App() {
           path="inventory/new"
           element={
             <AuthRedirect>
-              <React.Suspense fallback={pageLoad}>
+              <Suspense>
                 <NewWinePage />
-              </React.Suspense>
+              </Suspense>
             </AuthRedirect>
           }
         />
@@ -110,7 +105,9 @@ function App() {
           path="inventory/:id"
           element={
             <AuthRedirect>
-              <DetailsPage />
+              <Suspense>
+                <DetailsPage />
+              </Suspense>
             </AuthRedirect>
           }
         />
@@ -118,9 +115,9 @@ function App() {
           path="inventory/:id/update"
           element={
             <AuthRedirect>
-              <React.Suspense fallback={pageLoad}>
+              <Suspense>
                 <UpdateWinePage />
-              </React.Suspense>
+              </Suspense>
             </AuthRedirect>
           }
         />
@@ -128,9 +125,9 @@ function App() {
           path="wishlist"
           element={
             <AuthRedirect>
-              <React.Suspense fallback={pageLoad}>
+              <Suspense>
                 <Wishlist />
-              </React.Suspense>
+              </Suspense>
             </AuthRedirect>
           }
         />

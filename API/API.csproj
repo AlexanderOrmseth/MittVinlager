@@ -32,4 +32,19 @@
       <Folder Include="wwwroot" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\assets\CreateOrUpdate.eb1b8110.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\flags16.b454135c.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\flags32.6baaea14.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\FloppyDisk.esm.85c4ddf4.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\index.8aeb157c.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\index.ddac31ed.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\NewWinePage.e428adca.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\ProfilePage.5d73bd34.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\UpdateWinePage.d6f01eaf.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\VinmonopoletModal.f09d8c3a.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\WineListItem.b1e88b3b.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Wishlist.75c008b0.js" />
+    </ItemGroup>
+
 </Project>
