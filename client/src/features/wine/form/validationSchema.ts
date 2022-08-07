@@ -22,7 +22,7 @@ export const wineSchema = z.object({
   name: z
     .string({
       required_error: "Navn er påkrevd.",
-      invalid_type_error: "Navn er ugyldig.",
+      invalid_type_error: "Navn er påkrevd og må minst være 3 bokstaver.",
     })
     .trim()
     .min(3, "Navn på vin må minst være 3 bokstaver.")
@@ -30,10 +30,10 @@ export const wineSchema = z.object({
   type: z
     .string({
       required_error: "Type er påkrevd.",
-      invalid_type_error: "Type er ugyldig.",
+      invalid_type_error: "Type er påkrevd og må minst være 2 bokstaver.",
     })
     .trim()
-    .min(2, "Type må minst være 3 bokstaver.")
+    .min(2, "Type må minst være 2 bokstaver.")
     .max(20, "Type kan max være 20 bokstaver."),
   year: z
     .number({
@@ -178,10 +178,11 @@ export const wineSchema = z.object({
     .nullable(),
 
   /* File properties */
-  resetImage: z.boolean().default(false),
+  resetImage: z.boolean().default(false).optional(),
   file: z
     .instanceof(File)
     .nullable()
+    .optional()
     .refine((file) => !file || file?.size <= 500000, "Max filstørrelse er 5MB.")
     .refine(
       (file) =>
