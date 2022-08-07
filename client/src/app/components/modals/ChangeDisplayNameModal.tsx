@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { useAppDispatch } from "../../store/configureStore";
 import { useChangeDisplayNameMutation } from "../../services/authApi";
 import { setDisplayName } from "../../../features/account/accountSlice";
@@ -34,6 +34,12 @@ const ChangeDisplayNameModal: FunctionComponent<Props> = ({
   );
   const [changeDisplayName, { ...changeDisplayNameStatus }] =
     useChangeDisplayNameMutation();
+
+  const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.code === "Enter") {
+      handleDeleteUser();
+    }
+  };
 
   const handleDeleteUser = async () => {
     // validate displayName
@@ -88,15 +94,14 @@ const ChangeDisplayNameModal: FunctionComponent<Props> = ({
           <div>
             <label className="label">Nytt visningsnavn</label>
             <input
+              onKeyDown={handleKeyPressed}
               placeholder="Nytt visningsnavn"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               className="text-input h-12"
               type="text"
             />
-            <em className="text-wine-500 block dark:text-wine-300 text-sm italic">
-              {errorMessage}
-            </em>
+            <em className="form-error">{errorMessage}</em>
           </div>
           <LoadingButton
             onClick={handleDeleteUser}

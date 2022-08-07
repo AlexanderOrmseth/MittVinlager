@@ -12,7 +12,7 @@ const Layout = () => {
         <Outlet />
       </main>
       <footer className="py-8 relative w-full max-w-screen-xl min-w-[320px] mx-auto px-4 border-t dark:border-gray-700 xl:px-0">
-        <div className="flex flex-row gap-4 justify-around items-center">
+        <div className="flex  md:flex-row flex-col gap-4 justify-around items-center">
           <div className="flex flex-wrap gap-4 text-sm">
             <a
               href="https://github.com/AlexanderOrmseth/MittVinlager"

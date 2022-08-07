@@ -18,7 +18,7 @@ const InventoryMessage: FunctionComponent<Props> = ({
   children,
 }) => {
   return (
-    <div className="flex py-12 text-muted items-center justify-center flex-col gap-y-2">
+    <div className="flex py-12 px-2 text-muted items-center justify-center flex-col gap-y-2">
       <Icon size="5rem" weight="light" className="mb-2" />
       <motion.div
         className="mb-4 relative dark:text-gray-200 min-w-[100px] bg-slate-200 dark:bg-gray-700 p-2 rounded"
