@@ -18,7 +18,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
     <div
       onDoubleClick={() => navigate(`${wine.wineId}`)}
-      className="px-2 relative py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-t border-l border-r last:border-b border-b-none dark:border-gray-950 items-center dark:bg-gray-925/80 flex gap-x-1"
+      className="relative p-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-t border-x last:border-b border-b-none dark:border-gray-950 items-center dark:bg-gray-925/80 flex gap-x-1"
     >
       {wine.userDetails.quantity === 0 && (
         <div className="absolute pointer-events-none flex items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">

@@ -40,7 +40,7 @@ const FormToggle = <T extends FieldValues>(props: Props<T>) => {
               <span
                 className={`${
                   value ? "translate-x-full" : "translate-x-0"
-                } inline-flex items-center h-full w-1/2 transform p-1 transition ease-in-out  `}
+                } inline-flex items-center h-full w-1/2 p-1 transition ease-in-out  `}
               >
                 <p className="rounded-full w-full flex gap-x-1 justify-center items-center py-1 bg-white dark:bg-gray-800">
                   {value && (

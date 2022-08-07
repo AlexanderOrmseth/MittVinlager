@@ -120,7 +120,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           {inventoryStatus.map((data, i) => (
             <div
               key={i}
-              className="grid grid-cols-3 py-2 odd:bg-slate-100 dark:odd:bg-gray-950/50 rounded gap-2 px-2"
+              className="grid grid-cols-3 odd:bg-slate-100 dark:odd:bg-gray-950/50 rounded gap-2 p-2"
             >
               <div>
                 <Link className="link" to="/inventory">

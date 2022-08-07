@@ -75,7 +75,7 @@ const FormImage = <T extends FieldValues>({
                 <span
                   className={`${
                     value ? "translate-x-6" : "translate-x-1"
-                  } inline-block h-4 w-4 transform transition ease-in-out  rounded-full bg-white`}
+                  } inline-block h-4 w-4 transition ease-in-out  rounded-full bg-white`}
                 />
               </Switch>
               <span className="text-sm font-medium text-gray-700">

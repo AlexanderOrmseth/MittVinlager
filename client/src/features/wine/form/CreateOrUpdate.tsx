@@ -252,7 +252,7 @@ const CreateOrUpdate = ({
               Hent fra Vinmonopolet
             </button>
           </div>
-          <div className="mt-6 border-t relative border-slate-200 dark:border-gray-700 mb-6">
+          <div className="my-6 border-t relative border-slate-200 dark:border-gray-700">
             {getValues("productId") && (
               <span className="absolute right-4 px-1 text-sm -top-3 dark:bg-gray-950 text-slate-400 bg-slate-25">
                 <span className="select-none">produktId: </span>
@@ -302,7 +302,7 @@ const CreateOrUpdate = ({
                       name="resetImage"
                       control={control}
                     />
-                    <div className="grid flex-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                    <div className="grid flex-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-y-6 lg:gap-y-8">
                       <FormTextInput
                         required
                         control={control}
@@ -574,7 +574,7 @@ const CreateOrUpdate = ({
                 </Tab.Panel>
               </AnimatePresence>
             </Tab.Panels>
-            <div className="mt-6 border-t border-slate-200 dark:border-gray-700 mb-6"></div>
+            <div className="border-t border-slate-200 dark:border-gray-700 my-6"></div>
             <div className="md:flex md:flex-row sm:grid-cols-2 sm:grid flex flex-col gap-y-4 gap-x-2">
               <Link
                 className="btn-white justify-center px-5 rounded-full i-flex-row disabled-btn w-auto"

@@ -20,7 +20,7 @@ const InventoryPage = () => {
   else if (isError) content = <ErrorBox message="Something went wrong.." />;
 
   return (
-    <div className="flex flex-grow flex-1 min-h-full gap-4 md:flex-row flex-col">
+    <div className="flex grow flex-1 min-h-full gap-4 md:flex-row flex-col">
       <WineFilter
         metaData={data?.metaData}
         isFetchingWine={isFetching || isLoading}

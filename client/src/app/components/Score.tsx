@@ -22,7 +22,7 @@ const Score = ({ value, hideDefinition, size = 8 }: Props) => {
   return (
     <div
       className={`inline-block ${
-        hideDefinition ? "" : " flex flex-grow gap-x-2 items-center"
+        hideDefinition ? "" : " flex flex gap-x-2 items-center"
       }`}
     >
       <div

@@ -5,10 +5,10 @@ import Header from "./Header";
 const Layout = () => {
   return (
     <>
-      <header className="py-4 bg-white dark:bg-black/10 dark:border-slate-800 border-b w-full min-w-[320px] px-4 xl:px-0">
+      <header className="p-4 bg-white dark:bg-black/10 dark:border-slate-800 border-b w-full min-w-[320px] xl:px-0">
         <Header />
       </header>
-      <main className="flex-grow flex flex-col w-full max-w-screen-xl min-w-[320px] pt-4 pb-12 mx-auto px-4 xl:px-0">
+      <main className="grow flex flex-col w-full max-w-screen-xl min-w-[320px] pt-4 pb-12 mx-auto px-4 xl:px-0">
         <Outlet />
       </main>
       <footer className="py-8 relative w-full max-w-screen-xl min-w-[320px] mx-auto px-4 border-t dark:border-gray-700 xl:px-0">

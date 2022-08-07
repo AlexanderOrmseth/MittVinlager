@@ -12,9 +12,11 @@
       "jsx": true
     }
   },
+  "plugins": ["tailwindcss"],
   "extends": [
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:tailwindcss/recommended"
   ],
   "rules": {
     // suppress errors for missing 'import React' in files
@@ -22,6 +24,8 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unused-vars": "off",
+    "tailwindcss/no-custom-classname": "off",
+    "tailwindcss/classnames-order": "off",
     "semi": [2, "always"]
   },
   "settings": {

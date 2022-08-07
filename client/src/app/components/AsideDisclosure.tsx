@@ -23,7 +23,7 @@ const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
             <span>{title}</span>
             <CaretUp
               className={`transition-transform ${
-                open ? "rotate-180 transform" : ""
+                open ? "rotate-180" : ""
               } h-5 w-5 text-green-wine-500 dark:text-green-wine-25`}
             />
           </Disclosure.Button>

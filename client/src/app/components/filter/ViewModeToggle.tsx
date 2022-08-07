@@ -21,7 +21,7 @@ const ViewModeToggle = ({ disabled }: Props) => {
         <span
           className={`${
             gridView ? "translate-x-full" : "translate-x-0"
-          } inline-flex items-center h-full w-1/2 transform p-0.5 transition ease-in-out`}
+          } inline-flex items-center h-full w-1/2 p-0.5 transition ease-in-out`}
         >
           <div className="w-full h-full rounded-full items-center flex justify-center text-slate-50 bg-slate-500 dark:bg-blue-wine-200"></div>
         </span>

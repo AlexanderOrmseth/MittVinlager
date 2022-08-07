@@ -137,7 +137,7 @@ const Vinmonopolet = ({
     <>
       <div className="mb-4">
         <a
-          className="inline-flex link flex-row gap-x-1.5 items-center px-2 text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 py-2 rounded"
+          className="inline-flex link flex-row gap-x-1.5 items-center text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 p-2 rounded"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
