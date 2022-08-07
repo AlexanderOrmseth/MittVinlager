@@ -16,6 +16,9 @@ const NewWinePage = () => {
   > | null>(null);
 
   const onSubmit = async (data: WineFormData) => {
+    // debug
+    console.log(data);
+
     await addWine(data)
       .unwrap()
       .then(() => {

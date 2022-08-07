@@ -31,10 +31,9 @@ const UpdateWinePage = () => {
   }
 
   const onSubmit = async (data: WineFormData) => {
-    if (!id) {
-      console.log("Id was undefined or null");
-      return;
-    }
+    // debug
+    console.log(data);
+
     await updateWine({ id, data })
       .unwrap()
       .then(() => {

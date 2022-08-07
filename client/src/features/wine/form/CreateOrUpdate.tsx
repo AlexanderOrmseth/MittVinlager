@@ -629,12 +629,6 @@ const CreateOrUpdate = ({
           </form>
         </Tab.Group>
       </div>
-      <button
-        className="btn-white w-full h-12 my-4"
-        onClick={() => console.table(getValues())}
-      >
-        GET VALUES
-      </button>
     </>
   );
 };

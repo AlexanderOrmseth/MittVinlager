@@ -71,7 +71,6 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path={"load"} element={<PageLoad />} />
         <Route
           path="profile"
           element={

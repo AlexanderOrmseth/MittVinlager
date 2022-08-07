@@ -18,6 +18,12 @@ const checkValidDrinkingWindow = (
   return min === null || max === null || min < max;
 };
 
+/*
+
+  TODO: validation on drinkingWindow should validate both when changes are made.
+
+ */
+
 export const wineSchema = z.object({
   name: z
     .string({
