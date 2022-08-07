@@ -44,7 +44,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
     <div
       className={`flex ${
         top ? "mb-4" : "mt-4"
-      } block-muted md:py-1.5 py-1 px-4 items-center text-sm gap-4 flex-row text-gray-900 dark:text-gray-400 font-medium  justify-between 
+      } block-muted md:py-1.5 py-1 xts:px-4 px-2 items-center xts:text-sm text-xs xts:gap-4 gap-1 flex-row text-gray-900 dark:text-gray-400 font-medium  justify-between 
    `}
     >
       <div className="i-flex-row">
@@ -52,13 +52,21 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
           <ViewModeToggle disabled={!metaData || metaData.totalCount === 0} />
         )}
         <div className={`${top ? "border-l pl-2 dark:border-gray-700" : ""}`}>
-          Totalt: {metaData?.resultCount}/{metaData?.totalCount}
+          <span className="sm:inline hidden">Totalt:</span>
+          <span className="sm:hidden inline opacity-70">T:</span>{" "}
+          {metaData?.resultCount}/{metaData?.totalCount}
         </div>
       </div>
-      <div className="flex flex-row sm:gap-4 gap-2 items-center">
-        <div>Per side: {metaData?.pageSize}</div>
+      <div className="flex flex-row sm:gap-4 xts:gap-2 gap-1 items-center">
         <div>
-          Side: {metaData?.currentPage}/{metaData?.totalPages}
+          <span className="sm:inline hidden">Per side:</span>
+          <span className="sm:hidden inline opacity-70">PS:</span>{" "}
+          {metaData?.pageSize}
+        </div>
+        <div>
+          <span className="sm:inline hidden">Side:</span>
+          <span className="sm:hidden inline opacity-70">S:</span>
+          {metaData?.currentPage}/{metaData?.totalPages}
         </div>
 
         {isLoading ? (
