@@ -52,19 +52,19 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
           <ViewModeToggle disabled={!metaData || metaData.totalCount === 0} />
         )}
         <div className={`${top ? "border-l pl-2 dark:border-gray-700" : ""}`}>
-          <span className="sm:inline hidden">Totalt:</span>
+          <span className="sm:inline hidden opacity-70">Totalt:</span>
           <span className="sm:hidden inline opacity-70">T:</span>{" "}
           {metaData?.resultCount}/{metaData?.totalCount}
         </div>
       </div>
       <div className="flex flex-row sm:gap-4 xts:gap-2 gap-1 items-center">
         <div>
-          <span className="sm:inline hidden">Per side:</span>
+          <span className="sm:inline hidden opacity-70">Per side:</span>
           <span className="sm:hidden inline opacity-70">PS:</span>{" "}
           {metaData?.pageSize}
         </div>
         <div>
-          <span className="sm:inline hidden">Side:</span>
+          <span className="sm:inline hidden opacity-70">Side:</span>
           <span className="sm:hidden inline opacity-70">S:</span>
           {metaData?.currentPage}/{metaData?.totalPages}
         </div>
