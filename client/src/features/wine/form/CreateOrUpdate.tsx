@@ -1,7 +1,7 @@
 import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import FormCombobox from "../../../app/components/form/FormCombobox";
+import FormCountryPicker from "../../../app/components/form/FormCountryPicker";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
 import { UserDetails, Wine } from "../../../app/models/wine";
@@ -367,7 +367,7 @@ const CreateOrUpdate = ({
                       ) : (
                         <>
                           {countries ? (
-                            <FormCombobox
+                            <FormCountryPicker
                               name="country"
                               label="Land"
                               control={control}
