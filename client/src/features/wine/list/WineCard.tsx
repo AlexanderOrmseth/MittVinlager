@@ -72,7 +72,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           {wine.name}
         </h4>
 
-        <div className="flex text-sm justify-center flex-wrap items-center text-muted flex-row gap-2 comma">
+        <div className="flex text-sm justify-center flex-wrap items-center text-muted flex-row comma">
           <div>{wine.type}</div>
           {wine.year && wine.year > 0 && <div>{wine.year}</div>}
           {wine.volume && wine.volume > 0 && (
@@ -113,11 +113,13 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
         </div>
 
         <div className="i-flex-row justify-center">
-          <div className="comma i-flex-row text-sm text-muted flex-wrap">
+          <div className="comma i-flex-row gap-x-0 text-sm text-muted flex-wrap">
             {wine.country && (
               <>
                 <span
-                  className={`f16 flag ${wine.countryId && wine.countryId}`}
+                  className={`f16 flag mr-1 ${
+                    wine.countryId && wine.countryId
+                  }`}
                 />
                 <span className="font-medium text-less-muted">
                   {wine.country}

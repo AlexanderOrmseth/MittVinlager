@@ -10,8 +10,7 @@ interface Props {
 }
 
 const WishlistList = ({ items }: Props) => {
-  const [deleteWishlistItem, { isLoading, isSuccess, isError }] =
-    useDeleteWishlistItemMutation();
+  const [deleteWishlistItem, { isLoading }] = useDeleteWishlistItemMutation();
 
   // delete item
   const handleDeleteWishItem = async (id: number) => {
@@ -22,7 +21,7 @@ const WishlistList = ({ items }: Props) => {
   };
 
   return (
-    <ul className="flex-1 p-4 block-less-muted space-y-2">
+    <ul className="flex-1 p-4 block-less-muted rounded-lg space-y-2">
       {items.map((wishItem) => (
         <WineListItem
           key={wishItem.id}

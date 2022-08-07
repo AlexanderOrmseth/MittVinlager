@@ -53,7 +53,7 @@ const WineDetail = ({ wine }: Props) => {
           </div>
         </DescriptionItem>
         <DescriptionItem dt="Region, distrikt">
-          <div className="comma space-x-2">
+          <div className="comma">
             {wine.region && <span>{wine.region}</span>}
             {wine.subRegion && <span>{wine.subRegion}</span>}
           </div>

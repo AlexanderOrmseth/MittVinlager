@@ -38,7 +38,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
             {wine.name}
           </Link>
         </div>
-        <div className="flex text-gray-500 dark:text-gray-300 my-1 flex-row space-x-2 flex-wrap items-center comma">
+        <div className="flex text-gray-500 dark:text-gray-300 my-1 flex-row flex-wrap items-center comma">
           {wine.country && (
             <div className="flex items-center">
               <span
@@ -71,7 +71,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           )}
         </div>
       </div>
-      <div className="flex group-hover:opacity-100 transition-opacity opacity-40 items-center gap-x-1">
+      <div className="flex sm:flex-row flex-col group-hover:opacity-100 transition-opacity opacity-40 items-center gap-1">
         <Link
           to={`${wine.wineId}/update`}
           className="btn-white shadow-none p-2"
