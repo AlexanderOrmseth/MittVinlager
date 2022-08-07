@@ -4,6 +4,8 @@ import "react-medium-image-zoom/dist/styles.css";
 import { motion } from "framer-motion";
 import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 
+/// Note: Using version 4.4.3 of react-medium-image-zoom, due to a lot of bugs in v5+
+
 const WineImageZoom = ({
   pictureUrl,
   productId,
@@ -43,24 +45,22 @@ const WineImageZoom = ({
       className="flex p-2 flex-col items-center  block-muted md:sticky md:top-4  overflow-auto"
     >
       <Zoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
-        <>
+        <img
+          className={`mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64 ${
+            isZoomed ? "hidden" : "block"
+          }`}
+          alt="Bilde av vin"
+          src={pictureUrl || placeholder}
+        />
+        {enabled && zoomImgSrc && (
           <img
-            className={`mx-auto object-scale-down sm:h-80 sm:w-80 w-64 h-64 ${
-              isZoomed ? "hidden" : "block"
+            className={`object-scale-down h-80 w-80 ${
+              isZoomed ? "block" : "hidden"
             }`}
             alt="Bilde av vin"
-            src={pictureUrl || placeholder}
+            src={zoomImgSrc}
           />
-          {enabled && zoomImgSrc && (
-            <img
-              className={`object-scale-down h-80 w-80 ${
-                isZoomed ? "block" : "hidden"
-              }`}
-              alt="Bilde av vin"
-              src={zoomImgSrc}
-            />
-          )}
-        </>
+        )}
       </Zoom>
       {enabled && (
         <p className="text-muted text-sm">Trykk på bilde for å zoome inn.</p>

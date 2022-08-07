@@ -139,7 +139,7 @@ public class VinmonopoletController : BaseApiController
         return x;
     }
 
-    private static IEnumerable<string>? RecommendedFoodToString(IEnumerable<RecommendedFood>? food)
+    private static List<string>? RecommendedFoodToString(IEnumerable<RecommendedFood>? food)
     {
         // % grape name || grape name
         return food?.Where(x => !string.IsNullOrEmpty(x.FoodDesc))
@@ -170,7 +170,7 @@ public class VinmonopoletController : BaseApiController
     /// </summary>
     /// <param name="grapes"></param>
     /// <returns>x% grapeName, x% grapeName</returns>
-    private static IEnumerable<string>? MapGrapesToString(IReadOnlyCollection<Grape> grapes)
+    private static List<string>? MapGrapesToString(IReadOnlyCollection<Grape> grapes)
     {
         if (!grapes.Any())
         {

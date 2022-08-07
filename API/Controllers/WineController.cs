@@ -504,14 +504,8 @@ public class WineController : BaseApiController
             SubRegion = formBody.SubRegion,
             ProductId = formBody.ProductId,
 
-
-            Grapes = formBody.Grapes is not null
-                ? string.Join<string>(", ", formBody.Grapes.Select(str => str.Trim()).ToArray())
-                : null,
-
-            RecommendedFood = formBody.RecommendedFood is not null
-                ? string.Join<string>(", ", formBody.RecommendedFood.Select(str => str.Trim()).ToArray())
-                : null,
+            Grapes = VinmonopoletDto.ListToCommaString(formBody.Grapes),
+            RecommendedFood = VinmonopoletDto.ListToCommaString(formBody.RecommendedFood),
 
             ManufacturerName = formBody.ManufacturerName,
             StoragePotential = formBody.StoragePotential,
