@@ -66,7 +66,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
         <div>
           <span className="hidden opacity-70 sm:inline">Side:</span>
           <span className="inline opacity-70 sm:hidden">S:</span>
-          {metaData?.currentPage}/{metaData?.totalPages}
+          {metaData?.currentPage}/{metaData?.totalPages}{" "}
         </div>
 
         {isLoading ? (
