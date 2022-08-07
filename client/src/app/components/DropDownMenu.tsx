@@ -28,7 +28,7 @@ const DropDownMenu = ({
           }`}
         >
           <Menu.Button
-            className={`inline-flex btn-white items-center gap-2 ${className}`}
+            className={`btn-white inline-flex items-center gap-2 ${className}`}
           >
             {!icon ? (
               <>
@@ -40,8 +40,8 @@ const DropDownMenu = ({
             )}
           </Menu.Button>
           <DropDownTransition>
-            <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right dropdown">
-              <div className="px-1 py-1">
+            <Menu.Items className="dropdown absolute right-0 mt-2 w-56 origin-top-right">
+              <div className="p-1">
                 {buttons.map((button, i) => (
                   <div key={i}>
                     {button.divide && (
@@ -55,7 +55,7 @@ const DropDownMenu = ({
                             active
                               ? "bg-wine-500 dark:bg-wine-400 text-white"
                               : "text-gray-900 dark:text-gray-300"
-                          } group flex w-full items-center gap-x-2 select-none rounded-md px-2 py-2 text-sm`}
+                          } group flex w-full select-none items-center gap-x-2 rounded-md p-2 text-sm`}
                         >
                           {button.icon && button.icon}
                           {button.text}

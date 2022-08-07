@@ -99,7 +99,7 @@ const TastePie = ({ percent, size }: { percent: number; size: string }) => {
 
   return (
     <div
-      className={`aspect-square border-2 border-slate-25 dark:border-gray-900 ring-2 ring-blue-wine-500 dark:ring-blue-wine-light rounded-full`}
+      className={`border-slate-25 ring-blue-wine-500 dark:ring-blue-wine-light aspect-square rounded-full border-2 ring-2 dark:border-gray-900`}
       style={{
         height: size,
         width: size,

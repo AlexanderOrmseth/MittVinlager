@@ -90,7 +90,7 @@ const ChangeDisplayNameModal: FunctionComponent<Props> = ({
         <pre className="text-xs font-medium text-red-700">
           {JSON.stringify(changeDisplayNameStatus.error, null, 4)}
         </pre>
-        <div className="p-4 mt-4  space-y-6 block-less-muted rounded-lg">
+        <div className="block-less-muted mt-4  space-y-6 rounded-lg p-4">
           <div>
             <label className="label">Nytt visningsnavn</label>
             <input
@@ -108,7 +108,7 @@ const ChangeDisplayNameModal: FunctionComponent<Props> = ({
             loading={changeDisplayNameStatus.isLoading}
             disabled={value.trim().length < 2}
             loadingText="Endrer navn..."
-            className="justify-center h-12 w-full rounded-full"
+            className="h-12 w-full justify-center rounded-full"
           >
             <FloppyDisk size="1.3rem" />
             Lagre endring

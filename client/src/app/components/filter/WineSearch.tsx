@@ -31,7 +31,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
     <div>
       <label className="label">Søk</label>
       <div
-        className={`flex relative flex-row items-center ${
+        className={`relative flex flex-row items-center ${
           disabled ? "opacity-50" : ""
         }`}
       >
@@ -48,7 +48,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           />
         )}
         <input
-          className="text-input px-8 h-10"
+          className="text-input h-10 px-8"
           type="text"
           placeholder="søk"
           value={searchTerm}
@@ -58,7 +58,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           <button
             onClick={() => handleOnChange("")}
             disabled={disabled}
-            className="absolute text-less-muted dark:hover:bg-gray-800 dark:hover:text-white rounded p-1 right-1"
+            className="text-less-muted absolute right-1 rounded p-1 dark:hover:bg-gray-800 dark:hover:text-white"
           >
             <X size="1.3rem" />
           </button>

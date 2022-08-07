@@ -22,19 +22,19 @@ const Score = ({ value, hideDefinition, size = 8 }: Props) => {
   return (
     <div
       className={`inline-block ${
-        hideDefinition ? "" : " flex flex-grow gap-x-2 items-center"
+        hideDefinition ? "" : " flex items-center gap-x-2"
       }`}
     >
       <div
         style={{ height: 4 * size + "px", width: 4 * size + "px" }}
-        className={`relative block rounded-full select-none`}
+        className={`relative block select-none rounded-full`}
       >
         <div
           id={"LOL"}
           style={{
             background: `conic-gradient(#a91f36 0% ${value}%, rgba(0, 0, 0, 0.2) ${value}%)`,
           }}
-          className={`rounded-full h-full w-full bg-slate-100 flex items-center justify-center `}
+          className={`flex h-full w-full items-center justify-center rounded-full bg-slate-100 `}
         >
           <div
             style={{
@@ -42,7 +42,7 @@ const Score = ({ value, hideDefinition, size = 8 }: Props) => {
               width: 4 * size - 4 + "px",
               lineHeight: 4 * size - 4 + "px",
             }}
-            className={`rounded-full text-less-muted dark:bg-gray-900 overflow-hidden text-center ${
+            className={`text-less-muted overflow-hidden rounded-full text-center dark:bg-gray-900 ${
               size && size < 7 ? "text-xs" : "text-sm"
             } justify-center  bg-white`}
           >

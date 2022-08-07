@@ -18,10 +18,10 @@ const InventoryMessage: FunctionComponent<Props> = ({
   children,
 }) => {
   return (
-    <div className="flex py-12 px-2 text-muted items-center justify-center flex-col gap-y-2">
+    <div className="text-muted flex flex-col items-center justify-center gap-y-2 py-12 px-2">
       <Icon size="5rem" weight="light" className="mb-2" />
       <motion.div
-        className="mb-4 relative dark:text-gray-200 min-w-[100px] bg-slate-200 dark:bg-gray-700 p-2 rounded"
+        className="relative mb-4 min-w-[100px] rounded bg-slate-200 p-2 dark:bg-gray-700 dark:text-gray-200"
         initial={{ x: -16, opacity: 0 }}
         animate={{
           x: 0,
@@ -29,7 +29,7 @@ const InventoryMessage: FunctionComponent<Props> = ({
         }}
       >
         {message}
-        <div className="absolute top-0 left-1/2 w-0 h-0 border-[16px] border-transparent -mt-3.5 ml-4 border-t-0 border-l-0 border-b-slate-200 dark:border-b-gray-700" />
+        <div className="absolute top-0 left-1/2 -mt-3.5 ml-4 h-0 w-0 border-[16px] border-t-0 border-l-0 border-transparent border-b-slate-200 dark:border-b-gray-700" />
       </motion.div>
       {children}
     </div>

@@ -44,7 +44,7 @@ const DeleteWineModal = ({
           loading={isLoading}
           disabled={!wineToDelete.id || isLoading}
           loadingText="Sletter vin..."
-          className="justify-center h-10 rounded-full"
+          className="h-10 justify-center rounded-full"
         >
           <Trash size="1.3rem" />
           Slett vin

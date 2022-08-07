@@ -16,9 +16,9 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="p-6 md:p-8 block-less-muted md:inline-flex flex md:max-w-lg w-full flex-col justify-center items-center gap-y-5 rounded-lg">
+      <div className="block-less-muted flex w-full flex-col items-center justify-center gap-y-5 rounded-lg p-6 md:inline-flex md:max-w-lg md:p-8">
         <User size="4rem" weight="regular" />
-        <h3 className="md:text-4xl text-2xl break-all text-center leading-7 font-medium text-blue-wine-400 dark:text-wine-300">
+        <h3 className="text-blue-wine-400 dark:text-wine-300 break-all text-center text-2xl font-medium leading-7 md:text-4xl">
           <p className="text-muted text-base">Brukernavn</p>
           {user?.displayName || "Ikke opprettet navn"}
         </h3>
@@ -26,9 +26,9 @@ const ProfileCard = () => {
           <span className="text-muted">Opprettet:</span>{" "}
           <Time date={user.createdAt} />
         </p>
-        <div className="flex gap-2 w-full flex-wrap sm:flex-row flex-col">
+        <div className="flex w-full flex-col flex-wrap gap-2 sm:flex-row">
           <button
-            className="btn-primary flex-1 h-12 rounded-full flex flex-row items-center justify-center gap-x-2 w-full"
+            className="btn-primary flex h-12 w-full flex-1 flex-row items-center justify-center gap-x-2 rounded-full"
             onClick={() => setIsOpen(true)}
           >
             <Door size="1.75rem" weight="duotone" />
@@ -36,7 +36,7 @@ const ProfileCard = () => {
           </button>
 
           <button
-            className="btn-white flex-1 h-12 rounded-full flex flex-row items-center justify-center gap-x-2 w-full"
+            className="btn-white flex h-12 w-full flex-1 flex-row items-center justify-center gap-x-2 rounded-full"
             onClick={() => setChangeDisplayNameModalIsOpen(true)}
           >
             <IdentificationBadge size="1.75rem" weight="regular" />

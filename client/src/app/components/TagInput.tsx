@@ -63,11 +63,11 @@ const TagInput: FunctionComponent<Props> = ({
   return (
     <div>
       {value && (
-        <ul className="i-flex-row flex-wrap gap-y-2 mb-1.5">
+        <ul className="i-flex-row mb-1.5 flex-wrap gap-y-2">
           {value.map((str, i) => (
             <li
-              className={`py-1 font-medium text-sm cursor-pointer px-3 text-white
-                hover:opacity-70 bg-blue-wine-300 dark:bg-blue-wine-500 rounded-full i-flex-row ${
+              className={`bg-blue-wine-300 dark:bg-blue-wine-500 i-flex-row cursor-pointer rounded-full py-1
+                px-3 text-sm font-medium text-white hover:opacity-70 ${
                   error?.types &&
                   Object.values(error.types).some((err) => {
                     if (!err) return false;
@@ -108,11 +108,11 @@ const TagInput: FunctionComponent<Props> = ({
           }`}
         />
         {errorMessage && (
-          <em className="text-wine-500 block dark:text-wine-300 text-sm italic">
+          <em className="text-wine-500 dark:text-wine-300 block text-sm italic">
             {errorMessage}
           </em>
         )}
-        <small className="text-muted text-xs absolute right-0 -bottom-2/4 z-0">{`${
+        <small className="text-muted absolute right-0 -bottom-2/4 z-0 text-xs">{`${
           value?.length ?? 0
         }/${max}`}</small>
       </div>

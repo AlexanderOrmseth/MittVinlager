@@ -17,23 +17,23 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <div
-      className={`flex w-full select-none flex-row items-center gap-x-2 text-gray-700 dark:text-gray-400 rounded px-2 py-1 ${
+      className={`flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-1 text-gray-700 dark:text-gray-400 ${
         disabled
-          ? "opacity-50 cursor-not-allowed"
-          : "cursor-pointer hover:text-gray-900 group dark:hover:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800/50"
+          ? "cursor-not-allowed opacity-50"
+          : "group cursor-pointer hover:bg-slate-100 hover:text-gray-900 dark:hover:bg-gray-800/50 dark:hover:text-gray-200"
       } `}
     >
       <div
         className={`
         ${type === "radio" ? "rounded-full" : "rounded"}
-             border-2 w-5 h-5
-            flex items-center justify-center 
+             flex h-5 w-5
+            items-center justify-center border-2 
              ${
                checked && type === "radio"
-                 ? "bg-white dark:bg-gray-900/60 border-wine-400 dark:border-wine-300"
+                 ? "border-wine-400 dark:border-wine-300 bg-white dark:bg-gray-900/60"
                  : checked && type === "checkbox"
-                 ? "bg-wine-500 text-white dark:bg-wine-400 border-wine-500 dark:border-wine-400"
-                 : "bg-white group-hover:border-gray-400 dark:group-hover:border-gray-600 dark:bg-gray-900/60 border-slate-300 dark:border-gray-700"
+                 ? "bg-wine-500 dark:bg-wine-400 border-wine-500 dark:border-wine-400 text-white"
+                 : "border-slate-300 bg-white group-hover:border-gray-400 dark:border-gray-700 dark:bg-gray-900/60 dark:group-hover:border-gray-600"
              }`}
       >
         {checked &&
@@ -42,7 +42,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
               initial={{ opacity: 0, scale: 0.2 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ type: "spring", bounce: 0.6 }}
-              className="w-2.5 h-2.5 bg-wine-500 dark:bg-wine-400 block rounded-full"
+              className="bg-wine-500 dark:bg-wine-400 block h-2.5 w-2.5 rounded-full"
             />
           ) : (
             <motion.div
@@ -55,7 +55,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
           ))}
       </div>
 
-      <div className={`${checked ? "dark:text-gray-200 text-gray-800" : ""}`}>
+      <div className={`${checked ? "text-gray-800 dark:text-gray-200" : ""}`}>
         {displayText}
       </div>
     </div>

@@ -49,13 +49,13 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
       <div>
         <p>
           Skriv{" "}
-          <mark className="p-1 px-2 bg-slate-100 dark:bg-gray-950 dark:text-wine-200 font-medium rounded-full">
+          <mark className="dark:bg-gray-950 dark:text-wine-200 rounded-full bg-slate-100 p-1 px-2 font-medium">
             SLETTMEG
           </mark>{" "}
           med store bokstaver for å bekrefte sletting av bruker.
         </p>
 
-        <div className="p-4 mt-4  space-y-6 block-less-muted rounded-lg">
+        <div className="block-less-muted mt-4  space-y-6 rounded-lg p-4">
           <div>
             <label className="label">Bekreft sletting</label>
             <input
@@ -72,7 +72,7 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
             loading={isLoading}
             disabled={value !== "SLETTMEG"}
             loadingText="Sletter bruker..."
-            className="justify-center h-12 w-full rounded-full"
+            className="h-12 w-full justify-center rounded-full"
           >
             <UserMinus size="1.3rem" />
             Slett meg

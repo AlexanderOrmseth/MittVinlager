@@ -18,17 +18,17 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
   return (
     <div
       onDoubleClick={() => navigate(`${wine.wineId}`)}
-      className="px-2 relative py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1"
+      className="group border-b-none dark:border-gray-950 dark:bg-gray-925/80 relative flex items-center gap-x-1 border-x border-t bg-white p-2 text-sm first:rounded-t last:rounded-b last:border-b even:bg-white/20 dark:even:bg-gray-900"
     >
       {wine.userDetails.quantity === 0 && (
-        <div className="absolute pointer-events-none flex items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">
-          <div className="backdrop-blur-sm transition-opacity group-hover:opacity-20 leading-tight bg-wine-500/70 p-0.5 text-xs rounded text-white font-medium border-wine-400">
+        <div className="bg-wine-200/5 pointer-events-none absolute top-0 left-0 z-[1] flex h-full w-full items-center rounded">
+          <div className="bg-wine-500/70 border-wine-400 rounded p-0.5 text-xs font-medium leading-tight text-white backdrop-blur-sm transition-opacity group-hover:opacity-20">
             Ikke på lager
           </div>
         </div>
       )}
       <img
-        className="object-scale-down pointer-events-none select-none h-20 w-16 rounded"
+        className="pointer-events-none h-20 w-12 select-none rounded object-scale-down"
         src={wine.pictureUrl || placeholder}
         alt="Bilde av en vin"
       />
@@ -38,11 +38,11 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
             {wine.name}
           </Link>
         </div>
-        <div className="flex text-gray-500 dark:text-gray-300 my-1 flex-row space-x-2 flex-wrap items-center comma">
+        <div className="comma my-1 flex flex-row flex-wrap items-center text-gray-500 dark:text-gray-300">
           {wine.country && (
             <div className="flex items-center">
               <span
-                className={`f16 mr-1 flag ${wine.countryId && wine.countryId}`}
+                className={`f16 flag mr-1 ${wine.countryId && wine.countryId}`}
               />
               {wine.country}
             </div>
@@ -55,7 +55,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           <Time date={wine.createdAt} />
           <div>antall: {wine.userDetails.quantity}</div>
         </div>
-        <div className="flex items-center flex-row flex-wrap gap-x-3 gap-y-1">
+        <div className="flex flex-row flex-wrap items-center gap-x-3 gap-y-1">
           {wine.userDetails.score && (
             <Score value={wine.userDetails.score} hideDefinition size={6} />
           )}
@@ -71,16 +71,16 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           )}
         </div>
       </div>
-      <div className="flex group-hover:opacity-100 transition-opacity opacity-40 items-center gap-x-1">
+      <div className="flex flex-col items-center gap-1 opacity-40 transition-opacity group-hover:opacity-100 sm:flex-row">
         <Link
           to={`${wine.wineId}/update`}
-          className="btn-white shadow-none p-2"
+          className="btn-white p-2 shadow-none"
         >
           <Pen size="1.2rem" />
         </Link>
         <button
           onClick={() => handleDeleteWine(wine.wineId, wine.name)}
-          className="btn-white shadow-none p-2"
+          className="btn-white p-2 shadow-none"
         >
           <Trash size="1.2rem" />
         </button>

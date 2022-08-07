@@ -216,10 +216,10 @@ const CreateOrUpdate = ({
         setValue={setValue}
       />
 
-      <div className="mt-6 block-less-muted rounded-lg md:p-8 p-4 ">
+      <div className="block-less-muted mt-6 rounded-lg p-4 md:p-8 ">
         <Tab.Group selectedIndex={tabIndex} onChange={setTabIndex}>
-          <div className="mb-6 flex lg:flex-row flex-col gap-x-2 gap-y-4 lg:items-center justify-between items-start">
-            <Tab.List className="inline-flex w-full max-w-lg gap-x-1 flex-col gap-y-2 xts:flex-row">
+          <div className="mb-6 flex flex-col items-start justify-between gap-x-2 gap-y-4 lg:flex-row lg:items-center">
+            <Tab.List className="xts:flex-row inline-flex w-full max-w-lg flex-col gap-x-1 gap-y-2">
               {tabs.map((tab, i) => (
                 <Tab
                   key={i}
@@ -234,7 +234,7 @@ const CreateOrUpdate = ({
                 >
                   {!!getErrorCount(tabFields[i], i === 2) && (
                     <div className="text-wine-400 dark:text-wine-300 pointer-events-none absolute -top-4 left-0 w-full animate-bounce">
-                      <div className="inline-flex bg-slate-200/40 dark:bg-gray-800/40 backdrop-blur-sm border-wine-400 rounded py-2 px-4 flex-row items-center gap-x-1 justify-center">
+                      <div className="border-wine-400 inline-flex flex-row items-center justify-center gap-x-1 rounded bg-slate-200/40 py-2 px-4 backdrop-blur-sm dark:bg-gray-800/40">
                         <Warning size="1.5rem" weight="duotone" />
                         {getErrorCount(tabFields[i], i === 2)}
                       </div>
@@ -246,15 +246,15 @@ const CreateOrUpdate = ({
             </Tab.List>
             <button
               onClick={() => setFetchWineIsOpen(true)}
-              className="btn-secondary flex xs:w-auto justify-center w-full rounded-full flex-row gap-x-2 items-center h-12"
+              className="btn-secondary xs:w-auto flex h-12 w-full flex-row items-center justify-center gap-x-2 rounded-full"
             >
               <ArrowRight size="1.5rem" />
               Hent fra Vinmonopolet
             </button>
           </div>
-          <div className="mt-6 border-t relative border-slate-200 dark:border-gray-700 mb-6">
+          <div className="relative my-6 border-t border-slate-200 dark:border-gray-700">
             {getValues("productId") && (
-              <span className="absolute right-4 px-1 text-sm -top-3 dark:bg-gray-950 text-slate-400 bg-slate-25">
+              <span className="dark:bg-gray-950 bg-slate-25 absolute right-4 -top-3 px-1 text-sm text-slate-400">
                 <span className="select-none">produktId: </span>
                 {getValues("productId")}
               </span>
@@ -274,7 +274,7 @@ const CreateOrUpdate = ({
                   variants={tabAnim}
                   className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <FormTextInput
                       required
                       control={control}
@@ -290,7 +290,7 @@ const CreateOrUpdate = ({
                     />
                   </div>
 
-                  <div className="md:flex flex-row items-center gap-4">
+                  <div className="flex-row items-center gap-4 md:flex">
                     <FormImage
                       file={watchFile}
                       wine={{
@@ -302,7 +302,7 @@ const CreateOrUpdate = ({
                       name="resetImage"
                       control={control}
                     />
-                    <div className="grid flex-1 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                    <div className="grid flex-1 grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-y-6 lg:grid-cols-3 lg:gap-y-8">
                       <FormTextInput
                         required
                         control={control}
@@ -354,14 +354,14 @@ const CreateOrUpdate = ({
                         placeholder="produsent"
                       />
                       {countryStatus.isLoading ? (
-                        <div className="flex items-center flex-col justify-center space-x-4">
+                        <div className="flex flex-col items-center justify-center space-x-4">
                           <ThreeDots
                             height={"2rem"}
                             width={"2.5rem"}
                             className="mx-4"
                             fill="gray"
                           />
-                          <span className="text-slate-500 text-sm">
+                          <span className="text-sm text-slate-500">
                             Laster land...
                           </span>
                         </div>
@@ -414,7 +414,7 @@ const CreateOrUpdate = ({
                   variants={tabAnim}
                   className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
                 >
-                  <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
                     <FormTasteSelect
                       control={control}
                       name="freshness"
@@ -460,7 +460,7 @@ const CreateOrUpdate = ({
                     name="grapes"
                     control={control}
                   />
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <FormTextInput
                       textarea
                       rows={4}
@@ -498,7 +498,7 @@ const CreateOrUpdate = ({
                   variants={tabAnim}
                   className="flex flex-col gap-y-4 sm:gap-y-6 lg:gap-y-8"
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <FormTextInput
                       control={control}
                       name="userDetails.quantity"
@@ -514,7 +514,7 @@ const CreateOrUpdate = ({
                       placeholder="kjøpested"
                     />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 gap-y-4 sm:gap-y-6 lg:gap-y-8">
+                  <div className="grid grid-cols-1 gap-4 gap-y-4 sm:grid-cols-2 sm:gap-y-6 lg:grid-cols-3 lg:gap-y-8">
                     <FormTextInput
                       control={control}
                       name="userDetails.score"
@@ -574,17 +574,17 @@ const CreateOrUpdate = ({
                 </Tab.Panel>
               </AnimatePresence>
             </Tab.Panels>
-            <div className="mt-6 border-t border-slate-200 dark:border-gray-700 mb-6"></div>
-            <div className="md:flex md:flex-row sm:grid-cols-2 sm:grid flex flex-col gap-y-4 gap-x-2">
+            <div className="my-6 border-t border-slate-200 dark:border-gray-700"></div>
+            <div className="flex flex-col gap-y-4 gap-x-2 sm:grid sm:grid-cols-2 md:flex md:flex-row">
               <Link
-                className="btn-white justify-center px-5 rounded-full i-flex-row disabled-btn w-auto"
+                className="btn-white i-flex-row disabled-btn w-auto justify-center rounded-full px-5"
                 to={-1 as any}
               >
                 <ArrowLeft size="1.5rem" />
                 Avbryt
               </Link>
               <button
-                className="btn-white justify-center px-5 rounded-full i-flex-row disabled-btn w-auto"
+                className="btn-white i-flex-row disabled-btn w-auto justify-center rounded-full px-5"
                 disabled={!isValid}
                 type="button"
                 onClick={() => setPreviewIsOpen(true)}
@@ -592,7 +592,7 @@ const CreateOrUpdate = ({
                 <Eye size="1.5rem" />
                 Forhåndsvis
               </button>
-              <i className="flex-1 hidden md:block" />
+              <i className="hidden flex-1 md:block" />
               {setDeleteModalIsOpen && (
                 <LoadingButton
                   loading={isSubmitting}
@@ -600,7 +600,7 @@ const CreateOrUpdate = ({
                   disabled={isSubmitting}
                   loadingText="Sletter vin..."
                   type="button"
-                  className="px-5 justify-center rounded-full i-flex-row disabled-btn w-auto"
+                  className="i-flex-row disabled-btn w-auto justify-center rounded-full px-5"
                   onClick={() => setDeleteModalIsOpen(true)}
                 >
                   <Trash size="1.5rem" />

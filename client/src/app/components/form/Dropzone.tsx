@@ -7,7 +7,6 @@ const maxSize = 1048576;
 const Dropzone = ({
   onChange,
   value,
-  ...rest
 }: {
   onChange: (...event: any[]) => void;
   value: File | null;
@@ -46,7 +45,7 @@ const Dropzone = ({
   return (
     <div>
       {value && (
-        <div className="flex flex-wrap gap-2 justify-between items-end">
+        <div className="flex flex-wrap items-end justify-between gap-2">
           <button
             className="btn-white w-auto"
             onClick={(e) => {
@@ -57,7 +56,7 @@ const Dropzone = ({
             Fjern bilde
           </button>
           {value?.name && (
-            <div className="flex flex-row gap-x-2 items-center text-sm text-green-wine-500 dark:text-green-wine-200">
+            <div className="text-green-wine-500 dark:text-green-wine-200 flex flex-row items-center gap-x-2 text-sm">
               <CheckCircle size="1.5rem" weight="duotone" />
               {value.name}
             </div>
@@ -65,7 +64,7 @@ const Dropzone = ({
         </div>
       )}
       <div
-        className="cursor-pointer text-center text-sm my-2"
+        className="my-2 cursor-pointer text-center text-sm"
         {...getRootProps()}
       >
         <input {...getInputProps()} />
@@ -73,8 +72,8 @@ const Dropzone = ({
         {isDragActive ? (
           <p
             className={`${
-              isDragActive ? "border border-green-wine-500" : ""
-            } rounded border flex items-center flex-col bg-slate-50  border-dashed p-4 shadow-lg text-green-wine-500 font-medium py-4 `}
+              isDragActive ? "border-green-wine-500 border" : ""
+            } text-green-wine-500 flex flex-col items-center rounded border  border-dashed bg-slate-50 p-4 py-4 font-medium shadow-lg `}
           >
             {isDragReject ? (
               "Denne filtypen støttes ikke!"
@@ -87,8 +86,8 @@ const Dropzone = ({
             )}
           </p>
         ) : (
-          <div className="rounded border text-center bg-slate-50 dark:bg-gray-900 dark:border-gray-700 border-dashed border-slate-300 p-4 py-4 hover:bg-slate-100 hover:border-slate-500">
-            <div className="flex flex-row gap-2 justify-center items-center">
+          <div className="rounded border border-dashed border-slate-300 bg-slate-50 p-4 py-4 text-center hover:border-slate-500 hover:bg-slate-100 dark:border-gray-700 dark:bg-gray-900">
+            <div className="flex flex-row items-center justify-center gap-2">
               <FileImage size="1.75rem" weight="duotone" />
               Trykk her, eller dra et bilde hit
             </div>

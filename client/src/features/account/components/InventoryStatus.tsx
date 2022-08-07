@@ -53,25 +53,25 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
 
   return (
     <div className="my-4">
-      <div className="grid my-4 lg:grid-cols-[1fr_1fr_2.2fr] sm:grid-cols-2 gap-4 text-center">
+      <div className="my-4 grid gap-4 text-center sm:grid-cols-2 lg:grid-cols-[1fr_1fr_2.2fr]">
         {total.map(({ title, data }) => (
           <div
             key={title}
-            className="md:p-8 p-4 lg:last:col-span-1 sm:last:col-span-2 block-less-muted rounded-lg"
+            className="block-less-muted rounded-lg p-4 sm:last:col-span-2 md:p-8 lg:last:col-span-1"
           >
-            <h3 className="font-medium md:mb-4 mb-2 text-gray-700 dark:text-gray-500 uppercase text-sm">
+            <h3 className="mb-2 text-sm font-medium uppercase text-gray-700 dark:text-gray-500 md:mb-4">
               {title}
             </h3>
-            <p className="font-extrabold text-gray-900 dark:text-gray-200 md:text-8xl text-7xl">
+            <p className="text-7xl font-extrabold text-gray-900 dark:text-gray-200 md:text-8xl">
               {data}
             </p>
           </div>
         ))}
       </div>
       <div className="block-less-muted rounded-lg p-8">
-        <div className="flex items-center mb-4 md:flex-row flex-col gap-x-2 gap-y-4">
+        <div className="mb-4 flex flex-col items-center gap-x-2 gap-y-4 md:flex-row">
           <div className="flex-1">
-            <h3 className="font-medium mb-4 text-center text-gray-700 dark:text-gray-500 uppercase text-sm">
+            <h3 className="mb-4 text-center text-sm font-medium uppercase text-gray-700 dark:text-gray-500">
               Antall
             </h3>
             <PieChart
@@ -90,7 +90,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           </div>
           {inventoryStatus.some((data) => data.value) && (
             <div className="flex-1">
-              <h3 className="font-medium mb-4 text-center text-gray-700 dark:text-gray-500 uppercase text-sm">
+              <h3 className="mb-4 text-center text-sm font-medium uppercase text-gray-700 dark:text-gray-500">
                 Verdi
               </h3>
               <PieChart
@@ -112,7 +112,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           )}
         </div>
         <div className="block-muted col-span-2 rounded-lg p-4">
-          <div className="grid grid-cols-3 gap-2 mb-1 border-b dark:border-gray-700 font-medium">
+          <div className="mb-1 grid grid-cols-3 gap-2 border-b font-medium dark:border-gray-700">
             <div>Type</div>
             <div className="text-right">Antall</div>
             <div className="text-right">Verdi</div>
@@ -120,7 +120,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           {inventoryStatus.map((data, i) => (
             <div
               key={i}
-              className="grid grid-cols-3 py-2 odd:bg-slate-100 dark:odd:bg-gray-950/50 rounded gap-2 px-2"
+              className="dark:odd:bg-gray-950/50 grid grid-cols-3 gap-2 rounded p-2 odd:bg-slate-100"
             >
               <div>
                 <Link className="link" to="/inventory">

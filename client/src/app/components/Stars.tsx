@@ -9,7 +9,7 @@ const Stars = ({ stars, size }: Props) => {
   const fadedStars = 5 - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className="text-yellow-500 dark:text-wine-300 flex flex-row gap-x-0.5 items-center">
+    <div className="dark:text-wine-300 flex flex-row items-center gap-x-0.5 text-yellow-500">
       {[...Array(fullStars)].map((_, i) => (
         <Star key={i} size={size || "1.75rem"} weight="duotone" />
       ))}

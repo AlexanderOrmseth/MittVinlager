@@ -18,12 +18,12 @@ const Title = ({ title, Icon, border, children, node, highlighted }: Props) => {
   return (
     <>
       <div
-        className={`md:text-4xl flex-wrap text-3xl font-bold ${
+        className={`flex-wrap text-3xl font-bold md:text-4xl ${
           highlighted
             ? "text-wine-500 dark:text-wine-400"
             : "text-gray-900 dark:text-gray-100"
-        } mb-4 flex flex-row gap-x-2 items-center ${
-          border ? "border-b dark:border-gray-700 pb-2" : ""
+        } mb-4 flex flex-row items-center gap-x-2 ${
+          border ? "border-b pb-2 dark:border-gray-700" : ""
         }`}
       >
         {Icon && (
@@ -36,9 +36,9 @@ const Title = ({ title, Icon, border, children, node, highlighted }: Props) => {
 
         {!Icon && node && node}
 
-        <h2 className="flex-1 md:leading-9 leading-7">{title}</h2>
+        <h2 className="flex-1 leading-7 md:leading-9">{title}</h2>
       </div>
-      {children && <div className="mt-4 text-less-muted">{children}</div>}
+      {children && <div className="text-less-muted mt-4">{children}</div>}
     </>
   );
 };

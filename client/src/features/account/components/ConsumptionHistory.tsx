@@ -14,7 +14,7 @@ const ConsumptionHistory = ({ lastConsumed }: Props) => {
     );
 
   return (
-    <ul className="p-4 mt-4 block-less-muted space-y-2 rounded-lg">
+    <ul className="block-less-muted mt-4 space-y-2 rounded-lg p-4">
       {lastConsumed.map((item) => (
         <WineListItem
           key={item.id}
@@ -22,7 +22,7 @@ const ConsumptionHistory = ({ lastConsumed }: Props) => {
           name={item.name}
           to={`/inventory/${item.wineId}`}
         >
-          <div className="text-sm text-gray-800 space-x-1 dark:text-gray-200">
+          <div className="space-x-1 text-sm text-gray-800 dark:text-gray-200">
             <span className="font-medium">Dato drukket:</span>
             <Time date={item.date} />
           </div>

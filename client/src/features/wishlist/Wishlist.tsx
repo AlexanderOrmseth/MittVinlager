@@ -12,7 +12,7 @@ import { useGetWishlistQuery } from "../../app/services/wishlistApi";
 const Wishlist = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [wine, setWine] = useState<WineBaseModel | null>(null);
-  const { data: wishlist, isLoading, isSuccess } = useGetWishlistQuery();
+  const { data: wishlist, isLoading } = useGetWishlistQuery();
   const hasItems = !!wishlist?.length;
 
   return (
@@ -35,7 +35,7 @@ const Wishlist = () => {
           type="button"
           onClick={() => setIsOpen(true)}
           disabled={isLoading || (wishlist != null && wishlist?.length >= 10)}
-          className="btn-secondary w-full h-12 rounded-full disabled-btn"
+          className="btn-secondary disabled-btn h-12 w-full rounded-full"
         >
           Hent vin
         </button>
@@ -48,7 +48,7 @@ const Wishlist = () => {
               <InfoBox message=" Du har ingen vin i ønskelisten. Trykk på hent vin for å legge til en vin." />
             )}
 
-            <div className="flex gap-4 items-start flex-row">
+            <div className="flex flex-row items-start gap-4">
               <WishListPreview setWine={setWine} wine={wine} />
               {hasItems && <WishlistList items={wishlist} />}
             </div>

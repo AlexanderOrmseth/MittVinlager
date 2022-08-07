@@ -20,7 +20,7 @@ const NotFound: FunctionComponent<Props> = ({
       message={
         <p>
           {showPath && (
-            <em className="mr-1 px-2 py-1.5 rounded bg-slate-50 dark:bg-gray-900 text-sm font-bold text-gray-800 dark:text-gray-200">
+            <em className="mr-1 rounded bg-slate-50 px-2 py-1.5 text-sm font-bold text-gray-800 dark:bg-gray-900 dark:text-gray-200">
               {location.pathname}
             </em>
           )}
