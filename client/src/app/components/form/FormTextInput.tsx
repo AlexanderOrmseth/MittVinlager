@@ -31,7 +31,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
     <div>
       <label className="label" htmlFor={props.name}>
         {props.label}
-        {props.required && <span className="ml-1 text-wine-400">*</span>}
+        {props.required && <span className="text-wine-400 ml-1">*</span>}
       </label>
       <Controller
         {...props}
@@ -51,7 +51,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
             ) : (
               <textarea
                 autoComplete="off"
-                className={`text-input resize-none py-0.5 h-auto ${
+                className={`text-input h-auto resize-none py-0.5 ${
                   !!fieldState.error
                     ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
                     : ""
@@ -64,7 +64,7 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
               />
             )}
             {props.definition && (
-              <span className="absolute select-none pointer-events-none right-1.5 h-5 leading-5 top-1.5 px-2 text-sm rounded text-slate-800 dark:text-gray-300 dark:bg-white/20 bg-slate-100">
+              <span className="pointer-events-none absolute right-1.5 top-1.5 h-5 select-none rounded bg-slate-100 px-2 text-sm leading-5 text-slate-800 dark:bg-white/20 dark:text-gray-300">
                 {props.definition}
               </span>
             )}

@@ -18,13 +18,13 @@ const WineListItem = ({
   externalLink,
 }: Props) => {
   return (
-    <li className="flex items-center bg-white border dark:border-gray-800 dark:bg-gray-925 rounded py-2 px-1">
+    <li className="dark:bg-gray-925 flex items-center rounded border bg-white py-2 px-1 dark:border-gray-800">
       <img
-        className="object-scale-down pointer-events-none select-none rounded w-20 h-28"
+        className="pointer-events-none h-28 w-20 select-none rounded object-scale-down"
         src={pictureUrl || placeholder}
         alt={`Bilde av en vin: ${name}`}
       />
-      <div className="flex-1 leading-tight ml-2">
+      <div className="ml-2 flex-1 leading-tight">
         {to ? (
           externalLink ? (
             <a className="link" href={to} target="_blank" rel="noreferrer">

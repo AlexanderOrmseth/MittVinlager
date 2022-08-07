@@ -48,12 +48,12 @@ const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
               <Combobox.Label className="label">
                 {props.label}
                 {props.required && (
-                  <span className="ml-1 text-wine-400">*</span>
+                  <span className="text-wine-400 ml-1">*</span>
                 )}
               </Combobox.Label>
-              <div className="flex flex-row gap-2 items-center">
+              <div className="flex flex-row items-center gap-2">
                 <div
-                  className={`absolute select-none pointer-events-none left-2 f32 flag ${
+                  className={`f32 flag pointer-events-none absolute left-2 select-none ${
                     selectedCountryId ? selectedCountryId.toLowerCase() : ""
                   }`}
                 />
@@ -61,7 +61,7 @@ const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
                   name={field.name + "Term"}
                   autoComplete="off"
                   placeholder="land"
-                  className="text-input pl-12 flex-1"
+                  className="text-input flex-1 pl-12"
                   onChange={(e) => setTerm(e.target.value)}
                 />
               </div>
@@ -85,7 +85,7 @@ const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
                         value={country.country}
                       >
                         <div
-                          className={`select-none pointer-events-none f32 flag ${country.countryId.toLowerCase()}`}
+                          className={`f32 flag pointer-events-none select-none ${country.countryId.toLowerCase()}`}
                         ></div>
                         <div>{country.country}</div>
                       </Combobox.Option>

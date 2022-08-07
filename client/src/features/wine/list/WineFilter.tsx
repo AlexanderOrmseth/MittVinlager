@@ -59,8 +59,8 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
     filterStatus.isLoading || !metaData?.totalCount || isFetchingWine;
 
   return (
-    <aside className="basis-72 relative">
-      <div className="space-y-6 block-muted md:sticky md:top-4 sm:overflow-y-auto min-h-[300px] p-4 md:max-h-[calc(100vh-6rem)]">
+    <aside className="relative basis-72">
+      <div className="block-muted min-h-[300px] space-y-6 p-4 sm:overflow-y-auto md:sticky md:top-4 md:max-h-[calc(100vh-6rem)]">
         <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
         <button
           disabled={disabled}

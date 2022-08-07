@@ -20,7 +20,7 @@ const InventoryPage = () => {
   else if (isError) content = <ErrorBox message="Something went wrong.." />;
 
   return (
-    <div className="flex grow flex-1 min-h-full gap-4 md:flex-row flex-col">
+    <div className="flex min-h-full flex-1 grow flex-col gap-4 md:flex-row">
       <WineFilter
         metaData={data?.metaData}
         isFetchingWine={isFetching || isLoading}
@@ -33,7 +33,7 @@ const InventoryPage = () => {
           top={true}
         />
 
-        <div className="flex flex-1 block-less-muted flex-col">
+        <div className="block-less-muted flex flex-1 flex-col">
           <AnimatePresence initial={false}>{content}</AnimatePresence>
         </div>
 

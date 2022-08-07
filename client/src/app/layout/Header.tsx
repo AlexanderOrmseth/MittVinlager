@@ -25,12 +25,12 @@ const Header = () => {
       ref={divRef}
       className={`grid ${
         user ? "md:grid-cols-[auto_auto_auto]" : "md-grid-cols-[auto_auto]"
-      }  grid-cols-[auto_auto] max-w-screen-xl mx-auto justify-between items-center`}
+      }  mx-auto max-w-screen-xl grid-cols-[auto_auto] items-center justify-between`}
     >
       <Link
         onClick={() => setOpen(false)}
         to="/"
-        className="text-xl font-medium flex flex-wrap flex-row gap-2 dark:text-gray-200 items-center"
+        className="flex flex-row flex-wrap items-center gap-2 text-xl font-medium dark:text-gray-200"
       >
         <Wine
           size="1.75rem"
@@ -41,8 +41,8 @@ const Header = () => {
       </Link>
 
       <nav
-        className={`flex md:flex-row flex-col md:col-auto md:row-start-auto row-start-2 col-span-2 md:space-x-4 md:mt-0 mt-2 space-y-2 ${
-          isOpen ? "md:block block" : "md:block hidden"
+        className={`col-span-2 row-start-2 mt-2 flex flex-col space-y-2 md:col-auto md:row-start-auto md:mt-0 md:flex-row md:space-x-4 ${
+          isOpen ? "block md:block" : "hidden md:block"
         }`}
       >
         {user ? (
@@ -56,7 +56,7 @@ const Header = () => {
           <GoogleButton />
         )}
       </nav>
-      <div className="flex flex-row gap-x-2 items-center">
+      <div className="flex flex-row items-center gap-x-2">
         {user && (
           <div>
             <DropDownMenu
@@ -97,7 +97,7 @@ const Header = () => {
         )}
         <button
           onClick={() => setOpen(!isOpen)}
-          className="p-2 md:hidden block"
+          className="block p-2 md:hidden"
         >
           {isOpen ? (
             <X size="2rem" weight="regular" />

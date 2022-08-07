@@ -30,7 +30,7 @@ const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
       onChange={onChange}
     >
       <Listbox.Label className="label">{label}</Listbox.Label>
-      <Listbox.Button className="relative text-left btn-white pr-10">
+      <Listbox.Button className="btn-white relative pr-10 text-left">
         <span className="block truncate">
           {items.find((i) => i.value === selected)?.displayText}
         </span>

@@ -11,8 +11,7 @@ interface Props {
 }
 
 const WishListPreview = ({ wine, setWine }: Props) => {
-  const [addWishlistItem, { isLoading, isSuccess, isError }] =
-    useAddWishlistItemMutation();
+  const [addWishlistItem, { isLoading }] = useAddWishlistItemMutation();
 
   if (!wine) return null;
 
@@ -39,16 +38,16 @@ const WishListPreview = ({ wine, setWine }: Props) => {
   };
 
   return (
-    <div className="p-4 bg-white block-muted text-center basis-96">
-      <h3 className="font-bold text-blue-wine-500 dark:text-blue-wine-25 mb-2">
+    <div className="block-muted basis-96 bg-white p-4 text-center">
+      <h3 className="text-blue-wine-500 dark:text-blue-wine-25 mb-2 font-bold">
         {wine.name}
       </h3>
       <img
-        className="object-scale-down mx-auto pointer-events-none select-none rounded w-36 h-36"
+        className="pointer-events-none mx-auto h-36 w-36 select-none rounded object-scale-down"
         src={vinmonopoletImage(wine.productId, 200)}
         alt={`Bilde av en vin: ${wine.name}`}
       />
-      <div className="grid text-muted my-3 grid-cols-2 gap-2">
+      <div className="text-muted my-3 grid grid-cols-2 gap-2">
         <p>{wine.type}</p>
         <p>{formatAlcoholContent(wine.alcoholContent)}</p>
         <p>{wine.country}</p>

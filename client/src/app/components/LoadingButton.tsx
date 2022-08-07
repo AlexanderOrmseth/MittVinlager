@@ -28,7 +28,7 @@ const LoadingButton = ({
       disabled={disabled || loading}
       className={`${
         isPrimary ? "btn-primary" : "btn-white"
-      } inline-flex items-center gap-2 h-10 disabled-btn ${
+      } disabled-btn inline-flex h-10 items-center gap-2 ${
         className ? className : ""
       }`}
     >

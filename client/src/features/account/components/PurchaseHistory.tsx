@@ -14,7 +14,7 @@ const PurchaseHistory = ({ lastPurchased }: Props) => {
     );
 
   return (
-    <ul className="p-4 mt-4 block-less-muted space-y-2 rounded-lg">
+    <ul className="block-less-muted mt-4 space-y-2 rounded-lg p-4">
       {lastPurchased.map((wine) => (
         <WineListItem
           key={wine.wineId}
@@ -22,7 +22,7 @@ const PurchaseHistory = ({ lastPurchased }: Props) => {
           name={wine.name}
           to={`/inventory/${wine.wineId}`}
         >
-          <div className="text-sm text-gray-800 space-x-1 dark:text-gray-200">
+          <div className="space-x-1 text-sm text-gray-800 dark:text-gray-200">
             <span className="font-medium">Dato kjøpt:</span>
             <Time date={wine.date} />
           </div>

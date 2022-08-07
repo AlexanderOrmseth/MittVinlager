@@ -137,7 +137,7 @@ const Vinmonopolet = ({
     <>
       <div className="mb-4">
         <a
-          className="inline-flex link flex-row gap-x-1.5 items-center text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 p-2 rounded"
+          className="link bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 inline-flex flex-row items-center gap-x-1.5 rounded p-2 text-sm"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
@@ -146,7 +146,7 @@ const Vinmonopolet = ({
           Gå til Vinmonopolet.no
         </a>
       </div>
-      <div className="p-4 space-y-6 block-less-muted rounded-lg">
+      <div className="block-less-muted space-y-6 rounded-lg p-4">
         <div>
           <label htmlFor="vinmonopoletProductId" className="label">
             ProduktId/Link
@@ -177,21 +177,21 @@ const Vinmonopolet = ({
               <RadioGroup.Option key={radio.value} value={radio.value}>
                 {({ checked }) => (
                   <div
-                    className={`p-3 btn-white rounded font-normal 
+                    className={`btn-white rounded p-3 font-normal 
                 ${
                   checked
-                    ? "bg-blue-wine-500 active:bg-blue-wine-500 dark:bg-blue-wine-500 dark:hover:bg-blue-wine-500 text-slate-50 border border-blue-wine-500 dark:border-blue-wine-200"
+                    ? "bg-blue-wine-500 active:bg-blue-wine-500 dark:bg-blue-wine-500 dark:hover:bg-blue-wine-500 border-blue-wine-500 dark:border-blue-wine-200 border text-slate-50"
                     : ""
-                } flex flex-row gap-x-2 items-center cursor-pointer select-none`}
+                } flex cursor-pointer select-none flex-row items-center gap-x-2`}
                   >
                     <div className="flex-1">
                       <p className="font-medium">{radio.title}</p>
-                      <p className="opacity-60 font-normal text-sm">
+                      <p className="text-sm font-normal opacity-60">
                         {radio.description}
                       </p>
                     </div>
                     {checked && (
-                      <div className="border-2 border-white rounded-full p-0.5">
+                      <div className="rounded-full border-2 border-white p-0.5">
                         <Check size="1.2rem" weight="bold" />
                       </div>
                     )}
@@ -207,7 +207,7 @@ const Vinmonopolet = ({
           disabled={inputValue.length < 1}
           loading={status.isLoading}
           onClick={handleFetchWine}
-          className="h-12 w-full rounded-full justify-center"
+          className="h-12 w-full justify-center rounded-full"
         >
           <DownloadSimple size="1.5rem" />
           Hent vin

@@ -94,8 +94,8 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
             {error && <ErrorBox message={error} />}
 
             {data && data.length > 0 ? (
-              <div className="my-4 p-2 rounded-lg block-muted">
-                <h3 className="mb-2 text-center border-b dark:border-gray-700 pb-2 font-medium text-sm">
+              <div className="block-muted my-4 rounded-lg p-2">
+                <h3 className="mb-2 border-b pb-2 text-center text-sm font-medium dark:border-gray-700">
                   Drukket
                 </h3>
                 <ul className="space-y-1">
@@ -115,7 +115,7 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
 
             {!quantity && <InfoBox message="Du har ikke vinen på lager." />}
 
-            <div className="p-4 mt-4 block-less-muted space-y-6 rounded-lg">
+            <div className="block-less-muted mt-4 space-y-6 rounded-lg p-4">
               <div>
                 <label className="label">Velg dato</label>
                 <DatePicker
@@ -126,13 +126,13 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
                   absolute={false}
                 />
               </div>
-              <div className="grid mt-4 grid-cols-1 gap-2">
+              <div className="mt-4 grid grid-cols-1 gap-2">
                 <LoadingButton
                   onClick={handleAddDate}
                   loading={isLoading || addDateStatus.isLoading}
                   disabled={!date || !quantity}
                   loadingText="Legger til dato..."
-                  className="justify-center h-12 rounded-full"
+                  className="h-12 justify-center rounded-full"
                 >
                   Legg til dato
                 </LoadingButton>

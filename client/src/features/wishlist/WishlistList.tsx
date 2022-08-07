@@ -21,7 +21,7 @@ const WishlistList = ({ items }: Props) => {
   };
 
   return (
-    <ul className="flex-1 p-4 block-less-muted rounded-lg space-y-2">
+    <ul className="block-less-muted flex-1 space-y-2 rounded-lg p-4">
       {items.map((wishItem) => (
         <WineListItem
           key={wishItem.id}
@@ -30,7 +30,7 @@ const WishlistList = ({ items }: Props) => {
           externalLink
           to={vinmonopoletLink(wishItem.productId)}
         >
-          <div className="flex-1 mb-2 text-sm flex items-center gap-2 comma">
+          <div className="comma mb-2 flex flex-1 items-center gap-2 text-sm">
             <p>{wishItem.type}</p>
             {wishItem.country && <p>{wishItem.country}</p>}
             {!!wishItem.price && <p>{formatPrice(wishItem.price)}</p>}
@@ -41,7 +41,7 @@ const WishlistList = ({ items }: Props) => {
           <button
             disabled={isLoading}
             onClick={() => handleDeleteWishItem(wishItem.id)}
-            className="btn-white flex flex-row items-center gap-x-2 py-1.5 w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-white flex w-auto flex-row items-center gap-x-2 py-1.5 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Trash
               size="1.5rem"

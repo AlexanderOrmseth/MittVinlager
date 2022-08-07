@@ -53,9 +53,9 @@ const FormImage = <T extends FieldValues>({
   }, [wine, productId, file, field.value]);
 
   return (
-    <div className="md:mb-0 shadow rounded select-none mb-4 p-2 bg-white">
+    <div className="mb-4 select-none rounded bg-white p-2 shadow md:mb-0">
       <img
-        className="mx-auto object-scale-down h-64 w-64"
+        className="mx-auto h-64 w-64 object-scale-down"
         src={imageSrc || placeholder}
         alt="Bilde av en vin."
       />
@@ -63,19 +63,19 @@ const FormImage = <T extends FieldValues>({
         <Controller
           {...rest}
           render={({ field: { value, onChange, ...rest } }) => (
-            <div className="flex flex-row gap-2 items-center mt-2">
+            <div className="mt-2 flex flex-row items-center gap-2">
               <Switch
                 {...rest}
                 checked={value}
                 onChange={onChange}
                 className={`${
                   value ? "bg-wine-500" : "bg-slate-200 hover:bg-slate-300"
-                } relative transition-colors duration-100 inline-flex h-6 w-11 items-center rounded-full`}
+                } relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-100`}
               >
                 <span
                   className={`${
                     value ? "translate-x-6" : "translate-x-1"
-                  } inline-block h-4 w-4 transition ease-in-out  rounded-full bg-white`}
+                  } inline-block h-4 w-4 rounded-full bg-white  transition ease-in-out`}
                 />
               </Switch>
               <span className="text-sm font-medium text-gray-700">

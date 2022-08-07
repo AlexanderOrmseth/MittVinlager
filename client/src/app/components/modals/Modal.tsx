@@ -45,7 +45,7 @@ const Modal = ({
               opacity: 0,
               transition: { duration: 0.15, ease: "easeIn" },
             }}
-            className="fixed inset-0 bg-black/30 dark:bg-black/60 backdrop-blur"
+            className="fixed inset-0 bg-black/30 backdrop-blur dark:bg-black/60"
             aria-hidden="true"
           />
 
@@ -73,17 +73,17 @@ const Modal = ({
                     duration: 0.15,
                   },
                 }}
-                className={`mx-auto overflow-hidden w-full align-middle ${
+                className={`mx-auto w-full overflow-hidden align-middle ${
                   xl ? "max-w-2xl" : "max-w-md"
-                }  rounded bg-white dark:bg-gray-900 dark:border dark:border-gray-700 shadow-lg dark:shadow-2xl p-4`}
+                }  rounded bg-white p-4 shadow-lg dark:border dark:border-gray-700 dark:bg-gray-900 dark:shadow-2xl`}
               >
                 <Dialog.Title
                   as="h3"
-                  className="text-lg font-medium leading-6 mb-2 text-gray-900 dark:text-gray-50"
+                  className="mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-gray-50"
                 >
                   {title}
                 </Dialog.Title>
-                <Dialog.Description className="text-sm mb-4 border-b pb-2 dark:border-gray-700 text-slate-600 dark:text-gray-300">
+                <Dialog.Description className="mb-4 border-b pb-2 text-sm text-slate-600 dark:border-gray-700 dark:text-gray-300">
                   {description}
                 </Dialog.Description>
                 <div tabIndex={0} ref={containerRef}>

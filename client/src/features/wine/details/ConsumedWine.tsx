@@ -9,12 +9,12 @@ interface Props {
 
 const ConsumedWine = ({ id, date, deleteDate }: Props) => {
   return (
-    <li className="flex even:bg-slate-50 dark:even:bg-gray-950/50 p-2 rounded flex-row gap-x-2 items-center">
-      <div className="flex-1 text-gray-900 dark:text-gray-200 font-medium">
+    <li className="dark:even:bg-gray-950/50 flex flex-row items-center gap-x-2 rounded p-2 even:bg-slate-50">
+      <div className="flex-1 font-medium text-gray-900 dark:text-gray-200">
         <Time date={date} />
       </div>
       <button
-        className="btn-white p-1 px-1.5 w-auto shadow-none"
+        className="btn-white w-auto p-1 px-1.5 shadow-none"
         onClick={() => deleteDate(id)}
       >
         <Trash className="text-wine-500 dark:text-wine-300" size="1.5rem" />

@@ -27,7 +27,7 @@ const DescriptionList = ({
       {titleElement ? (
         titleElement
       ) : (
-        <div className="font-medium rounded-t-lg text pl-4 text-lg border-b dark:border-gray-700  text-gray-900 dark:text-gray-200 py-2">
+        <div className="text rounded-t-lg border-b py-2 pl-4 text-lg font-medium  text-gray-900 dark:border-gray-700 dark:text-gray-200">
           {title}
         </div>
       )}

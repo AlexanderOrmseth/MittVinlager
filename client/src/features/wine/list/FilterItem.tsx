@@ -11,7 +11,7 @@ const FilterItem: FunctionComponent<Props> = ({ isChanged, children }) => {
     <div className="relative">
       {isChanged && (
         <NotePencil
-          className="absolute z-[1] -right-0 opacity-70 -top-2.5 text-yellow-700 dark:text-yellow-500"
+          className="absolute -right-0 -top-2.5 z-[1] text-yellow-700 opacity-70 dark:text-yellow-500"
           weight="duotone"
           size="1.1rem"
         />

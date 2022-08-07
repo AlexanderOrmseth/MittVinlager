@@ -41,10 +41,10 @@ const DetailsPage = () => {
             highlighted
           />
 
-          <div className="my-4 gap-y-4 flex sm:flex-row flex-col sm:items-center sm:justify-between">
+          <div className="my-4 flex flex-col gap-y-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-row gap-y-2">
               <Link
-                className="btn-white rounded-full rounded-r-none justify-center w-auto flex items-center gap-x-2"
+                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-full rounded-r-none"
                 to="update"
               >
                 <PencilLine
@@ -56,7 +56,7 @@ const DetailsPage = () => {
               </Link>
               <button
                 onClick={() => setIsConsumedModalOpen(true)}
-                className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
+                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-none border-l-0"
               >
                 <CalendarBlank
                   size="1.25rem"
@@ -67,7 +67,7 @@ const DetailsPage = () => {
               </button>
               {wine.productId && (
                 <a
-                  className="btn-white rounded-none border-l-0 w-auto justify-center flex items-center gap-x-2"
+                  className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-none border-l-0"
                   href={vinmonopoletLink(wine.productId)}
                   target="_blank"
                   rel="noreferrer"
@@ -82,7 +82,7 @@ const DetailsPage = () => {
               )}
               <button
                 onClick={() => setIsOpen(true)}
-                className="btn-white rounded-full border-l-0 rounded-l-none justify-center w-auto flex items-center gap-x-2"
+                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-full rounded-l-none border-l-0"
               >
                 <Trash
                   size="1.25rem"
@@ -93,7 +93,7 @@ const DetailsPage = () => {
               </button>
             </div>
 
-            <div className="text-sm text-muted">
+            <div className="text-muted text-sm">
               <p>
                 Dato opprettet: <Time date={wine.createdAt} />
               </p>
@@ -104,12 +104,12 @@ const DetailsPage = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-3 grid-cols-1 md:gap-x-4 md:gap-y-0 gap-y-4 ">
+          <div className="grid grid-cols-1 gap-y-4 md:grid-cols-3 md:gap-x-4 md:gap-y-0 ">
             <div className="col-span-2">
               <WineDetail wine={wine} />
             </div>
 
-            <div className="pl-0 relative md:row-start-auto row-start-1">
+            <div className="relative row-start-1 pl-0 md:row-start-auto">
               {!wine.userDetails.quantity && (
                 <InfoBox
                   className="mt-0"

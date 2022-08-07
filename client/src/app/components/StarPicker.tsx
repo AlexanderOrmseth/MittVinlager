@@ -37,24 +37,24 @@ const StarPicker = ({ value, onChange }: Props) => {
   };
 
   return (
-    <div className="flex flex-row gap-2 items-center">
+    <div className="flex flex-row items-center gap-2">
       <button
         type="button"
         onClick={handleDecrement}
-        className="btn-white rounded-full h-10 flex justify-center items-center w-10"
+        className="btn-white flex h-10 w-10 items-center justify-center rounded-full"
       >
         -
       </button>
-      <div className="self-stretch flex relative items-center">
+      <div className="relative flex items-center self-stretch">
         <Stars stars={value || 0} size="1.75rem" />
-        <span className="text-sm select-none -top-2.5 absolute w-full text-center text-gray-500">
+        <span className="absolute -top-2.5 w-full select-none text-center text-sm text-gray-500">
           {value && value / 2}
         </span>
       </div>
       <button
         type="button"
         onClick={handleIncrement}
-        className="btn-white rounded-full h-10 w-10 flex justify-center items-center"
+        className="btn-white flex h-10 w-10 items-center justify-center rounded-full"
       >
         +
       </button>

@@ -8,11 +8,11 @@ interface Props {
 
 const DescriptionItem = ({ dt, dd, children }: Props) => {
   return (
-    <div className="px-4 sm:dark:hover:bg-gray-950/40 lg:py-2.5 py-1.5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-      <dt className="text-sm flex items-center justify-start sm:justify-end font-medium text-slate-500 dark:text-gray-400">
+    <div className="sm:dark:hover:bg-gray-950/40 px-4 py-1.5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6 lg:py-2.5">
+      <dt className="flex items-center justify-start text-sm font-medium text-slate-500 dark:text-gray-400 sm:justify-end">
         {dt}
       </dt>
-      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-200 sm:mt-0 sm:col-span-3">
+      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-200 sm:col-span-3 sm:mt-0">
         {children ?? dd ?? ""}
       </dd>
     </div>

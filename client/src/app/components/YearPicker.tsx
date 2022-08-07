@@ -69,7 +69,7 @@ const YearPicker = ({
       />
       {isOpen && (
         <div className="dropdown z-10">
-          <div className="text-sm text-muted border-b border-slate-200 dark:border-gray-700 pb-0.5 px-4">
+          <div className="text-muted border-b border-slate-200 px-4 pb-0.5 text-sm dark:border-gray-700">
             Skriv inn ett år, eller velg år nedenfor.
           </div>
           {[...Array(length)].map((_, i) => {
@@ -77,10 +77,10 @@ const YearPicker = ({
             return (
               <div
                 onClick={() => handleYearTagClicked(num)}
-                className={`cursor-default rounded text-sm gap-2 select-none py-2 px-4   ${
+                className={`cursor-default select-none gap-2 rounded py-2 px-4 text-sm   ${
                   num === value
                     ? "bg-wine-500 dark:bg-wine-400 text-white"
-                    : "hover:bg-slate-200 hover:dark:bg-gray-700/40 hover:text-black hover:dark:text-gray-300"
+                    : "hover:bg-slate-200 hover:text-black hover:dark:bg-gray-700/40 hover:dark:text-gray-300"
                 }`}
                 key={i}
               >

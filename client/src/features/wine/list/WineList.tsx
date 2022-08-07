@@ -77,7 +77,7 @@ const WineList = ({ wine, metaData }: Props) => {
     );
   } else {
     content = (
-      <div className={`${gridView ? "grid lg:grid-cols-2 gap-2 p-4" : "p-2"}`}>
+      <div className={`${gridView ? "grid gap-2 p-4 lg:grid-cols-2" : "p-2"}`}>
         {wine.map((item) => {
           return gridView ? (
             <WineCard
