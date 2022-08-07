@@ -4,6 +4,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 #root {
   display: flex;
   min-height: 100vh;
@@ -12,7 +20,6 @@
 
 /* dark scrollbars if darkMode */
 .dark {
-  /* color-scheme: dark;*/
   color-scheme: dark;
 }
 

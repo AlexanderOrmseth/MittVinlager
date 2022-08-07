@@ -1,10 +1,10 @@
 import { Tab } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import FormCombobox from "../../../app/components/form/FormCombobox";
+import FormCountryPicker from "../../../app/components/form/FormCountryPicker";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
-import { FormModel, UserDetails, Wine } from "../../../app/models/wine";
+import { UserDetails, Wine } from "../../../app/models/wine";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
@@ -18,8 +18,8 @@ import {
   Warning,
 } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
-import { schema } from "./validationSchema";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { WineFormData, wineSchema } from "./validationSchema";
+
 import FormFilePicker from "../../../app/components/form/FormFilePicker";
 import FormStarRating from "../../../app/components/form/FormStarRating";
 import WineDetailsModal from "../../../app/components/modals/WineDetailsModal";
@@ -31,15 +31,16 @@ import FormDatePicker from "../../../app/components/form/FormDatePicker";
 import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonopoletApi";
 import { Link } from "react-router-dom";
 import FormTagInput from "../../../app/components/form/FormTagInput";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface Props {
-  onSubmit: (data: FormModel) => void;
+  onSubmit: (data: WineFormData) => void;
   serverErrors: Record<string, string[]> | null;
   setDeleteModalIsOpen?: (isOpen: boolean) => void;
   wine?: Wine;
 }
 
-type Keys = keyof FormModel | keyof UserDetails;
+type Keys = keyof WineFormData | keyof UserDetails;
 const tab1: Keys[] = [
   "name",
   "type",
@@ -123,17 +124,15 @@ const CreateOrUpdate = ({
     watch,
     getValues,
     setValue,
-    trigger,
     formState: { isSubmitting, errors, isValid },
-  } = useForm<FormModel>({
+  } = useForm<WineFormData>({
     mode: "all",
     defaultValues,
-    resolver: yupResolver(schema),
+    resolver: zodResolver(wineSchema),
   });
 
   // watch
   const watchFile = watch("file", null);
-  const watchDrinkingWindowMin = watch("userDetails.drinkingWindowMin");
 
   // Convert .Net Validation Errors to RHF
   useEffect(() => {
@@ -173,11 +172,6 @@ const CreateOrUpdate = ({
     reset(modifiedWine);
   }, [wine, reset]);
 
-  // effect watching on drinkingwindowMin
-  useEffect(() => {
-    trigger("userDetails.drinkingWindowMax");
-  }, [watchDrinkingWindowMin, trigger]);
-
   // Count errors in tabs
   const getErrorCount = (keyNames: Keys[], userDetails = false) => {
     const err = userDetails ? errors.userDetails : errors;
@@ -189,7 +183,7 @@ const CreateOrUpdate = ({
     return errorNum;
   };
 
-  const handlePreSubmit = async (d: FormModel) => {
+  const handlePreSubmit = async (d: WineFormData) => {
     // if countries failed to load -> submit without country id
     if (!countries) {
       await onSubmit(d);
@@ -329,12 +323,16 @@ const CreateOrUpdate = ({
                         control={control}
                         name="volume"
                         label="Volum"
+                        numeric
+                        maxLength={10}
                         definition="liter"
                         placeholder="volum"
                       />
                       <FormTextInput
                         control={control}
                         name="price"
+                        numeric
+                        maxLength={10}
                         label="Pris"
                         definition="kr"
                         placeholder="pris"
@@ -342,6 +340,8 @@ const CreateOrUpdate = ({
                       <FormTextInput
                         control={control}
                         name="alcoholContent"
+                        numeric
+                        maxLength={10}
                         label="Alkoholdinnhold"
                         definition="%"
                         placeholder="alkoholinnhold"
@@ -367,7 +367,7 @@ const CreateOrUpdate = ({
                       ) : (
                         <>
                           {countries ? (
-                            <FormCombobox
+                            <FormCountryPicker
                               name="country"
                               label="Land"
                               control={control}
@@ -502,6 +502,8 @@ const CreateOrUpdate = ({
                       control={control}
                       name="userDetails.quantity"
                       label="Antall"
+                      numeric
+                      maxLength={4}
                       placeholder="antall"
                     />
                     <FormTextInput
@@ -510,12 +512,13 @@ const CreateOrUpdate = ({
                       label="Kjøpested"
                       placeholder="kjøpested"
                     />
-
                   </div>
                   <div className="grid grid-cols-3 gap-4">
                     <FormTextInput
                       control={control}
                       name="userDetails.score"
+                      numeric
+                      maxLength={3}
                       label="Karakter (50-100)"
                       placeholder="karakter"
                     />

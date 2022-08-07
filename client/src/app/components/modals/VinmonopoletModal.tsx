@@ -4,17 +4,17 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import Vinmonopolet from "../Vinmonopolet";
-import { FormModel, WineBaseModel } from "../../models/wine";
 import Modal from "./Modal";
+import { WineFormData } from "../../../features/wine/form/validationSchema";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (val: boolean) => void;
-  setValues: UseFormReset<WineBaseModel> | ((values: WineBaseModel) => void);
+  setValues: UseFormReset<WineFormData> | ((values: WineFormData) => void);
   productId?: string | null;
   isWishlist?: boolean;
-  setValue?: UseFormSetValue<FormModel>;
-  getValues?: UseFormGetValues<FormModel>;
+  setValue?: UseFormSetValue<WineFormData>;
+  getValues?: UseFormGetValues<WineFormData>;
 }
 
 const VinmonopoletModal = ({

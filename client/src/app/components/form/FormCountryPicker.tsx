@@ -1,5 +1,5 @@
 import { Combobox } from "@headlessui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Controller,
   FieldValues,
@@ -16,7 +16,7 @@ interface Props<T> extends UseControllerProps<T> {
   required?: boolean;
 }
 
-const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
+const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState, field } = useController({
     ...props,
   });
@@ -24,11 +24,6 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
   const [term, setTerm] = useState("");
 
   if (!props.list) return null;
-
-  // prevent from submitting by pressing enter inside input
-  const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter") e.preventDefault();
-  };
 
   const filteredList =
     term === ""
@@ -65,7 +60,6 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
                 <Combobox.Input
                   name={field.name + "Term"}
                   autoComplete="off"
-                  onKeyDown={checkKeyDown}
                   placeholder="land"
                   className="text-input pl-12 flex-1"
                   onChange={(e) => setTerm(e.target.value)}
@@ -108,4 +102,4 @@ const FormCombobox = <T extends FieldValues>(props: Props<T>) => {
   );
 };
 
-export default FormCombobox;
+export default FormCountryPicker;

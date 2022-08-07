@@ -1,6 +1,6 @@
-import { FormModel } from "../../../app/models/wine";
+import { WineFormData } from "./validationSchema";
 
-export const defaultValues: FormModel = {
+export const defaultValues: WineFormData = {
   name: "",
   type: "",
   year: null,

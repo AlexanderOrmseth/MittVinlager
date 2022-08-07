@@ -33,10 +33,8 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
       className="relative h-full p-4 block group shadow hover:shadow-sm rounded bg-white hover:bg-slate-25 dark:bg-gray-925 dark:hover:bg-gray-925/70 focus-primary"
     >
       {wine.userDetails.quantity === 0 && (
-        <div
-          className="absolute pointer-events-none flex justify-center items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">
-          <div
-            className="backdrop-blur-sm transition-opacity group-hover:opacity-20 bg-wine-500/70 p-2 text-sm rounded text-white font-medium border-wine-400">
+        <div className="absolute pointer-events-none flex justify-center items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">
+          <div className="backdrop-blur-sm transition-opacity group-hover:opacity-20 bg-wine-500/70 p-2 text-sm rounded text-white font-medium border-wine-400">
             Ikke på lager
           </div>
         </div>

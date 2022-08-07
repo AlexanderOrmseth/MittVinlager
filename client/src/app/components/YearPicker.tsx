@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
 
 interface Props {
@@ -37,6 +37,7 @@ const YearPicker = ({
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = parseInt(e.target.value.replace(/\D/g, ""));
     val >= minValue && val <= maxValue ? onChange(val) : onChange(null);
+    onBlur ? onBlur() : null;
   };
 
   const handleYearTagClicked = (val: number) => {
@@ -58,7 +59,7 @@ const YearPicker = ({
         type="text"
         onKeyDown={(e) => handleKeyDown(e)}
         value={value || ""}
-        onChange={(e) => [handleOnChange(e), onBlur]}
+        onChange={(e) => handleOnChange(e)}
         onFocus={() => setOpen(true)}
         className={`text-input ${
           hasError

@@ -1,9 +1,10 @@
 import { PaginatedResponse } from "../models/pagination";
-import { FormModel, Wine } from "../models/wine";
+import { Wine } from "../models/wine";
 import { WineParams } from "../models/params";
 import { serialize } from "object-to-formdata";
 import { StatisticsResponse } from "../models/statistics";
 import { api } from "./api";
+import { WineFormData } from "../../features/wine/form/validationSchema";
 
 export interface WineFilterOptionsResponse {
   countries: string[];
@@ -69,7 +70,7 @@ export const wineApi = api.injectEndpoints({
     }),
     /* Add wine
      * */
-    addWine: builder.mutation<Wine, FormModel>({
+    addWine: builder.mutation<Wine, WineFormData>({
       query(data) {
         return {
           url: "/wine",
@@ -85,7 +86,7 @@ export const wineApi = api.injectEndpoints({
     }),
     /* Update wine
      * */
-    updateWine: builder.mutation<Wine, { id: number; data: FormModel }>({
+    updateWine: builder.mutation<Wine, { id: number; data: WineFormData }>({
       query({ id, data }) {
         return {
           url: `/wine/${id}`,
