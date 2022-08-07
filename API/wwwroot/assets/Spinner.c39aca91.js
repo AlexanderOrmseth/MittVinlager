@@ -1,1 +1,0 @@
-import{j as a,a as e,q as r}from"./index.57bc95c5.js";const i=({text:t})=>a("div",{className:"p-2",children:[e(r,{className:"mx-auto",height:"3rem",width:"3rem",stroke:"rgb(55 65 81)"}),e("p",{className:"text-center mt-2 font-bold text-gray-900 dark:text-gray-300",children:t})]});export{i as S};

@@ -11,12 +11,22 @@ import { setToken, setUser, signOut } from "./features/account/accountSlice";
 import PageLoad from "./app/layout/PageLoad";
 import Suspense from "./app/layout/Suspense";
 
-const InventoryPage = lazy(() => import("./features/wine/InventoryPage"));
-const DetailsPage = lazy(() => import("./features/wine/DetailsPage"));
-const ProfilePage = lazy(() => import("./features/account/ProfilePage"));
-const Wishlist = lazy(() => import("./features/wishlist/Wishlist"));
-const NewWinePage = lazy(() => import("./features/wine/NewWinePage"));
-const UpdateWinePage = lazy(() => import("./features/wine/UpdateWinePage"));
+const InventoryPage = lazy(
+  async () => await import("./features/wine/InventoryPage")
+);
+const DetailsPage = lazy(
+  async () => await import("./features/wine/DetailsPage")
+);
+const ProfilePage = lazy(
+  async () => await import("./features/account/ProfilePage")
+);
+const Wishlist = lazy(async () => await import("./features/wishlist/Wishlist"));
+const NewWinePage = lazy(
+  async () => await import("./features/wine/NewWinePage")
+);
+const UpdateWinePage = lazy(
+  async () => await import("./features/wine/UpdateWinePage")
+);
 
 function App() {
   const dispatch = useAppDispatch();

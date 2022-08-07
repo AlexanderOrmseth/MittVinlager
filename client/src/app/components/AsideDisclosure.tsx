@@ -1,10 +1,10 @@
+import React from "react";
 import { Disclosure, Transition } from "@headlessui/react";
 import { CaretUp } from "phosphor-react";
-import { ReactNode } from "react";
 
 interface Props {
   title: string;
-  children: ReactNode;
+  children: React.ReactNode;
   defaultOpen?: boolean;
 }
 
