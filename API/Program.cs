@@ -25,8 +25,10 @@ builder.Services.AddControllers()
     .AddMvcOptions(opt =>
     {
         // Delay filter for all endpoints
-        // Todo: ONLY FOR TESTING!
-        opt.Filters.Add(typeof(DelayFilter));
+        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            opt.Filters.Add(typeof(DelayFilter));
+        }
     })
     .AddNewtonsoftJson(options =>
     {
