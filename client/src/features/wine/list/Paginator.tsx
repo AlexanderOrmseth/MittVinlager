@@ -14,8 +14,11 @@ interface Props {
 const Paginator = ({ isLoading, top, metaData }: Props) => {
   const dispatch = useAppDispatch();
 
-  // hide bottom navigation if only one page
-  if (metaData && metaData.totalPages === 1 && !top) {
+  // hide bottomBar or both
+  if (
+    (metaData && metaData.totalPages === 1 && !top) ||
+    (metaData && !metaData.totalCount)
+  ) {
     return null;
   }
 

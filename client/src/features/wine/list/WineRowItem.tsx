@@ -1,5 +1,5 @@
 import { HeartStraight, Pen, Trash } from "phosphor-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
 import { formatPrice } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
@@ -13,8 +13,13 @@ interface Props {
 }
 
 const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="px-2 relative py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1">
+    <div
+      onDoubleClick={() => navigate(`${wine.wineId}`)}
+      className="px-2 relative py-2 group first:rounded-t dark:even:bg-gray-900 bg-white even:bg-white/20 last:rounded-b text-sm border-b dark:border-b-gray-950 items-center bg-white dark:bg-gray-925 flex gap-x-1"
+    >
       {wine.userDetails.quantity === 0 && (
         <div className="absolute pointer-events-none flex items-center w-full h-full z-[1] top-0 left-0 bg-wine-200/5 rounded">
           <div className="backdrop-blur-sm transition-opacity group-hover:opacity-20 leading-tight bg-wine-500/70 p-0.5 text-xs rounded text-white font-medium border-wine-400">

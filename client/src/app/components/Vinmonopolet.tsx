@@ -1,6 +1,6 @@
 import { RadioGroup } from "@headlessui/react";
 import { Check, DownloadSimple, Link as LinkIcon } from "phosphor-react";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   UseFormGetValues,
   UseFormReset,
@@ -102,6 +102,12 @@ const Vinmonopolet = ({
     }
   }, [data, handleSetValues, setIsOpen]);
 
+  const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.code === "Enter") {
+      handleFetchWine();
+    }
+  };
+
   const isValidProductId = (val?: string): boolean =>
     val ? /^\d+$/.test(val) : false;
 
@@ -131,7 +137,7 @@ const Vinmonopolet = ({
     <>
       <div className="mb-4">
         <a
-          className="inline-flex link flex-row gap-x-1.5 items-center px-2 text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-green-wine-25/10 py-2 rounded"
+          className="inline-flex link flex-row gap-x-1.5 items-center px-2 text-sm bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 py-2 rounded"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
@@ -139,11 +145,6 @@ const Vinmonopolet = ({
           <LinkIcon size="1.2rem" />
           Gå til Vinmonopolet.no
         </a>
-        <div className="flex flex-row gap-2 my-4 text-slate-600 font-mono">
-          <span>112301</span>
-          <span>89101</span>
-          <span>132801</span>
-        </div>
       </div>
       <div className="p-4 space-y-6 block-less-muted rounded-lg">
         <div>
@@ -159,9 +160,10 @@ const Vinmonopolet = ({
             value={inputValue}
             autoComplete="off"
             placeholder="produktId"
+            onKeyDown={handleKeyPressed}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          {error && <p className="text-wine-500 text-sm italic">{error}</p>}
+          {error && <em className="form-error">{error}</em>}
         </div>
 
         {!isWishlist && (

@@ -54,6 +54,10 @@ iframe {
     @apply block text-gray-900 dark:text-gray-200 text-sm font-medium mb-0.5;
   }
 
+  .form-error {
+    @apply text-wine-500 block dark:text-wine-300 text-sm italic;
+  }
+
   .nav-link {
     @apply select-none md:px-4 md:py-3 px-2 py-4 hover:text-wine-400 dark:hover:text-wine-300 rounded font-medium transition-colors
     md:text-left text-center md:bg-transparent dark:md:bg-transparent bg-slate-50 dark:bg-gray-800/50 dark:text-gray-200

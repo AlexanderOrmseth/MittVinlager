@@ -26,7 +26,11 @@ const RadioFilter: FunctionComponent<Props> = ({
     <div className="max-h-[400px] overflow-y-auto">
       <RadioGroup value={value} onChange={onChange}>
         {options.map((item) => (
-          <RadioGroup.Option key={item.value} value={item.value}>
+          <RadioGroup.Option
+            key={item.value}
+            disabled={disabled}
+            value={item.value}
+          >
             {({ checked }) => (
               <RadioOrCheckboxItem
                 type="radio"
