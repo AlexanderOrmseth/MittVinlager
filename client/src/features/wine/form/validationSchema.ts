@@ -55,7 +55,6 @@ export const wineSchema = z.object({
       invalid_type_error: "Pris er ugyldig.",
     })
     .int("Pris må være et heltall.")
-    .positive("Pris kan ikke være et negativt tall.")
     .max(1000000, "Pris kan max være 1 000 000 kr.")
     .min(0)
     .nullable()
