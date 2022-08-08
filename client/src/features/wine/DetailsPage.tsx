@@ -44,7 +44,7 @@ const DetailsPage = () => {
           <div className="my-4 flex flex-col gap-y-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-row gap-y-2">
               <Link
-                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-full rounded-r-none"
+                className="btn-white flex w-auto items-center justify-center xs:gap-x-2 gap-x-0.5 xs:px-4 px-2.5 rounded-full rounded-r-none"
                 to="update"
               >
                 <PencilLine
@@ -56,7 +56,7 @@ const DetailsPage = () => {
               </Link>
               <button
                 onClick={() => setIsConsumedModalOpen(true)}
-                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-none border-l-0"
+                className="btn-white flex w-auto items-center justify-center xs:gap-x-2 gap-x-0.5 xs:px-4 px-2.5 rounded-none border-l-0"
               >
                 <CalendarBlank
                   size="1.25rem"
@@ -67,7 +67,7 @@ const DetailsPage = () => {
               </button>
               {wine.productId && (
                 <a
-                  className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-none border-l-0"
+                  className="btn-white flex w-auto items-center justify-center xs:gap-x-2 gap-x-0.5 xs:px-4 px-2.5 rounded-none border-l-0"
                   href={vinmonopoletLink(wine.productId)}
                   target="_blank"
                   rel="noreferrer"
@@ -82,7 +82,7 @@ const DetailsPage = () => {
               )}
               <button
                 onClick={() => setIsOpen(true)}
-                className="btn-white flex w-auto items-center justify-center gap-x-2 rounded-full rounded-l-none border-l-0"
+                className="btn-white flex w-auto items-center justify-center xs:gap-x-2 gap-x-0.5 xs:px-4 px-2.5 rounded-full rounded-l-none border-l-0"
               >
                 <Trash
                   size="1.25rem"
