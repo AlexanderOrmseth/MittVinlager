@@ -24,7 +24,7 @@ interface Props {
 }
 
 const WineList = ({ wine, metaData }: Props) => {
-  const { gridView } = useAppSelector((state) => state.wine);
+  const { gridView, hideFilter } = useAppSelector((state) => state.wine);
 
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +77,15 @@ const WineList = ({ wine, metaData }: Props) => {
     );
   } else {
     content = (
-      <div className={`${gridView ? "grid gap-2 p-4 lg:grid-cols-2" : "p-2"}`}>
+      <div
+        className={`${
+          gridView
+            ? hideFilter
+              ? "grid gap-2 p-4 md:grid-cols-2 lg:grid-cols-3"
+              : "grid gap-2 p-4 lg:grid-cols-2"
+            : "p-2"
+        }`}
+      >
         {wine.map((item) => {
           return gridView ? (
             <WineCard

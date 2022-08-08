@@ -5,6 +5,7 @@ import { RootState } from "../../app/store/configureStore";
 // wine state
 interface WineState {
   gridView: boolean;
+  hideFilter: boolean;
   orderByDescending: boolean;
   wineParams: WineParams;
 }
@@ -24,6 +25,7 @@ export const initialParams: WineParams = {
 // initial state
 const initialState: WineState = {
   gridView: true,
+  hideFilter: false,
   orderByDescending: false,
   wineParams: initialParams,
 };
@@ -62,6 +64,9 @@ export const wineSlice = createSlice({
         pageNumber: 1,
       };
     },
+    setHideFilter: (state, action: PayloadAction<boolean>) => {
+      state.hideFilter = action.payload;
+    },
     setGridView: (state, action: PayloadAction<boolean>) => {
       state.gridView = action.payload;
     },
@@ -83,5 +88,6 @@ export const {
   setParams,
   resetParams,
   resetAll,
+  setHideFilter,
   setGridView,
 } = wineSlice.actions;
