@@ -49,7 +49,9 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
         )}
         <input
           className="text-input h-10 px-8"
-          type="text"
+          type="search"
+          inputMode="search"
+          autoComplete="off"
           placeholder="søk"
           value={searchTerm}
           onChange={(e) => handleOnChange(e.target.value)}

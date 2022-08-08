@@ -63,6 +63,7 @@ const TextInput: FunctionComponent<Props> = ({
       autoFocus={focus}
       value={value ?? ""}
       placeholder={placeholder}
+      inputMode={numeric ? "numeric" : "text"}
       type={numeric ? "number" : "text"}
     />
   );
