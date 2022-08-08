@@ -90,152 +90,142 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
     filterStatus.isLoading || !metaData?.totalCount || isFetchingWine;
 
   return (
-    <aside className="relative">
+    <>
       <button
         onClick={() => dispatch(setHideFilter(!hideFilter))}
-        className="btn-white i-flex-row justify-center text-lg transition md:py-2.5 md:text-2xl"
+        className="btn-white i-flex-row justify-center md:hidden"
       >
-        <Funnel size="1em" className="text-muted" />
-        {/*{hideFilter && !isSmall
-          ? ""
-          : hideFilter
-          ? "Vis filter"
-          : "Skjul filter"}*/}
-        <span className="text-muted block text-sm md:hidden">
-          {hideFilter ? "Vis filter" : "Skjul filter"}
-        </span>
+        <Funnel size="1.5rem" />
+        {hideFilter ? "Vis filter" : "Skjul filter"}
       </button>
 
-      <motion.div
+      <motion.aside
         animate={{
           width: !isSmall ? (hideFilter ? "0px" : "280px") : "100%",
           height: hideFilter ? "0px" : "auto",
           opacity: hideFilter ? 0 : 1,
-          padding: hideFilter ? 0 : "1rem",
-          marginTop: hideFilter ? 0 : "1rem",
-          borderWidth: hideFilter ? "0px" : "1px",
-          pointerEvents: hideFilter ? "none" : "initial",
+          display: hideFilter ? "none" : "block",
           transition: {
             duration: 0.22,
             type: "linear",
           },
         }}
-        initial={false}
-        className="block-muted space-y-6 sm:overflow-y-auto md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px]"
       >
-        <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
-        <button
-          disabled={disabled}
-          className="btn-white disabled-btn i-flex-row justify-center"
-          onClick={() => dispatch(resetParams())}
-        >
-          <ArrowCounterClockwise size="1.25rem" />
-          Tilbakestill
-        </button>
-
-        <WineSearch disabled={disabled} />
-
-        <FilterItem isChanged={params.countries.length > 0}>
-          <AsideDisclosure title={`Land ${selectedCount(params.countries)}`}>
-            <WineCheckboxFilter
-              disabled={disabled}
-              onChange={(items: string[]) =>
-                dispatch(setParams({ countries: items }))
-              }
-              options={filters?.countries}
-              checkedOptions={params.countries}
-            />
-          </AsideDisclosure>
-        </FilterItem>
-
-        <FilterItem isChanged={params.storageOption.length > 0}>
-          <AsideDisclosure
-            defaultOpen={params.storageOption.length > 0}
-            title="Vinsamling"
+        <div className="block-muted space-y-6 p-4 sm:overflow-y-auto md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px]">
+          <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
+          <button
+            disabled={disabled}
+            className="btn-white disabled-btn i-flex-row justify-center"
+            onClick={() => dispatch(resetParams())}
           >
-            <RadioFilter
-              value={params.storageOption}
-              options={[
-                { displayText: "Alle", value: "" },
-                {
-                  displayText: "På lager",
-                  value: "1",
-                },
-                { displayText: "Ikke på lager", value: "2" },
-              ]}
-              onChange={(val) => dispatch(setParams({ storageOption: val }))}
-              disabled={disabled}
-            />
-          </AsideDisclosure>
-        </FilterItem>
+            <ArrowCounterClockwise size="1.25rem" />
+            Tilbakestill
+          </button>
 
-        <FilterItem isChanged={params.types.length > 0}>
-          <AsideDisclosure title={`Typer ${selectedCount(params.types)}`}>
-            <WineCheckboxFilter
-              disabled={disabled}
-              onChange={(items: string[]) =>
-                dispatch(setParams({ types: items }))
-              }
-              options={filters?.types}
-              checkedOptions={params.types}
-            />
-          </AsideDisclosure>
-        </FilterItem>
+          <WineSearch disabled={disabled} />
 
-        <FilterItem isChanged={params.recommendedFood.length > 0}>
-          <AsideDisclosure
-            defaultOpen={params.recommendedFood.length > 0}
-            title={`Passer til ${selectedCount(params.recommendedFood)}`}
-          >
-            <WineCheckboxFilter
-              disabled={disabled}
-              onChange={(items: string[]) =>
-                dispatch(setParams({ recommendedFood: items }))
-              }
-              options={filters?.recommendedFood}
-              checkedOptions={params.recommendedFood}
-            />
-          </AsideDisclosure>
-        </FilterItem>
-
-        {filters?.grapes && (
-          <FilterItem isChanged={params.grapes.length > 0}>
-            <ListBox
-              items={[{ displayText: "Alle", value: "" }].concat(
-                filters.grapes.map((grape) => {
-                  return { displayText: grape, value: grape };
-                })
-              )}
-              selected={params.grapes}
-              onChange={(val) => dispatch(setParams({ grapes: val }))}
-              label="Råvarer"
-              disabled={disabled}
-            />
+          <FilterItem isChanged={params.countries.length > 0}>
+            <AsideDisclosure title={`Land ${selectedCount(params.countries)}`}>
+              <WineCheckboxFilter
+                disabled={disabled}
+                onChange={(items: string[]) =>
+                  dispatch(setParams({ countries: items }))
+                }
+                options={filters?.countries}
+                checkedOptions={params.countries}
+              />
+            </AsideDisclosure>
           </FilterItem>
-        )}
 
-        <FilterItem isChanged={params.favoriteOption.length > 0}>
-          <AsideDisclosure
-            defaultOpen={params.favoriteOption.length > 0}
-            title="Favoritt"
-          >
-            <RadioFilter
-              value={params.favoriteOption}
-              options={[
-                { displayText: "Alle", value: "" },
-                {
-                  displayText: "Kun favoritter",
-                  value: "1",
-                },
-                { displayText: "Ikke favoritt", value: "2" },
-              ]}
-              onChange={(val) => dispatch(setParams({ favoriteOption: val }))}
-              disabled={disabled}
-            />
-          </AsideDisclosure>
-        </FilterItem>
-      </motion.div>
-    </aside>
+          <FilterItem isChanged={params.storageOption.length > 0}>
+            <AsideDisclosure
+              defaultOpen={params.storageOption.length > 0}
+              title="Vinsamling"
+            >
+              <RadioFilter
+                value={params.storageOption}
+                options={[
+                  { displayText: "Alle", value: "" },
+                  {
+                    displayText: "På lager",
+                    value: "1",
+                  },
+                  { displayText: "Ikke på lager", value: "2" },
+                ]}
+                onChange={(val) => dispatch(setParams({ storageOption: val }))}
+                disabled={disabled}
+              />
+            </AsideDisclosure>
+          </FilterItem>
+
+          <FilterItem isChanged={params.types.length > 0}>
+            <AsideDisclosure title={`Typer ${selectedCount(params.types)}`}>
+              <WineCheckboxFilter
+                disabled={disabled}
+                onChange={(items: string[]) =>
+                  dispatch(setParams({ types: items }))
+                }
+                options={filters?.types}
+                checkedOptions={params.types}
+              />
+            </AsideDisclosure>
+          </FilterItem>
+
+          <FilterItem isChanged={params.recommendedFood.length > 0}>
+            <AsideDisclosure
+              defaultOpen={params.recommendedFood.length > 0}
+              title={`Passer til ${selectedCount(params.recommendedFood)}`}
+            >
+              <WineCheckboxFilter
+                disabled={disabled}
+                onChange={(items: string[]) =>
+                  dispatch(setParams({ recommendedFood: items }))
+                }
+                options={filters?.recommendedFood}
+                checkedOptions={params.recommendedFood}
+              />
+            </AsideDisclosure>
+          </FilterItem>
+
+          {filters?.grapes && (
+            <FilterItem isChanged={params.grapes.length > 0}>
+              <ListBox
+                items={[{ displayText: "Alle", value: "" }].concat(
+                  filters.grapes.map((grape) => {
+                    return { displayText: grape, value: grape };
+                  })
+                )}
+                selected={params.grapes}
+                onChange={(val) => dispatch(setParams({ grapes: val }))}
+                label="Råvarer"
+                disabled={disabled}
+              />
+            </FilterItem>
+          )}
+
+          <FilterItem isChanged={params.favoriteOption.length > 0}>
+            <AsideDisclosure
+              defaultOpen={params.favoriteOption.length > 0}
+              title="Favoritt"
+            >
+              <RadioFilter
+                value={params.favoriteOption}
+                options={[
+                  { displayText: "Alle", value: "" },
+                  {
+                    displayText: "Kun favoritter",
+                    value: "1",
+                  },
+                  { displayText: "Ikke favoritt", value: "2" },
+                ]}
+                onChange={(val) => dispatch(setParams({ favoriteOption: val }))}
+                disabled={disabled}
+              />
+            </AsideDisclosure>
+          </FilterItem>
+        </div>
+      </motion.aside>
+    </>
   );
 };
 
