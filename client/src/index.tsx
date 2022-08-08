@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/store/configureStore";
 import { BrowserRouter } from "react-router-dom";
 import ToastManager from "./app/layout/ToastManager";
+import ScrollToTop from "./app/layout/ScrollToTop";
+
 import App from "./App";
 import "./index.css";
 
@@ -15,7 +17,9 @@ root.render(
     <Provider store={store}>
       <ToastManager />
       <BrowserRouter>
-        <App />
+        <ScrollToTop>
+          <App />
+        </ScrollToTop>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
