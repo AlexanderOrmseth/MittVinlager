@@ -30,14 +30,14 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
             <Listbox.Label className="label">{props.label}</Listbox.Label>
             <Listbox.Button
               className={({ open }) =>
-                `btn-white rounded-full min-w-min flex flex-row gap-3 items-center h-12 ${
+                `btn-white rounded-full min-w-min flex flex-row gap-3 items-center h-10 sm:h-12 ${
                   open
                     ? "bg-white ring-4 ring-wine-300 border-white ring-opacity-50"
                     : ""
                 }`
               }
             >
-              <TastePie percent={list[field.value].percent} size={"1.75rem"} />
+              <TastePie percent={list[field.value].percent} size="1.6rem" />
               <div className={`${field.value === 0 ? "text-slate-500" : ""}`}>
                 {text[props.type][field.value]}
               </div>

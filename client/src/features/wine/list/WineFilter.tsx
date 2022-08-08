@@ -89,7 +89,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
         <FilterItem isChanged={params.storageOption.length > 0}>
           <AsideDisclosure
             defaultOpen={params.storageOption.length > 0}
-            title="Lagerstatus"
+            title="Vinsamling"
           >
             <RadioFilter
               value={params.storageOption}

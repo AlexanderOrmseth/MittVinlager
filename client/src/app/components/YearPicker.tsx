@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useOnClickOutside";
+import { Popover } from "@headlessui/react";
+import DropDownTransition from "./DropDownTransition";
 
 interface Props {
   value: number | null;
@@ -51,16 +53,20 @@ const YearPicker = ({
   };
 
   return (
-    <div ref={divRef} className="relative">
+    <Popover
+      as="div"
+      ref={divRef}
+      className={`${isOpen ? "relative z-10" : "relative"}`}
+    >
       <input
         placeholder={placeholder}
         autoComplete="off"
         name={name}
         type="number"
         inputMode="numeric"
-        onKeyDown={(e) => handleKeyDown(e)}
         value={value || ""}
         onChange={(e) => handleOnChange(e)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
         onFocus={() => setOpen(true)}
         className={`text-input ${
           hasError
@@ -68,30 +74,32 @@ const YearPicker = ({
             : ""
         }`}
       />
-      {isOpen && (
-        <div className="dropdown z-10">
-          <div className="text-muted border-b border-slate-200 px-4 pb-0.5 text-sm dark:border-gray-700">
-            Skriv inn ett år, eller velg år nedenfor.
+      <DropDownTransition isOpen={isOpen}>
+        <Popover.Panel static>
+          <div className="dropdown">
+            <div className="text-muted border-b border-slate-200 px-4 pb-0.5 text-sm dark:border-gray-700">
+              Skriv inn ett år, eller velg år nedenfor.
+            </div>
+            {[...Array(length)].map((_, i) => {
+              const num = dropDownMinValue + i;
+              return (
+                <div
+                  onClick={() => handleYearTagClicked(num)}
+                  className={`cursor-default select-none gap-2 rounded py-2 px-4 text-sm focus:blur   ${
+                    num === value
+                      ? "bg-wine-500 dark:bg-wine-400 text-white"
+                      : "hover:bg-slate-200 hover:text-black hover:dark:bg-gray-700/40 hover:dark:text-gray-300"
+                  }`}
+                  key={i}
+                >
+                  {num}
+                </div>
+              );
+            })}
           </div>
-          {[...Array(length)].map((_, i) => {
-            const num = dropDownMinValue + i;
-            return (
-              <div
-                onClick={() => handleYearTagClicked(num)}
-                className={`cursor-default select-none gap-2 rounded py-2 px-4 text-sm   ${
-                  num === value
-                    ? "bg-wine-500 dark:bg-wine-400 text-white"
-                    : "hover:bg-slate-200 hover:text-black hover:dark:bg-gray-700/40 hover:dark:text-gray-300"
-                }`}
-                key={i}
-              >
-                {num}
-              </div>
-            );
-          })}
-        </div>
-      )}
-    </div>
+        </Popover.Panel>
+      </DropDownTransition>
+    </Popover>
   );
 };
 

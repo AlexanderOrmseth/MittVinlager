@@ -44,7 +44,7 @@ const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
         {...props}
         render={({ field }) => (
           <Combobox nullable {...field}>
-            <div className="relative z-10">
+            <div className="relative">
               <Combobox.Label className="label">
                 {props.label}
                 {props.required && (

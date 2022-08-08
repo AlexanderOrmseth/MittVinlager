@@ -28,7 +28,7 @@ const ViewModeToggle = ({ disabled }: Props) => {
       </div>
 
       <small className="text-less-muted min-w-[40px] text-left">
-        {gridView ? "Grid" : "Table"}
+        {gridView ? "Rutenett" : "Liste"}
       </small>
     </Switch>
   );

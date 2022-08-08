@@ -3,12 +3,14 @@ import { Transition } from "@headlessui/react";
 
 interface Props {
   children: ReactNode;
+  isOpen?: boolean;
 }
 
-const DropDownTransition: FunctionComponent<Props> = ({ children }) => {
+const DropDownTransition: FunctionComponent<Props> = ({ children, isOpen }) => {
   return (
     <Transition
       as={Fragment}
+      show={isOpen !== undefined ? isOpen : undefined}
       enter="transition duration-300 ease-out"
       enterFrom="transform scale-95 opacity-0"
       enterTo="transform scale-100 opacity-100"
