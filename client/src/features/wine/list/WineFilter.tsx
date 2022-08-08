@@ -114,6 +114,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
           padding: hideFilter ? 0 : "1rem",
           marginTop: hideFilter ? 0 : "1rem",
           borderWidth: hideFilter ? "0px" : "1px",
+          pointerEvents: hideFilter ? "none" : "initial",
           transition: {
             duration: 0.22,
             type: "linear",
