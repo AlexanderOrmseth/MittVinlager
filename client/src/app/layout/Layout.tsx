@@ -11,9 +11,9 @@ const Layout = () => {
       <main className="mx-auto flex w-full min-w-[320px] max-w-screen-xl grow flex-col px-4 pt-4 pb-12 xl:px-0">
         <Outlet />
       </main>
-      <footer className="relative mx-auto w-full min-w-[320px] max-w-screen-xl border-t md:py-8 py-12 px-4 dark:border-gray-700 xl:px-0">
+      <footer className="relative mx-auto w-full min-w-[320px] max-w-screen-xl border-t py-12 px-4 dark:border-gray-700 md:py-8 xl:px-0">
         <div className="flex flex-col items-center justify-around gap-x-4 gap-y-6 md:flex-row">
-          <div className="flex flex-wrap gap-4 xts:text-sm text-xs">
+          <div className="xts:text-sm flex flex-wrap gap-4 text-xs">
             <a
               href="https://github.com/AlexanderOrmseth/MittVinlager"
               target="_blank"

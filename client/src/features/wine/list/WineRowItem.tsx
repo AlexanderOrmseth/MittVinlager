@@ -20,13 +20,6 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
       onDoubleClick={() => navigate(`${wine.wineId}`)}
       className="group border-b-none dark:border-gray-950 dark:bg-gray-925/80 relative flex items-center gap-x-1 border-x border-t bg-white p-2 text-sm first:rounded-t last:rounded-b last:border-b even:bg-white/20 dark:even:bg-gray-900"
     >
-      {wine.userDetails.quantity === 0 && (
-        <div className="bg-wine-200/5 pointer-events-none absolute top-0 left-0 z-[1] flex h-full w-full items-center rounded">
-          <div className="bg-wine-500/70 border-wine-400 rounded p-0.5 text-xs font-medium leading-tight text-white backdrop-blur-sm transition-opacity group-hover:opacity-20">
-            Ikke på lager
-          </div>
-        </div>
-      )}
       <img
         className="pointer-events-none h-20 w-12 select-none rounded object-scale-down"
         src={wine.pictureUrl || placeholder}
@@ -38,9 +31,9 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
             {wine.name}
           </Link>
         </div>
-        <div className="comma my-1 flex flex-row flex-wrap items-center text-gray-500 dark:text-gray-300">
+        <div className="comma my-1 flex flex-row flex-wrap items-center gap-y-1 text-gray-500 dark:text-gray-300">
           {wine.country && (
-            <div className="flex items-center">
+            <div className="flex flex-row items-center">
               <span
                 className={`f16 flag mr-1 ${wine.countryId && wine.countryId}`}
               />
@@ -53,7 +46,15 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
 
           <div>{formatPrice(wine.price)}</div>
           <Time date={wine.createdAt} />
-          <div>antall: {wine.userDetails.quantity}</div>
+          <div
+            className={`${
+              wine.userDetails.quantity === 0
+                ? "border-wine-500 dark:border-wine-400 dark:text-wine-300 text-wine-400 border-b-2"
+                : ""
+            }`}
+          >
+            antall: {wine.userDetails.quantity}
+          </div>
         </div>
         <div className="flex flex-row flex-wrap items-center gap-x-3 gap-y-1">
           {wine.userDetails.score && (

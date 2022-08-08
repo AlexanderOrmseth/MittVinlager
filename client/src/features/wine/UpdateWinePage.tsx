@@ -30,6 +30,8 @@ const UpdateWinePage = () => {
     return <ErrorBox message={`Kunne ikke finne vinen med id: ${id}`} />;
   }
 
+  console.log(wine);
+
   const onSubmit = async (data: WineFormData) => {
     // debug
     console.log(data);

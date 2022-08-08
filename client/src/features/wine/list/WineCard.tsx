@@ -32,13 +32,6 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
       to={`${wine.wineId}`}
       className="group hover:bg-slate-25 dark:bg-gray-925 dark:hover:bg-gray-925/70 focus-primary relative block rounded border bg-white p-4 hover:border-gray-300 dark:border-gray-800"
     >
-      {wine.userDetails.quantity === 0 && (
-        <div className="bg-wine-200/5 pointer-events-none absolute top-0 left-0 z-[1] flex h-full w-full items-center justify-center rounded">
-          <div className="bg-wine-500/70 border-wine-400 rounded p-2 text-sm font-medium text-white backdrop-blur-sm transition-opacity group-hover:opacity-20">
-            Ikke på lager
-          </div>
-        </div>
-      )}
       <div
         className="absolute top-0 right-0"
         onClick={(e) => {
@@ -131,7 +124,13 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           </div>
         </div>
         <div className="text-less-muted flex flex-row flex-wrap items-center justify-around gap-x-4 gap-y-2 text-sm">
-          <div className={`i-flex-row`}>
+          <div
+            className={`i-flex-row ${
+              wine.userDetails.quantity === 0
+                ? "border-wine-500 dark:border-wine-400 dark:text-wine-300 text-wine-400 border-b-2 pb-0.5"
+                : ""
+            }`}
+          >
             <BeerBottle size="1.25rem" weight="duotone" />
             {wine.userDetails.quantity}
           </div>
