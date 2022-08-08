@@ -11,16 +11,16 @@ const Layout = () => {
       <main className="mx-auto flex w-full min-w-[320px] max-w-screen-xl grow flex-col px-4 pt-4 pb-12 xl:px-0">
         <Outlet />
       </main>
-      <footer className="relative mx-auto w-full min-w-[320px] max-w-screen-xl border-t py-8 px-4 dark:border-gray-700 xl:px-0">
-        <div className="flex  flex-col items-center justify-around gap-4 md:flex-row">
-          <div className="flex flex-wrap gap-4 text-sm">
+      <footer className="relative mx-auto w-full min-w-[320px] max-w-screen-xl border-t md:py-8 py-12 px-4 dark:border-gray-700 xl:px-0">
+        <div className="flex flex-col items-center justify-around gap-x-4 gap-y-6 md:flex-row">
+          <div className="flex flex-wrap gap-4 xts:text-sm text-xs">
             <a
               href="https://github.com/AlexanderOrmseth/MittVinlager"
               target="_blank"
               className="flex items-center gap-x-1 rounded border-white bg-gray-900 px-2 py-1 text-white hover:bg-black dark:bg-black/60 dark:hover:bg-black"
               rel="noreferrer"
             >
-              <GithubLogo size="1.5rem" />
+              <GithubLogo size="1.5em" />
               GitHub
             </a>
             <a
@@ -29,7 +29,7 @@ const Layout = () => {
               className="flex items-center gap-x-1 rounded border-white bg-[#0a66c2] px-2 py-1  text-white hover:bg-[#004182]"
               rel="noreferrer"
             >
-              <LinkedinLogo size="1.5rem" />
+              <LinkedinLogo size="1.5em" />
               LinkedIn
             </a>
           </div>
