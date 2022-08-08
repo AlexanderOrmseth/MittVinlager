@@ -60,6 +60,7 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
             <label className="label">Bekreft sletting</label>
             <input
               placeholder="SLETTMEG"
+              autoComplete="off"
               value={value}
               onChange={(e) => setValue(e.target.value)}
               className="text-input h-12"

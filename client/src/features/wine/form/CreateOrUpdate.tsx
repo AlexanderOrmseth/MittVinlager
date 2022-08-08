@@ -128,6 +128,7 @@ const CreateOrUpdate = ({
   } = useForm<WineFormData>({
     mode: "all",
     defaultValues,
+    shouldUseNativeValidation: false,
     resolver: zodResolver(wineSchema),
   });
 
