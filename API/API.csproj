@@ -45,6 +45,35 @@
       <_ContentIncludedByDefault Remove="wwwroot\assets\VinmonopoletModal.f09d8c3a.js" />
       <_ContentIncludedByDefault Remove="wwwroot\assets\WineListItem.b1e88b3b.js" />
       <_ContentIncludedByDefault Remove="wwwroot\assets\Wishlist.75c008b0.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\AsideDisclosure.848ec393.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\CreateOrUpdate.82aca35a.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\DatePicker.e9e054d7.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\DeleteWineModal.3d1ce73b.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\DetailsPage.03d26e03.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\DetailsPage.a4c8f965.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\ErrorBox.ddd3ffdb.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\index.75e21c9a.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\index.e873a030.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\index.f8ab7f74.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Info.esm.2d4cec7c.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\InfoBox.533521b5.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\InventoryPage.732b1580.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Link.esm.de9f2902.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\NewWinePage.56314adb.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\ProfilePage.9e6ca098.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\radio-group.bf20d0f1.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Score.effa2686.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Spinner.cb775ba3.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\switch.d0ec476f.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Time.29835643.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Title.f89e8794.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Trash.esm.1e0ce8f0.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\UpdateWinePage.3af4c4e3.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\useFetchSingleWine.11d6762e.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vinmonopolet.5227f0b5.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\VinmonopoletModal.27609bae.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\WineListItem.ef44fc9f.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\Wishlist.2ac2fe25.js" />
     </ItemGroup>
 
 </Project>
