@@ -56,7 +56,8 @@ const YearPicker = ({
         placeholder={placeholder}
         autoComplete="off"
         name={name}
-        type="text"
+        type="number"
+        inputMode="numeric"
         onKeyDown={(e) => handleKeyDown(e)}
         value={value || ""}
         onChange={(e) => handleOnChange(e)}
