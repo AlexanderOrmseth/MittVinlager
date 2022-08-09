@@ -148,9 +148,14 @@ public class VinmonopoletController : BaseApiController
         return x;
     }
 
-    private static List<string>? RecommendedFoodToString(IEnumerable<RecommendedFood>? food)
+    private static List<string>? RecommendedFoodToString(List<RecommendedFood>? food)
     {
-        return food?.Where(x => !string.IsNullOrEmpty(x.FoodDesc))
+        if (food is null || !food.Any())
+        {
+            return null;
+        }
+
+        return food.Where(x => !string.IsNullOrEmpty(x.FoodDesc))
             .Select(x => x.FoodDesc)
             .ToList();
     }

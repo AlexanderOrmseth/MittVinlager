@@ -48,11 +48,11 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
 
         // Tag Validation
         RuleFor(x => x.Grapes)
-            .Must(x => x != null && x.Count() <= 12).WithMessage("'Råvarer' kan max ha 12 verdier i listen.")
+            .Must(x => x is {Count: <= 12}).WithMessage("'Råvarer' kan max ha 12 verdier i listen.")
             .Unless(x => x.Grapes.IsNull());
 
         RuleFor(x => x.RecommendedFood)
-            .Must(x => x != null && x.Count() <= 12).WithMessage("'Annbefalt mat' kan max ha 12 verdier i listen.")
+            .Must(x => x is {Count: <= 12}).WithMessage("'Annbefalt mat' kan max ha 12 verdier i listen.")
             .Unless(x => x.RecommendedFood.IsNull());
 
         // Tag Child Elements

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace API.Entities;
 
 [Table("Wine")]
-public class Wine : IWineWithPicture
+public class Wine
 {
     // ids
     [Required] public int WineId { get; set; }
@@ -23,7 +23,6 @@ public class Wine : IWineWithPicture
 
     // if image file uploaded by user
     public bool ImageByUser { get; set; }
-
 
     // optional
     [Range(0, 3000)] public int? Year { get; set; }
@@ -48,6 +47,7 @@ public class Wine : IWineWithPicture
     // image
     public string? PublicId { get; set; }
     public string? PictureUrl { get; set; }
+
 
     // taste values
     public int Freshness { get; set; }

@@ -115,7 +115,7 @@ const Vinmonopolet = ({
   );
 
   useEffect(() => {
-    if (data) {
+    if (data && status.isSuccess) {
       // transform response to satisfy formData
       const _data: WineFormData = {
         ...data,
@@ -130,7 +130,7 @@ const Vinmonopolet = ({
       setSkip(true);
       setIsOpen(false);
     }
-  }, [data, handleSetValues, setIsOpen]);
+  }, [data, status.isSuccess, handleSetValues, setIsOpen]);
 
   const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.code === "Enter") handleFetchWine();

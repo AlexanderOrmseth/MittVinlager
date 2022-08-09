@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace API.Entities;
 
 [Table("WishItems")]
-public class WishItem : IWineWithPicture
+public class WishItem
 {
     [Required] public int Id { get; set; }
     [JsonIgnore] [Required] public int UserId { get; set; }

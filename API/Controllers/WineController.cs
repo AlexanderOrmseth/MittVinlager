@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Security.Claims;
 using System.Security.Principal;
 using API.DTOs;
@@ -184,10 +185,8 @@ public class WineController : BaseApiController
         wine.Region = formBody.Region;
         wine.SubRegion = formBody.SubRegion;
         wine.ProductId = formBody.ProductId;
-        wine.Grapes = formBody.Grapes is not null ? string.Join<string>(", ", formBody.Grapes) : null;
-        wine.RecommendedFood = formBody.RecommendedFood is not null
-            ? string.Join<string>(", ", formBody.RecommendedFood)
-            : null;
+        wine.Grapes = ListToCommaString(formBody.Grapes!);
+        wine.RecommendedFood = ListToCommaString(formBody.RecommendedFood!);
         wine.ManufacturerName = formBody.ManufacturerName;
         wine.StoragePotential = formBody.StoragePotential;
         wine.Colour = formBody.Colour;
@@ -503,10 +502,8 @@ public class WineController : BaseApiController
             Region = formBody.Region,
             SubRegion = formBody.SubRegion,
             ProductId = formBody.ProductId,
-
-            Grapes = VinmonopoletDto.ListToCommaString(formBody.Grapes),
-            RecommendedFood = VinmonopoletDto.ListToCommaString(formBody.RecommendedFood),
-
+            Grapes = ListToCommaString(formBody.Grapes!),
+            RecommendedFood = ListToCommaString(formBody.RecommendedFood!),
             ManufacturerName = formBody.ManufacturerName,
             StoragePotential = formBody.StoragePotential,
             Colour = formBody.Colour,
@@ -530,5 +527,21 @@ public class WineController : BaseApiController
                 UserRating = formBody.UserDetails.UserRating,
             }
         };
+    }
+
+    private static string? ListToCommaString(List<string?>? list)
+    {
+        // invalid
+        if (list is null || !list.Any())
+        {
+            return null;
+        }
+
+        var formatList = list
+            .Where(str => !string.IsNullOrWhiteSpace(str))
+            .Select(x => x?.Trim())
+            .ToList();
+
+        return formatList.Any() ? string.Join(", ", formatList) : null;
     }
 }

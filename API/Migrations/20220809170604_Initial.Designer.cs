@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220728123727_Initial")]
+    [Migration("20220809170604_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,14 +77,14 @@ namespace API.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "6c2bc84f-b26d-456a-a881-671e6138b334",
+                            ConcurrencyStamp = "c4a94031-db42-4b90-a3b8-727a32a1386e",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "614009a8-3614-4eed-8bd2-272ee5a335fa",
+                            ConcurrencyStamp = "df2a299d-46a2-4af2-9a51-55d1af56ca19",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -239,7 +239,8 @@ namespace API.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("RecommendedFood")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Region")
                         .HasMaxLength(70)

@@ -179,7 +179,7 @@ namespace API.Migrations
                     SubRegion = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     ProductId = table.Column<string>(type: "character varying(24)", maxLength: 24, nullable: true),
                     Grapes = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    RecommendedFood = table.Column<string>(type: "text", nullable: true),
+                    RecommendedFood = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     ManufacturerName = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: true),
                     StoragePotential = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                     Colour = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
@@ -284,8 +284,8 @@ namespace API.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "6c2bc84f-b26d-456a-a881-671e6138b334", "Member", "MEMBER" },
-                    { 2, "614009a8-3614-4eed-8bd2-272ee5a335fa", "Admin", "ADMIN" }
+                    { 1, "c4a94031-db42-4b90-a3b8-727a32a1386e", "Member", "MEMBER" },
+                    { 2, "df2a299d-46a2-4af2-9a51-55d1af56ca19", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -50,6 +50,8 @@ public class WineConfiguration : IEntityTypeConfiguration<Wine>
             .HasMaxLength(100);
         entity.Property(w => w.Grapes)
             .HasMaxLength(500);
+        entity.Property(w => w.RecommendedFood)
+            .HasMaxLength(500);
         entity.Property(w => w.Colour)
             .HasMaxLength(500);
         entity.Property(w => w.Odour)
