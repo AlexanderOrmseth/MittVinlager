@@ -1,4 +1,4 @@
-import { Heart } from "phosphor-react";
+import { HeartStraight } from "phosphor-react";
 import DescriptionItem from "../../../app/components/dl/DescriptionItem";
 import DescriptionList from "../../../app/components/dl/DescriptionList";
 import Score from "../../../app/components/Score";
@@ -110,7 +110,11 @@ const WineDetail = ({ wine }: Props) => {
         <DescriptionItem dt="Favoritt">
           {wine.userDetails.favorite ? (
             <div className="flex flex-row items-center gap-x-1">
-              <Heart size="1.3rem" weight="duotone" className="text-wine-500" />
+              <HeartStraight
+                size="1.5rem"
+                weight="duotone"
+                className="dark:text-wine-300 text-wine-500"
+              />
               Favoritt
             </div>
           ) : (
