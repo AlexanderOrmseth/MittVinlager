@@ -74,7 +74,7 @@ const Vinmonopolet = ({
   const [id, setId] = useState("");
   const { data, ...status } = useGetVinmonopoletWineQuery(id, { skip });
 
-  const [inputValue, setInputValue] = useState<string>(productId || "13391302");
+  const [inputValue, setInputValue] = useState<string>(productId || "");
   const [error, setError] = useState<string | null>(null);
   const [resetAction, setResetAction] = useState(1);
 
@@ -150,7 +150,7 @@ const Vinmonopolet = ({
     <>
       <div className="mb-4">
         <a
-          className="btn-secondary i-flex-row rounded-full justify-center h-12 underline"
+          className="btn-secondary i-flex-row h-12 justify-center rounded-full underline"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
