@@ -30,12 +30,12 @@ const Header = () => {
       <Link
         onClick={() => setOpen(false)}
         to="/"
-        className="flex flex-row flex-wrap items-center gap-2 text-xl font-medium dark:text-gray-200"
+        className="flex flex-row flex-wrap items-center gap-1.5 text-xl font-medium dark:text-gray-200"
       >
         <Wine
-          size="1.75rem"
+          size="1.8rem"
           weight="duotone"
-          className="text-gray-500 dark:text-gray-400"
+          className="bg-wine-500 dark:bg-wine-600 rounded-md p-1 text-white"
         />
         <h1 className="flex-1 leading-5">Mitt Vinlager</h1>
       </Link>

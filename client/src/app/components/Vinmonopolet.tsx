@@ -1,5 +1,5 @@
 import { RadioGroup } from "@headlessui/react";
-import { Check, DownloadSimple, Link as LinkIcon } from "phosphor-react";
+import { Check, DownloadSimple, LinkSimpleHorizontal } from "phosphor-react";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   UseFormGetValues,
@@ -9,17 +9,40 @@ import {
 import LoadingButton from "./LoadingButton";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
 import { WineFormData } from "../../features/wine/form/validationSchema";
+import toast from "react-hot-toast";
+import { Simulate } from "react-dom/test-utils";
+import { z } from "zod";
+import input = Simulate.input;
 
 interface Props {
   setIsOpen: (value: boolean) => void;
   productId?: string | null;
-
   setValues: UseFormReset<WineFormData> | ((values: WineFormData) => void);
   isWishlist: boolean;
-
   setValue?: UseFormSetValue<WineFormData>;
   getValues?: UseFormGetValues<WineFormData>;
 }
+
+interface ErrorFromServer {
+  detail?: string | null;
+  title?: string | null;
+  type?: string | null;
+  status?: number | null;
+}
+
+const checkProductId = (val?: string): boolean =>
+  val ? /^\d+$/.test(val) : false;
+const productIdSchema = z
+  .string({ required_error: "ProduktId/link kan ikke være tom." })
+  .trim()
+  .min(2, "ProduktId/link må minst ha 2 bokstaver.")
+  .transform((val) => {
+    if (val.includes("vinmonopolet.no/") && val.includes("/p/")) {
+      return val.split("/p/")[1];
+    }
+    return val;
+  })
+  .refine(checkProductId, { message: "ProduktId/link er ugyldig!" });
 
 const radioValues = [
   {
@@ -51,9 +74,20 @@ const Vinmonopolet = ({
   const [id, setId] = useState("");
   const { data, ...status } = useGetVinmonopoletWineQuery(id, { skip });
 
-  const [inputValue, setInputValue] = useState<string>(productId || "");
+  const [inputValue, setInputValue] = useState<string>(productId || "13391302");
   const [error, setError] = useState<string | null>(null);
   const [resetAction, setResetAction] = useState(1);
+
+  useEffect(() => {
+    if (status.isError && status.error && "data" in status.error) {
+      const err = status.error.data as ErrorFromServer;
+      const message = err.title ?? "Kunne ikke hente data fra vinmonopolet.";
+      setError(message);
+      toast.error(message);
+      setInputValue("");
+      setSkip(true);
+    }
+  }, [status.isError, status.error]);
 
   const handleSetValues = useCallback(
     (data: WineFormData) => {
@@ -61,22 +95,17 @@ const Vinmonopolet = ({
         setValues(data);
       } else if (setValue && getValues) {
         switch (resetAction) {
-          case 1:
-            // reset entire form
+          case 1: // reset entire form
             setValues(data);
             break;
-          case 2:
-            // replace price
-
+          case 2: // replace price
             setValue("price", data.price);
             break;
-          case 3:
-            // reset everything but except userDetails
+          case 3: // reset everything but except userDetails
             const { userDetails, ...rest } = data;
             setValues({ ...rest, userDetails: getValues("userDetails") });
             break;
-          default:
-            // reset entire form
+          default: // reset entire form
             setValues(data);
             break;
         }
@@ -95,6 +124,7 @@ const Vinmonopolet = ({
         userDetails: { ...data.userDetails, purchaseDate: null },
       };
 
+      toast.success(`Hentet ${data.name}`);
       handleSetValues(_data);
       console.log(data);
       setSkip(true);
@@ -103,46 +133,29 @@ const Vinmonopolet = ({
   }, [data, handleSetValues, setIsOpen]);
 
   const handleKeyPressed = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.code === "Enter") {
-      handleFetchWine();
-    }
+    if (e.code === "Enter") handleFetchWine();
   };
 
-  const isValidProductId = (val?: string): boolean =>
-    val ? /^\d+$/.test(val) : false;
-
   const handleFetchWine = async () => {
-    let productId = inputValue.trim();
-
-    // if its a link
-    if (
-      productId.includes("https://www.vinmonopolet.no/") &&
-      productId.includes("/p/")
-    ) {
-      productId = productId.split("/p/")[1];
+    const result = productIdSchema.safeParse(inputValue);
+    if (!result.success) {
+      setError(result.error.errors[0].message);
+    } else {
+      setId(result.data);
+      setSkip(false);
     }
-
-    // validate product id
-    if (!isValidProductId(productId)) {
-      setError("Error, kunne ikke hente vin med denne produktId'en.");
-      return;
-    }
-
-    // trigger fetch
-    setId(productId);
-    setSkip(false);
   };
 
   return (
     <>
       <div className="mb-4">
         <a
-          className="link bg-green-wine-25 hover:bg-green-wine-100 dark:bg-gray-950 inline-flex flex-row items-center gap-x-1.5 rounded p-2 text-sm"
+          className="btn-secondary i-flex-row rounded-full justify-center h-12 underline"
           href="https://www.vinmonopolet.no/search/?q=:relevance&searchType=product"
           target="_blank"
           rel="noreferrer"
         >
-          <LinkIcon size="1.2rem" />
+          <LinkSimpleHorizontal size="1.75rem" />
           Gå til Vinmonopolet.no
         </a>
       </div>
@@ -204,7 +217,7 @@ const Vinmonopolet = ({
 
         <LoadingButton
           loadingText="Henter vin..."
-          disabled={inputValue.length < 1}
+          disabled={inputValue.length < 2}
           loading={status.isLoading}
           onClick={handleFetchWine}
           className="h-12 w-full justify-center rounded-full"

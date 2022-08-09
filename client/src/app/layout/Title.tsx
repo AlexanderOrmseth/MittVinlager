@@ -18,7 +18,7 @@ const Title = ({ title, Icon, border, children, node, highlighted }: Props) => {
   return (
     <>
       <div
-        className={`flex-wrap text-3xl font-bold md:text-4xl ${
+        className={`flex-wrap text-2xl font-bold md:text-3xl  ${
           highlighted
             ? "text-wine-500 dark:text-wine-400"
             : "text-gray-900 dark:text-gray-100"
