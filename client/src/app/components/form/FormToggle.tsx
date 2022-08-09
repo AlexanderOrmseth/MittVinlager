@@ -1,5 +1,4 @@
 import { Switch } from "@headlessui/react";
-import { HeartStraight } from "phosphor-react";
 import {
   Controller,
   FieldValues,
@@ -42,15 +41,12 @@ const FormToggle = <T extends FieldValues>(props: Props<T>) => {
                   value ? "translate-x-full" : "translate-x-0"
                 } inline-flex h-full w-1/2 items-center p-1 transition ease-in-out  `}
               >
-                <p className="flex w-full items-center justify-center gap-x-1 rounded-full bg-white py-1 dark:bg-gray-800">
-                  {value && (
-                    <HeartStraight
-                      size="1.25rem"
-                      weight="duotone"
-                      className="text-wine-500"
-                    />
-                  )}
-                  {value ? "Favoritt" : "Ikke favoritt"}
+                <p
+                  className={`flex w-full items-center justify-center gap-x-1 rounded-full bg-white py-1 ${
+                    value ? " dark:bg-wine-700" : "dark:bg-gray-700"
+                  }`}
+                >
+                  {value ? "Ja" : "Nei"}
                 </p>
               </span>
             </Switch>

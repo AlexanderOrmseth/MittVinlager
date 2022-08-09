@@ -548,7 +548,7 @@ const CreateOrUpdate = ({
                     <FormToggle
                       control={control}
                       name="userDetails.favorite"
-                      label="Favoritt?"
+                      label="Favoritt"
                     />
                     <FormStarRating
                       control={control}
