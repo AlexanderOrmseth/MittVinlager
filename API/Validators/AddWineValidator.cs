@@ -71,6 +71,10 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
     }
 
 
+    /// <summary>
+    /// Validates each value in 'recommended food' and 'grape' list.
+    /// In db they will be stored as a string.
+    /// </summary>
     private class TagValidator : AbstractValidator<string?>
     {
         public TagValidator(int minLength)
