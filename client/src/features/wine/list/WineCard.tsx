@@ -105,23 +105,17 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           )}
         </div>
 
-        <div className="i-flex-row justify-center">
-          <div className="comma i-flex-row text-muted flex-wrap gap-x-0 text-sm">
-            {wine.country && (
-              <>
-                <span
-                  className={`f16 flag mr-1 ${
-                    wine.countryId && wine.countryId
-                  }`}
-                />
-                <span className="text-less-muted font-medium">
-                  {wine.country}
-                </span>
-              </>
-            )}
-            {wine.region && <span>{wine.region}</span>}
-            {wine.subRegion && <span>{wine.subRegion}</span>}
-          </div>
+        <div className="comma text-muted flex w-full flex-wrap justify-center text-sm">
+          {wine.country && (
+            <span className="text-less-muted flex items-center font-medium">
+              <i
+                className={`f16 flag mr-1 ${wine.countryId && wine.countryId}`}
+              ></i>
+              {wine.country}
+            </span>
+          )}
+          {wine.region && <span>{wine.region}</span>}
+          {wine.subRegion && <span>{wine.subRegion}</span>}
         </div>
         <div className="text-less-muted flex flex-row flex-wrap items-center justify-around gap-x-4 gap-y-2 text-sm">
           <div
@@ -144,7 +138,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           {wine.createdAt && (
             <div className="i-flex-row">
               <CalendarBlank size="1.25rem" weight="duotone" />
-              <Time date={wine.createdAt} />
+              <Time short date={wine.createdAt} />
             </div>
           )}
         </div>
