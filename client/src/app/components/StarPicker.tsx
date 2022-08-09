@@ -46,7 +46,7 @@ const StarPicker = ({ value, onChange }: Props) => {
         -
       </button>
       <div className="relative flex items-center self-stretch">
-        <Stars onClick={onChange} stars={value || 0} size="1.75rem" />
+        <Stars onClick={onChange} stars={value || 0} size="1.8rem" />
         <span className="absolute -top-2.5 w-full select-none text-center text-sm text-gray-500">
           {value && value / 2}
         </span>
