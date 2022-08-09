@@ -21,7 +21,7 @@ public class ImageService
     /// <summary>
     /// Reduces image resolution
     /// </summary>
-    /// <param name="size">
+    /// <param name="small">
     /// Size is max image width/height
     /// </param>
     private Transformation ImageTransformation(bool small = false)

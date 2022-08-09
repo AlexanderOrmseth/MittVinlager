@@ -36,26 +36,36 @@ public class VinmonopoletController : BaseApiController
             var requestUri = $"v0/details-normal?maxResults=1&productId={productId}";
             var httpResponseMessage = await client.GetAsync(requestUri, cancellationToken: cancellationToken);
 
-            // response was successful
-            if (httpResponseMessage.IsSuccessStatusCode)
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                var response =
-                    await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletResponseModel>>(
-                        cancellationToken: cancellationToken);
-
-                // response successful
-                if (response.IsNotNull() && response!.Any())
-                {
-                    return MapVinmonopoletResponseToDto(response!.First());
-                }
+                return NotFound(new ProblemDetails {Title = "Fant ikke vinen på Vinmonopolet."});
             }
 
-            return NotFound(new ProblemDetails {Title = "Fant ikke vinen på Vinmonopolet."});
+            var response =
+                await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletResponseModel>>(
+                    cancellationToken: cancellationToken);
+
+            // Vinmonopolet returns a list, in rare cases it can return a empty list
+            if (response is not null && response.Any())
+            {
+                return MapVinmonopoletResponseToDto(response.First());
+            }
+
+            return NotFound(new ProblemDetails
+                {Title = "Fant ikke vinen på Vinmonopolet. Responsen fra Vinmonopolet var tom."});
         }
         catch (Exception ex)
         {
+            var message = ex.GetType().ToString().Contains("JsonException")
+                ? "Error! Serveren feilet på å lese data fra Vinmonopolet!"
+                : "Error! Kunne ikke hente vinen fra Vinmonopolet.";
+
             return BadRequest(new ProblemDetails
-                {Title = "Could not fetch wine from Vinmonopolet", Detail = ex.Message});
+            {
+                Title = message,
+                Detail = ex.Message,
+                Type = ex.GetType().ToString()
+            });
         }
     }
 
@@ -75,16 +85,15 @@ public class VinmonopoletController : BaseApiController
             var httpResponseMessage = await client.GetAsync("v1/regions", cancellationToken: cancellationToken);
 
             // response was successful
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                var response =
-                    await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletCountryModel>>(
-                        cancellationToken: cancellationToken);
+            if (!httpResponseMessage.IsSuccessStatusCode) return BadRequest();
 
-                if (response.IsNotNull() && response!.Any())
-                {
-                    return Ok(response);
-                }
+            var response =
+                await httpResponseMessage.Content.ReadFromJsonAsync<List<VinmonopoletCountryModel>>(
+                    cancellationToken: cancellationToken);
+
+            if (response is not null && response.Any())
+            {
+                return Ok(response);
             }
 
             return BadRequest();
@@ -141,7 +150,6 @@ public class VinmonopoletController : BaseApiController
 
     private static List<string>? RecommendedFoodToString(IEnumerable<RecommendedFood>? food)
     {
-        // % grape name || grape name
         return food?.Where(x => !string.IsNullOrEmpty(x.FoodDesc))
             .Select(x => x.FoodDesc)
             .ToList();
@@ -177,13 +185,10 @@ public class VinmonopoletController : BaseApiController
             return null;
         }
 
-        // % grape name || grape name
+        // Returned format is "% name" or "name"
         return grapes
             .Where(grape => !string.IsNullOrEmpty(grape.GrapeDesc))
             .Select(grape => $"{(grape.GrapePct > 0 ? $"{grape.GrapePct}% " : "")}{grape.GrapeDesc}")
             .ToList();
-
-        // return as a string and separate with ", "
-        // return string.Join<string>(", ", mappedGrapes);
     }
 }
