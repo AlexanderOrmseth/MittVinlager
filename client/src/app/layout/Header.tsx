@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import DropDownMenu from "../components/DropDownMenu";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
-import { List, Moon, SignOut, Sun, User, Wine, X } from "phosphor-react";
+import { Moon, SignOut, Sun, User, Wine } from "phosphor-react";
 import { signOut } from "../../features/account/accountSlice";
 import { resetAll } from "../../features/wine/wineSlice";
 import { useRef, useState } from "react";
@@ -9,6 +9,7 @@ import useOnClickOutside from "../hooks/useOnClickOutside";
 import NavLink from "../components/NavLink";
 import { toggleTheme } from "../../features/ui/themeSlice";
 import GoogleButton from "../../features/account/GoogleButton";
+import { Squash as Hamburger } from "hamburger-react";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -56,6 +57,7 @@ const Header = () => {
           <GoogleButton />
         )}
       </nav>
+
       <div className="flex flex-row items-center gap-x-2">
         {user && (
           <div>
@@ -95,16 +97,9 @@ const Header = () => {
             />
           </div>
         )}
-        <button
-          onClick={() => setOpen(!isOpen)}
-          className="block p-2 md:hidden"
-        >
-          {isOpen ? (
-            <X size="2rem" weight="regular" />
-          ) : (
-            <List size="2rem" weight="regular" />
-          )}
-        </button>
+        <div className="block md:hidden">
+          <Hamburger toggled={isOpen} toggle={setOpen} />
+        </div>
       </div>
     </div>
   );
