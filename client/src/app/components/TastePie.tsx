@@ -94,12 +94,22 @@ export const text = {
   ],
 };
 
-const TastePie = ({ percent, size }: { percent: number; size: string }) => {
+const TastePie = ({
+  percent,
+  size,
+  faded = false,
+}: {
+  percent: number;
+  size: string;
+  faded?: boolean;
+}) => {
   const { darkMode } = useAppSelector((state) => state.theme);
 
   return (
     <div
-      className={`border-slate-25 ring-blue-wine-500 dark:ring-blue-wine-light aspect-square rounded-full border-2 ring-2 dark:border-gray-900`}
+      className={`border-slate-25 ${
+        faded ? "opacity-60" : ""
+      } ring-blue-wine-500 dark:ring-blue-wine-light aspect-square rounded-full border-2 ring-2 dark:border-gray-900`}
       style={{
         height: size,
         width: size,

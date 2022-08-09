@@ -37,7 +37,7 @@ const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
                 }`
               }
             >
-              <TastePie percent={list[field.value].percent} size="1.6rem" />
+              <TastePie faded={field.value === 0} percent={list[field.value].percent} size="1.6rem" />
               <div className={`${field.value === 0 ? "text-slate-500" : ""}`}>
                 {text[props.type][field.value]}
               </div>
