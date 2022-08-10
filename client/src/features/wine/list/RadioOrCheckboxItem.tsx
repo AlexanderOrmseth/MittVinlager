@@ -17,7 +17,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <div
-      className={`flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-2.5 text-gray-700 dark:text-gray-400 sm:py-1.5 ${
+      className={`flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-2.5 text-left leading-4 text-gray-700 dark:text-gray-400 sm:py-2 ${
         disabled
           ? "cursor-not-allowed opacity-50"
           : "group xs:hover:bg-slate-100 xs:hover:text-gray-900 xs:dark:hover:bg-gray-800/50 xs:dark:hover:text-gray-200 cursor-pointer"
@@ -55,8 +55,14 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
           ))}
       </div>
 
-      <div className={`${checked ? "text-gray-800 dark:text-gray-200" : ""}`}>
-        {displayText}
+      <div
+        className={`${
+          checked ? "text-gray-800 dark:text-gray-200" : ""
+        } flex-1`}
+      >
+        {displayText.length > 40
+          ? displayText.substring(0, 40) + "..."
+          : displayText}
       </div>
     </div>
   );
