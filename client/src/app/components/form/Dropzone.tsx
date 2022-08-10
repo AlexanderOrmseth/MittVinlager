@@ -2,7 +2,7 @@ import { CheckCircle, FileImage } from "phosphor-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const maxSize = 1048576;
+const maxSize = 200000;
 
 const Dropzone = ({
   onChange,
@@ -40,7 +40,7 @@ const Dropzone = ({
   });
 
   const isFileTooLarge =
-    fileRejections.length > 0 && fileRejections[0].file.size > maxSize;
+    fileRejections.length > 0 && fileRejections[0].file.size >= maxSize;
 
   return (
     <div>
@@ -93,7 +93,9 @@ const Dropzone = ({
             </div>
 
             {isFileTooLarge && (
-              <p className="text-wine-500"> Filen er for stor!</p>
+              <p className="text-wine-500">
+                Filen er for stor. Max filstørrelse er 2MB.
+              </p>
             )}
           </div>
         )}
