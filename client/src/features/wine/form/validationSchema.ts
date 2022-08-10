@@ -188,7 +188,10 @@ export const wineSchema = z.object({
     .instanceof(File)
     .nullable()
     .optional()
-    .refine((file) => !file || file?.size <= 200000, "Max filstørrelse er 2MB.")
+    .refine(
+      (file) => !file || file?.size <= 2097152,
+      "Max filstørrelse er 2MB."
+    )
     .refine(
       (file) =>
         !file ||

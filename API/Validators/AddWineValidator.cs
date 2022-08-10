@@ -46,6 +46,15 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
         RuleFor(x => x.Colour).MaximumLength(500).WithMessage("Farge kan max være {MaxLength} bokstaver.");
 
 
+        // file validation
+        RuleFor(x => x.File.Length).NotNull().LessThanOrEqualTo(2097152)
+            .WithMessage("File size is larger than allowed").When(f => f.File != null);
+
+        RuleFor(x => x.File.ContentType).NotNull()
+            .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
+            .WithMessage("File type is larger than allowed").When(f => f.File != null);
+
+
         // Tag Validation
         RuleFor(x => x.Grapes)
             .Must(x => x is {Count: <= 12}).WithMessage("'Råvarer' kan max ha 12 verdier i listen.")
