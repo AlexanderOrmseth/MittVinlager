@@ -1,7 +1,7 @@
 import { Switch } from "@headlessui/react";
 import { setGridView, setHideFilter } from "../../../features/wine/wineSlice";
 import { useAppDispatch, useAppSelector } from "../../store/configureStore";
-import { Funnel } from "phosphor-react";
+import { ArrowLineLeft, ArrowLineRight } from "phosphor-react";
 
 interface Props {
   disabled?: boolean;
@@ -14,10 +14,14 @@ const ViewModeToggle = ({ disabled }: Props) => {
   return (
     <div className="i-flex-row">
       <button
-        className="btn-white hidden px-2 py-1 md:block"
+        className="btn-white hidden px-2 py-1.5 md:block"
         onClick={() => dispatch(setHideFilter(!hideFilter))}
       >
-        <Funnel size={"1.2rem"} />
+        {!hideFilter ? (
+          <ArrowLineLeft size={"1rem"} />
+        ) : (
+          <ArrowLineRight size={"1rem"} />
+        )}
       </button>
 
       <Switch

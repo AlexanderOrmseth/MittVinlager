@@ -44,7 +44,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
     <div
       className={`flex ${
         top ? "mb-4" : "mt-4"
-      } block-muted xts:px-4 xts:text-sm xts:gap-4 flex-row items-center justify-between gap-1 py-1 px-2 text-xs font-medium text-gray-900 dark:text-gray-400  md:py-1.5 
+      } block-muted xts:text-sm xts:gap-4 flex-row items-center justify-between gap-1 py-1 px-2 text-xs font-medium text-gray-900 dark:text-gray-400  md:py-1.5 
    `}
     >
       <div className="i-flex-row">
