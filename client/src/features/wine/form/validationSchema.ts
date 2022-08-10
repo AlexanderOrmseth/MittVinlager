@@ -190,15 +190,12 @@ export const wineSchema = z.object({
     .optional()
     .refine(
       (file) => !file || file?.size <= 2097152,
-      "Max filstørrelse er 2MB."
+      "Størrelsen på filen er for stor, max størrelse er 2MB."
     )
     .refine(
       (file) =>
-        !file ||
-        ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-          file?.type
-        ),
-      ".jpg, .jpeg, .png and .webp filer er godkjent."
+        !file || ["image/jpeg", "image/jpg", "image/png"].includes(file?.type),
+      "Denne filtypen støttes ikke, filtyper som er støttet er: 'jpg, jpeg, png'."
     ),
 
   /* User Details */

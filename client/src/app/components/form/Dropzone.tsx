@@ -80,7 +80,7 @@ const Dropzone = ({
             } flex flex-col items-center rounded border border-dashed bg-slate-50 p-4 py-4 font-medium shadow-lg dark:bg-gray-900 `}
           >
             {isDragReject ? (
-              "Denne filtypen støttes ikke!"
+              "Denne filtypen støttes ikke, filtyper som er støttet er: 'jpg, jpeg, png'."
             ) : (
               <FileImage
                 size="1.75rem"
@@ -96,10 +96,12 @@ const Dropzone = ({
               Trykk her, eller dra et bilde hit
             </div>
 
-            {isFileTooLarge && (
+            {isFileTooLarge ? (
               <strong className="text-wine-500 dark:text-wine-300 mt-2 block font-medium">
-                Filen er for stor. Max filstørrelse er 2MB.
+                Størrelsen på filen er for stor, max størrelse er 2MB.
               </strong>
+            ) : (
+              <p className="mt-0.5 opacity-60 text-xs">(Max 2MB)</p>
             )}
           </div>
         )}
