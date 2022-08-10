@@ -7,6 +7,7 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.RequestHelpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -129,22 +130,22 @@ public class WineRepository : IWineRepository
         // types to list
         var types = userWine
             .Select(w => w.Type)
-            .Distinct()
+            .Distinct().OrderBy(w => w)
             .ToList();
 
         // countries to list
         var countries = userWine
             .Where(w => w.Country is not null)
             .Select(w => w.Country)
-            .Distinct()
+            .Distinct().OrderBy(w => w)
             .ToList();
 
 
         // Grapes
         var grapes = userWine
             .Where(w => w.Grapes is not null && w.Grapes.IsNotEmpty())
-            .Select(w => Regex.Replace(w.Grapes, @"[\d-]+%", string.Empty).Split(", "))
-            .SelectMany(x => x.Select(str => str.Trim())).Distinct()
+            .Select(y => Regex.Replace(y.Grapes ?? string.Empty, @"[\d-]+%", string.Empty).Split(", "))
+            .SelectMany(x => x.Select(str => str.Trim())).Distinct().OrderBy(x => x)
             .ToList();
 
 
@@ -152,6 +153,7 @@ public class WineRepository : IWineRepository
         var recommendedFood = userWine
             .Where(w => w.RecommendedFood is not null && w.RecommendedFood.IsNotEmpty())
             .Select(w => w.RecommendedFood?.Split(", ")).SelectMany(x => x ?? Array.Empty<string>()).Distinct()
+            .OrderBy(x => x)
             .ToList();
 
         return new {types, countries, recommendedFood, grapes};
