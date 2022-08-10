@@ -13,6 +13,7 @@ interface Props {
   onChange: (item: string) => void;
   label: string;
   disabled: boolean;
+  sort?: boolean;
 }
 
 const sortByDisplayText = (a: Item, b: Item): number => {
@@ -21,7 +22,14 @@ const sortByDisplayText = (a: Item, b: Item): number => {
   return 0;
 };
 
-const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
+const ListBox = ({
+  items,
+  selected,
+  onChange,
+  label,
+  disabled,
+  sort = true,
+}: Props) => {
   return (
     <Listbox
       as={"div"}
@@ -40,7 +48,7 @@ const ListBox = ({ items, selected, onChange, label, disabled }: Props) => {
       </Listbox.Button>
       <DropDownTransition>
         <Listbox.Options className="dropdown">
-          {items.sort(sortByDisplayText).map((item, i) => (
+          {items.sort(sort ? sortByDisplayText : undefined).map((item, i) => (
             <Listbox.Option
               disabled={disabled}
               key={i}

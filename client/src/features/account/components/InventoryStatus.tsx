@@ -68,8 +68,8 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           </div>
         ))}
       </div>
-      <div className="block-less-muted rounded-lg p-8">
-        <div className="mb-4 flex flex-col items-center gap-x-2 gap-y-4 md:flex-row">
+      <div className="block-less-muted rounded-lg p-4 md:p-8">
+        <div className="mb-8 flex flex-col items-center gap-x-2 gap-y-4 md:flex-row">
           <div className="flex-1">
             <h3 className="mb-4 text-center text-sm font-medium uppercase text-gray-700 dark:text-gray-500">
               Antall

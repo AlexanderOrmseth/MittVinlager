@@ -18,7 +18,7 @@ const WineListItem = ({
   externalLink,
 }: Props) => {
   return (
-    <li className="dark:bg-gray-925 flex items-center rounded border bg-white py-2 px-1 dark:border-gray-800">
+    <li className="dark:bg-gray-925 flex items-center rounded border bg-white p-2 dark:border-gray-800">
       <img
         className="pointer-events-none h-28 w-20 select-none rounded object-scale-down"
         src={pictureUrl || placeholder}

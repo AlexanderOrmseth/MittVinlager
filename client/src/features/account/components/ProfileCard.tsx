@@ -16,7 +16,7 @@ const ProfileCard = () => {
 
   return (
     <>
-      <div className="block-less-muted flex w-full flex-col items-center justify-center gap-y-5 rounded-lg p-6 md:inline-flex md:max-w-lg md:p-8">
+      <div className="block-less-muted flex w-full flex-col items-center justify-center gap-y-5 rounded-lg p-4 md:inline-flex md:max-w-lg md:p-8">
         <User size="4rem" weight="regular" />
         <h3 className="text-blue-wine-400 dark:text-wine-300 break-all text-center text-2xl font-medium leading-7 md:text-4xl">
           <p className="text-muted text-base">Brukernavn</p>
@@ -26,7 +26,7 @@ const ProfileCard = () => {
           <span className="text-muted">Opprettet:</span>{" "}
           <Time date={user.createdAt} />
         </p>
-        <div className="flex w-full flex-col flex-wrap gap-2 sm:flex-row">
+        <div className="flex w-full flex-col flex-wrap gap-4 sm:flex-row">
           <button
             className="btn-primary flex h-12 w-full flex-1 flex-row items-center justify-center gap-x-2 rounded-full"
             onClick={() => setIsOpen(true)}

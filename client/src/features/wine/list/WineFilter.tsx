@@ -82,6 +82,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
             type: "linear",
           },
         }}
+        initial={false}
       >
         <div className="block-muted space-y-6 p-4 sm:overflow-y-auto md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px]">
           <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
@@ -160,13 +161,14 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
           </FilterItem>
 
           {filters?.grapes && (
-            <FilterItem isChanged={params.grapes.length > 0}>
+            <FilterItem type="listbox" isChanged={params.grapes.length > 0}>
               <ListBox
                 items={[{ displayText: "Alle", value: "" }].concat(
                   filters.grapes.map((grape) => {
                     return { displayText: grape, value: grape };
                   })
                 )}
+                sort={false}
                 selected={params.grapes}
                 onChange={(val) => dispatch(setParams({ grapes: val }))}
                 label="Råvarer"
