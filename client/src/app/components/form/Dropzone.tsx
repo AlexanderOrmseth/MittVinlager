@@ -35,7 +35,9 @@ const Dropzone = ({
     minSize: 0,
     maxSize,
     accept: {
-      "image/*": [],
+      "image/png": [".png"],
+      "image/jpg": [".jpg"],
+      "image/jpeg": [".jpeg"],
     },
   });
 
@@ -72,8 +74,10 @@ const Dropzone = ({
         {isDragActive ? (
           <p
             className={`${
-              isDragActive ? "border-green-wine-500 border" : ""
-            } text-green-wine-500 flex flex-col items-center rounded border  border-dashed bg-slate-50 p-4 py-4 font-medium shadow-lg `}
+              !isDragReject
+                ? "border-green-wine-500 text-green-wine-500 dark:border-green-wine-300 dark:text-green-wine-300 border"
+                : "text-wine-500 dark:text-wine-400 dark:border-wine-400 border-wine-500 border"
+            } flex flex-col items-center rounded border border-dashed bg-slate-50 p-4 py-4 font-medium shadow-lg dark:bg-gray-900 `}
           >
             {isDragReject ? (
               "Denne filtypen støttes ikke!"
@@ -86,16 +90,16 @@ const Dropzone = ({
             )}
           </p>
         ) : (
-          <div className="rounded border border-dashed border-slate-300 bg-slate-50 p-4 py-4 text-center hover:border-slate-500 hover:bg-slate-100 dark:border-gray-700 dark:bg-gray-900">
+          <div className="text-muted rounded border border-dashed border-slate-300 bg-slate-50 p-4 py-4 text-center hover:border-slate-500 hover:bg-slate-100 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-gray-600">
             <div className="flex flex-row items-center justify-center gap-2">
               <FileImage size="1.75rem" weight="duotone" />
               Trykk her, eller dra et bilde hit
             </div>
 
             {isFileTooLarge && (
-              <p className="text-wine-500">
+              <strong className="text-wine-500 dark:text-wine-300 mt-2 block font-medium">
                 Filen er for stor. Max filstørrelse er 2MB.
-              </p>
+              </strong>
             )}
           </div>
         )}

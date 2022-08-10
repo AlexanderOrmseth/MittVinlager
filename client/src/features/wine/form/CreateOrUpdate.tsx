@@ -53,6 +53,7 @@ const tab1: Keys[] = [
   "alcoholContent",
   "manufacturerName",
   "country",
+  "file",
 ];
 const tab2: Keys[] = [
   "freshness",
@@ -151,6 +152,8 @@ const CreateOrUpdate = ({
         setError(_key, {
           types: { ...value },
         });
+      } else {
+        console.log({ key, value });
       }
     }
   }, [serverErrors, setError]);

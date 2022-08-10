@@ -47,13 +47,7 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
 
 
         // file validation
-        RuleFor(x => x.File.Length).NotNull().LessThanOrEqualTo(2097152)
-            .WithMessage("File size is larger than allowed").When(f => f.File != null);
-
-        RuleFor(x => x.File.ContentType).NotNull()
-            .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
-            .WithMessage("File type is larger than allowed").When(f => f.File != null);
-
+        RuleFor(x => x.File).SetValidator(new FileValidator());
 
         // Tag Validation
         RuleFor(x => x.Grapes)
@@ -95,6 +89,23 @@ public class AddWineValidator : AbstractValidator<AddWineDto>
                 .MaximumLength(40)
                 .WithMessage(
                     "'{PropertyValue}' kan max ha {MaxLength} bokstaver. Verdien har nå {TotalLength} bokstaver.");
+        }
+    }
+
+    private class FileValidator : AbstractValidator<IFormFile?>
+    {
+        public FileValidator()
+        {
+            RuleFor(file => file).ChildRules(file =>
+            {
+                RuleFor(x => x.Length).NotNull().OverridePropertyName("")
+                    .LessThanOrEqualTo(2097152)
+                    .WithMessage("Størrelsen på filen er for stor, max størrelse er 2MB.");
+                RuleFor(x => x.ContentType).NotNull().OverridePropertyName("")
+                    .Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
+                    .WithMessage(
+                        "Filtypen '{PropertyValue}' støttes ikke, filtyper som er støttet er: 'jpg, jpeg, png'.");
+            }).Unless(f => f == null);
         }
     }
 
