@@ -101,7 +101,7 @@ const Dropzone = ({
                 Størrelsen på filen er for stor, max størrelse er 2MB.
               </strong>
             ) : (
-              <p className="mt-0.5 opacity-60 text-xs">(Max 2MB)</p>
+              <p className="mt-0.5 text-xs opacity-60">(Max 2MB)</p>
             )}
           </div>
         )}
