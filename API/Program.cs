@@ -1,5 +1,5 @@
-using System.Globalization;
 using API.Context;
+using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Filters;
@@ -7,21 +7,25 @@ using API.Interfaces;
 using API.Middleware;
 using API.Repositories;
 using API.Services;
+using API.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using Serilog;
 
 const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+builder.Host.UseSerilog((hostContext, services, conf) => { conf.WriteTo.Console(); });
+
 // Add services to the container.
 
 // controller
+
 builder.Services.AddControllers()
-    .AddFluentValidation(fv => { fv.RegisterValidatorsFromAssemblyContaining<Program>(); })
     .AddMvcOptions(opt =>
     {
         // Delay filter for all endpoints
@@ -34,6 +38,9 @@ builder.Services.AddControllers()
     {
         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
     });
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddScoped<IValidator<AddWineDto>, AddWineValidator>();
 
 // Db connection for development and production (heroku)
 builder.Services.AddDbContext<MyDbContext>(options =>
