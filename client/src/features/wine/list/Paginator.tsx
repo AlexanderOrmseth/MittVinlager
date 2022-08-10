@@ -16,7 +16,7 @@ const Paginator = ({ isLoading, top, metaData }: Props) => {
 
   // hide bottomBar or both
   if (
-    (metaData && metaData.totalPages === 1 && !top) ||
+    (metaData && metaData.totalPages <= 1 && !top) ||
     (metaData && !metaData.totalCount)
   ) {
     return null;

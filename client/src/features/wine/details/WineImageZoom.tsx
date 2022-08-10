@@ -37,7 +37,7 @@ const WineImageZoom = ({
     <div className="block-muted flex flex-col items-center  overflow-auto p-2 md:sticky  md:top-4">
       <Zoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
         <img
-          className={`mx-auto h-64 w-64 object-scale-down sm:h-80 sm:w-80 ${
+          className={`mx-auto h-80 w-80 object-scale-down ${
             isZoomed ? "hidden" : "block"
           }`}
           alt="Bilde av vin"

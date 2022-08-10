@@ -84,7 +84,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
         }}
         initial={false}
       >
-        <div className="block-muted space-y-6 p-4 sm:overflow-y-auto md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px]">
+        <div className="block-muted space-y-6 p-4 md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px] md:overflow-y-auto">
           <OrderBy disabled={disabled} selectedOrder={params.orderBy} />
           <button
             disabled={disabled}

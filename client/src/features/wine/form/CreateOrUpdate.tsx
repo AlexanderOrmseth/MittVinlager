@@ -32,6 +32,7 @@ import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonop
 import { Link } from "react-router-dom";
 import FormTagInput from "../../../app/components/form/FormTagInput";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 
 interface Props {
   onSubmit: (data: WineFormData) => void;
@@ -154,6 +155,7 @@ const CreateOrUpdate = ({
         });
       } else {
         console.log({ key, value });
+        toast.error("Ukjent error!");
       }
     }
   }, [serverErrors, setError]);

@@ -50,7 +50,7 @@ const WineCheckboxFilter = ({
     (value.includes(str) && !checkedOptions.includes(str));
 
   return (
-    <div className="max-h-80 select-none overflow-auto">
+    <div className="max-h-96 select-none overflow-auto">
       {options &&
         options.map((item, i) => (
           <button

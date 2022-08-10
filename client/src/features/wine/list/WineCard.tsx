@@ -61,7 +61,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
       </div>
 
       <div className="flex h-full flex-col gap-2 text-center">
-        <h4 className="text-blue-wine-500 dark:text-blue-wine-25 px-9 font-bold leading-4">
+        <h4 className="text-blue-wine-500 dark:text-blue-wine-light-2 px-9 font-bold leading-4">
           {wine.name}
         </h4>
 

@@ -43,8 +43,9 @@ const NewWinePage = () => {
     <div>
       <Title title="Ny Vin" border Icon={PlusCircle}>
         <p>
-          Her kan du legge til vin. Trykk på &quot;Hent fra Vinmonopolet&quot;
-          knappen for å hente vin fra Vinmonopolet.no.
+          Her kan du legge til vin. Trykk på
+          <strong className="mx-1">Hent fra Vinmonopolet</strong>for å hente
+          vininformasjon fra Vinmonopolet.
         </p>
       </Title>
       <CreateOrUpdate onSubmit={onSubmit} serverErrors={serverErrors} />

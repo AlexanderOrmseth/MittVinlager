@@ -32,7 +32,7 @@ const FormToggle = <T extends FieldValues>(props: Props<T>) => {
               onChange={onChange}
               className={`${
                 value
-                  ? "bg-wine-500 hover:bg-wine-600"
+                  ? "bg-blue-wine-500 dark:bg-blue-wine-500 hover:bg-blue-wine-600"
                   : "bg-slate-200 hover:bg-slate-300 dark:bg-gray-900 dark:hover:bg-gray-900/80"
               } relative inline-flex h-10 w-full rounded-full transition-colors duration-100`}
             >
@@ -43,7 +43,7 @@ const FormToggle = <T extends FieldValues>(props: Props<T>) => {
               >
                 <p
                   className={`flex w-full items-center justify-center gap-x-1 rounded-full bg-white py-1 ${
-                    value ? " dark:bg-wine-700" : "dark:bg-gray-700"
+                    value ? " dark:bg-blue-wine-light-3" : "dark:bg-gray-700"
                   }`}
                 >
                   {value ? "Ja" : "Nei"}
