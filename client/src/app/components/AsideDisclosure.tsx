@@ -14,9 +14,9 @@ const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
       {({ open }) => (
         <>
           <Disclosure.Button
-            className={`bg-green-wine-100 dark:bg-green-wine-300/50 dark:text-white text-green-wine-600 hover:bg-green-wine-200/40 dark:hover:bg-green-wine-300/60
-              relative flex w-full select-none justify-between rounded px-5 py-3
-              text-left text-sm font-medium`}
+            className={`bg-green-wine-100 dark:bg-green-wine-300/50 text-green-wine-600 hover:bg-green-wine-200/40 dark:hover:bg-green-wine-300/60 relative
+              flex w-full select-none justify-between rounded px-5 py-3 text-left
+              text-sm font-medium dark:text-white`}
           >
             <span>{title}</span>
             <CaretUp

@@ -20,7 +20,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
       className={`flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-1.5 text-gray-700 dark:text-gray-400 ${
         disabled
           ? "cursor-not-allowed opacity-50"
-          : "group cursor-pointer xs:hover:bg-slate-100 xs:hover:text-gray-900 xs:dark:hover:bg-gray-800/50 xs:dark:hover:text-gray-200"
+          : "group xs:hover:bg-slate-100 xs:hover:text-gray-900 xs:dark:hover:bg-gray-800/50 xs:dark:hover:text-gray-200 cursor-pointer"
       } `}
     >
       <div
@@ -33,7 +33,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
                  ? "border-wine-400 dark:border-wine-300 bg-white dark:bg-gray-900/60"
                  : checked && type === "checkbox"
                  ? "bg-wine-500 dark:bg-wine-400 border-wine-500 dark:border-wine-400 text-white"
-                 : "border-slate-300 bg-white xs:group-hover:border-gray-400 dark:border-gray-700 dark:bg-gray-900/60 xs:dark:group-hover:border-gray-600"
+                 : "xs:group-hover:border-gray-400 xs:dark:group-hover:border-gray-600 border-slate-300 bg-white dark:border-gray-700 dark:bg-gray-900/60"
              }`}
       >
         {checked &&

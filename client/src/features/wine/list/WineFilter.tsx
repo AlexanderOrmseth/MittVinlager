@@ -65,7 +65,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
     <>
       <button
         onClick={() => dispatch(setHideFilter(!hideFilter))}
-        className="btn-white py-1.5 i-flex-row justify-center md:hidden"
+        className="btn-white i-flex-row justify-center py-1.5 md:hidden"
       >
         <Funnel size="1.2rem" />
         {hideFilter ? "Vis filter" : "Skjul filter"}
