@@ -1,4 +1,4 @@
-import { HeartStraight, Pen, Trash } from "phosphor-react";
+import { HeartStraight, PencilSimpleLine, Trash } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
 import { formatPrice } from "../../../app/util/format";
@@ -77,7 +77,7 @@ const WineRowItem = ({ wine, handleDeleteWine }: Props) => {
           to={`${wine.wineId}/update`}
           className="btn-white p-2 shadow-none"
         >
-          <Pen size="1.2rem" />
+          <PencilSimpleLine size="1.2rem" />
         </Link>
         <button
           onClick={() => handleDeleteWine(wine.wineId, wine.name)}

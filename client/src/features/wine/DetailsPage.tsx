@@ -4,7 +4,7 @@ import DeleteWineModal from "../../app/components/modals/DeleteWineModal";
 import {
   CalendarBlank,
   Link as LinkIcon,
-  PencilLine,
+  PencilSimpleLine,
   Trash,
 } from "phosphor-react";
 import WineDetail from "./details/WineDetail";
@@ -47,7 +47,7 @@ const DetailsPage = () => {
                 className="btn-white xs:gap-x-2 xs:px-4 flex w-auto items-center justify-center gap-x-0.5 rounded-full rounded-r-none px-3"
                 to="update"
               >
-                <PencilLine
+                <PencilSimpleLine
                   size="1.25rem"
                   weight="duotone"
                   className="text-slate-700 dark:text-slate-400"

@@ -4,7 +4,7 @@ import {
   Coins,
   DotsThree,
   HeartStraight,
-  Pen,
+  PencilSimpleLine,
   Trash,
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,7 +44,7 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
           buttons={[
             {
               text: "Rediger",
-              icon: <Pen size="1.2rem" />,
+              icon: <PencilSimpleLine size="1.2rem" />,
               fnc: () => navigate(`/inventory/${wine.wineId}/update`),
             },
             {
