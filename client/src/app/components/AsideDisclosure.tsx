@@ -14,15 +14,15 @@ const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
       {({ open }) => (
         <>
           <Disclosure.Button
-            className={`bg-green-wine-50 dark:bg-green-wine-300/40 dark:text-green-wine-25 text-green-wine-500 hover:bg-green-wine-100 dark:hover:bg-green-wine-300/60
+            className={`bg-green-wine-100 dark:bg-green-wine-300/50 dark:text-white text-green-wine-600 hover:bg-green-wine-200/40 dark:hover:bg-green-wine-300/60
               relative flex w-full select-none justify-between rounded px-5 py-3
-              text-left text-sm font-medium ${open ? "" : "opacity-70"}`}
+              text-left text-sm font-medium`}
           >
             <span>{title}</span>
             <CaretUp
               className={`transition-transform ${
                 open ? "rotate-180" : ""
-              } text-green-wine-500 dark:text-green-wine-25 h-5 w-5`}
+              } h-5 w-5`}
             />
           </Disclosure.Button>
           <Transition
