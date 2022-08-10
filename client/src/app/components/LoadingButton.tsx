@@ -1,14 +1,14 @@
 import { Puff } from "react-loading-icons";
 
 interface Props {
-  loading: boolean;
+  loading?: boolean;
   children?: React.ReactNode;
   type?: "button" | "submit";
   onClick?: () => void;
   disabled: boolean;
   isPrimary?: boolean;
   className?: string;
-  loadingText: string;
+  loadingText?: string;
 }
 
 const LoadingButton = ({

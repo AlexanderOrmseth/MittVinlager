@@ -599,10 +599,8 @@ const CreateOrUpdate = ({
               <i className="hidden flex-1 md:block" />
               {setDeleteModalIsOpen && (
                 <LoadingButton
-                  loading={isSubmitting}
                   isPrimary={false}
                   disabled={isSubmitting}
-                  loadingText="Sletter vin..."
                   type="button"
                   className="i-flex-row disabled-btn w-auto justify-center rounded-full px-5"
                   onClick={() => setDeleteModalIsOpen(true)}
