@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Controlled as Zoom } from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { motion } from "framer-motion";
 import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 
 /// Note: Using version 4.4.3 of react-medium-image-zoom, due to a lot of bugs in v5+
@@ -35,15 +34,7 @@ const WineImageZoom = ({
   };
 
   return (
-    <motion.div
-      initial={{ x: 10, opacity: 0 }}
-      animate={{
-        x: 0,
-        opacity: 1,
-      }}
-      transition={{ type: "spring", stiffness: 60, delay: 0 }}
-      className="block-muted flex flex-col items-center  overflow-auto p-2 md:sticky  md:top-4"
-    >
+    <div className="block-muted flex flex-col items-center  overflow-auto p-2 md:sticky  md:top-4">
       <Zoom isZoomed={isZoomed} onZoomChange={handleZoomChange}>
         <img
           className={`mx-auto h-64 w-64 object-scale-down sm:h-80 sm:w-80 ${
@@ -65,7 +56,7 @@ const WineImageZoom = ({
       {enabled && (
         <p className="text-muted text-sm">Trykk på bilde for å zoome inn.</p>
       )}
-    </motion.div>
+    </div>
   );
 };
 

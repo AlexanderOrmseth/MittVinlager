@@ -33,7 +33,7 @@ const WineDetail = ({ wine }: Props) => {
 
   return (
     <div className=" space-y-4">
-      <DescriptionList delay={0} title="Vindetaljer">
+      <DescriptionList title="Vindetaljer">
         <DescriptionItem dt="Navn" dd={wine.name} />
         <DescriptionItem dt="Type" dd={wine.type} />
         <DescriptionItem dt="Pris" dd={formatPrice(wine.price)} />
@@ -62,7 +62,7 @@ const WineDetail = ({ wine }: Props) => {
         <DescriptionItem dt="Produktnummer" dd={wine.productId} />
       </DescriptionList>
 
-      <DescriptionList delay={1} title="Smaksdetaljer">
+      <DescriptionList title="Smaksdetaljer">
         <DescriptionItem dt="Råstoff" dd={wine.grapes?.join(", ")} />
         <DescriptionItem
           dt="Passer til"
@@ -91,7 +91,7 @@ const WineDetail = ({ wine }: Props) => {
         </DescriptionItem>
       </DescriptionList>
 
-      <DescriptionList delay={2} title="Brukerdetaljer">
+      <DescriptionList title="Brukerdetaljer">
         <DescriptionItem dt="Antall" dd={wine.userDetails.quantity} />
         <DescriptionItem dt="Dato kjøpt">
           <Time date={wine.userDetails.purchaseDate} />
