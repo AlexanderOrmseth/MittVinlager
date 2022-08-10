@@ -29,8 +29,6 @@ body {
   flex-direction: column;
 }
 
-
-
 /* dark scrollbars if darkMode */
 .dark {
   color-scheme: dark;
