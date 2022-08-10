@@ -11,7 +11,7 @@ const Stars = ({ stars, size, onClick }: Props) => {
   const fadedStars = 5 - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className="dark:text-yellow-600 flex flex-row items-center gap-x-0.5 text-yellow-500">
+    <div className="flex flex-row items-center gap-x-0.5 text-yellow-500 dark:text-yellow-600">
       {[...Array(fullStars)].map((_, i) => (
         <Star
           key={i}
