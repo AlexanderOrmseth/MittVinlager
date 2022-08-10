@@ -58,47 +58,41 @@ const Header = () => {
         )}
       </nav>
 
-      <div className="flex flex-row items-center gap-x-2">
+      <div className="i-flex-row">
         {user && (
-          <div>
-            <DropDownMenu
-              buttons={[
-                {
-                  text: "Min profil",
-                  icon: <User size="1.2rem" />,
-                  fnc: () => navigate("/profile"),
+          <DropDownMenu
+            buttons={[
+              {
+                text: "Min profil",
+                icon: <User size="1.2rem" />,
+                fnc: () => navigate("/profile"),
+              },
+              {
+                text: darkMode ? "Lyst tema" : "Mørkt tema",
+                icon: darkMode ? <Sun size="1.2rem" /> : <Moon size="1.2rem" />,
+                fnc: () => dispatch(toggleTheme()),
+              },
+              {
+                text: "Logg ut",
+                icon: <SignOut size="1.2rem" />,
+                divide: true,
+                fnc: () => {
+                  dispatch(signOut());
+                  dispatch(resetAll());
                 },
-                {
-                  text: darkMode ? "Lyst tema" : "Mørkt tema",
-                  icon: darkMode ? (
-                    <Sun size="1.2rem" />
-                  ) : (
-                    <Moon size="1.2rem" />
-                  ),
-                  fnc: () => dispatch(toggleTheme()),
-                },
-                {
-                  text: "Logg ut",
-                  icon: <SignOut size="1.2rem" />,
-                  divide: true,
-                  fnc: () => {
-                    dispatch(signOut());
-                    dispatch(resetAll());
-                  },
-                },
-              ]}
-              text={
-                user.displayName
-                  ? user.displayName.length > 15
-                    ? user.displayName.slice(0, 15) + "..."
-                    : user.displayName
-                  : "Anonym"
-              }
-            />
-          </div>
+              },
+            ]}
+            text={
+              user.displayName
+                ? user.displayName.length > 15
+                  ? user.displayName.slice(0, 15) + "..."
+                  : user.displayName
+                : "Anonym"
+            }
+          />
         )}
         <div className="block md:hidden">
-          <Hamburger toggled={isOpen} toggle={setOpen} />
+          <Hamburger size={28} toggled={isOpen} toggle={setOpen} />
         </div>
       </div>
     </div>
