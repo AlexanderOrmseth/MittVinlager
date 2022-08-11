@@ -102,7 +102,8 @@ public class WishlistController : BaseApiController
         // Add image from product Id
         if (wishItemDto.ProductId.IsNumeric())
         {
-            var imageResult = await _imageService.AddImageAsync(wishItemDto.ProductId, userId, true);
+            var imageResult = await _imageService.AddOrUpdateImageAsync(new ImageParams
+                {ProductId = wishItemDto.ProductId, UserId = userId, Small = true});
 
             if (imageResult.Error is not null)
             {

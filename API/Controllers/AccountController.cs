@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -173,6 +171,15 @@ public class AccountController : BaseApiController
 
         // delete all images
         await _imageService.DeleteAllUserImages(user.Id);
+        return Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpDelete("deleteFolder")]
+    public async Task<ActionResult> DeleteFolder()
+    {
+        // delete all images
+        await _imageService.DeleteAllUserImages(2);
         return Ok();
     }
 

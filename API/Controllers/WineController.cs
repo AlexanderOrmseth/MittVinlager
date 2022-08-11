@@ -118,7 +118,8 @@ public class WineController : BaseApiController
         // Add image from file
         if (formBody.File is not null)
         {
-            var imageResult = await _imageService.AddImageFromFileAsync(formBody.File, userId);
+            var imageResult = await _imageService.AddOrUpdateImageFromFileAsync(new ImageFileParams
+                {File = formBody.File, UserId = userId});
 
             if (imageResult.Error is not null)
             {
@@ -130,7 +131,8 @@ public class WineController : BaseApiController
         //  Add image from valid product id
         else if (formBody.ProductId.IsNumeric())
         {
-            var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+            var imageResult = await _imageService.AddOrUpdateImageAsync(new ImageParams
+                {ProductId = formBody.ProductId!, UserId = userId});
 
             if (imageResult.Error is not null)
             {
@@ -214,9 +216,18 @@ public class WineController : BaseApiController
         // add/update image from file
         if (formBody.File is not null)
         {
-            var imageResult = !string.IsNullOrEmpty(wine.PublicId)
-                ? await _imageService.UpdateImageFromFileAsync(formBody.File, wine.PublicId)
-                : await _imageService.AddImageFromFileAsync(formBody.File, userId);
+            var imageFileParams = new ImageFileParams {File = formBody.File};
+
+            if (wine.PublicId.IsNotEmpty())
+            {
+                imageFileParams.PublicId = wine.PublicId;
+            }
+            else
+            {
+                imageFileParams.UserId = userId;
+            }
+
+            var imageResult = await _imageService.AddOrUpdateImageFromFileAsync(imageFileParams);
 
             if (imageResult.Error is not null)
                 return BadRequest(new ProblemDetails {Title = imageResult.Error.Message});
@@ -236,7 +247,9 @@ public class WineController : BaseApiController
 
                 if (replaceImage)
                 {
-                    var imageResult = await _imageService.UpdateImageAsync(formBody.ProductId, wine.PublicId);
+                    var imageResult =
+                        await _imageService.AddOrUpdateImageAsync(new ImageParams
+                            {ProductId = formBody.ProductId!, PublicId = wine.PublicId});
 
                     if (imageResult.Error is not null)
                     {
@@ -249,7 +262,8 @@ public class WineController : BaseApiController
             // Has no image
             else
             {
-                var imageResult = await _imageService.AddImageAsync(formBody.ProductId, userId);
+                var imageResult = await _imageService.AddOrUpdateImageAsync(new ImageParams
+                    {ProductId = formBody.ProductId!, UserId = userId});
 
                 if (imageResult.Error is not null)
                 {

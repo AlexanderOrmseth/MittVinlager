@@ -4,7 +4,7 @@ namespace API.Filters;
 
 public class DelayFilter : IAsyncActionFilter
 {
-    private const int DelayInMs = 100;
+    private const int DelayInMs = 500;
 
     async Task IAsyncActionFilter.OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
