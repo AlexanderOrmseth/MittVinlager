@@ -111,7 +111,7 @@ const Vinmonopolet = ({
         }
       }
     },
-    [getValues, isWishlist, resetAction, setValue, setValues]
+    [getValues, resetAction, isWishlist, setValue, setValues]
   );
 
   useEffect(() => {
