@@ -174,16 +174,6 @@ public class AccountController : BaseApiController
         return Ok();
     }
 
-    [AllowAnonymous]
-    [HttpDelete("deleteFolder")]
-    public async Task<ActionResult> DeleteFolder()
-    {
-        // delete all images
-        await _imageService.DeleteAllUserImages(2);
-        return Ok();
-    }
-
-
     /// <summary>
     /// Verify Google Access Token
     /// </summary>
