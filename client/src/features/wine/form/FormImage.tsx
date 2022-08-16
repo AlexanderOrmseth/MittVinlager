@@ -23,7 +23,7 @@ const FormImage = <T extends FieldValues>({
   wine,
   ...rest
 }: Props<T>) => {
-  const [imageSrc, setImageSrc] = useState<string | null | undefined>(null);
+  const [imageSrc, setImageSrc] = useState<string>(placeholder);
   const { field } = useController({
     ...rest,
   });
@@ -36,7 +36,7 @@ const FormImage = <T extends FieldValues>({
     if (file) {
       setImageSrc(URL.createObjectURL(file));
     } else if (wine.imageByUser && !field.value) {
-      setImageSrc(wine.pictureUrl);
+      setImageSrc(wine.pictureUrl ?? placeholder);
     }
     // use product id
     else if (field.value && productId) {
@@ -53,10 +53,14 @@ const FormImage = <T extends FieldValues>({
   }, [wine, productId, file, field.value]);
 
   return (
-    <div className="mb-4 select-none rounded bg-white p-2 shadow md:mb-0">
+    <div
+      className={`mb-4 select-none rounded bg-white ${
+        imageSrc === placeholder ? "dark:bg-gray-800" : "dark:bg-white"
+      }  p-2 shadow md:mb-0`}
+    >
       <img
         className="mx-auto h-64 w-64 object-scale-down"
-        src={imageSrc || placeholder}
+        src={imageSrc}
         alt="Bilde av en vin."
       />
       {wine.imageByUser && productId && !file && (

@@ -2,13 +2,13 @@
 export const vinmonopoletImage = (
   id: string | null | undefined,
   size: number
-) =>
+): string =>
   id
     ? `https://bilder.vinmonopolet.no/cache/${size}x${size}-0/${id}-1.jpg`
     : placeholder;
 
 // link to vinmonopolet wine
-export const vinmonopoletLink = (id: string) =>
+export const vinmonopoletLink = (id: string): string =>
   `https://www.vinmonopolet.no/p/${id}`;
 
 // placeholder image
