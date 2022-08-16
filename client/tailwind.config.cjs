@@ -30,6 +30,8 @@ module.exports = {
         "blue-wine-light": "#7296DA",
         "blue-wine-light-2": "#80a0dd",
 
+        "link-light": "#59d1d9",
+
         "blue-wine-25": "#dee6f5",
         "blue-wine-100": "#7685a1",
         "blue-wine-200": "#5f7092",

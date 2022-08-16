@@ -115,7 +115,7 @@ iframe {
   }
 
   .link {
-    @apply text-green-wine-500 dark:text-[#59d1d9] hover:text-green-wine-600 hover:underline font-medium;
+    @apply text-green-wine-500 dark:text-link-light hover:text-green-wine-600 hover:underline font-medium;
   }
 
   .text-muted {

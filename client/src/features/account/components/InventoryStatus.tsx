@@ -1,8 +1,10 @@
 import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../../app/util/format";
-import { Link } from "react-router-dom";
 import { InfoBox } from "../../../app/components/InfoBox";
 import { InventoryStatus as IventoryStatusInterface } from "../../../app/models/statistics";
+import { useNavigate } from "react-router-dom";
+import { setTypeOnly } from "../../wine/wineSlice";
+import { useAppDispatch } from "../../../app/store/configureStore";
 
 // chart colors
 const chartColors = [
@@ -19,11 +21,11 @@ const chartColors = [
 // chart options
 const chartOptions = {
   animate: true,
-  className: "h-80",
-  labelPosition: 90,
+  className: "h-80 overflow-visible dark:fill-white",
+  labelPosition: 80,
   lineWidth: 50,
   paddingAngle: 2,
-  labelStyle: { fontSize: "4px" },
+  labelStyle: { fontSize: "4px", letterSpacing: -0.35 },
 };
 
 interface Props {
@@ -31,6 +33,8 @@ interface Props {
 }
 
 const InventoryStatus = ({ inventoryStatus }: Props) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   if (!inventoryStatus || inventoryStatus.length === 0)
     return <InfoBox message="Ingen data å vise. Du har ingen vin på lager." />;
 
@@ -50,6 +54,11 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
       ),
     },
   ];
+
+  const handleTypeClicked = (type: string) => {
+    dispatch(setTypeOnly(type));
+    navigate("/inventory");
+  };
 
   return (
     <div className="my-4">
@@ -123,9 +132,12 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
               className="dark:odd:bg-gray-950/50 grid grid-cols-3 gap-2 rounded p-2 odd:bg-slate-100"
             >
               <div>
-                <Link className="link" to="/inventory">
+                <button
+                  className="link"
+                  onClick={() => handleTypeClicked(data.type)}
+                >
                   {data.type}
-                </Link>
+                </button>
               </div>
 
               <div className="text-right">{data.quantity}</div>

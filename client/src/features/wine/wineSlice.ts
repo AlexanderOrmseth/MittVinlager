@@ -54,6 +54,19 @@ export const wineSlice = createSlice({
         orderBy: action.payload,
       };
     },
+    setTypeOnly: (state, action: PayloadAction<string>) => {
+      state.wineParams = {
+        ...state.wineParams,
+        pageNumber: 1,
+        countries: [],
+        types: [action.payload],
+        searchTerm: "",
+        grapes: "",
+        favoriteOption: "",
+        storageOption: "",
+        recommendedFood: [],
+      };
+    },
     setOrderByDescending: (state, action: PayloadAction<boolean>) => {
       state.orderByDescending = action.payload;
     },
@@ -90,4 +103,5 @@ export const {
   resetAll,
   setHideFilter,
   setGridView,
+  setTypeOnly,
 } = wineSlice.actions;
