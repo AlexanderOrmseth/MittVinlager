@@ -5,7 +5,7 @@ namespace API.RequestHelpers;
 public class PagedList<T> : List<T>
 {
     // number of items on a single page
-    private const int PageSize = 10;
+    private const int PageSize = 20;
 
     // constructor
     private PagedList(IEnumerable<T> items, int count, int resultCount, int pageNumber)
