@@ -9,6 +9,7 @@ using API.RequestHelpers;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace API.Controllers;
 
@@ -439,6 +440,44 @@ public class WineController : BaseApiController
         }
 
         return BadRequest("kunne ikke slette denne vinen.");
+    }
+
+
+    [HttpPost("testData")]
+    public async Task<ActionResult> AddTestData(CancellationToken cancellationToken)
+    {
+        var userId = GetUserId(User);
+
+        // get testData from json
+        List<Wine> testData;
+        using (var r = new StreamReader("TestData/TestData.json"))
+        {
+            var json = await r.ReadToEndAsync();
+            testData = JsonConvert.DeserializeObject<List<VinmonopoletDto>>(json)!.Select(x => MapDtoToWine(x, userId))
+                .ToList();
+        }
+
+        // get testData image url
+        var imageUrlList = await _imageService.GetTestDataImages();
+        if (!imageUrlList.Any())
+        {
+            return BadRequest(new ProblemDetails {Title = "Error! Kunne ikke hente test-data."});
+        }
+
+        // add testData image url
+        foreach (var wine in testData)
+        {
+            wine.PictureUrl = imageUrlList.FirstOrDefault(x => x.Contains(wine.ProductId!));
+        }
+
+        var result = await _wineRepository.AddTestData(testData, cancellationToken);
+
+        if (result)
+        {
+            return Ok(testData);
+        }
+
+        return BadRequest(new ProblemDetails {Title = "Error! Kunne ikke hente test-data."});
     }
 
 

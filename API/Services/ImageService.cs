@@ -80,6 +80,13 @@ public class ImageService
         return await _cloudinary.UploadAsync(uploadParams);
     }
 
+    public async Task<List<string>> GetTestDataImages()
+    {
+        var searchResult = await _cloudinary.Search().Expression("TestData").MaxResults(30).ExecuteAsync();
+        var imageUrlList = searchResult.Resources.Select(x => x.SecureUrl).ToList();
+        return imageUrlList;
+    }
+
     /// <summary>
     /// Deletes all stored images of user and its folder on cloudinary
     /// </summary>

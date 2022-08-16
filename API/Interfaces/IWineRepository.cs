@@ -33,5 +33,7 @@ public interface IWineRepository
 
     Task<int> GetAllWineCount(CancellationToken cancellationToken);
 
+    Task<bool> AddTestData(IEnumerable<Wine> testData, CancellationToken cancellationToken);
+
     Task<bool> Save(CancellationToken cancellationToken);
 }

@@ -221,4 +221,10 @@ public class WineRepository : IWineRepository
     {
         return await _context.SaveChangesAsync(cancellationToken) > 0;
     }
+
+    public async Task<bool> AddTestData(IEnumerable<Wine> testData, CancellationToken cancellationToken)
+    {
+        await _context.AddRangeAsync(testData, cancellationToken);
+        return await _context.SaveChangesAsync(cancellationToken) > 0;
+    }
 }

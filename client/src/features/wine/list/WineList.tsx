@@ -1,6 +1,7 @@
 import {
   ArrowCounterClockwise,
   Ghost,
+  MagicWand,
   PlusCircle,
   Robot,
 } from "phosphor-react";
@@ -17,6 +18,9 @@ import WineRowItem from "./WineRowItem";
 import { Wine } from "../../../app/models/wine";
 import { MetaData } from "../../../app/models/pagination";
 import InventoryMessage from "./InventoryMessage";
+import LoadingButton from "../../../app/components/LoadingButton";
+import { useAddTestDataMutation } from "../../../app/services/wineApi";
+import toast from "react-hot-toast";
 
 interface Props {
   wine: Wine[] | [];
@@ -32,17 +36,30 @@ const WineList = ({ wine, metaData }: Props) => {
     id: null | number;
     name: null | string;
   }>({ id: null, name: null });
+  const [addTestData, { ...addTestDataStatus }] = useAddTestDataMutation();
+  const handleAddTestData = async () => {
+    await addTestData()
+      .unwrap()
+      .then(() => {
+        toast.success("Hentet testdata!");
+      })
+      .catch((err) => {
+        if (err?.data?.title) {
+          toast.error(err.data.title);
+          return;
+        }
+
+        toast.error("Error! Kunne ikke hente testdata!");
+        console.error("Adding test data error: ", err);
+      });
+  };
 
   const handleDeleteWine = (id: number, name: string) => {
     setWineToDelete({ id, name });
     setIsOpen(true);
   };
 
-  // TODO: have a useCallBack UseDebounce here that is passed to components so they share the timout
-
   let content;
-  // loading
-
   if (!metaData.totalCount) {
     content = (
       <InventoryMessage
@@ -53,6 +70,17 @@ const WineList = ({ wine, metaData }: Props) => {
           <PlusCircle size="1.75em" />
           Legg til vin
         </Link>
+
+        <LoadingButton
+          loading={addTestDataStatus.isLoading}
+          onClick={handleAddTestData}
+          className="mt-2 h-12 w-full max-w-xs justify-center rounded-md"
+          loadingText="Henter testdata..."
+          disabled={addTestDataStatus.isLoading || addTestDataStatus.isError}
+        >
+          <MagicWand size="1.75em" />
+          Legg til testdata (18 vin)
+        </LoadingButton>
       </InventoryMessage>
     );
   } else if (wine.length === 0) {

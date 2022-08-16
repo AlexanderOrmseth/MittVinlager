@@ -84,6 +84,21 @@ export const wineApi = api.injectEndpoints({
         { type: "Filter", id: "LIST" },
       ],
     }),
+    /* Add test data
+     * */
+    addTestData: builder.mutation<void, void>({
+      query() {
+        return {
+          url: "/wine/testData",
+          method: "POST",
+        };
+      },
+      invalidatesTags: [
+        { type: "Wines", id: "LIST" },
+        { type: "Statistics", id: "LIST" },
+        { type: "Filter", id: "LIST" },
+      ],
+    }),
     /* Update wine
      * */
     updateWine: builder.mutation<Wine, { id: number; data: WineFormData }>({
@@ -125,4 +140,5 @@ export const {
   useUpdateWineMutation,
   useGetStatisticsQuery,
   useGetWineFiltersQuery,
+  useAddTestDataMutation,
 } = wineApi;
