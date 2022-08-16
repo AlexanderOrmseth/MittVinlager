@@ -99,7 +99,7 @@ iframe {
     dark:border-gray-700
     enabled:hover:border-gray-300 enabled:dark:hover:border-gray-600
     dark:hover:bg-gray-800/30 active:bg-slate-100
-    disabled:border-transparent focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
+    disabled:border-0 focus:ring-4 focus:ring-wine-300 focus:ring-opacity-50 outline-none;
   }
 
   .btn-white-large {

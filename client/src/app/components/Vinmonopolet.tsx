@@ -33,16 +33,16 @@ interface ErrorFromServer {
 const checkProductId = (val?: string): boolean =>
   val ? /^\d+$/.test(val) : false;
 const productIdSchema = z
-  .string({ required_error: "ProduktId/link kan ikke være tom." })
+  .string({ required_error: "Varenummer/link kan ikke være tom." })
   .trim()
-  .min(2, "ProduktId/link må minst ha 2 bokstaver.")
+  .min(2, "Varenummer/link må minst ha 2 bokstaver.")
   .transform((val) => {
     if (val.includes("vinmonopolet.no/") && val.includes("/p/")) {
       return val.split("/p/")[1];
     }
     return val;
   })
-  .refine(checkProductId, { message: "ProduktId/link er ugyldig!" });
+  .refine(checkProductId, { message: "Varenummer/link er ugyldig!" });
 
 const radioValues = [
   {
@@ -162,7 +162,7 @@ const Vinmonopolet = ({
       <div className="block-less-muted space-y-6 rounded-lg p-4">
         <div>
           <label htmlFor="vinmonopoletProductId" className="label">
-            ProduktId/Link
+            Varenummer/Link
           </label>
           <input
             className={`text-input text h-12 px-3 text-lg ${
@@ -172,7 +172,7 @@ const Vinmonopolet = ({
             name="vinmonopoletProductId"
             value={inputValue}
             autoComplete="off"
-            placeholder="produktId"
+            placeholder="Varenummer"
             onKeyDown={handleKeyPressed}
             onChange={(e) => setInputValue(e.target.value)}
           />

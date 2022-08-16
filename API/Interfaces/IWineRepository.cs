@@ -31,5 +31,7 @@ public interface IWineRepository
     Task<ICollection> GetLastPurchases(int userId, CancellationToken cancellationToken);
     Task<ICollection> GetInventoryStatus(int userId, CancellationToken cancellationToken);
 
+    Task<int> GetAllWineCount(CancellationToken cancellationToken);
+
     Task<bool> Save(CancellationToken cancellationToken);
 }

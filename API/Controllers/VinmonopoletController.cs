@@ -27,7 +27,7 @@ public class VinmonopoletController : BaseApiController
     {
         if (!productId.IsNumeric())
         {
-            return BadRequest(new ProblemDetails {Title = "Dette produktnummeret er ikke gyldig!"});
+            return BadRequest(new ProblemDetails {Title = "Dette Varenummeret er ikke gyldig!"});
         }
 
         var client = _clientFactory.CreateClient("Vinmonopolet");

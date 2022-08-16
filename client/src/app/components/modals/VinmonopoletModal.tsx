@@ -29,7 +29,7 @@ const VinmonopoletModal = ({
   return (
     <Modal
       title="Hent vin fra Vinmonopolet"
-      description="Fyll inn produktId eller url fra vinmonopolet"
+      description="Fyll inn varenummer eller link fra Vinmonopolet"
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       xl

@@ -261,7 +261,7 @@ const CreateOrUpdate = ({
           <div className="relative my-6 border-t border-slate-200 dark:border-gray-700">
             {getValues("productId") && (
               <span className="dark:bg-gray-950 bg-slate-25 absolute right-4 -top-3 px-1 text-sm text-slate-400">
-                <span className="select-none">produktId: </span>
+                <span className="select-none">Varenummer: </span>
                 {getValues("productId")}
               </span>
             )}

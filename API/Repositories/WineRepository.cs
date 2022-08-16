@@ -206,6 +206,11 @@ public class WineRepository : IWineRepository
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<int> GetAllWineCount(CancellationToken cancellationToken)
+    {
+        return await _context.Wines.CountAsync(cancellationToken);
+    }
+
     public async Task<bool> RemoveThenSave(Wine wine, CancellationToken cancellationToken)
     {
         _context.Wines.Remove(wine);

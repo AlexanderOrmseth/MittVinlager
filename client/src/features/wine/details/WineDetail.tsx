@@ -59,7 +59,7 @@ const WineDetail = ({ wine }: Props) => {
           </div>
         </DescriptionItem>
         <DescriptionItem dt="Produsent" dd={wine.manufacturerName} />
-        <DescriptionItem dt="Produktnummer" dd={wine.productId} />
+        <DescriptionItem dt="Varenummer" dd={wine.productId} />
       </DescriptionList>
 
       <DescriptionList title="Smaksdetaljer">

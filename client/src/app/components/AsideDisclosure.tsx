@@ -10,7 +10,11 @@ interface Props {
 
 const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
   return (
-    <Disclosure as={"div"} defaultOpen={defaultOpen}>
+    <Disclosure
+      as={"div"}
+      className="overflow-hidden"
+      defaultOpen={defaultOpen}
+    >
       {({ open }) => (
         <>
           <Disclosure.Button
@@ -26,12 +30,13 @@ const AsideDisclosure = ({ title, children, defaultOpen = true }: Props) => {
             />
           </Disclosure.Button>
           <Transition
-            enter="transition duration-100 ease-out"
-            enterFrom="transform scale-95 opacity-0"
-            enterTo="transform scale-100 opacity-100"
-            leave="transition duration-75 ease-out"
-            leaveFrom="transform scale-100 opacity-100"
-            leaveTo="transform scale-95 opacity-0"
+            show={open}
+            enter="transition transition-[max-height] duration-500 ease-in"
+            enterFrom="transform max-h-0"
+            enterTo="transform max-h-screen"
+            leave="transition transition-[max-height] duration-200 ease-out"
+            leaveFrom="transform max-h-screen"
+            leaveTo="transform max-h-0"
           >
             <Disclosure.Panel className="p-2">{children}</Disclosure.Panel>
           </Transition>

@@ -64,7 +64,6 @@ public class AccountController : BaseApiController
          *  Create new user 
          */
 
-
         var newUserUserName = Guid.NewGuid().ToString();
 
         // paranoid check

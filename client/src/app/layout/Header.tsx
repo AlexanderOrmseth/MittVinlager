@@ -10,6 +10,8 @@ import NavLink from "../components/NavLink";
 import { toggleTheme } from "../../features/ui/themeSlice";
 import GoogleButton from "../../features/account/GoogleButton";
 import { Squash as Hamburger } from "hamburger-react";
+import { Transition } from "@headlessui/react";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 const Header = () => {
   const divRef = useRef<HTMLDivElement>(null);
@@ -20,6 +22,7 @@ const Header = () => {
   const handleOutsideClick = () => setOpen(false);
   useOnClickOutside(divRef, handleOutsideClick);
   const [isOpen, setOpen] = useState(false);
+  const isSmall = useMediaQuery("(max-width: 767px)");
 
   return (
     <div
@@ -41,10 +44,19 @@ const Header = () => {
         <h1 className="flex-1 leading-5">Mitt Vinlager</h1>
       </Link>
 
-      <nav
-        className={`col-span-2 row-start-2 mt-2 flex flex-col space-y-2 md:col-auto md:row-start-auto md:mt-0 md:flex-row md:space-x-4 ${
-          isOpen ? "block md:block" : "hidden md:block"
+      <Transition
+        show={isOpen || !isSmall}
+        as={"nav"}
+        static
+        className={`col-span-2 overflow-hidden row-start-2 mt-2 flex flex-col space-y-2 md:col-auto md:row-start-auto md:mt-0 md:flex-row md:space-x-4 ${
+          isOpen ? "block md:block" : "md:block"
         }`}
+        enter="transition transition-[max-height] duration-300 ease-in"
+        enterFrom="transform max-h-0"
+        enterTo="transform max-h-screen"
+        leave="transition transition-[max-height] duration-50 ease-out"
+        leaveFrom="transform max-h-screen"
+        leaveTo="transform max-h-0"
       >
         {user ? (
           <>
@@ -56,7 +68,7 @@ const Header = () => {
         ) : (
           <GoogleButton />
         )}
-      </nav>
+      </Transition>
 
       <div className="i-flex-row">
         {user && (
