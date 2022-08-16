@@ -25,7 +25,7 @@ const chartOptions = {
   labelPosition: 80,
   lineWidth: 50,
   paddingAngle: 2,
-  labelStyle: { fontSize: "4px", letterSpacing: -0.35 },
+  labelStyle: { fontSize: "4.5px", letterSpacing: -0.1, fontWeight: 500 },
 };
 
 interface Props {
@@ -129,11 +129,11 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           {inventoryStatus.map((data, i) => (
             <div
               key={i}
-              className="dark:odd:bg-gray-950/50 grid grid-cols-3 gap-2 rounded p-2 odd:bg-slate-100"
+              className="dark:odd:bg-gray-950/50 leading-tight grid grid-cols-3 gap-2 rounded p-3 odd:bg-slate-100"
             >
               <div>
                 <button
-                  className="link"
+                  className="link text-left"
                   onClick={() => handleTypeClicked(data.type)}
                 >
                   {data.type}
