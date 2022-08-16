@@ -129,7 +129,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           {inventoryStatus.map((data, i) => (
             <div
               key={i}
-              className="dark:odd:bg-gray-950/50 leading-tight grid grid-cols-3 gap-2 rounded p-3 odd:bg-slate-100"
+              className="dark:odd:bg-gray-950/50 grid grid-cols-3 gap-2 rounded p-3 leading-tight odd:bg-slate-100"
             >
               <div>
                 <button
