@@ -22,9 +22,7 @@ const NewWinePage = () => {
     await addWine(data)
       .unwrap()
       .then(() => {
-        toast.success(`Opprettet ny vin!`, {
-          position: "bottom-right",
-        });
+        toast.success("Opprettet ny vin!");
         navigate("/inventory");
       })
       .catch((err) => {
@@ -32,10 +30,7 @@ const NewWinePage = () => {
         console.error("Adding wine error: ", err);
         if (err?.data?.errors) {
           setServerErrors(err.data.errors);
-          console.log(err.data.errors);
-          return;
         }
-        console.error("Adding wine error", err);
       });
   };
 

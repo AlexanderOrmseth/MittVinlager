@@ -30,8 +30,6 @@ const UpdateWinePage = () => {
     return <ErrorBox message={`Kunne ikke finne vinen med id: ${id}`} />;
   }
 
-  console.log(wine);
-
   const onSubmit = async (data: WineFormData) => {
     // debug
     console.log(data);
@@ -39,9 +37,7 @@ const UpdateWinePage = () => {
     await updateWine({ id, data })
       .unwrap()
       .then(() => {
-        toast.success(`Oppdaterte vin!`, {
-          position: "bottom-right",
-        });
+        toast.success("Oppdaterte vin!");
         navigate(-1);
       })
       .catch((err) => {
@@ -49,9 +45,7 @@ const UpdateWinePage = () => {
         console.error("Update wine error", err);
         if (err?.data?.errors) {
           setServerErrors(err.data.errors);
-          return;
         }
-        console.error("Update wine error", err);
       });
   };
 
