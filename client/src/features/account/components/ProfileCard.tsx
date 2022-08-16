@@ -18,7 +18,7 @@ const ProfileCard = () => {
     <>
       <div className="block-less-muted flex w-full flex-col items-center justify-center gap-y-5 rounded-lg p-4 md:inline-flex md:max-w-lg md:p-8">
         <User size="4rem" weight="regular" />
-        <h3 className="text-blue-wine-400 dark:text-wine-300 break-all text-center text-2xl font-medium leading-7 md:text-4xl">
+        <h3 className="text-blue-wine-400 dark:text-blue-wine-light break-all text-center text-2xl font-medium leading-7 md:text-4xl">
           <p className="text-muted text-base">Brukernavn</p>
           {user?.displayName || "Ikke opprettet navn"}
         </h3>
