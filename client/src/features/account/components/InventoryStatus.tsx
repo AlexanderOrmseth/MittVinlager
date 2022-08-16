@@ -1,7 +1,7 @@
 import { PieChart } from "react-minimal-pie-chart";
 import { formatPrice } from "../../../app/util/format";
 import { InfoBox } from "../../../app/components/InfoBox";
-import { InventoryStatus as IventoryStatusInterface } from "../../../app/models/statistics";
+import { InventoryStatus as InventoryStatusInterface } from "../../../app/models/statistics";
 import { useNavigate } from "react-router-dom";
 import { setTypeOnly } from "../../wine/wineSlice";
 import { useAppDispatch } from "../../../app/store/configureStore";
@@ -29,7 +29,7 @@ const chartOptions = {
 };
 
 interface Props {
-  inventoryStatus: IventoryStatusInterface[];
+  inventoryStatus: InventoryStatusInterface[];
 }
 
 const InventoryStatus = ({ inventoryStatus }: Props) => {
@@ -129,7 +129,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
           {inventoryStatus.map((data, i) => (
             <div
               key={i}
-              className="dark:odd:bg-gray-950/50 grid grid-cols-3 gap-2 rounded p-3 leading-tight odd:bg-slate-100"
+              className="dark:odd:bg-gray-950/50 grid grid-cols-3 items-center gap-2 rounded p-3 leading-tight odd:bg-slate-100"
             >
               <div>
                 <button
