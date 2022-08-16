@@ -1,6 +1,7 @@
 import { Dialog } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useEffect, useRef } from "react";
+import { X } from "phosphor-react";
 
 interface Props {
   isOpen: boolean;
@@ -20,10 +21,16 @@ const Modal = ({
   xl,
 }: Props) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
+  // prevent modal buttons being focused on load
+  // reason: users could accidentally delete wine
   useEffect(() => {
-    if (containerRef.current) containerRef.current.focus();
-  }, [containerRef]);
+    if (containerRef.current && scrollContainerRef.current && isOpen) {
+      // fix for focus on /inventory
+      setTimeout(() => containerRef.current?.focus(), 50);
+    }
+  }, [containerRef, isOpen, scrollContainerRef]);
 
   return (
     <AnimatePresence>
@@ -49,7 +56,10 @@ const Modal = ({
             aria-hidden="true"
           />
 
-          <div className="fixed inset-0 overflow-y-auto">
+          <div
+            ref={scrollContainerRef}
+            className="fixed inset-0 overflow-y-auto"
+          >
             <div className="flex min-h-full items-center justify-center p-4">
               <Dialog.Panel
                 as={motion.div}
@@ -62,7 +72,7 @@ const Modal = ({
                   scale: 1,
                   transition: {
                     ease: "easeOut",
-                    duration: 0.2,
+                    duration: 0.25,
                   },
                 }}
                 exit={{
@@ -70,7 +80,7 @@ const Modal = ({
                   opacity: 0,
                   transition: {
                     ease: "easeIn",
-                    duration: 0.15,
+                    duration: 0.2,
                   },
                 }}
                 className={`mx-auto w-full overflow-hidden align-middle ${
@@ -79,20 +89,29 @@ const Modal = ({
               >
                 <Dialog.Title
                   as="h3"
-                  className="mb-2 text-lg font-medium leading-6 text-gray-900 dark:text-gray-50"
+                  tabIndex={-1}
+                  ref={containerRef}
+                  className="mb-2 flex items-center justify-between text-lg font-medium leading-6 text-gray-900 outline-none dark:text-gray-50"
                 >
                   {title}
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="opacity-70 hover:opacity-100"
+                  >
+                    <X size="1.8rem" />
+                  </button>
                 </Dialog.Title>
                 <Dialog.Description className="mb-4 border-b pb-2 text-sm text-slate-600 dark:border-gray-700 dark:text-gray-300">
                   {description}
                 </Dialog.Description>
-                <div tabIndex={0} ref={containerRef}>
+                <div>
                   {children}
                   <button
                     className="btn-white mt-4 h-10 rounded-full"
                     onClick={() => setIsOpen(false)}
+                    onBlur={() => containerRef?.current?.focus()}
                   >
-                    Tilbake
+                    Avbryt
                   </button>
                 </div>
               </Dialog.Panel>
