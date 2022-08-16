@@ -48,7 +48,7 @@ const Header = () => {
         show={isOpen || !isSmall}
         as={"nav"}
         static
-        className={`col-span-2 overflow-hidden row-start-2 mt-2 flex flex-col space-y-2 md:col-auto md:row-start-auto md:mt-0 md:flex-row md:space-x-4 ${
+        className={`col-span-2 row-start-2 mt-2 flex flex-col space-y-2 overflow-hidden md:col-auto md:row-start-auto md:mt-0 md:flex-row md:space-x-4 ${
           isOpen ? "block md:block" : "md:block"
         }`}
         enter="transition transition-[max-height] duration-300 ease-in"
