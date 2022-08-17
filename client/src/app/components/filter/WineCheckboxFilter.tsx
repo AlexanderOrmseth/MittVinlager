@@ -54,7 +54,11 @@ const WineCheckboxFilter = ({
       {options &&
         options.map((item, i) => (
           <button
-            className="block w-full"
+            aria-checked={isChecked(item)}
+            role="checkbox"
+            className="group block w-full appearance-none outline-none"
+            disabled={disabled}
+            type="button"
             onClick={() => handleChecked(item)}
             key={i}
           >

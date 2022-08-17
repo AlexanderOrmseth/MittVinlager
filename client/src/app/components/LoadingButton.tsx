@@ -26,6 +26,8 @@ const LoadingButton = ({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
+      aria-disabled={disabled || loading}
+      aria-busy={loading}
       className={`${
         isPrimary ? "btn-primary" : "btn-white"
       } disabled-btn inline-flex h-10 items-center gap-2 ${

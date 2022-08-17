@@ -47,11 +47,6 @@ const YearPicker = ({
     setOpen(false);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.code === "Enter") e.preventDefault();
-    else if (e.key === "Tab") setOpen(false);
-  };
-
   return (
     <Popover
       as="div"

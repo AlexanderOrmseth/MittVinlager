@@ -29,6 +29,7 @@ const RadioFilter: FunctionComponent<Props> = ({
           <RadioGroup.Option
             key={item.value}
             disabled={disabled}
+            className="group outline-none"
             value={item.value}
           >
             {({ checked }) => (

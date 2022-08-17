@@ -17,7 +17,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
 }) => {
   return (
     <div
-      className={`flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-2.5 text-left leading-4 text-gray-700 dark:text-gray-400 sm:py-2 ${
+      className={`group-focus:ring-wine-300/50 flex w-full select-none flex-row items-center gap-x-2 rounded px-2 py-2.5 text-left leading-4 text-gray-700 group-focus:ring-2 group-focus:ring-inset dark:text-gray-400 sm:py-2 ${
         disabled
           ? "cursor-not-allowed opacity-50"
           : "group xs:hover:bg-slate-100 xs:hover:text-gray-900 xs:dark:hover:bg-gray-800/50 xs:dark:hover:text-gray-200 cursor-pointer"
