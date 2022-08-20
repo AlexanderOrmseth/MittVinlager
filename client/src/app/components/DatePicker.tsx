@@ -7,7 +7,7 @@ import {
   CaretRight,
   X,
 } from "phosphor-react";
-import { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Time from "./Time";
 
 const months = [
@@ -142,7 +142,9 @@ const DatePicker = ({
           close();
           event.preventDefault();
         }}
+        type="button"
         disabled={!hereafter ? isHereafter(i) : false}
+        aria-disabled={!hereafter ? isHereafter(i) : false}
         className={` rounded py-2 ${
           isSelectedDate(i)
             ? "bg-wine-500 dark:bg-wine-400 text-white"
@@ -194,12 +196,16 @@ const DatePicker = ({
                   <div className="flex flex-col gap-y-1 p-1">
                     <div className="flex flex-row items-center gap-x-1">
                       <button
+                        aria-label="Vis tidligere måned"
+                        type="button"
                         className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
                         onClick={(event) => handleMonthChange(event, false)}
                       >
                         <CaretLeft size="1.5rem" />
                       </button>
                       <button
+                        aria-label="Vis nåværende måned"
+                        type="button"
                         className="hover:text-wine-500 dark:hover:text-wine-300 flex-1 font-semibold hover:underline"
                         onClick={(event) => {
                           setMonth(new Date().getMonth());
@@ -209,6 +215,8 @@ const DatePicker = ({
                         {months[month]}
                       </button>
                       <button
+                        aria-label="Vis neste måned"
+                        type="button"
                         className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
                         onClick={(event) => handleMonthChange(event, true)}
                       >
@@ -217,34 +225,46 @@ const DatePicker = ({
                     </div>
                     <div className="flex flex-row items-center gap-x-1">
                       <button
+                        aria-label={`Vis år ${year - 1}`}
+                        type="button"
                         className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
                         onClick={(event) => handleYearChange(event, false)}
                       >
                         <CaretLeft size="1.5rem" />
                       </button>
                       <button
+                        aria-label={`Vis år ${year - 5}`}
+                        type="button"
                         className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
                         onClick={(event) => handleYearChange(event, false, 5)}
                       >
                         <CaretDoubleLeft size="1.5rem" />
                       </button>
                       <button
+                        aria-label={`Vis år ${today.getFullYear()}`}
+                        type="button"
                         className="hover:text-wine-500 dark:hover:text-wine-300 flex-1 font-semibold hover:underline"
                         onClick={(event) => {
-                          setYear(new Date().getFullYear());
+                          setYear(today.getFullYear());
                           event.preventDefault();
                         }}
                       >
                         {year}
                       </button>
                       <button
-                        className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
+                        aria-label={`Vis år ${year + 5}`}
+                        type="button"
+                        className="btn-white disabled-btn w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
+                        disabled={!hereafter && year + 5 > today.getFullYear()}
                         onClick={(event) => handleYearChange(event, true, 5)}
                       >
                         <CaretDoubleRight size="1.5rem" />
                       </button>
                       <button
-                        className="btn-white w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
+                        aria-label={`Vis år ${year + 1}`}
+                        type="button"
+                        className="btn-white disabled-btn w-auto p-1 text-gray-700 shadow-none dark:text-gray-300"
+                        disabled={!hereafter && year >= today.getFullYear()}
                         onClick={(event) => handleYearChange(event, true)}
                       >
                         <CaretRight size="1.5rem" />
@@ -252,7 +272,7 @@ const DatePicker = ({
                     </div>
                   </div>
 
-                  <div className="mb-[1px] grid grid-cols-7 gap-[1px] border-b px-1 text-center text-sm text-gray-700 dark:border-gray-700 dark:text-gray-400">
+                  <div className="text-less-muted mb-[1px] grid select-none grid-cols-7 gap-[1px] border-b px-1 text-center text-sm font-medium dark:border-gray-700">
                     {renderWeekDays}
                   </div>
                   {year && (
@@ -266,6 +286,7 @@ const DatePicker = ({
 
                   <div className="flex flex-row items-center gap-x-1 p-1">
                     <button
+                      type="button"
                       className="btn-white shadow-none"
                       onClick={(event) => {
                         onChange(
@@ -282,6 +303,7 @@ const DatePicker = ({
                       I dag
                     </button>
                     <button
+                      type="button"
                       onClick={(event) => {
                         onChange(null);
                         event.preventDefault();
