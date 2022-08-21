@@ -75,11 +75,11 @@ const PriceFilter = ({ disabled }: Props) => {
           onEnter={handleApplyPriceFilter}
         />
       </div>
-      {error && <em className="col-span-2 form-error">{error}</em>}
+      {error && <em className="form-error col-span-2">{error}</em>}
       <button
         disabled={disabled}
         onClick={handleApplyPriceFilter}
-        className="btn-white justify-center disabled-btn i-flex-row col-span-2"
+        className="btn-white disabled-btn i-flex-row col-span-2 justify-center"
       >
         <Check size="1.25rem" />
         Sett pris
