@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import { X } from "phosphor-react";
 
 type InputType =
   | {
@@ -19,6 +20,7 @@ type InputProps = {
   focus?: boolean;
   placeholder?: string;
   onEnter?: () => void;
+  resetValueBtn?: boolean;
 };
 
 type Props = InputProps & InputType;
@@ -33,6 +35,7 @@ const TextInput: FunctionComponent<Props> = ({
   placeholder,
   numeric,
   onEnter,
+  resetValueBtn,
 }) => {
   // prevent from submitting by pressing enter inside input
   const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -54,21 +57,36 @@ const TextInput: FunctionComponent<Props> = ({
   };
 
   return (
-    <input
-      onKeyDown={(e) => checkKeyDown(e)}
-      autoComplete="off"
-      className={`text-input ${
-        hasError
-          ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
-          : ""
-      }`}
-      onChange={(e) => handleOnChange(e)}
-      autoFocus={focus}
-      value={value ?? ""}
-      placeholder={placeholder}
-      inputMode={numeric ? "decimal" : "text"}
-      type={numeric ? "number" : "text"}
-    />
+    <div className="relative">
+      <input
+        onKeyDown={(e) => checkKeyDown(e)}
+        autoComplete="off"
+        className={`text-input ${
+          hasError
+            ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
+            : ""
+        }`}
+        onChange={(e) => handleOnChange(e)}
+        autoFocus={focus}
+        value={value ?? ""}
+        placeholder={placeholder}
+        inputMode={numeric ? "decimal" : "text"}
+        type={numeric ? "number" : "text"}
+      />
+      {resetValueBtn && value && (
+        <div className="absolute right-1 top-0 h-full flex items-center">
+          <button
+            tabIndex={-1}
+            onClick={() => onChange(null)}
+            type="button"
+            aria-label="Fjern verdi"
+            className="text-less-muted rounded p-1 hover:opacity-80 dark:hover:bg-gray-800 dark:hover:text-white"
+          >
+            <X size="1.1rem" weight="bold" />
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 

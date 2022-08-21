@@ -60,6 +60,8 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           <button
             onClick={() => handleOnChange("")}
             disabled={disabled}
+            type="button"
+            aria-label="Fjern verdi"
             className="text-less-muted absolute right-1 rounded p-1 dark:hover:bg-gray-800 dark:hover:text-white"
           >
             <X size="1.3rem" />

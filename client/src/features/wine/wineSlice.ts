@@ -48,6 +48,8 @@ export const wineSlice = createSlice({
         grapes: "",
         favoriteOption: "",
         storageOption: "",
+        priceTo: null,
+        priceFrom: null,
         recommendedFood: [],
       };
     },
@@ -67,6 +69,8 @@ export const wineSlice = createSlice({
         grapes: "",
         favoriteOption: "",
         storageOption: "",
+        priceTo: null,
+        priceFrom: null,
         recommendedFood: [],
       };
     },

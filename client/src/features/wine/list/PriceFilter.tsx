@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TextInput from "../../../app/components/TextInput";
 import {
   useAppDispatch,
@@ -21,7 +21,7 @@ const priceSchema = z
       .nullable(),
     priceTo: z
       .number({ invalid_type_error: "'Pris til' må være et tall." })
-      .min(0, "'Pris til' må være et positivt tall.")
+      .positive("'Pris til' må være et positivt tall.")
       .int("'Pris til' må være et heltall.")
       .nullable(),
   })
@@ -41,6 +41,14 @@ const PriceFilter = ({ disabled }: Props) => {
   );
   const [priceTo, setPriceTo] = useState<null | number>(priceToParam || null);
 
+  // when params are reset -> reset internal state
+  useEffect(() => {
+    if (priceToParam === null && priceFromParam === null) {
+      setPriceFrom(null);
+      setPriceTo(null);
+    }
+  }, [priceToParam, priceFromParam]);
+
   const handleApplyPriceFilter = () => {
     if (disabled) return;
 
@@ -56,23 +64,29 @@ const PriceFilter = ({ disabled }: Props) => {
   return (
     <div className="grid grid-cols-2 gap-2">
       <div>
-        <label className="label">Pris fra</label>
+        <label className="label">Fra</label>
         <TextInput
           maxLength={8}
           numeric={true}
+          placeholder="Fra"
+          resetValueBtn
           value={priceFrom}
           onChange={setPriceFrom}
           onEnter={handleApplyPriceFilter}
+          hasError={!!error}
         />
       </div>
       <div>
-        <label className="label">Pris til</label>
+        <label className="label">Til</label>
         <TextInput
           maxLength={8}
           numeric={true}
+          placeholder="Til"
+          resetValueBtn
           value={priceTo}
           onChange={setPriceTo}
           onEnter={handleApplyPriceFilter}
+          hasError={!!error}
         />
       </div>
       {error && <em className="form-error col-span-2">{error}</em>}
