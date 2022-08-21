@@ -5,7 +5,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../../app/store/configureStore";
-import { getParams, resetParams, setHideFilter, setParams } from "../wineSlice";
+import { resetParams, setHideFilter, setParams } from "../wineSlice";
 import { useGetWineFiltersQuery } from "../../../app/services/wineApi";
 import { MetaData } from "../../../app/models/pagination";
 import { useEffect } from "react";
@@ -17,6 +17,8 @@ import RadioFilter from "./RadioFilter";
 import FilterItem from "./FilterItem";
 import useMediaQuery from "../../../app/hooks/useMediaQuery";
 import { motion } from "framer-motion";
+import PriceFilter from "./PriceFilter";
+import { formatPrice } from "../../../app/util/format";
 
 interface Props {
   metaData: MetaData | null | undefined;
@@ -29,7 +31,7 @@ const checkMismatch = (paramsArr: string[], filterArr: string[]): boolean => {
 
 const WineFilter = ({ metaData, isFetchingWine }: Props) => {
   const isSmall = useMediaQuery("(max-width: 767px)");
-  const params = useAppSelector(getParams);
+  const params = useAppSelector((state) => state.wine.wineParams);
   const { hideFilter } = useAppSelector((state) => state.wine);
   const dispatch = useAppDispatch();
   const { data: filters, ...filterStatus } = useGetWineFiltersQuery();
@@ -82,6 +84,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
             type: "linear",
           },
         }}
+        aria-hidden={hideFilter}
         initial={false}
       >
         <div className="block-muted space-y-6 p-4 md:sticky md:top-4 md:max-h-[calc(100vh-6rem)] md:min-h-[300px] md:overflow-y-auto">
@@ -141,6 +144,21 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
                 options={filters?.types}
                 checkedOptions={params.types}
               />
+            </AsideDisclosure>
+          </FilterItem>
+
+          <FilterItem isChanged={!!params.priceTo || !!params.priceFrom}>
+            <AsideDisclosure
+              title={`Pris ${
+                params.priceTo || params.priceFrom
+                  ? `(${formatPrice(params.priceFrom)} - ${formatPrice(
+                      params.priceTo
+                    )})`
+                  : ""
+              }`}
+              defaultOpen={true}
+            >
+              <PriceFilter disabled={disabled} />
             </AsideDisclosure>
           </FilterItem>
 

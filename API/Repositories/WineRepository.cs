@@ -7,7 +7,6 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using API.RequestHelpers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -58,6 +57,10 @@ public class WineRepository : IWineRepository
             // Types
             .Where(wineParams.Types.IsNotEmpty(),
                 w => wineParams.Types!.ToLower().Contains(w.Type.ToLower()))
+
+            // Price
+            .Where(wineParams.PriceFrom.HasValue, w => w.Price.HasValue && w.Price >= wineParams.PriceFrom)
+            .Where(wineParams.PriceTo.HasValue, w => w.Price.HasValue && w.Price <= wineParams.PriceTo)
 
             // Grapes
             .Grapes(wineParams.Grapes)

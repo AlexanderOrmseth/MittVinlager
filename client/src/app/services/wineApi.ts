@@ -1,10 +1,11 @@
 import { PaginatedResponse } from "../models/pagination";
 import { Wine } from "../models/wine";
-import { WineParams } from "../models/params";
 import { serialize } from "object-to-formdata";
 import { StatisticsResponse } from "../models/statistics";
 import { api } from "./api";
 import { WineFormData } from "../../features/wine/form/validationSchema";
+import { WithoutNull } from "../util/transform";
+import { WineParams } from "../models/params";
 
 export interface WineFilterOptionsResponse {
   countries: string[];
@@ -17,7 +18,10 @@ export const wineApi = api.injectEndpoints({
   endpoints: (builder) => ({
     /* Get all wine
      * */
-    getAllWine: builder.query<PaginatedResponse<Wine[]>, WineParams>({
+    getAllWine: builder.query<
+      PaginatedResponse<Wine[]>,
+      WithoutNull<WineParams>
+    >({
       query: (params) => ({
         url: "wine",
         method: "GET",

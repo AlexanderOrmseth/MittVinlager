@@ -12,4 +12,7 @@ public class WineParams : PaginationParams
     public string? StorageOption { get; set; }
 
     public string? FavoriteOption { get; set; }
+
+    public int? PriceFrom { get; set; }
+    public int? PriceTo { get; set; }
 }

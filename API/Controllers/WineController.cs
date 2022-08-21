@@ -1,6 +1,4 @@
-using System.Collections.Immutable;
 using System.Security.Claims;
-using System.Security.Principal;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -20,16 +18,18 @@ public class WineController : BaseApiController
 
     private readonly ImageService _imageService;
     private readonly IWineRepository _wineRepository;
+    private readonly ILogger<WineController> _logger;
 
     #endregion
 
     #region Constructor
 
     public WineController(ImageService imageService,
-        IWineRepository wineRepository)
+        IWineRepository wineRepository, ILogger<WineController> logger)
     {
         _imageService = imageService;
         _wineRepository = wineRepository;
+        _logger = logger;
     }
 
     #endregion

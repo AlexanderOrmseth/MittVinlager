@@ -1,8 +1,8 @@
 import {
   Controller,
-  UseControllerProps,
-  useController,
   FieldValues,
+  useController,
+  UseControllerProps,
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
 import TextInput from "../TextInput";

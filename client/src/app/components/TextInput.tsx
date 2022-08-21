@@ -18,6 +18,7 @@ type InputProps = {
   hasError?: boolean;
   focus?: boolean;
   placeholder?: string;
+  onEnter?: () => void;
 };
 
 type Props = InputProps & InputType;
@@ -31,10 +32,12 @@ const TextInput: FunctionComponent<Props> = ({
   focus,
   placeholder,
   numeric,
+  onEnter,
 }) => {
   // prevent from submitting by pressing enter inside input
   const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!allowEnter && e.code === "Enter") e.preventDefault();
+    if (e.code === "Enter" && onEnter) onEnter();
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

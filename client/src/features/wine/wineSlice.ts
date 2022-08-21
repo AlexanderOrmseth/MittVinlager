@@ -1,6 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { OrderBy, WineParams } from "../../app/models/params";
 import { RootState } from "../../app/store/configureStore";
+import { objWithoutNullValues } from "../../app/util/transform";
 
 // wine state
 interface WineState {
@@ -20,6 +21,8 @@ export const initialParams: WineParams = {
   searchTerm: "",
   favoriteOption: "",
   storageOption: "",
+  priceTo: null,
+  priceFrom: null,
 };
 
 // initial state
@@ -89,9 +92,10 @@ export const wineSlice = createSlice({
   },
 });
 
+// params without null
 export const getParams = createSelector(
   (state: RootState) => state.wine.wineParams,
-  (state) => state
+  (state) => objWithoutNullValues(state)
 );
 
 export const {

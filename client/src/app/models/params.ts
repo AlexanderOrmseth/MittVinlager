@@ -4,6 +4,8 @@ export interface WineParams extends WineFilters {
   orderBy: OrderBy;
   searchTerm: string;
   pageNumber: number;
+  priceFrom: number | null;
+  priceTo: number | null;
 }
 
 export type OrderBy =
