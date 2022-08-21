@@ -47,7 +47,7 @@ const Dropzone = ({
   return (
     <>
       {value && (
-        <div className="flex my-1 flex-wrap items-end justify-between gap-2">
+        <div className="my-1 flex flex-wrap items-end justify-between gap-2">
           <button
             className="btn-white w-auto"
             type="button"
