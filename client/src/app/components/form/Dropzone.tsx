@@ -1,6 +1,6 @@
-import { CheckCircle, FileImage } from "phosphor-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { CheckCircle, FileImage } from "phosphor-react";
 
 const maxSize = 2097152;
 
@@ -45,11 +45,12 @@ const Dropzone = ({
     fileRejections.length > 0 && fileRejections[0].file.size >= maxSize;
 
   return (
-    <div>
+    <>
       {value && (
-        <div className="flex flex-wrap items-end justify-between gap-2">
+        <div className="flex my-1 flex-wrap items-end justify-between gap-2">
           <button
             className="btn-white w-auto"
+            type="button"
             onClick={(e) => {
               e.preventDefault();
               onChange(null);
@@ -65,10 +66,7 @@ const Dropzone = ({
           )}
         </div>
       )}
-      <div
-        className="my-2 cursor-pointer text-center text-sm"
-        {...getRootProps()}
-      >
+      <div className="cursor-pointer text-center text-sm" {...getRootProps()}>
         <input {...getInputProps()} />
 
         {isDragActive ? (
@@ -106,7 +104,7 @@ const Dropzone = ({
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

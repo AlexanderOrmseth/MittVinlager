@@ -258,7 +258,11 @@ const CreateOrUpdate = ({
               Hent fra Vinmonopolet
             </button>
           </div>
-          <div className="relative my-6 border-t border-slate-200 dark:border-gray-700">
+
+          <div
+            role="separator"
+            className="relative my-6 border-t border-slate-200 dark:border-gray-700"
+          >
             {getValues("productId") && (
               <span className="dark:bg-gray-950 bg-slate-25 absolute right-4 -top-3 px-1 text-sm text-slate-400">
                 <span className="select-none">Varenummer: </span>
@@ -266,6 +270,7 @@ const CreateOrUpdate = ({
               </span>
             )}
           </div>
+
           <form
             autoComplete="off"
             onSubmit={handleSubmit((d) => handlePreSubmit(d))}
@@ -404,13 +409,11 @@ const CreateOrUpdate = ({
                       />
                     </div>
                   </div>
-                  <div>
-                    <FormFilePicker
-                      name="file"
-                      label="Velg bilde"
-                      control={control}
-                    />
-                  </div>
+                  <FormFilePicker
+                    name="file"
+                    label="Velg bilde"
+                    control={control}
+                  />
                 </Tab.Panel>
                 <Tab.Panel
                   as={motion.div}
@@ -580,8 +583,13 @@ const CreateOrUpdate = ({
                 </Tab.Panel>
               </AnimatePresence>
             </Tab.Panels>
-            <div className="my-6 border-t border-slate-200 dark:border-gray-700"></div>
-            <div className="flex flex-col gap-y-4 gap-x-2 sm:grid sm:grid-cols-2 md:flex md:flex-row">
+
+            <hr className="my-6 border-t border-slate-200 dark:border-gray-700" />
+
+            <div
+              role="group"
+              className="flex flex-col gap-y-4 gap-x-2 sm:grid sm:grid-cols-2 md:flex md:flex-row"
+            >
               <Link
                 className="btn-white i-flex-row disabled-btn w-auto justify-center rounded-full px-5"
                 to={-1 as any}
