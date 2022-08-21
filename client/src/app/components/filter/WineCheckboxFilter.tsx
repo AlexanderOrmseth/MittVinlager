@@ -50,27 +50,32 @@ const WineCheckboxFilter = ({
     (value.includes(str) && !checkedOptions.includes(str));
 
   return (
-    <div className="max-h-96 select-none overflow-auto">
+    <ul
+      className="max-h-96 select-none overflow-auto"
+      role="group"
+      aria-sort="ascending"
+    >
       {options &&
         options.map((item, i) => (
-          <button
-            aria-checked={isChecked(item)}
-            role="checkbox"
-            className="group block w-full appearance-none outline-none"
-            disabled={disabled}
-            type="button"
-            onClick={() => handleChecked(item)}
-            key={i}
-          >
-            <RadioOrCheckboxItem
-              type="checkbox"
+          <li key={i}>
+            <button
+              aria-checked={isChecked(item)}
+              role="checkbox"
+              className="group block appearance-none w-full outline-none"
               disabled={disabled}
-              checked={isChecked(item)}
-              displayText={item}
-            />
-          </button>
+              type="button"
+              onClick={() => handleChecked(item)}
+            >
+              <RadioOrCheckboxItem
+                type="checkbox"
+                disabled={disabled}
+                checked={isChecked(item)}
+                displayText={item}
+              />
+            </button>
+          </li>
         ))}
-    </div>
+    </ul>
   );
 };
 

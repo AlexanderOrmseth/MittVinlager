@@ -10,9 +10,7 @@ import LoadingButton from "./LoadingButton";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
 import { WineFormData } from "../../features/wine/form/validationSchema";
 import toast from "react-hot-toast";
-import { Simulate } from "react-dom/test-utils";
 import { z } from "zod";
-import input = Simulate.input;
 
 interface Props {
   setIsOpen: (value: boolean) => void;
