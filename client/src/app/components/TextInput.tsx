@@ -74,7 +74,7 @@ const TextInput: FunctionComponent<Props> = ({
         type={numeric ? "number" : "text"}
       />
       {resetValueBtn && value && (
-        <div className="absolute right-1 top-0 h-full flex items-center">
+        <div className="absolute right-1 top-0 flex h-full items-center">
           <button
             tabIndex={-1}
             onClick={() => onChange(null)}
