@@ -252,6 +252,7 @@ const CreateOrUpdate = ({
             </Tab.List>
             <button
               onClick={() => setFetchWineIsOpen(true)}
+              type="button"
               className="btn-secondary xs:w-auto flex h-12 w-full flex-row items-center justify-center gap-x-2 rounded-full"
             >
               <ArrowRight size="1.5rem" />

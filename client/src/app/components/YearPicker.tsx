@@ -42,7 +42,11 @@ const YearPicker = ({
     onBlur ? onBlur() : null;
   };
 
-  const handleYearTagClicked = (val: number) => {
+  const handleYearTagClicked = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    val: number
+  ) => {
+    e.preventDefault();
     if (!isNaN(val)) onChange(val);
     setOpen(false);
   };
@@ -80,8 +84,9 @@ const YearPicker = ({
               return (
                 <li key={i}>
                   <button
-                    onClick={() => handleYearTagClicked(num)}
+                    onClick={(e) => handleYearTagClicked(e, num)}
                     tabIndex={-1}
+                    type="button"
                     className={`block w-full cursor-default select-none gap-2 rounded py-2 px-4 text-left text-sm focus:blur   ${
                       num === value
                         ? "bg-wine-500 dark:bg-wine-400 text-white"

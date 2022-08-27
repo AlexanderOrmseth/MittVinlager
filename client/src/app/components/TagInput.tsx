@@ -56,7 +56,11 @@ const TagInput: FunctionComponent<Props> = ({
     }
   };
 
-  const handleRemoveTag = (tagValue: string) => {
+  const handleRemoveTag = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    tagValue: string
+  ) => {
+    e.preventDefault();
     onChange(value?.filter((tag) => tag !== tagValue) ?? []);
   };
 
@@ -81,7 +85,8 @@ const TagInput: FunctionComponent<Props> = ({
                     ? "bg-wine-400 animate-pulse"
                     : ""
                 }`}
-              onClick={() => handleRemoveTag(str)}
+              type="button"
+              onClick={(e) => handleRemoveTag(e, str)}
               key={i}
             >
               {str}
