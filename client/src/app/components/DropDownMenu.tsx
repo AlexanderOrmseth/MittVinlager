@@ -17,7 +17,7 @@ const DropDownMenu = ({
   text,
   icon,
   className,
-  fullHeight,
+  fullHeight
 }: Props) => {
   return (
     <Menu as={Fragment}>

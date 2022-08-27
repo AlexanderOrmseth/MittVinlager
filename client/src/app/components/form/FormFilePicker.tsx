@@ -2,7 +2,7 @@ import {
   Controller,
   UseControllerProps,
   useController,
-  FieldValues,
+  FieldValues
 } from "react-hook-form";
 import Dropzone from "./Dropzone";
 import FormInputError from "./FormInputError";
@@ -14,7 +14,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormFilePicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

@@ -19,7 +19,7 @@ const LoadingButton = ({
   disabled,
   loadingText,
   isPrimary = true,
-  type = "button",
+  type = "button"
 }: Props) => {
   return (
     <button

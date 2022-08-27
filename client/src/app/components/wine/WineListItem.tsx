@@ -15,7 +15,7 @@ const WineListItem = ({
   pictureUrl,
   children,
   to,
-  externalLink,
+  externalLink
 }: Props) => {
   return (
     <li className="dark:bg-gray-925 flex items-center rounded border bg-white p-2 dark:border-gray-800">

@@ -2,7 +2,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
 import TagInput from "../TagInput";
@@ -17,7 +17,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormTagInput = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

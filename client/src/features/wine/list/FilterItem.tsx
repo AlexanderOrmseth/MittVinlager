@@ -10,7 +10,7 @@ interface Props {
 const FilterItem: FunctionComponent<Props> = ({
   isChanged,
   children,
-  type,
+  type
 }) => {
   return (
     <div className="relative">

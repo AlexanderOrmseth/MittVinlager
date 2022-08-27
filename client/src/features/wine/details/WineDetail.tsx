@@ -9,7 +9,7 @@ import { WineBaseModel } from "../../../app/models/wine";
 import {
   formatAlcoholContent,
   formatPrice,
-  formatVolume,
+  formatVolume
 } from "../../../app/util/format";
 
 interface Props {
@@ -28,7 +28,7 @@ const WineDetail = ({ wine }: Props) => {
     { value: wine.bitterness, type: "bitterness", displayText: "Bitterhet" },
     { value: wine.sweetness, type: "sweetness", displayText: "Sødme" },
     { value: wine.freshness, type: "freshness", displayText: "Ferskhet" },
-    { value: wine.fullness, type: "fullness", displayText: "Fylde" },
+    { value: wine.fullness, type: "fullness", displayText: "Fylde" }
   ];
 
   return (

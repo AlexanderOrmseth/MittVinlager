@@ -5,7 +5,7 @@ import {
   CaretDoubleRight,
   CaretLeft,
   CaretRight,
-  X,
+  X
 } from "phosphor-react";
 import React, { Fragment, useEffect, useState } from "react";
 import Time from "./Time";
@@ -22,7 +22,7 @@ const months = [
   "September",
   "Oktober",
   "November",
-  "Desember",
+  "Desember"
 ];
 
 const today = new Date();
@@ -40,6 +40,7 @@ interface Props {
   hereafter: boolean;
   absolute?: boolean;
   disabled?: boolean;
+  id?: string;
 }
 
 const DatePicker = ({
@@ -49,6 +50,7 @@ const DatePicker = ({
   hereafter,
   absolute = true,
   disabled,
+  id
 }: Props) => {
   const [year, setYear] = useState(0);
   const [month, setMonth] = useState(0);
@@ -143,6 +145,7 @@ const DatePicker = ({
           event.preventDefault();
         }}
         type="button"
+        id={id}
         disabled={!hereafter ? isHereafter(i) : false}
         aria-disabled={!hereafter ? isHereafter(i) : false}
         className={` rounded py-2 ${

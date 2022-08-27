@@ -10,7 +10,7 @@ import Modal from "./Modal";
 import {
   useAddConsumedDateMutation,
   useDeleteConsumedDateByIdMutation,
-  useGetConsumedDatesByWineIdQuery,
+  useGetConsumedDatesByWineIdQuery
 } from "../../services/wineConsumedApi";
 
 interface Props {
@@ -117,8 +117,11 @@ const ConsumedModal = ({ isOpen, setIsOpen, wineId, quantity }: Props) => {
 
             <div className="block-less-muted mt-4 space-y-6 rounded-lg p-4">
               <div>
-                <label className="label">Velg dato</label>
+                <label htmlFor="button-consumed-datepicker" className="label">
+                  Velg dato
+                </label>
                 <DatePicker
+                  id="button-consumed-datepicker"
                   text="Velg dato"
                   value={date}
                   onChange={setDate}

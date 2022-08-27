@@ -1,7 +1,7 @@
 import {
   CalendarBlank,
   ChartPieSlice,
-  IdentificationBadge,
+  IdentificationBadge
 } from "phosphor-react";
 import Title from "../../app/layout/Title";
 import PurchaseHistory from "./components/PurchaseHistory";

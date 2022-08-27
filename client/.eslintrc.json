@@ -4,20 +4,30 @@
     "node": true,
     "browser": true
   },
-  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2021,
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": ["tailwindcss", "react-hooks"],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "prettier",
+    "tailwindcss"
+  ],
   "extends": [
+    "eslint:recommended",
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:tailwindcss/recommended",
-    "plugin:react-hooks/recommended"
+    // prettier as last extension!
+    "plugin:prettier/recommended"
   ],
   "rules": {
     // suppress errors for missing 'import React' in files
@@ -26,6 +36,9 @@
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "tailwindcss/no-custom-classname": "off",
+    "jsx-a11y/no-autofocus": "off",
+    //"jsx-a11y/click-events-have-key-events": "warn",
+    //"jsx-a11y/no-static-element-interactions": "warn",
     "semi": [2, "always"]
   },
   "settings": {

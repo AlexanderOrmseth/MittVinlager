@@ -3,7 +3,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
 
@@ -14,7 +14,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormToggle = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

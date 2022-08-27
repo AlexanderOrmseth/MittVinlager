@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   UseFormGetValues,
   UseFormReset,
-  UseFormSetValue,
+  UseFormSetValue
 } from "react-hook-form";
 import LoadingButton from "./LoadingButton";
 import { useGetVinmonopoletWineQuery } from "../services/vinmonopoletApi";
@@ -46,18 +46,18 @@ const radioValues = [
   {
     value: 1,
     title: "Alle verdier",
-    description: "Henter og erstatter alle verdier",
+    description: "Henter og erstatter alle verdier"
   },
   {
     value: 2,
     title: "Kun pris",
-    description: "Erstatter kun verdien til pris",
+    description: "Erstatter kun verdien til pris"
   },
   {
     value: 3,
     title: "Ignorer brukerdetaljer",
-    description: "Henter og erstatter alle verdier untatt brukerdetaljer",
-  },
+    description: "Henter og erstatter alle verdier untatt brukerdetaljer"
+  }
 ];
 
 const Vinmonopolet = ({
@@ -66,7 +66,7 @@ const Vinmonopolet = ({
   setIsOpen,
   setValue,
   getValues,
-  isWishlist,
+  isWishlist
 }: Props) => {
   const [skip, setSkip] = useState(true);
   const [id, setId] = useState("");
@@ -93,19 +93,27 @@ const Vinmonopolet = ({
         setValues(data);
       } else if (setValue && getValues) {
         switch (resetAction) {
-          case 1: // reset entire form
+          case 1: {
+            // reset entire form
             setValues(data);
             break;
-          case 2: // replace price
+          }
+          case 2: {
+            // replace price
             setValue("price", data.price);
             break;
-          case 3: // reset everything but except userDetails
+          }
+          case 3: {
+            // reset everything but except userDetails
             const { userDetails, ...rest } = data;
             setValues({ ...rest, userDetails: getValues("userDetails") });
             break;
-          default: // reset entire form
+          }
+          default: {
+            // reset entire form
             setValues(data);
             break;
+          }
         }
       }
     },
@@ -119,7 +127,7 @@ const Vinmonopolet = ({
         ...data,
         file: null,
         resetImage: false,
-        userDetails: { ...data.userDetails, purchaseDate: null },
+        userDetails: { ...data.userDetails, purchaseDate: null }
       };
 
       toast.success(`Hentet ${data.name}`);

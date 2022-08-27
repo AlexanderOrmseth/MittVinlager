@@ -77,12 +77,12 @@ const Header = () => {
               {
                 text: "Min profil",
                 icon: <User size="1.2rem" />,
-                fnc: () => navigate("/profile"),
+                fnc: () => navigate("/profile")
               },
               {
                 text: darkMode ? "Lyst tema" : "Mørkt tema",
                 icon: darkMode ? <Sun size="1.2rem" /> : <Moon size="1.2rem" />,
-                fnc: () => dispatch(toggleTheme()),
+                fnc: () => dispatch(toggleTheme())
               },
               {
                 text: "Logg ut",
@@ -91,8 +91,8 @@ const Header = () => {
                 fnc: () => {
                   dispatch(signOut());
                   dispatch(resetAll());
-                },
-              },
+                }
+              }
             ]}
             text={
               user.displayName

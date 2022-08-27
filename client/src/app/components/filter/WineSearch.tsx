@@ -9,7 +9,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
     (state) => state.wine.wineParams.searchTerm
   );
   const dispatch = useAppDispatch();
-  const [searchTerm, setSearchTerm] = useState(wineSearchTerm || "");
+  const [searchTerm, setSearchTerm] = useState<string>(wineSearchTerm || "");
 
   // Debounce callback
   const debounced = useDebouncedCallback(
@@ -22,14 +22,16 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
     if (wineSearchTerm === "") setSearchTerm("");
   }, [wineSearchTerm]);
 
-  const handleOnChange = (val: HTMLInputElement["value"]) => {
+  const handleOnChange = (val: string | null) => {
     if (disabled) return;
-    setSearchTerm(val);
-    debounced(val);
+    setSearchTerm(val ?? "");
+    debounced(val ?? "");
   };
   return (
     <div>
-      <label className="label">Søk</label>
+      <label htmlFor="input-search" className="label">
+        Søk
+      </label>
       <div
         className={`relative flex flex-row items-center ${
           disabled ? "opacity-50" : ""
@@ -48,6 +50,7 @@ const WineSearch = ({ disabled }: { disabled: boolean }) => {
           />
         )}
         <input
+          id="input-search"
           className="text-input h-10 px-8"
           type="search"
           inputMode="search"

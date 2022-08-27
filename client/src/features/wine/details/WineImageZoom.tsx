@@ -8,7 +8,7 @@ import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 const WineImageZoom = ({
   pictureUrl,
   productId,
-  imageByUser,
+  imageByUser
 }: {
   pictureUrl?: string | null;
   productId?: string | null;

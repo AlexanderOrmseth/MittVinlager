@@ -25,16 +25,16 @@ export const wineApi = api.injectEndpoints({
       query: (params) => ({
         url: "wine",
         method: "GET",
-        params: params,
+        params: params
       }),
       providesTags: (result) =>
         result
           ? [
               ...result.items.map(({ wineId }) => ({
                 type: "Wines" as const,
-                id: wineId,
+                id: wineId
               })),
-              { type: "Wines", id: "LIST" },
+              { type: "Wines", id: "LIST" }
             ]
           : [{ type: "Wines", id: "LIST" }],
       // return a paginated response
@@ -45,17 +45,17 @@ export const wineApi = api.injectEndpoints({
         if (pagination) {
           return {
             items: response,
-            metaData: JSON.parse(pagination),
+            metaData: JSON.parse(pagination)
           };
         }
         return { items: response, metaData: null };
-      },
+      }
     }),
     /* Get wine by id
      * */
     getWineById: builder.query<Wine, number | undefined>({
       query: (id) => `/wine/${id}`,
-      providesTags: (result, error, id) => [{ type: "Wines", id }],
+      providesTags: (result, error, id) => [{ type: "Wines", id }]
     }),
     /* Delete wine by id
      * */
@@ -63,14 +63,14 @@ export const wineApi = api.injectEndpoints({
       query(id) {
         return {
           url: `/wine/${id}`,
-          method: "DELETE",
+          method: "DELETE"
         };
       },
       invalidatesTags: (result, error, arg) => [
         { type: "Wines", id: arg },
         { type: "Statistics", id: "LIST" },
-        { type: "Filter", id: "LIST" },
-      ],
+        { type: "Filter", id: "LIST" }
+      ]
     }),
     /* Add wine
      * */
@@ -79,14 +79,14 @@ export const wineApi = api.injectEndpoints({
         return {
           url: "/wine",
           method: "POST",
-          body: serialize(data),
+          body: serialize(data)
         };
       },
       invalidatesTags: [
         { type: "Wines", id: "LIST" },
         { type: "Statistics", id: "LIST" },
-        { type: "Filter", id: "LIST" },
-      ],
+        { type: "Filter", id: "LIST" }
+      ]
     }),
     /* Add test data
      * */
@@ -94,14 +94,14 @@ export const wineApi = api.injectEndpoints({
       query() {
         return {
           url: "/wine/testData",
-          method: "POST",
+          method: "POST"
         };
       },
       invalidatesTags: [
         { type: "Wines", id: "LIST" },
         { type: "Statistics", id: "LIST" },
-        { type: "Filter", id: "LIST" },
-      ],
+        { type: "Filter", id: "LIST" }
+      ]
     }),
     /* Update wine
      * */
@@ -110,30 +110,30 @@ export const wineApi = api.injectEndpoints({
         return {
           url: `/wine/${id}`,
           method: "PUT",
-          body: serialize(data),
+          body: serialize(data)
         };
       },
       invalidatesTags: (result, error, arg) => [
         { type: "Wines", id: arg.id },
         { type: "Statistics", id: "LIST" },
-        { type: "Filter", id: "LIST" },
-      ],
+        { type: "Filter", id: "LIST" }
+      ]
     }),
     /*
      *  Get wine statistics
      * */
     getStatistics: builder.query<StatisticsResponse, void>({
       query: () => "wine/statistics",
-      providesTags: [{ type: "Statistics", id: "LIST" }],
+      providesTags: [{ type: "Statistics", id: "LIST" }]
     }),
     /*
      *  Get wine filters (user options)
      * */
     getWineFilters: builder.query<WineFilterOptionsResponse, void>({
       query: () => "wine/filters",
-      providesTags: [{ type: "Filter", id: "LIST" }],
-    }),
-  }),
+      providesTags: [{ type: "Filter", id: "LIST" }]
+    })
+  })
 });
 
 export const {
@@ -144,5 +144,5 @@ export const {
   useUpdateWineMutation,
   useGetStatisticsQuery,
   useGetWineFiltersQuery,
-  useAddTestDataMutation,
+  useAddTestDataMutation
 } = wineApi;

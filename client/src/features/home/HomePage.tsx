@@ -8,7 +8,7 @@ const HomePage = () => {
     data: statistics,
     isLoading,
     isSuccess,
-    isError,
+    isError
   } = useGetAppStatisticsQuery();
 
   let content;

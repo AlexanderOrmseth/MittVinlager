@@ -22,7 +22,7 @@ export const initialParams: WineParams = {
   favoriteOption: "",
   storageOption: "",
   priceTo: null,
-  priceFrom: null,
+  priceFrom: null
 };
 
 // initial state
@@ -30,7 +30,7 @@ const initialState: WineState = {
   gridView: true,
   hideFilter: false,
   orderByDescending: false,
-  wineParams: initialParams,
+  wineParams: initialParams
 };
 
 export const wineSlice = createSlice({
@@ -50,13 +50,13 @@ export const wineSlice = createSlice({
         storageOption: "",
         priceTo: null,
         priceFrom: null,
-        recommendedFood: [],
+        recommendedFood: []
       };
     },
     setOrderBy: (state, action: PayloadAction<OrderBy>) => {
       state.wineParams = {
         ...state.wineParams,
-        orderBy: action.payload,
+        orderBy: action.payload
       };
     },
     setTypeOnly: (state, action: PayloadAction<string>) => {
@@ -71,7 +71,7 @@ export const wineSlice = createSlice({
         storageOption: "",
         priceTo: null,
         priceFrom: null,
-        recommendedFood: [],
+        recommendedFood: []
       };
     },
     setOrderByDescending: (state, action: PayloadAction<boolean>) => {
@@ -81,7 +81,7 @@ export const wineSlice = createSlice({
       state.wineParams = {
         ...state.wineParams,
         ...action.payload,
-        pageNumber: 1,
+        pageNumber: 1
       };
     },
     setHideFilter: (state, action: PayloadAction<boolean>) => {
@@ -92,8 +92,8 @@ export const wineSlice = createSlice({
     },
     setPageNumber: (state, action: PayloadAction<number>) => {
       state.wineParams.pageNumber = action.payload;
-    },
-  },
+    }
+  }
 });
 
 // params without null
@@ -111,5 +111,5 @@ export const {
   resetAll,
   setHideFilter,
   setGridView,
-  setTypeOnly,
+  setTypeOnly
 } = wineSlice.actions;

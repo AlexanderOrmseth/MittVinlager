@@ -18,7 +18,7 @@ const GoogleButton = () => {
     async (response: CredentialResponse) => {
       const externalAuth: ExternalAuth = {
         accessToken: response.credential,
-        provider: "GOOGLE",
+        provider: "GOOGLE"
       };
       await externalLogin(externalAuth)
         .unwrap()
@@ -48,12 +48,12 @@ const GoogleButton = () => {
 
       google.accounts.id.initialize({
         client_id: import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID,
-        callback: login,
+        callback: login
       });
 
       google.accounts.id.renderButton(googleButton.current, {
         theme: "outline",
-        size: "large",
+        size: "large"
       });
     } catch (error) {
       console.error(error);

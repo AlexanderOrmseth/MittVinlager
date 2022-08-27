@@ -1,7 +1,7 @@
 import {
   UseFormGetValues,
   UseFormReset,
-  UseFormSetValue,
+  UseFormSetValue
 } from "react-hook-form";
 import Vinmonopolet from "../Vinmonopolet";
 import Modal from "./Modal";
@@ -24,7 +24,7 @@ const VinmonopoletModal = ({
   setValue,
   getValues,
   productId,
-  isWishlist = false,
+  isWishlist = false
 }: Props) => {
   return (
     <Modal

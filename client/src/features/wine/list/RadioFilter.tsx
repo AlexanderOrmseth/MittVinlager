@@ -18,7 +18,7 @@ const RadioFilter: FunctionComponent<Props> = ({
   options,
   value,
   onChange,
-  disabled,
+  disabled
 }) => {
   if (!options) return null;
 

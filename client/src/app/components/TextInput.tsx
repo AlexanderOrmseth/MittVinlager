@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { X } from "phosphor-react";
 
 type InputType =
@@ -14,6 +14,7 @@ type InputType =
     };
 
 type InputProps = {
+  id?: string;
   allowEnter?: boolean;
   maxLength?: number;
   hasError?: boolean;
@@ -25,7 +26,8 @@ type InputProps = {
 
 type Props = InputProps & InputType;
 
-const TextInput: FunctionComponent<Props> = ({
+const TextInput = ({
+  id,
   allowEnter,
   value,
   onChange,
@@ -35,8 +37,8 @@ const TextInput: FunctionComponent<Props> = ({
   placeholder,
   numeric,
   onEnter,
-  resetValueBtn,
-}) => {
+  resetValueBtn
+}: Props) => {
   // prevent from submitting by pressing enter inside input
   const checkKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (!allowEnter && e.code === "Enter") e.preventDefault();
@@ -59,6 +61,7 @@ const TextInput: FunctionComponent<Props> = ({
   return (
     <div className="relative">
       <input
+        id={id}
         onKeyDown={(e) => checkKeyDown(e)}
         autoComplete="off"
         className={`text-input ${

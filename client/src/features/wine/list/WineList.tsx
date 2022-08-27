@@ -3,14 +3,14 @@ import {
   Ghost,
   MagicWand,
   PlusCircle,
-  Robot,
+  Robot
 } from "phosphor-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import DeleteWineModal from "../../../app/components/modals/DeleteWineModal";
 import {
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "../../../app/store/configureStore";
 import { resetParams } from "../wineSlice";
 import WineCard from "./WineCard";

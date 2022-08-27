@@ -5,12 +5,12 @@ import { WineBaseModel } from "../models/wine";
 export const vinmonopoletApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getVinmonopoletCountries: builder.query<Country[], void>({
-      query: () => "vinmonopolet/countries",
+      query: () => "vinmonopolet/countries"
     }),
     getVinmonopoletWine: builder.query<WineBaseModel, string>({
-      query: (productId) => `vinmonopolet/${productId}`,
-    }),
-  }),
+      query: (productId) => `vinmonopolet/${productId}`
+    })
+  })
 });
 
 export const { useGetVinmonopoletCountriesQuery, useGetVinmonopoletWineQuery } =

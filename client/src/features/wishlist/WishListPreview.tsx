@@ -26,7 +26,7 @@ const WishListPreview = ({ wine, setWine }: Props) => {
       type: wine.type,
       alcoholContent: wine.alcoholContent,
       country: wine.country,
-      price: wine.price,
+      price: wine.price
     };
 
     await addWishlistItem(newWishItem)

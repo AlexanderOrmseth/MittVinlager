@@ -15,7 +15,7 @@ const DeleteWineModal = ({
   isOpen,
   setIsOpen,
   wineToDelete,
-  shouldNavigate,
+  shouldNavigate
 }: Props) => {
   const navigate = useNavigate();
   const [deleteWine, { isLoading }] = useDeleteWineMutation();

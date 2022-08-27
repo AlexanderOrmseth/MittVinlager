@@ -9,7 +9,7 @@ export const wineConsumedApi = wineApi.injectEndpoints({
       query(wineId) {
         return {
           url: `wine/consumed/${wineId}`,
-          method: "GET",
+          method: "GET"
         };
       },
       providesTags: (result) =>
@@ -17,11 +17,11 @@ export const wineConsumedApi = wineApi.injectEndpoints({
           ? [
               ...result.map(({ id }) => ({
                 type: "Consumed" as const,
-                id: id,
+                id: id
               })),
-              { type: "Consumed", id: "LIST" },
+              { type: "Consumed", id: "LIST" }
             ]
-          : [{ type: "Consumed", id: "LIST" }],
+          : [{ type: "Consumed", id: "LIST" }]
     }),
     /* Delete consumed date
      * */
@@ -29,13 +29,13 @@ export const wineConsumedApi = wineApi.injectEndpoints({
       query(id) {
         return {
           url: `wine/consumed/${id}`,
-          method: "DELETE",
+          method: "DELETE"
         };
       },
       invalidatesTags: (result, error, arg) => [
         { type: "Consumed", id: arg },
-        { type: "Statistics", id: "LIST" },
-      ],
+        { type: "Statistics", id: "LIST" }
+      ]
     }),
     /* Add consumed date
      * */
@@ -44,7 +44,7 @@ export const wineConsumedApi = wineApi.injectEndpoints({
         return {
           url: `wine/consumed/${id}`,
           method: "POST",
-          body: data,
+          body: data
         };
       },
       invalidatesTags: (result, error, arg) => [
@@ -54,15 +54,15 @@ export const wineConsumedApi = wineApi.injectEndpoints({
         // Todo: This would also need to re-fetch filters later if I add a filter for displaying what is in storage!
         {
           type: "Wines",
-          id: arg.id,
-        },
-      ],
-    }),
-  }),
+          id: arg.id
+        }
+      ]
+    })
+  })
 });
 
 export const {
   useGetConsumedDatesByWineIdQuery,
   useDeleteConsumedDateByIdMutation,
-  useAddConsumedDateMutation,
+  useAddConsumedDateMutation
 } = wineConsumedApi;

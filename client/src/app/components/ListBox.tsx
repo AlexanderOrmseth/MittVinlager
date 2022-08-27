@@ -28,7 +28,7 @@ const ListBox = ({
   onChange,
   label,
   disabled,
-  sort = true,
+  sort = true
 }: Props) => {
   return (
     <Listbox

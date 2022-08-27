@@ -13,7 +13,7 @@ export const list = [
   { percent: 75, value: 9 },
   { percent: 83.3, value: 10 },
   { percent: 91.63, value: 11 },
-  { percent: 100, value: 12 },
+  { percent: 100, value: 12 }
 ];
 
 export const text = {
@@ -30,7 +30,7 @@ export const text = {
     "Fyldig",
     "Fyldig",
     "Svært fyldig",
-    "Svært fyldig",
+    "Svært fyldig"
   ],
   freshness: [
     "Ingen",
@@ -45,7 +45,7 @@ export const text = {
     "Frisk",
     "Frisk",
     "Svært frisk",
-    "Svært frisk",
+    "Svært frisk"
   ],
   sweetness: [
     "Ingen",
@@ -60,7 +60,7 @@ export const text = {
     "Søt",
     "Søt",
     "Svært søt",
-    "Svært søt",
+    "Svært søt"
   ],
   tannins: [
     "Ingen",
@@ -75,7 +75,7 @@ export const text = {
     "Fast",
     "Fast",
     "Svært snerpende",
-    "Svært snerpende",
+    "Svært snerpende"
   ],
   bitterness: [
     "Ingen",
@@ -90,14 +90,14 @@ export const text = {
     "Ekstra bitter",
     "Ekstra bitter",
     "Svært bitter",
-    "Svært bitter",
-  ],
+    "Svært bitter"
+  ]
 };
 
 const TastePie = ({
   percent,
   size,
-  faded = false,
+  faded = false
 }: {
   percent: number;
   size: string;
@@ -115,7 +115,7 @@ const TastePie = ({
         width: size,
         background: `conic-gradient(${
           darkMode ? "#7296DA" : "#1a3363"
-        } 0% ${percent}%, ${darkMode ? "#09152A" : "#FFF"} ${percent}%)`,
+        } 0% ${percent}%, ${darkMode ? "#09152A" : "#FFF"} ${percent}%)`
       }}
     />
   );

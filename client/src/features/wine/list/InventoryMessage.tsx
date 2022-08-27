@@ -1,7 +1,7 @@
 import React, {
   ForwardRefExoticComponent,
   FunctionComponent,
-  RefAttributes,
+  RefAttributes
 } from "react";
 import { IconProps } from "phosphor-react";
 import { motion } from "framer-motion";
@@ -15,7 +15,7 @@ interface Props {
 const InventoryMessage: FunctionComponent<Props> = ({
   Icon,
   message,
-  children,
+  children
 }) => {
   return (
     <div className="text-muted flex flex-col items-center justify-center gap-y-2 py-12 px-2">
@@ -25,7 +25,7 @@ const InventoryMessage: FunctionComponent<Props> = ({
         initial={{ x: -16, opacity: 0 }}
         animate={{
           x: 0,
-          opacity: 1,
+          opacity: 1
         }}
       >
         {message}

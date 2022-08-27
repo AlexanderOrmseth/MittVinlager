@@ -9,7 +9,7 @@ interface AccountState {
 
 const initialState: AccountState = {
   user: null,
-  token: null,
+  token: null
 };
 
 const namespace = "account";
@@ -28,7 +28,7 @@ export const accountSlice = createSlice({
     setDisplayName: (state, action: PayloadAction<string>) => {
       state.user = {
         ...state.user,
-        displayName: action.payload,
+        displayName: action.payload
       };
     },
     setToken: (state, action: PayloadAction<string>) => {
@@ -40,13 +40,13 @@ export const accountSlice = createSlice({
       // get roles
       const claims = JSON.parse(atob(token.split(".")[1]));
       const roles =
-        claims["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        claims["https://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
       // set user
       state.user = {
         displayName,
         createdAt: createdAt ?? null,
-        roles: typeof roles === "string" ? [roles] : roles,
+        roles: typeof roles === "string" ? [roles] : roles
       };
 
       state.token = token;
@@ -55,8 +55,8 @@ export const accountSlice = createSlice({
       if (navigator.cookieEnabled) {
         localStorage.setItem("token", token);
       }
-    },
-  },
+    }
+  }
 });
 
 export const { signOut, setUser, setToken, setDisplayName } =

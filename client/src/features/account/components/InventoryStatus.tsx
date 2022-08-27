@@ -15,7 +15,7 @@ const chartColors = [
   "#e77e8f",
   "#d72845",
   "#6bd1d8",
-  "#35c0ca",
+  "#35c0ca"
 ];
 
 // chart options
@@ -25,7 +25,7 @@ const chartOptions = {
   labelPosition: 80,
   lineWidth: 50,
   paddingAngle: 2,
-  labelStyle: { fontSize: "4.5px", letterSpacing: -0.1, fontWeight: 500 },
+  labelStyle: { fontSize: "4.5px", letterSpacing: -0.1, fontWeight: 500 }
 };
 
 interface Props {
@@ -41,18 +41,18 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
   const total = [
     {
       title: "Antall vin",
-      data: inventoryStatus.reduce((prev, curr) => prev + curr.quantity, 0),
+      data: inventoryStatus.reduce((prev, curr) => prev + curr.quantity, 0)
     },
     {
       title: "Typer",
-      data: inventoryStatus.length,
+      data: inventoryStatus.length
     },
     {
       title: "Verdi av vinkjeller",
       data: formatPrice(
         inventoryStatus.reduce((prev, curr) => prev + curr.value, 0)
-      ),
-    },
+      )
+    }
   ];
 
   const handleTypeClicked = (type: string) => {
@@ -92,7 +92,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
                 return {
                   title: data.type,
                   value: data.quantity,
-                  color: chartColors[i],
+                  color: chartColors[i]
                 };
               })}
             />
@@ -113,7 +113,7 @@ const InventoryStatus = ({ inventoryStatus }: Props) => {
                     return {
                       title: data.type,
                       value: data.value,
-                      color: chartColors[i],
+                      color: chartColors[i]
                     };
                   })}
               />

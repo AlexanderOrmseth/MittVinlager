@@ -28,7 +28,7 @@ export const wineSchema = z.object({
   name: z
     .string({
       required_error: "Navn er påkrevd.",
-      invalid_type_error: "Navn er påkrevd og må minst være 3 bokstaver.",
+      invalid_type_error: "Navn er påkrevd og må minst være 3 bokstaver."
     })
     .trim()
     .min(3, "Navn på vin må minst være 3 bokstaver.")
@@ -36,14 +36,14 @@ export const wineSchema = z.object({
   type: z
     .string({
       required_error: "Type er påkrevd.",
-      invalid_type_error: "Type er påkrevd og må minst være 2 bokstaver.",
+      invalid_type_error: "Type er påkrevd og må minst være 2 bokstaver."
     })
     .trim()
     .min(2, "Type må minst være 2 bokstaver.")
     .max(20, "Type kan max være 20 bokstaver."),
   year: z
     .number({
-      invalid_type_error: "Årgang er ugyldig.",
+      invalid_type_error: "Årgang er ugyldig."
     })
     .int("Årgang må være et heltall.")
     .min(0, "Årgang kan kun være mellom 0 og 3000.")
@@ -52,7 +52,7 @@ export const wineSchema = z.object({
     .transform(zeroToNull),
   price: z
     .number({
-      invalid_type_error: "Pris er ugyldig.",
+      invalid_type_error: "Pris er ugyldig."
     })
     .int("Pris må være et heltall.")
     .max(1000000, "Pris kan max være 1 000 000 kr.")
@@ -61,7 +61,7 @@ export const wineSchema = z.object({
     .transform(zeroToNull),
   alcoholContent: z
     .number({
-      invalid_type_error: "Alkoholdinnhold er ugyldig.",
+      invalid_type_error: "Alkoholdinnhold er ugyldig."
     })
     .max(100, "Alkoholinnhold kan kun være mellom 0 og 100 prosent.")
     .min(0, "Alkoholinnhold kan kun være mellom 0 og 100 prosent.")
@@ -69,7 +69,7 @@ export const wineSchema = z.object({
     .transform(zeroToNull),
   volume: z
     .number({
-      invalid_type_error: "Volum er ugyldig.",
+      invalid_type_error: "Volum er ugyldig."
     })
     .max(100, "Volum kan kun være mellom 0 og 100 liter.")
     .min(0, "Volum kan kun være mellom 0 og 100 liter.")
@@ -79,104 +79,104 @@ export const wineSchema = z.object({
   /* Taste Values */
   bitterness: z
     .number({
-      invalid_type_error: "Verdien er ugyldig.",
+      invalid_type_error: "Verdien er ugyldig."
     })
     .min(0, "Verdien til Bitterhet må være et tall mellom 0 og 12.")
     .max(12, "Verdien til Bitterhet må være et tall mellom 0 og 12."),
   sweetness: z
     .number({
-      invalid_type_error: "Verdien er ugyldig.",
+      invalid_type_error: "Verdien er ugyldig."
     })
     .min(0, "Verdien til Sødme må være et tall mellom 0 og 12.")
     .max(12, "Verdien til Sødme må være et tall mellom 0 og 12."),
   freshness: z
     .number({
-      invalid_type_error: "Verdien er ugyldig.",
+      invalid_type_error: "Verdien er ugyldig."
     })
     .min(0, "Verdien til Ferskhet må være et tall mellom 0 og 12.")
     .max(12, "Verdien til Ferskhet må være et tall mellom 0 og 12."),
   fullness: z
     .number({
-      invalid_type_error: "Verdien er ugyldig.",
+      invalid_type_error: "Verdien er ugyldig."
     })
     .min(0, "Verdien til Fylde må være et tall mellom 0 og 12.")
     .max(12, "Verdien til Fylde må være et tall mellom 0 og 12."),
   tannins: z
     .number({
-      invalid_type_error: "Verdien er ugyldig.",
+      invalid_type_error: "Verdien er ugyldig."
     })
     .min(0, "Verdien til Tanninsk må være et tall mellom 0 og 12.")
     .max(12, "Verdien til Tanninsk må være et tall mellom 0 og 12."),
 
   country: z
     .string({
-      invalid_type_error: "Land er ugyldig.",
+      invalid_type_error: "Land er ugyldig."
     })
     .trim()
     .max(70, "Land kan max være 70 bokstaver.")
     .nullable(),
   region: z
     .string({
-      invalid_type_error: "Distrikt er ugyldig.",
+      invalid_type_error: "Distrikt er ugyldig."
     })
     .trim()
     .max(70, "Distrikt kan max være 70 bokstaver.")
     .nullable(),
   subRegion: z
     .string({
-      invalid_type_error: "Underdistrikt er ugyldig.",
+      invalid_type_error: "Underdistrikt er ugyldig."
     })
     .trim()
     .max(70, "Underdistrikt kan max være 70 bokstaver.")
     .nullable(),
   manufacturerName: z
     .string({
-      invalid_type_error: "Produsent er ugyldig.",
+      invalid_type_error: "Produsent er ugyldig."
     })
     .trim()
     .max(70, "Produsent kan max være 70 bokstaver.")
     .nullable(),
   storagePotential: z
     .string({
-      invalid_type_error: "Lagringsgrad er ugyldig.",
+      invalid_type_error: "Lagringsgrad er ugyldig."
     })
     .trim()
     .max(70, "Lagringsgrad kan max være 70 bokstaver.")
     .nullable(),
   productId: z
     .string({
-      invalid_type_error: "Produktnummer er ugyldig.",
+      invalid_type_error: "Produktnummer er ugyldig."
     })
     .trim()
     .max(70, "Produktnummer kan max være 24 bokstaver.")
     .nullable(),
   taste: z
     .string({
-      invalid_type_error: "Smak er ugyldig.",
+      invalid_type_error: "Smak er ugyldig."
     })
     .trim()
     .max(500, "Smak kan max være 500 bokstaver.")
     .nullable(),
   grapes: z
     .array(z.string(), {
-      invalid_type_error: "Råstoff er ugyldig.",
+      invalid_type_error: "Råstoff er ugyldig."
     })
     .nullable(),
   recommendedFood: z
     .array(z.string(), {
-      invalid_type_error: "Passer til er ugyldig.",
+      invalid_type_error: "Passer til er ugyldig."
     })
     .nullable(),
   odour: z
     .string({
-      invalid_type_error: "Duft er ugyldig.",
+      invalid_type_error: "Duft er ugyldig."
     })
     .trim()
     .max(500, "Duft kan max være 500 bokstaver.")
     .nullable(),
   colour: z
     .string({
-      invalid_type_error: "Farge er ugyldig.",
+      invalid_type_error: "Farge er ugyldig."
     })
     .trim()
     .max(500, "Farge kan max være 500 bokstaver.")
@@ -204,14 +204,14 @@ export const wineSchema = z.object({
       quantity: z
         .number({
           required_error: "Antall er påkrevd",
-          invalid_type_error: "Antall er ugyldig.",
+          invalid_type_error: "Antall er ugyldig."
         })
         .int("Antall må være et heltall")
         .min(0, "Antall må være mellom 0 og 1000.")
         .max(1000, "Antall må være mellom 0 og 1000."),
       score: z
         .number({
-          invalid_type_error: "Karakter er ugyldig.",
+          invalid_type_error: "Karakter er ugyldig."
         })
         .int("Karakter må være et heltall")
         .min(50, "Karakter kan kun være mellom 50 og 100.")
@@ -219,21 +219,21 @@ export const wineSchema = z.object({
         .nullable(),
       drinkingWindowMin: z
         .number({
-          invalid_type_error: "drikkevindu-fra er ugyldig.",
+          invalid_type_error: "drikkevindu-fra er ugyldig."
         })
         .min(0, "Drikkevindu må være mellom 0 og 3000.")
         .max(3000, "Drikkevindu må være mellom 0 og 3000.")
         .nullable(),
       drinkingWindowMax: z
         .number({
-          invalid_type_error: "Drikkevindu-til er ugyldig.",
+          invalid_type_error: "Drikkevindu-til er ugyldig."
         })
         .min(0, "Drikkevindu-til må være høyere eller lik drikkevindu-fra.")
         .max(3000, "Drikkevindu må være mellom 0 og 3000.")
         .nullable(),
       userRating: z
         .number({
-          invalid_type_error: "Vurdering er ugyldig.",
+          invalid_type_error: "Vurdering er ugyldig."
         })
         .int("Vurdering må være et heltall")
         .min(0, "Vurdering må være ett tall mellom 0 og 10.")
@@ -241,14 +241,14 @@ export const wineSchema = z.object({
         .nullable(),
       userNote: z
         .string({
-          invalid_type_error: "Dine notater er ugyldig.",
+          invalid_type_error: "Dine notater er ugyldig."
         })
         .trim()
         .max(500, "Dine notater kan max være 500 bokstaver.")
         .nullable(),
       purchaseDate: z
         .date({
-          invalid_type_error: "Kjøpsdato er ugyldig.",
+          invalid_type_error: "Kjøpsdato er ugyldig."
         })
         .nullable()
         .refine(
@@ -257,12 +257,12 @@ export const wineSchema = z.object({
         ),
       purchaseLocation: z
         .string({
-          invalid_type_error: "Kjøpested er ugyldig.",
+          invalid_type_error: "Kjøpested er ugyldig."
         })
         .trim()
         .max(70, "Kjøpested kan max være 70 bokstaver.")
         .nullable(),
-      favorite: z.boolean().default(false),
+      favorite: z.boolean().default(false)
     })
     .refine(
       (data) =>
@@ -272,9 +272,9 @@ export const wineSchema = z.object({
         ),
       {
         message: "Drikkevindu-til må være høyere eller lik drikkevindu-fra.",
-        path: ["drinkingWindowMax"],
+        path: ["drinkingWindowMax"]
       }
-    ),
+    )
 });
 
 // Infer the TS type according to the zod schema.

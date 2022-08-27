@@ -13,7 +13,7 @@ const WineCheckboxFilter = ({
   options,
   checkedOptions,
   onChange,
-  disabled,
+  disabled
 }: Props) => {
   // state copy
   const [value, setValue] = useState<string[]>(checkedOptions || []);
@@ -50,11 +50,7 @@ const WineCheckboxFilter = ({
     (value.includes(str) && !checkedOptions.includes(str));
 
   return (
-    <ul
-      className="max-h-96 select-none overflow-auto"
-      role="group"
-      aria-sort="ascending"
-    >
+    <ul className="max-h-96 select-none overflow-auto" role="group">
       {options &&
         options.map((item, i) => (
           <li key={i}>

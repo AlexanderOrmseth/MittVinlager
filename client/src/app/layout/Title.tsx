@@ -2,7 +2,7 @@ import { IconProps } from "phosphor-react";
 import React, {
   ForwardRefExoticComponent,
   ReactNode,
-  RefAttributes,
+  RefAttributes
 } from "react";
 
 interface Props {

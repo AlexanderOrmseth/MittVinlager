@@ -18,7 +18,7 @@ const Modal = ({
   description,
   title,
   children,
-  xl,
+  xl
 }: Props) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
@@ -46,11 +46,11 @@ const Modal = ({
             initial={{ opacity: 0 }}
             animate={{
               opacity: 1,
-              transition: { duration: 0.15, ease: "easeInOut" },
+              transition: { duration: 0.15, ease: "easeInOut" }
             }}
             exit={{
               opacity: 0,
-              transition: { duration: 0.15, ease: "easeIn" },
+              transition: { duration: 0.15, ease: "easeIn" }
             }}
             className="fixed inset-0 bg-black/30 backdrop-blur dark:bg-black/60"
             aria-hidden="true"
@@ -65,23 +65,23 @@ const Modal = ({
                 as={motion.div}
                 initial={{
                   opacity: 0,
-                  scale: 0.75,
+                  scale: 0.75
                 }}
                 animate={{
                   opacity: 1,
                   scale: 1,
                   transition: {
                     ease: "easeOut",
-                    duration: 0.25,
-                  },
+                    duration: 0.25
+                  }
                 }}
                 exit={{
                   scale: 0.75,
                   opacity: 0,
                   transition: {
                     ease: "easeIn",
-                    duration: 0.2,
-                  },
+                    duration: 0.2
+                  }
                 }}
                 className={`mx-auto w-full overflow-hidden align-middle ${
                   xl ? "max-w-2xl" : "max-w-md"

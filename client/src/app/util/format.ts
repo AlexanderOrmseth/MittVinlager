@@ -14,7 +14,7 @@ export const formatDate = (date: Date, short = false) => {
     "September",
     "Oktober",
     "November",
-    "Desember",
+    "Desember"
   ];
 
   const month = short

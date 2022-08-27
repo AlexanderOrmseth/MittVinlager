@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TextInput from "../../../app/components/TextInput";
 import {
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "../../../app/store/configureStore";
 import { setParams } from "../wineSlice";
 import { z } from "zod";
@@ -23,7 +23,7 @@ const priceSchema = z
       .number({ invalid_type_error: "'Pris til' må være et tall." })
       .positive("'Pris til' må være et positivt tall.")
       .int("'Pris til' må være et heltall.")
-      .nullable(),
+      .nullable()
   })
   .refine((val) => {
     if (val.priceFrom && val.priceTo) return val.priceTo >= val.priceFrom;
@@ -33,7 +33,7 @@ const priceSchema = z
 const PriceFilter = ({ disabled }: Props) => {
   const dispatch = useAppDispatch();
   const {
-    wineParams: { priceTo: priceToParam, priceFrom: priceFromParam },
+    wineParams: { priceTo: priceToParam, priceFrom: priceFromParam }
   } = useAppSelector((state) => state.wine);
   const [error, setError] = useState<null | string>(null);
   const [priceFrom, setPriceFrom] = useState<null | number>(
@@ -64,8 +64,11 @@ const PriceFilter = ({ disabled }: Props) => {
   return (
     <div className="grid grid-cols-2 gap-2">
       <div>
-        <label className="label">Fra</label>
+        <label htmlFor="input-price-from" className="label">
+          Fra
+        </label>
         <TextInput
+          id="input-price-from"
           maxLength={8}
           numeric={true}
           placeholder="Fra"
@@ -77,8 +80,11 @@ const PriceFilter = ({ disabled }: Props) => {
         />
       </div>
       <div>
-        <label className="label">Til</label>
+        <label htmlFor="input-price-to" className="label">
+          Til
+        </label>
         <TextInput
+          id="input-price-to"
           maxLength={8}
           numeric={true}
           placeholder="Til"

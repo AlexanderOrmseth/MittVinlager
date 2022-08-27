@@ -4,7 +4,7 @@ import { setOrderBy, setOrderByDescending } from "../wineSlice";
 import { OrderBy as OrderByType } from "../../../app/models/params";
 import {
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "../../../app/store/configureStore";
 import { SortAscending, SortDescending } from "phosphor-react";
 
@@ -22,36 +22,36 @@ interface ListBoxItems {
 const listBoxItems: ListBoxItems[] = [
   {
     value: "name",
-    displayText: "Navn",
+    displayText: "Navn"
   },
   {
     value: "price",
-    displayText: "Pris",
+    displayText: "Pris"
   },
   {
     value: "country",
-    displayText: "Land",
+    displayText: "Land"
   },
   {
     value: "type",
-    displayText: "Type",
+    displayText: "Type"
   },
   {
     value: "score",
-    displayText: "Karakter",
+    displayText: "Karakter"
   },
   {
     value: "purchaseDate",
-    displayText: "Kjøpsdato",
+    displayText: "Kjøpsdato"
   },
   {
     value: "createdAt",
-    displayText: "Dato opprettet",
+    displayText: "Dato opprettet"
   },
   {
     value: "updateAt",
-    displayText: "Sist endret",
-  },
+    displayText: "Sist endret"
+  }
 ];
 
 const OrderBy: FunctionComponent<Props> = ({ disabled, selectedOrder }) => {

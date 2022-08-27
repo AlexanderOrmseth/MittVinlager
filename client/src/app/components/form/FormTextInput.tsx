@@ -2,7 +2,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
 import TextInput from "../TextInput";
@@ -24,8 +24,10 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
+
+  const hasError = !!fieldState.error;
 
   return (
     <div>
@@ -39,20 +41,22 @@ const FormTextInput = <T extends FieldValues>(props: Props<T>) => {
           <div className="relative">
             {!props.textarea ? (
               <TextInput
+                id={props.name}
                 allowEnter={props.allowEnter}
                 maxLength={props.maxLength}
                 placeholder={props.placeholder}
                 focus={props.focus}
-                hasError={!!fieldState.error}
+                hasError={hasError}
                 numeric={props.numeric ?? false}
                 value={value}
                 {...rest}
               />
             ) : (
               <textarea
+                id={props.name}
                 autoComplete="off"
                 className={`text-input h-auto resize-none py-0.5 ${
-                  !!fieldState.error
+                  hasError
                     ? "border-wine-200 bg-wine-25 text-wine-900 placeholder:text-transparent"
                     : ""
                 }`}

@@ -4,7 +4,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import TastePie, { list, text } from "../TastePie";
 import FormInputError from "./FormInputError";
@@ -18,7 +18,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormTasteSelect = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

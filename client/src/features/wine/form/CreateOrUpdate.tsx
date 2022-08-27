@@ -15,7 +15,7 @@ import {
   FloppyDisk,
   PlusCircle,
   Trash,
-  Warning,
+  Warning
 } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import { WineFormData, wineSchema } from "./validationSchema";
@@ -54,7 +54,7 @@ const tab1: Keys[] = [
   "alcoholContent",
   "manufacturerName",
   "country",
-  "file",
+  "file"
 ];
 const tab2: Keys[] = [
   "freshness",
@@ -66,7 +66,7 @@ const tab2: Keys[] = [
   "colour",
   "recommendedFood",
   "odour",
-  "taste",
+  "taste"
 ];
 const tab3: Keys[] = [
   "quantity",
@@ -77,7 +77,7 @@ const tab3: Keys[] = [
   "userNote",
   "favorite",
   "score",
-  "userRating",
+  "userRating"
 ];
 const tabFields = [tab1, tab2, tab3];
 const tabs = ["Vindetaljer", "Smaksdetaljer", "Brukerdetaljer"];
@@ -88,24 +88,24 @@ const tabAnim = {
     translateY: -8,
     transition: {
       duration: 0.2,
-      ease: "linear",
-    },
+      ease: "linear"
+    }
   },
   show: {
     opacity: 1,
     translateY: 0,
     transition: {
       duration: 0.2,
-      ease: "linear",
-    },
-  },
+      ease: "linear"
+    }
+  }
 };
 
 const CreateOrUpdate = ({
   onSubmit,
   serverErrors,
   wine,
-  setDeleteModalIsOpen,
+  setDeleteModalIsOpen
 }: Props) => {
   const { data: countries, ...countryStatus } =
     useGetVinmonopoletCountriesQuery();
@@ -126,12 +126,12 @@ const CreateOrUpdate = ({
     watch,
     getValues,
     setValue,
-    formState: { isSubmitting, errors, isValid },
+    formState: { isSubmitting, errors, isValid }
   } = useForm<WineFormData>({
     mode: "all",
     defaultValues,
     shouldUseNativeValidation: false,
-    resolver: zodResolver(wineSchema),
+    resolver: zodResolver(wineSchema)
   });
 
   // watch
@@ -151,7 +151,7 @@ const CreateOrUpdate = ({
 
         //@ts-expect-error
         setError(_key, {
-          types: { ...value },
+          types: { ...value }
         });
       } else {
         console.log({ key, value });
@@ -171,8 +171,8 @@ const CreateOrUpdate = ({
         ...wine.userDetails,
         purchaseDate: wine.userDetails.purchaseDate
           ? new Date(wine.userDetails.purchaseDate)
-          : null,
-      },
+          : null
+      }
     };
 
     reset(modifiedWine);
@@ -184,7 +184,7 @@ const CreateOrUpdate = ({
     if (!err || Object.keys(err).length === 0) return 0;
     let errorNum = 0;
     keyNames.forEach((key) =>
-      err.hasOwnProperty(key) ? (errorNum += 1) : null
+      Object.prototype.hasOwnProperty.call(err, key) ? (errorNum += 1) : null
     );
     return errorNum;
   };
@@ -307,7 +307,7 @@ const CreateOrUpdate = ({
                       wine={{
                         pictureUrl: wine?.pictureUrl,
                         imageByUser: wine?.imageByUser,
-                        productId: wine?.productId,
+                        productId: wine?.productId
                       }}
                       productId={getValues("productId")}
                       name="resetImage"

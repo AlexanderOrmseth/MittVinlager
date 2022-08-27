@@ -25,7 +25,7 @@ const NameValidationSchema = z
 
 const ChangeDisplayNameModal: FunctionComponent<Props> = ({
   isOpen,
-  setIsOpen,
+  setIsOpen
 }) => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState("");
@@ -92,8 +92,11 @@ const ChangeDisplayNameModal: FunctionComponent<Props> = ({
         </pre>
         <div className="block-less-muted mt-4  space-y-6 rounded-lg p-4">
           <div>
-            <label className="label">Nytt visningsnavn</label>
+            <label htmlFor="input-change-display-name" className="label">
+              Nytt visningsnavn
+            </label>
             <input
+              id="input-change-display-name"
               onKeyDown={handleKeyPressed}
               placeholder="Nytt visningsnavn"
               value={value}

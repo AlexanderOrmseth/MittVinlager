@@ -9,11 +9,11 @@ export const appStatisticsApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getAppStatistics: builder.query<AppStatistics, void>({
       query: () => ({
-        url: "appStatistics",
+        url: "appStatistics"
       }),
-      keepUnusedDataFor: 30,
-    }),
-  }),
+      keepUnusedDataFor: 30
+    })
+  })
 });
 
 export const { useGetAppStatisticsQuery } = appStatisticsApi;

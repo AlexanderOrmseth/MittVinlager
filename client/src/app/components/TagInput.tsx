@@ -15,7 +15,7 @@ const TagInput: FunctionComponent<Props> = ({
   onChange,
   min,
   max,
-  error,
+  error
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -63,9 +63,9 @@ const TagInput: FunctionComponent<Props> = ({
   return (
     <div>
       {value && (
-        <ul className="i-flex-row mb-1.5 flex-wrap gap-y-2">
+        <div role="group" className="i-flex-row mb-1.5 flex-wrap gap-y-2">
           {value.map((str, i) => (
-            <li
+            <button
               className={`bg-blue-wine-300 dark:bg-blue-wine-500 i-flex-row cursor-pointer rounded-full py-1
                 px-3 text-sm font-medium text-white hover:opacity-70 ${
                   error?.types &&
@@ -86,9 +86,9 @@ const TagInput: FunctionComponent<Props> = ({
             >
               {str}
               <X size="1.1rem" />
-            </li>
+            </button>
           ))}
-        </ul>
+        </div>
       )}
       <div className="relative">
         <input

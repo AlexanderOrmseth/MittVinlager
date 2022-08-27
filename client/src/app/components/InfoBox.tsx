@@ -2,7 +2,7 @@ import { Info } from "phosphor-react";
 
 export const InfoBox = ({
   message,
-  className,
+  className
 }: {
   message: string;
   className?: string;

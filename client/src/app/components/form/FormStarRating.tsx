@@ -2,7 +2,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import StarPicker from "../StarPicker";
 import FormInputError from "./FormInputError";
@@ -13,7 +13,7 @@ interface Props<T> extends UseControllerProps<T> {
 }
 const FormStarRating = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
   return (
     <div>

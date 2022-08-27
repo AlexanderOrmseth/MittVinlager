@@ -3,7 +3,7 @@ import WineCheckboxFilter from "../../../app/components/filter/WineCheckboxFilte
 import WineSearch from "../../../app/components/filter/WineSearch";
 import {
   useAppDispatch,
-  useAppSelector,
+  useAppSelector
 } from "../../../app/store/configureStore";
 import { resetParams, setHideFilter, setParams } from "../wineSlice";
 import { useGetWineFiltersQuery } from "../../../app/services/wineApi";
@@ -45,7 +45,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
       ) {
         dispatch(resetParams());
         toast("Filter ble tilbakestilt", {
-          icon: <Info size={28} className="text-orange-600" />,
+          icon: <Info size={28} className="text-orange-600" />
         });
       }
     }
@@ -54,7 +54,7 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
     filterStatus.isLoading,
     filters,
     params.countries,
-    params.types,
+    params.types
   ]);
 
   const selectedCount = (arr: string[]): string =>
@@ -81,8 +81,8 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
           display: hideFilter ? "none" : "block",
           transition: {
             duration: 0.22,
-            type: "linear",
-          },
+            type: "linear"
+          }
         }}
         aria-hidden={hideFilter}
         initial={false}
@@ -124,9 +124,9 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
                   { displayText: "Alle", value: "" },
                   {
                     displayText: "På lager",
-                    value: "1",
+                    value: "1"
                   },
-                  { displayText: "Ikke på lager", value: "2" },
+                  { displayText: "Ikke på lager", value: "2" }
                 ]}
                 onChange={(val) => dispatch(setParams({ storageOption: val }))}
                 disabled={disabled}
@@ -206,9 +206,9 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
                   { displayText: "Alle", value: "" },
                   {
                     displayText: "Kun favoritter",
-                    value: "1",
+                    value: "1"
                   },
-                  { displayText: "Ikke favoritt", value: "2" },
+                  { displayText: "Ikke favoritt", value: "2" }
                 ]}
                 onChange={(val) => dispatch(setParams({ favoriteOption: val }))}
                 disabled={disabled}

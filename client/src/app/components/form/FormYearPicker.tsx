@@ -2,7 +2,7 @@ import {
   Controller,
   UseControllerProps,
   useController,
-  FieldValues,
+  FieldValues
 } from "react-hook-form";
 import FormInputError from "./FormInputError";
 import YearPicker from "../YearPicker";
@@ -20,7 +20,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormYearPicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

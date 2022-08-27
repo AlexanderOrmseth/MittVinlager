@@ -5,7 +5,7 @@ import {
   CalendarBlank,
   Link as LinkIcon,
   PencilSimpleLine,
-  Trash,
+  Trash
 } from "phosphor-react";
 import WineDetail from "./details/WineDetail";
 import WineImageZoom from "./details/WineImageZoom";

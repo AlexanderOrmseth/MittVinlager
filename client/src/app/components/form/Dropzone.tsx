@@ -6,7 +6,7 @@ const maxSize = 2097152;
 
 const Dropzone = ({
   onChange,
-  value,
+  value
 }: {
   onChange: (...event: any[]) => void;
   value: File | null;
@@ -28,7 +28,7 @@ const Dropzone = ({
     isDragActive,
 
     isDragReject,
-    fileRejections,
+    fileRejections
   } = useDropzone({
     onDrop,
     multiple: false,
@@ -37,8 +37,8 @@ const Dropzone = ({
     accept: {
       "image/png": [".png"],
       "image/jpg": [".jpg"],
-      "image/jpeg": [".jpeg"],
-    },
+      "image/jpeg": [".jpeg"]
+    }
   });
 
   const isFileTooLarge =

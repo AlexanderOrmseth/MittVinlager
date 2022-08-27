@@ -2,7 +2,7 @@ import {
   Controller,
   UseControllerProps,
   useController,
-  FieldValues,
+  FieldValues
 } from "react-hook-form";
 import DatePicker from "../DatePicker";
 import FormInputError from "./FormInputError";
@@ -16,7 +16,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormDatePicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState } = useController({
-    ...props,
+    ...props
   });
 
   return (

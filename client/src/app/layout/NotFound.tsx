@@ -10,7 +10,7 @@ interface Props {
 
 const NotFound: FunctionComponent<Props> = ({
   message = "Denne siden eksisterer ikke",
-  showPath = true,
+  showPath = true
 }) => {
   const location = useLocation();
 

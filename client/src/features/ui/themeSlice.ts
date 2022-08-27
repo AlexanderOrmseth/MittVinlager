@@ -23,8 +23,8 @@ export const themeSlice = createSlice({
       }
 
       document.documentElement.className = className;
-    },
-  },
+    }
+  }
 });
 
 export const { toggleTheme, initTheme } = themeSlice.actions;

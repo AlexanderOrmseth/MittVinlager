@@ -34,6 +34,6 @@ export const defaultValues: WineFormData = {
     userNote: null,
     favorite: false,
     score: null,
-    userRating: null,
-  },
+    userRating: null
+  }
 };

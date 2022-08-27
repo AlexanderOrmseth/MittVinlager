@@ -4,7 +4,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import { placeholder, vinmonopoletImage } from "../../../app/util/vinmonopolet";
 
@@ -25,7 +25,7 @@ const FormImage = <T extends FieldValues>({
 }: Props<T>) => {
   const [imageSrc, setImageSrc] = useState<string>(placeholder);
   const { field } = useController({
-    ...rest,
+    ...rest
   });
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const FormImage = <T extends FieldValues>({
     } else if (productId) {
       handleResetImage();
     }
-  }, [wine, productId, file, field.value]);
+  }, [wine, file, field.value, productId]);
 
   return (
     <div

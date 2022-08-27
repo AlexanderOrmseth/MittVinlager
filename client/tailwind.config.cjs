@@ -6,10 +6,10 @@ module.exports = {
     extend: {
       screens: {
         xts: "440px",
-        xs: "500px",
+        xs: "500px"
       },
       boxShadow: {
-        xxs: "0 1px 1px #0000000f",
+        xxs: "0 1px 1px #0000000f"
       },
       colors: {
         "slate-25": "#fbfcfd",
@@ -50,9 +50,9 @@ module.exports = {
         "green-wine-500": "#1A5E63",
         "green-wine-600": "#154b4f",
         "gray-925": "#101623",
-        "gray-950": "#080b12",
-      },
-    },
+        "gray-950": "#080b12"
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };

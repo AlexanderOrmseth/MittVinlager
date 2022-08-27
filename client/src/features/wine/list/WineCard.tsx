@@ -5,7 +5,7 @@ import {
   DotsThree,
   HeartStraight,
   PencilSimpleLine,
-  Trash,
+  Trash
 } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
 import { Wine } from "../../../app/models/wine";
@@ -13,7 +13,7 @@ import DropDownMenu from "../../../app/components/DropDownMenu";
 import {
   formatAlcoholContent,
   formatPrice,
-  formatVolume,
+  formatVolume
 } from "../../../app/util/format";
 import Stars from "../../../app/components/Stars";
 import Score from "../../../app/components/Score";
@@ -33,6 +33,9 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
       className="group hover:bg-slate-25 dark:bg-gray-925 dark:hover:bg-gray-925/70 focus-primary relative block rounded border bg-white p-4 hover:border-gray-300 dark:border-gray-800"
     >
       <div
+        role="button"
+        tabIndex={-1}
+        onKeyDown={undefined}
         className="absolute top-0 right-0"
         onClick={(e) => {
           // prevent link click
@@ -45,14 +48,14 @@ const WineCard = ({ wine, handleDeleteWine }: Props) => {
             {
               text: "Rediger",
               icon: <PencilSimpleLine size="1.2rem" />,
-              fnc: () => navigate(`/inventory/${wine.wineId}/update`),
+              fnc: () => navigate(`/inventory/${wine.wineId}/update`)
             },
             {
               text: "Slett",
               icon: <Trash size="1.2rem" />,
               divide: true,
-              fnc: () => handleDeleteWine(wine.wineId, wine.name),
-            },
+              fnc: () => handleDeleteWine(wine.wineId, wine.name)
+            }
           ]}
           text=""
           className="h-10 w-12 rounded-none rounded-tr border-0 shadow-none "

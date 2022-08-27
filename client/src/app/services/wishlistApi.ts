@@ -8,18 +8,18 @@ export const wishlistApi = api.injectEndpoints({
     getWishlist: builder.query<WishlistResponse, void>({
       query: () => ({
         url: "wishlist",
-        method: "GET",
+        method: "GET"
       }),
       providesTags: (result) =>
         result
           ? [
               ...result.map(({ id }) => ({
                 type: "Wishlist" as const,
-                id: id,
+                id: id
               })),
-              { type: "Wishlist", id: "LIST" },
+              { type: "Wishlist", id: "LIST" }
             ]
-          : [{ type: "Wishlist", id: "LIST" }],
+          : [{ type: "Wishlist", id: "LIST" }]
     }),
     /* Delete wishlist item
      * */
@@ -27,10 +27,10 @@ export const wishlistApi = api.injectEndpoints({
       query(id) {
         return {
           url: `/wishlist/${id}`,
-          method: "DELETE",
+          method: "DELETE"
         };
       },
-      invalidatesTags: (result, error, arg) => [{ type: "Wishlist", id: arg }],
+      invalidatesTags: (result, error, arg) => [{ type: "Wishlist", id: arg }]
     }),
     /* Add wishlist item
      * */
@@ -39,16 +39,16 @@ export const wishlistApi = api.injectEndpoints({
         return {
           url: "/wishlist",
           method: "POST",
-          body: data,
+          body: data
         };
       },
-      invalidatesTags: [{ type: "Wishlist", id: "LIST" }],
-    }),
-  }),
+      invalidatesTags: [{ type: "Wishlist", id: "LIST" }]
+    })
+  })
 });
 
 export const {
   useGetWishlistQuery,
   useAddWishlistItemMutation,
-  useDeleteWishlistItemMutation,
+  useDeleteWishlistItemMutation
 } = wishlistApi;

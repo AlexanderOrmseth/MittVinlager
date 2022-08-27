@@ -26,7 +26,7 @@ const YearPicker = ({
   maxValue,
   dropDownMaxValue,
   dropDownMinValue,
-  hasError,
+  hasError
 }: Props) => {
   const [isOpen, setOpen] = useState(false);
   const divRef = useRef<HTMLDivElement>(null);
@@ -71,27 +71,29 @@ const YearPicker = ({
       />
       <DropDownTransition isOpen={isOpen}>
         <Popover.Panel static>
-          <div className="dropdown">
-            <div className="text-muted border-b border-slate-200 px-4 pb-0.5 text-sm dark:border-gray-700">
+          <ul className="dropdown">
+            <li className="text-muted border-b border-slate-200 px-4 pb-0.5 text-sm dark:border-gray-700">
               Skriv inn ett år, eller velg år nedenfor.
-            </div>
+            </li>
             {[...Array(length)].map((_, i) => {
               const num = dropDownMinValue + i;
               return (
-                <div
-                  onClick={() => handleYearTagClicked(num)}
-                  className={`cursor-default select-none gap-2 rounded py-2 px-4 text-sm focus:blur   ${
-                    num === value
-                      ? "bg-wine-500 dark:bg-wine-400 text-white"
-                      : "hover:bg-slate-200 hover:text-black hover:dark:bg-gray-700/40 hover:dark:text-gray-300"
-                  }`}
-                  key={i}
-                >
-                  {num}
-                </div>
+                <li key={i}>
+                  <button
+                    onClick={() => handleYearTagClicked(num)}
+                    tabIndex={-1}
+                    className={`block w-full cursor-default select-none gap-2 rounded py-2 px-4 text-left text-sm focus:blur   ${
+                      num === value
+                        ? "bg-wine-500 dark:bg-wine-400 text-white"
+                        : "hover:bg-slate-200 hover:text-black hover:dark:bg-gray-700/40 hover:dark:text-gray-300"
+                    }`}
+                  >
+                    {num}
+                  </button>
+                </li>
               );
             })}
-          </div>
+          </ul>
         </Popover.Panel>
       </DropDownTransition>
     </Popover>

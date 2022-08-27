@@ -4,7 +4,7 @@ import {
   Controller,
   FieldValues,
   useController,
-  UseControllerProps,
+  UseControllerProps
 } from "react-hook-form";
 import { Country } from "../../models/country";
 import FormInputError from "./FormInputError";
@@ -18,7 +18,7 @@ interface Props<T> extends UseControllerProps<T> {
 
 const FormCountryPicker = <T extends FieldValues>(props: Props<T>) => {
   const { fieldState, field } = useController({
-    ...props,
+    ...props
   });
 
   const [term, setTerm] = useState("");

@@ -57,8 +57,11 @@ const DeleteUserModal = ({ isOpen, setIsOpen }: Props) => {
 
         <div className="block-less-muted mt-4  space-y-6 rounded-lg p-4">
           <div>
-            <label className="label">Bekreft sletting</label>
+            <label htmlFor="input-delete-account" className="label">
+              Bekreft sletting
+            </label>
             <input
+              id="input-delete-account"
               placeholder="SLETTMEG"
               autoComplete="off"
               value={value}

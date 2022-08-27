@@ -11,10 +11,10 @@ export const store = configureStore({
     account: accountSlice.reducer,
     wine: wineSlice.reducer,
     theme: themeSlice.reducer,
-    [api.reducerPath]: api.reducer,
+    [api.reducerPath]: api.reducer
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(wineApi.middleware),
+    getDefaultMiddleware().concat(wineApi.middleware)
 });
 
 export type RootState = ReturnType<typeof store.getState>;

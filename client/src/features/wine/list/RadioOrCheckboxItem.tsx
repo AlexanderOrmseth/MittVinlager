@@ -13,7 +13,7 @@ const RadioOrCheckboxItem: FunctionComponent<Props> = ({
   disabled,
   checked,
   displayText,
-  type,
+  type
 }) => {
   return (
     <div
