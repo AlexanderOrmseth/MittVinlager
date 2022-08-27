@@ -1,4 +1,4 @@
-import { lazy, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import AuthRedirect from "./app/layout/AuthRedirect";
 import Layout from "./app/layout/Layout";
@@ -11,21 +11,13 @@ import { setToken, setUser, signOut } from "./features/account/accountSlice";
 import PageLoad from "./app/layout/PageLoad";
 import Suspense from "./app/layout/Suspense";
 
-const InventoryPage = lazy(
-  async () => await import("./features/wine/InventoryPage")
-);
-const DetailsPage = lazy(
-  async () => await import("./features/wine/DetailsPage")
-);
-const ProfilePage = lazy(
-  async () => await import("./features/account/ProfilePage")
-);
-const Wishlist = lazy(async () => await import("./features/wishlist/Wishlist"));
-const NewWinePage = lazy(
-  async () => await import("./features/wine/NewWinePage")
-);
-const UpdateWinePage = lazy(
-  async () => await import("./features/wine/UpdateWinePage")
+const InventoryPage = React.lazy(() => import("./features/wine/InventoryPage"));
+const DetailsPage = React.lazy(() => import("./features/wine/DetailsPage"));
+const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
+const Wishlist = React.lazy(() => import("./features/wishlist/Wishlist"));
+const NewWinePage = React.lazy(() => import("./features/wine/NewWinePage"));
+const UpdateWinePage = React.lazy(
+  () => import("./features/wine/UpdateWinePage")
 );
 
 function App() {
