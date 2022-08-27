@@ -151,9 +151,12 @@ const WineFilter = ({ metaData, isFetchingWine }: Props) => {
             <AsideDisclosure
               title={`Pris ${
                 params.priceTo || params.priceFrom
-                  ? `(${formatPrice(params.priceFrom)} - ${formatPrice(
+                  ? `(${
                       params.priceTo
-                    )})`
+                        ? formatPrice(params.priceFrom) +
+                          ` - ${formatPrice(params.priceTo)}`
+                        : `fra ${formatPrice(params.priceFrom)}`
+                    })`
                   : ""
               }`}
               defaultOpen={true}
