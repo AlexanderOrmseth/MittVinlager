@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import FormCountryPicker from "../../../app/components/form/FormCountryPicker";
 import FormTasteSelect from "../../../app/components/form/FormTasteSelect";
 import FormTextInput from "../../../app/components/form/FormTextInput";
-import { UserDetails, Wine } from "../../../app/models/wine";
+import { Wine } from "../../../app/models/wine";
 import { defaultValues } from "./defaultValues";
 import FormYearPicker from "../../../app/components/form/FormYearPicker";
 import LoadingButton from "../../../app/components/LoadingButton";
@@ -19,7 +19,6 @@ import {
 } from "phosphor-react";
 import { ThreeDots } from "react-loading-icons";
 import { WineFormData, wineSchema } from "./validationSchema";
-
 import FormFilePicker from "../../../app/components/form/FormFilePicker";
 import FormStarRating from "../../../app/components/form/FormStarRating";
 import WineDetailsModal from "../../../app/modals/WineDetailsModal";
@@ -32,7 +31,8 @@ import { useGetVinmonopoletCountriesQuery } from "../../../app/services/vinmonop
 import { Link } from "react-router-dom";
 import FormTagInput from "../../../app/components/form/FormTagInput";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import useServerErrors from "./useServerErrors";
+import { Keys, tabFields } from "./tabFields";
 
 interface Props {
   onSubmit: (data: WineFormData) => void;
@@ -41,45 +41,6 @@ interface Props {
   wine?: Wine;
 }
 
-type Keys = keyof WineFormData | keyof UserDetails;
-const tab1: Keys[] = [
-  "name",
-  "type",
-  "volume",
-  "price",
-  "storagePotential",
-  "region",
-  "subRegion",
-  "year",
-  "alcoholContent",
-  "manufacturerName",
-  "country",
-  "file"
-];
-const tab2: Keys[] = [
-  "freshness",
-  "fullness",
-  "bitterness",
-  "sweetness",
-  "tannins",
-  "grapes",
-  "colour",
-  "recommendedFood",
-  "odour",
-  "taste"
-];
-const tab3: Keys[] = [
-  "quantity",
-  "purchaseDate",
-  "drinkingWindowMin",
-  "drinkingWindowMax",
-  "purchaseLocation",
-  "userNote",
-  "favorite",
-  "score",
-  "userRating"
-];
-const tabFields = [tab1, tab2, tab3];
 const tabs = ["Vindetaljer", "Smaksdetaljer", "Brukerdetaljer"];
 
 const tabAnim = {
@@ -107,15 +68,12 @@ const AddOrEdit = ({
   wine,
   setDeleteModalIsOpen
 }: Props) => {
-  const { data: countries, ...countryStatus } =
-    useGetVinmonopoletCountriesQuery();
-
-  // modals
   const [previewIsOpen, setPreviewIsOpen] = useState(false);
   const [fetchWineIsOpen, setFetchWineIsOpen] = useState(false);
-
-  // tab
   const [tabIndex, setTabIndex] = useState(0);
+
+  const { data: countries, ...countryStatus } =
+    useGetVinmonopoletCountriesQuery();
 
   // RHF
   const {
@@ -126,39 +84,18 @@ const AddOrEdit = ({
     watch,
     getValues,
     setValue,
-    formState: { isSubmitting, errors, isValid }
+    formState: { isSubmitting, errors, isValid, isDirty }
   } = useForm<WineFormData>({
-    mode: "all",
+    mode: "onSubmit",
     defaultValues,
     shouldUseNativeValidation: false,
     resolver: zodResolver(wineSchema)
   });
 
+  useServerErrors({ serverErrors, setError });
+
   // watch
   const watchFile = watch("file", null);
-
-  // Convert .Net Validation Errors to RHF
-  useEffect(() => {
-    if (!serverErrors) return;
-    for (const [key, value] of Object.entries(serverErrors)) {
-      if (key in defaultValues || key.includes("userDetails.")) {
-        let _key = key;
-        // userDetails to camelCase...
-        if (_key.includes("userDetails.")) {
-          const c = _key.charAt(_key.indexOf(".") + 1);
-          _key = "userDetails." + c.toLowerCase() + _key.split(`.${c}`)[1];
-        }
-
-        //@ts-expect-error
-        setError(_key, {
-          types: { ...value }
-        });
-      } else {
-        console.log({ key, value });
-        toast.error("Ukjent error!");
-      }
-    }
-  }, [serverErrors, setError]);
 
   // reset with Wine values
   useEffect(() => {
@@ -180,11 +117,13 @@ const AddOrEdit = ({
 
   // Count errors in tabs
   const getErrorCount = (keyNames: Keys[], userDetails = false) => {
-    const err = userDetails ? errors.userDetails : errors;
-    if (!err || Object.keys(err).length === 0) return 0;
+    const fieldErrors = userDetails ? errors.userDetails : errors;
+    if (!fieldErrors || Object.keys(fieldErrors).length === 0) return 0;
     let errorNum = 0;
     keyNames.forEach((key) =>
-      Object.prototype.hasOwnProperty.call(err, key) ? (errorNum += 1) : null
+      Object.prototype.hasOwnProperty.call(fieldErrors, key)
+        ? (errorNum += 1)
+        : null
     );
     return errorNum;
   };
@@ -621,7 +560,7 @@ const AddOrEdit = ({
                 </LoadingButton>
               )}
               <LoadingButton
-                disabled={!isValid}
+                disabled={!isDirty}
                 loading={isSubmitting}
                 className={`justify-center ${wine ? "" : "col-span-2"}`}
                 loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}

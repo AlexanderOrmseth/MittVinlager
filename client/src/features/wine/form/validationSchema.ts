@@ -15,7 +15,7 @@ const checkValidDrinkingWindow = (
   min: number | null,
   max: number | null
 ): boolean => {
-  return min === null || max === null || min < max;
+  return min === null || max === null || min <= max;
 };
 
 /*
@@ -207,7 +207,7 @@ export const wineSchema = z.object({
           invalid_type_error: "Antall er ugyldig."
         })
         .int("Antall må være et heltall")
-        .min(0, "Antall må være mellom 0 og 1000.")
+        .min(-1, "Antall må være mellom 0 og 1000.")
         .max(1000, "Antall må være mellom 0 og 1000."),
       score: z
         .number({
@@ -271,8 +271,19 @@ export const wineSchema = z.object({
           data.drinkingWindowMax
         ),
       {
-        message: "Drikkevindu-til må være høyere eller lik drikkevindu-fra.",
+        message: "'Drikkevindu-til' må være høyere eller lik drikkevindu-fra.",
         path: ["drinkingWindowMax"]
+      }
+    )
+    .refine(
+      (data) =>
+        checkValidDrinkingWindow(
+          data.drinkingWindowMin,
+          data.drinkingWindowMax
+        ),
+      {
+        message: "'Drikkevindu-fra' må være høyere eller lik drikkevindu-fra.",
+        path: ["drinkingWindowMin"]
       }
     )
 });
