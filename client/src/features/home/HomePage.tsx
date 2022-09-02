@@ -30,7 +30,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <InfoBox className="mt-0 text-xl" message="under utvikling." />
+      <InfoBox className="mt-0" message="under utvikling..." />
       <div className="my-4">{content}</div>
     </div>
   );
