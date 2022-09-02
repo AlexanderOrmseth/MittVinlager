@@ -22,7 +22,6 @@ public class TokenService
     {
         var claims = new List<Claim>
         {
-            //new Claim(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Name, user.UserName),
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
