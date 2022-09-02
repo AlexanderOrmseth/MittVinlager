@@ -4,7 +4,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { api } from "../services/api";
 import { wineSlice } from "../../features/wine/wineSlice";
-import { accountSlice } from "../../features/account/accountSlice";
+import { accountSlice } from "../../features/profile/accountSlice";
 
 export const store = configureStore({
   reducer: {

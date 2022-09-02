@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import InventoryMessage from "../../features/wine/list/InventoryMessage";
+import MessageBubble from "../components/MessageBubble";
 import { ArrowLeft, Robot } from "phosphor-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -15,7 +15,7 @@ const NotFound: FunctionComponent<Props> = ({
   const location = useLocation();
 
   return (
-    <InventoryMessage
+    <MessageBubble
       Icon={Robot}
       message={
         <p>
@@ -37,7 +37,7 @@ const NotFound: FunctionComponent<Props> = ({
         <ArrowLeft size="1.5em" />
         Tilbake
       </Link>
-    </InventoryMessage>
+    </MessageBubble>
   );
 };
 

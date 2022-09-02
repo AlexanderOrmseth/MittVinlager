@@ -7,17 +7,21 @@ import HomePage from "./features/home/HomePage";
 import { initTheme } from "./features/ui/themeSlice";
 import NotFound from "./app/layout/NotFound";
 import { authApi } from "./app/services/authApi";
-import { setToken, setUser, signOut } from "./features/account/accountSlice";
+import { setToken, setUser, signOut } from "./features/profile/accountSlice";
 import PageLoad from "./app/layout/PageLoad";
 import Suspense from "./app/layout/Suspense";
 
-const InventoryPage = React.lazy(() => import("./features/wine/InventoryPage"));
-const DetailsPage = React.lazy(() => import("./features/wine/DetailsPage"));
-const ProfilePage = React.lazy(() => import("./features/account/ProfilePage"));
-const Wishlist = React.lazy(() => import("./features/wishlist/Wishlist"));
-const NewWinePage = React.lazy(() => import("./features/wine/NewWinePage"));
+const InventoryPage = React.lazy(
+  () => import("./features/wine/inventory/InventoryPage")
+);
+const DetailsPage = React.lazy(
+  () => import("./features/wine/details/DetailsPage")
+);
+const ProfilePage = React.lazy(() => import("./features/profile/ProfilePage"));
+const Wishlist = React.lazy(() => import("./features/wishlist/WishlistPage"));
+const NewWinePage = React.lazy(() => import("./features/wine/add/AddWinePage"));
 const UpdateWinePage = React.lazy(
-  () => import("./features/wine/UpdateWinePage")
+  () => import("./features/wine/edit/EditWinePage")
 );
 
 function App() {
@@ -34,7 +38,7 @@ function App() {
         // get token
         const token = localStorage.getItem("token");
         if (token) {
-          // add token to account state
+          // add token to profile state
           dispatch(setToken(token));
 
           // get user with token from state

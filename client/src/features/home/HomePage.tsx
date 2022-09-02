@@ -1,5 +1,5 @@
 import { useGetAppStatisticsQuery } from "../../app/services/appStatisticsApi";
-import Spinner from "../../app/components/loading/Spinner";
+import Spinner from "../../app/components/Spinner";
 import ErrorBox from "../../app/components/ErrorBox";
 import { InfoBox } from "../../app/components/InfoBox";
 
