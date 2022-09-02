@@ -84,9 +84,9 @@ const AddOrEdit = ({
     watch,
     getValues,
     setValue,
-    formState: { isSubmitting, errors, isValid, isDirty }
+    formState: { isSubmitting, errors, isValid }
   } = useForm<WineFormData>({
-    mode: "onSubmit",
+    mode: "all",
     defaultValues,
     shouldUseNativeValidation: false,
     resolver: zodResolver(wineSchema)
@@ -560,7 +560,7 @@ const AddOrEdit = ({
                 </LoadingButton>
               )}
               <LoadingButton
-                disabled={!isDirty}
+                disabled={!isValid}
                 loading={isSubmitting}
                 className={`justify-center ${wine ? "" : "col-span-2"}`}
                 loadingText={wine ? "Oppdaterer vin..." : "Legger til vin..."}
