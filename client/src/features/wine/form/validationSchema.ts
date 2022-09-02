@@ -207,7 +207,7 @@ export const wineSchema = z.object({
           invalid_type_error: "Antall er ugyldig."
         })
         .int("Antall må være et heltall")
-        .min(-1, "Antall må være mellom 0 og 1000.")
+        .min(0, "Antall må være mellom 0 og 1000.")
         .max(1000, "Antall må være mellom 0 og 1000."),
       score: z
         .number({
